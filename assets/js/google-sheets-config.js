@@ -10,9 +10,8 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (debes crear esto)
     APPS_SCRIPT: {
-        // ⚠️ IMPORTANTE: Reemplaza esta URL con la URL real de tu Google Apps Script
-        // Después de crear el Apps Script, copia la URL del Web App aquí
-        WEB_APP_URL: 'https://script.google.com/macros/s/TU_SCRIPT_ID_REAL/exec',
+        // ✅ CONFIGURADO: URL real de tu Google Apps Script
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycby_9BN4jxTaSV3i05uQV-QVTlZFZhRWa-HtnHuq2HOTuk0rvlSV4Bef1N_yER8_pa0Mdw/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
@@ -83,8 +82,8 @@ function getGoogleSheetsConfig() {
 function isConfigComplete() {
     const config = GOOGLE_SHEETS_CONFIG;
     return config.SPREADSHEET_ID && 
-           (config.APPS_SCRIPT.WEB_APP_URL !== 'https://script.google.com/macros/s/TU_SCRIPT_ID_REAL/exec' ||
-            config.APPS_SCRIPT.FORMS_URL !== 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform');
+           (config.APPS_SCRIPT.WEB_APP_URL !== 'https://script.google.com/macros/s/TU_SCRIPT_ID_REAL/exec' &&
+            config.APPS_SCRIPT.WEB_APP_URL.includes('script.google.com'));
 }
 
 // Función para mostrar advertencia de configuración
