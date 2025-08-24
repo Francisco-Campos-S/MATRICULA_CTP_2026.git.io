@@ -299,7 +299,7 @@ function testFormSubmission() {
     console.log('🧪 Iniciando prueba del formulario...');
     
     // Fill form with test data
-    document.getElementById('nivel').value = '7mo año';
+    document.getElementById('nivel').value = 'Sétimo';
     document.getElementById('especialidad').value = 'Agropecuaria';
     document.getElementById('seccion').value = 'A';
     document.getElementById('primerApellido').value = 'González';
