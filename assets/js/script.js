@@ -350,3 +350,251 @@ document.addEventListener('DOMContentLoaded', function() {
         formActions.appendChild(printButton);
     }
 });
+
+// ===== FUNCIONALIDAD DE CONSULTA DE ESTUDIANTES =====
+
+// Initialize consulta functionality when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    const btnConsultar = document.getElementById('btnConsultar');
+    if (btnConsultar) {
+        btnConsultar.addEventListener('click', consultarEstudiante);
+    }
+    
+    // Allow Enter key in consulta input
+    const cedulaConsulta = document.getElementById('cedulaConsulta');
+    if (cedulaConsulta) {
+        cedulaConsulta.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                consultarEstudiante();
+            }
+        });
+    }
+});
+
+// Function to consult student by cédula
+async function consultarEstudiante() {
+    const cedula = document.getElementById('cedulaConsulta').value.trim();
+    const mensajeConsulta = document.getElementById('mensajeConsulta');
+    
+    if (!cedula) {
+        mostrarMensajeConsulta('Por favor, ingrese un número de cédula', 'error');
+        return;
+    }
+    
+    // Show loading message
+    mostrarMensajeConsulta('🔍 Buscando estudiante...', 'info');
+    
+    try {
+        // Get configuration
+        let config = {};
+        console.log('🔧 Verificando función getGoogleSheetsConfig:', typeof getGoogleSheetsConfig);
+        
+        if (typeof getGoogleSheetsConfig === 'function') {
+            config = getGoogleSheetsConfig();
+            console.log('✅ Configuración obtenida:', config);
+        } else {
+            console.log('❌ Función getGoogleSheetsConfig no disponible');
+            mostrarMensajeConsulta('Error: Configuración de Google Sheets no disponible', 'error');
+            return;
+        }
+        
+        if (!config.APPS_SCRIPT || !config.APPS_SCRIPT.WEB_APP_URL) {
+            console.log('❌ URL de Apps Script no encontrada en:', config);
+            mostrarMensajeConsulta('Error: URL de Google Apps Script no configurada', 'error');
+            return;
+        }
+        
+        // Create the consulta URL
+        const consultaUrl = config.APPS_SCRIPT.WEB_APP_URL + '?action=consulta&cedula=' + encodeURIComponent(cedula);
+        
+        console.log('🔍 Consultando URL:', consultaUrl);
+        
+        // Make the actual API call to Google Apps Script
+        const response = await fetch(consultaUrl);
+        console.log('📡 Respuesta del servidor:', response);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('📊 Datos recibidos:', data);
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        const estudianteEncontrado = data;
+        
+        if (estudianteEncontrado) {
+            rellenarFormularioConEstudiante(estudianteEncontrado);
+            mostrarMensajeConsulta('✅ Estudiante encontrado y formulario rellenado', 'success');
+        } else {
+            mostrarMensajeConsulta('❌ No se encontró estudiante con esa cédula', 'error');
+        }
+        
+    } catch (error) {
+        console.error('❌ Error en consulta:', error);
+        mostrarMensajeConsulta('❌ Error al consultar: ' + error.message, 'error');
+    }
+}
+
+// Simulate student consultation (temporary until Apps Script is updated)
+async function simularConsultaEstudiante(cedula) {
+    // Simulate API delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    // Mock data - in real implementation, this would come from Google Sheets
+    const estudiantesMock = {
+        '123456789': {
+            nivel: 'Sétimo',
+            especialidad: 'Agropecuaria',
+            seccion: 'A',
+            primerApellido: 'González',
+            segundoApellido: 'Pérez',
+            nombre: 'María José',
+            telefono: '8888-8888',
+            cedula: '123456789',
+            fechaNacimiento: '2008-05-15',
+            nacionalidad: 'Costarricense',
+            adecuacion: 'No',
+            rutaTransporte: 'Ruta 1',
+            repitente: 'No',
+            enfermedad: 'No',
+            nombreMadre: 'Ana Pérez',
+            cedulaMadre: '987654321',
+            telefonoMadre: '7777-7777',
+            direccionMadre: 'San José, Costa Rica',
+            parentescoMadre: 'Madre',
+            viveConEstudianteMadre: 'Sí',
+            nombrePadre: 'Carlos González',
+            cedulaPadre: '111222333',
+            telefonoPadre: '6666-6666',
+            direccionPadre: 'San José, Costa Rica',
+            parentescoPadre: 'Padre',
+            viveConEstudiantePadre: 'Sí',
+            firmaEncargada: 'Ana Pérez',
+            firmaEncargado: 'Carlos González',
+            fecha: '15/01/2026',
+            observaciones: 'Estudiante existente consultado por cédula'
+        },
+        '987654321': {
+            nivel: 'Octavo',
+            especialidad: 'Informática',
+            seccion: 'B',
+            primerApellido: 'Rodríguez',
+            segundoApellido: 'López',
+            nombre: 'Juan Carlos',
+            telefono: '9999-9999',
+            cedula: '987654321',
+            fechaNacimiento: '2007-03-20',
+            nacionalidad: 'Costarricense',
+            adecuacion: 'Sí',
+            rutaTransporte: 'Ruta 2',
+            repitente: 'No',
+            enfermedad: 'Sí',
+            detalleEnfermedad: 'Asma leve',
+            nombreMadre: 'Carmen López',
+            cedulaMadre: '555666777',
+            telefonoMadre: '5555-5555',
+            direccionMadre: 'Heredia, Costa Rica',
+            parentescoMadre: 'Madre',
+            parentescoMadre: 'Madre',
+            viveConEstudianteMadre: 'Sí',
+            nombrePadre: 'Roberto Rodríguez',
+            cedulaPadre: '333444555',
+            telefonoPadre: '4444-4444',
+            direccionPadre: 'Heredia, Costa Rica',
+            parentescoPadre: 'Padre',
+            viveConEstudiantePadre: 'No',
+            firmaEncargada: 'Carmen López',
+            firmaEncargado: 'Roberto Rodríguez',
+            fecha: '15/01/2026',
+            observaciones: 'Estudiante con adecuación y asma leve'
+        }
+    };
+    
+    return estudiantesMock[cedula] || null;
+}
+
+// Fill form with student data
+function rellenarFormularioConEstudiante(estudiante) {
+    console.log('📝 Rellenando formulario con datos del estudiante:', estudiante);
+    
+    // Map the student data to form fields
+    const fieldMappings = {
+        'nivel': estudiante.nivel,
+        'especialidad': estudiante.especialidad,
+        'seccion': estudiante.seccion,
+        'primerApellido': estudiante.primerApellido,
+        'segundoApellido': estudiante.segundoApellido,
+        'nombreEstudiante': estudiante.nombre,
+        'telefonoEstudiante': estudiante.telefono,
+        'cedulaEstudiante': estudiante.cedula,
+        'fechaNacimiento': estudiante.fechaNacimiento,
+        'nacionalidad': estudiante.nacionalidad,
+        'adecuacion': estudiante.adecuacion,
+        'rutaTransporte': estudiante.rutaTransporte,
+        'repitente': estudiante.repitente,
+        'enfermedad': estudiante.enfermedad,
+        'detalleEnfermedad': estudiante.detalleEnfermedad || '',
+        'nombreMadre': estudiante.nombreMadre,
+        'cedulaMadre': estudiante.cedulaMadre,
+        'telefonoMadre': estudiante.telefonoMadre,
+        'direccionMadre': estudiante.direccionMadre,
+        'parentescoMadre': estudiante.parentescoMadre,
+        'viveConEstudianteMadre': estudiante.viveConEstudianteMadre,
+        'nombrePadre': estudiante.nombrePadre,
+        'cedulaPadre': estudiante.cedulaPadre,
+        'telefonoPadre': estudiante.telefonoPadre,
+        'direccionPadre': estudiante.direccionPadre,
+        'parentescoPadre': estudiante.parentescoPadre,
+        'viveConEstudiantePadre': estudiante.viveConEstudiantePadre,
+        'firmaEncargada': estudiante.firmaEncargada,
+        'firmaEncargado': estudiante.firmaEncargado,
+        'observaciones': estudiante.observaciones
+    };
+    
+    // Fill each field
+    Object.keys(fieldMappings).forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            element.value = fieldMappings[fieldId];
+            
+            // Special handling for date fields
+            if (fieldId === 'fechaNacimiento' && estudiante.fechaNacimiento) {
+                // Convert date format if needed
+                const fecha = new Date(estudiante.fechaNacimiento);
+                if (!isNaN(fecha.getTime())) {
+                    element.value = fecha.toISOString().split('T')[0];
+                }
+            }
+            
+            // Special handling for illness detail
+            if (fieldId === 'enfermedad' && estudiante.enfermedad === 'Sí') {
+                document.getElementById('detalleEnfermedadGroup').style.display = 'block';
+            }
+        }
+    });
+    
+    // Handle date fields separately
+    if (estudiante.fecha) {
+        const fechaParts = estudiante.fecha.split('/');
+        if (fechaParts.length === 3) {
+            document.getElementById('dia').value = fechaParts[0];
+            document.getElementById('mes').value = fechaParts[1];
+            document.getElementById('anio').value = fechaParts[2];
+        }
+    }
+    
+    console.log('✅ Formulario rellenado exitosamente');
+}
+
+// Show consultation message
+function mostrarMensajeConsulta(mensaje, tipo) {
+    const mensajeConsulta = document.getElementById('mensajeConsulta');
+    if (mensajeConsulta) {
+        mensajeConsulta.textContent = mensaje;
+        mensajeConsulta.className = 'mensaje-consulta ' + tipo;
+    }
+}
