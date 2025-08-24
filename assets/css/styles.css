@@ -1073,3 +1073,31 @@ textarea:valid {
     color: #0c5460;
     border: 1px solid #bee5eb;
 }
+
+/* Footer Styles */
+.app-footer {
+    background: linear-gradient(135deg, #2E8B57 0%, #3CB371 50%, #48D1CC 100%);
+    color: #1a365d;
+    text-align: center;
+    padding: 25px 20px;
+    margin-top: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(46, 139, 87, 0.25);
+}
+
+.app-footer p {
+    margin: 8px 0;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.app-footer p:first-child {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.app-footer p:last-child {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
