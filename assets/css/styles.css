@@ -254,6 +254,43 @@ body {
     font-style: italic;
 }
 
+/* Select Fields Styling */
+.form-group select {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    color: #1e3c72;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+}
+
+.form-group select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+    background: white;
+    outline: none;
+    transform: translateY(-1px);
+}
+
+.form-group select:hover {
+    border-color: #28a745;
+    background: white;
+}
+
+/* Special styling for especialidad select (longer options) */
+.form-group select#especialidad {
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.form-group select#especialidad option {
+    padding: 8px;
+    font-size: 0.9rem;
+}
+
 /* Form Actions */
 .form-actions {
     display: flex;
