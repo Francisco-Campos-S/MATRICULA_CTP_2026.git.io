@@ -38,6 +38,16 @@
             <!-- General Enrollment Information -->
             <div class="form-section">
                 <h2>Información General de Matrícula</h2>
+                
+                <!-- Botón de consulta por cédula -->
+                <div class="consulta-section">
+                    <h3>🔍 Consultar Estudiante Existente</h3>
+                    <div class="consulta-form">
+                        <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
+                        <button type="button" id="btnConsultar" class="btn-consulta">🔍 Buscar Estudiante</button>
+                    </div>
+                    <div id="mensajeConsulta" class="mensaje-consulta"></div>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="nivel">Nivel:</label>

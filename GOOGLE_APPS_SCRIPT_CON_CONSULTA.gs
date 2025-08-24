@@ -1,16 +1,3 @@
-# 🚀 CONFIGURACIÓN COMPLETA DE GOOGLE APPS SCRIPT
-
-## 📋 **PASOS PARA CONFIGURAR GOOGLE APPS SCRIPT:**
-
-### **Paso 1: Crear el proyecto**
-1. Ve a [script.google.com](https://script.google.com)
-2. Haz clic en **"Nuevo proyecto"**
-3. Cambia el nombre del proyecto a: **"Formulario Matrícula CTP"**
-
-### **Paso 2: Copiar el código completo**
-**Copia y pega TODO este código** en tu archivo `.gs`:
-
-```javascript
 function doPost(e) {
   try {
     console.log('🚀 INICIO - Objeto e recibido:', e);
@@ -44,29 +31,10 @@ function doPost(e) {
     
     // Obtener la hoja de cálculo
     const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
-    console.log('🔍 Intentando abrir hoja con ID:', spreadsheetId);
+    const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+    const sheet = spreadsheet.getSheetByName('DATOS ESTUDIANTES 2025 (10)') || spreadsheet.getActiveSheet();
     
-    let spreadsheet;
-    try {
-      spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-      console.log('✅ Spreadsheet abierto:', spreadsheet.getName());
-    } catch (error) {
-      console.log('❌ Error abriendo spreadsheet:', error);
-      return ContentService.createTextOutput('Error: No se pudo abrir la hoja de cálculo').setMimeType(ContentService.MimeType.TEXT);
-    }
-    
-    let sheet;
-    try {
-      sheet = spreadsheet.getSheetByName('DATOS ESTUDIANTES 2025 (10)');
-      if (!sheet) {
-        console.log('⚠️ Hoja específica no encontrada, usando hoja activa');
-        sheet = spreadsheet.getActiveSheet();
-      }
-      console.log('📋 Hoja obtenida:', sheet.getName());
-    } catch (error) {
-      console.log('❌ Error obteniendo hoja:', error);
-      return ContentService.createTextOutput('Error: No se pudo acceder a la hoja').setMimeType(ContentService.MimeType.TEXT);
-    }
+    console.log('📋 Hoja obtenida:', sheet.getName());
     
     // Preparar datos para la fila
     const rowData = [
@@ -132,31 +100,10 @@ function doGet(e) {
       
       // Obtener la hoja de cálculo
       const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
-      console.log('🔍 Intentando abrir hoja con ID:', spreadsheetId);
+      const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+      const sheet = spreadsheet.getSheetByName('DATOS ESTUDIANTES 2025 (10)') || spreadsheet.getActiveSheet();
       
-      let spreadsheet;
-      try {
-        spreadsheet = SpreadsheetApp.openById(spreadsheetId);
-        console.log('✅ Spreadsheet abierto:', spreadsheet.getName());
-      } catch (error) {
-        console.log('❌ Error abriendo spreadsheet:', error);
-        return ContentService.createTextOutput(JSON.stringify({ error: 'No se pudo abrir la hoja de cálculo' }))
-          .setMimeType(ContentService.MimeType.JSON);
-      }
-      
-      let sheet;
-      try {
-        sheet = spreadsheet.getSheetByName('DATOS ESTUDIANTES 2025 (10)');
-        if (!sheet) {
-          console.log('⚠️ Hoja específica no encontrada, usando hoja activa');
-          sheet = spreadsheet.getActiveSheet();
-        }
-        console.log('📋 Hoja obtenida:', sheet.getName());
-      } catch (error) {
-        console.log('❌ Error obteniendo hoja:', error);
-        return ContentService.createTextOutput(JSON.stringify({ error: 'No se pudo acceder a la hoja' }))
-          .setMimeType(ContentService.MimeType.JSON);
-      }
+      console.log('📋 Hoja obtenida:', sheet.getName());
       
       // Buscar el estudiante por cédula
       const estudiante = buscarEstudiantePorCedula(sheet, cedula);
@@ -201,7 +148,7 @@ function buscarEstudiantePorCedula(sheet, cedula) {
     console.log('📋 Encabezados:', headers);
     
     // Buscar la columna de cédula (columna I = índice 7 según la estructura real)
-    const cedulaColumnIndex = 9; // Índice 7 = columna I (Cédula)
+    const cedulaColumnIndex = 7; // Índice 7 = columna I (Cédula)
     
     // Buscar en todas las filas de datos (empezando desde la fila 2)
     for (let i = 1; i < data.length; i++) {
@@ -281,41 +228,3 @@ function testConsulta() {
     console.error('❌ Error en la prueba:', error);
   }
 }
-```
-
-### **Paso 3: Guardar el archivo**
-1. **Guarda** el archivo (Ctrl+S)
-2. **Cambia el nombre** del archivo a: `Code.gs`
-
-### **Paso 4: Desplegar la aplicación web**
-1. **Haz clic** en "Deploy" → "New deployment"
-2. **Selecciona** "Web app"
-3. **Configura**:
-   - **Execute as:** "Me"
-   - **Who has access:** "Anyone"
-4. **Haz clic** en "Deploy"
-5. **Copia** la URL que te dé
-
-### **Paso 5: Actualizar la configuración**
-Una vez que tengas la URL, actualiza tu archivo `google-sheets-config.js`:
-
-```javascript
-WEB_APP_URL: 'TU_NUEVA_URL_AQUI'
-```
-
-## ✅ **ESTE CÓDIGO INCLUYE:**
-
-- **`doPost`** - Para guardar formularios
-- **`doGet`** - Para consultar estudiantes
-- **`buscarEstudiantePorCedula`** - Con mapeo corregido para tu estructura
-- **`testConsulta`** - Para pruebas internas
-
-## 🧪 **PRUEBA DESPUÉS DE ACTUALIZAR:**
-
-Una vez actualizado, prueba la consulta con:
-- **Cédula: `114750560`** (FRANCISCO CAMPOS SANDI)
-- **Cédula: `35689568`** (María González Pérez)
-
-## 🚀 **¡LISTO PARA COPIAR Y PEGAR!**
-
-**Copia todo el código de arriba y pégalo en tu Google Apps Script.** Una vez que lo hagas, la consulta funcionará perfectamente con los estudiantes que ya tienes guardados. 🎯✨
