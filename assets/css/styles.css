@@ -194,7 +194,8 @@ body {
 }
 
 .btn-submit,
-.btn-reset {
+.btn-reset,
+.btn-print {
     padding: 15px 30px;
     border: none;
     border-radius: 8px;
@@ -225,6 +226,17 @@ body {
     background: linear-gradient(135deg, #5a6268 0%, #343a40 100%);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3);
+}
+
+.btn-print {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+    color: white;
+}
+
+.btn-print:hover {
+    background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
 }
 
 /* Success Message */
@@ -265,6 +277,23 @@ body {
     100% { transform: rotate(360deg); }
 }
 
+/* Configuration Warning */
+.config-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.config-warning strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -296,7 +325,8 @@ body {
     }
     
     .btn-submit,
-    .btn-reset {
+    .btn-reset,
+    .btn-print {
         width: 100%;
         max-width: 300px;
     }
@@ -330,7 +360,8 @@ body {
     .header,
     .form-actions,
     .success-message,
-    .loading-spinner {
+    .loading-spinner,
+    .config-warning {
         display: none;
     }
     
@@ -343,4 +374,70 @@ body {
         border-bottom: 1px solid #ccc;
         page-break-inside: avoid;
     }
+}
+
+/* Additional Form Enhancements */
+.form-group input:invalid,
+.form-group select:invalid,
+.form-group textarea:invalid {
+    border-color: #dc3545;
+}
+
+.form-group input:valid,
+.form-group select:valid,
+.form-group textarea:valid {
+    border-color: #28a745;
+}
+
+/* Hover effects for form elements */
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #2a5298;
+    background: #f8f9fa;
+}
+
+/* Focus animations */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(42, 82, 152, 0.15);
+}
+
+/* Button animations */
+.btn-submit:active,
+.btn-reset:active,
+.btn-print:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Form section animations */
+.form-section {
+    transition: all 0.3s ease;
+}
+
+.form-section:hover {
+    transform: translateY(-2px);
+}
+
+/* Header animations */
+.header {
+    transition: all 0.3s ease;
+}
+
+.header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+/* Main title animations */
+.main-title {
+    transition: all 0.3s ease;
+}
+
+.main-title:hover {
+    transform: scale(1.02);
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.15);
 }

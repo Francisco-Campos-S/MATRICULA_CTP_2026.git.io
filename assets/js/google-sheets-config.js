@@ -95,17 +95,9 @@ function showConfigWarning() {
         
         // Mostrar mensaje al usuario
         const warningDiv = document.createElement('div');
-        warningDiv.style.cssText = `
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            color: #856404;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 8px;
-            text-align: center;
-        `;
+        warningDiv.className = 'config-warning';
         warningDiv.innerHTML = `
-            <strong>⚠️ Configuración Pendiente</strong><br>
+            <strong>⚠️ Configuración Pendiente</strong>
             Para que el formulario funcione completamente, debes configurar Google Sheets.<br>
             Consulta el archivo README.md para instrucciones detalladas.
         `;

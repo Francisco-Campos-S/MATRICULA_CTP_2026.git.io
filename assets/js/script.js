@@ -284,32 +284,5 @@ document.addEventListener('DOMContentLoaded', function() {
     const formActions = document.querySelector('.form-actions');
     if (formActions) {
         formActions.appendChild(printButton);
-        
-        // Style the print button
-        printButton.style.cssText = `
-            padding: 15px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            min-width: 180px;
-            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-            color: white;
-            margin-left: 20px;
-        `;
-        
-        printButton.addEventListener('mouseenter', function() {
-            this.style.background = 'linear-gradient(135deg, #138496 0%, #117a8b 100%)';
-            this.style.transform = 'translateY(-2px)';
-            this.style.boxShadow = '0 5px 15px rgba(23, 162, 184, 0.3)';
-        });
-        
-        printButton.addEventListener('mouseleave', function() {
-            this.style.background = 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)';
-            this.style.transform = 'translateY(0)';
-            this.style.boxShadow = 'none';
-        });
     }
 });
