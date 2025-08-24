@@ -16,39 +16,57 @@
         <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <div class="mep-logo">
-                    <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
-                    <p>GOBIERNO DE COSTA RICA</p>
+                <div class="school-logo">
+                    <img src="logo.png" alt="Logo CTP Sabalito" class="logo">
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="school-title">
+                    <h1>Colegio Técnico Profesional Agropecuario de Sabalito</h1>
+                    <h2>Formulario de Matrícula 2026</h2>
                 </div>
             </div>
             <div class="header-right">
-                <div class="school-info">
-                    <h4>Dirección Regional de Educación de Coto</h4>
-                    <p>Supervisión de Centros Educativos, Circuito 06</p>
-                    <h3>Colegio Técnico Profesional Agropecuario de Sabalito</h3>
+                <div class="mep-info">
+                    <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
+                    <p>GOBIERNO DE COSTA RICA</p>
+                    <div class="regional-info">
+                        <h4>Dirección Regional de Educación de Coto</h4>
+                        <p>Supervisión de Centros Educativos, Circuito 06</p>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <!-- Main Title -->
-        <h1 class="main-title">BOLETA DE MATRÍCULA 2026</h1>
+
 
         <!-- Form -->
         <form id="matriculaForm" class="matricula-form">
             <!-- General Enrollment Information -->
             <div class="form-section">
-                <h2>Información General de Matrícula</h2>
+                <div class="section-header">
+                    <h2>📋 Información General de Matrícula</h2>
+                    <div class="section-line"></div>
+                </div>
                 
                 <!-- Botón de consulta por cédula -->
                 <div class="consulta-section">
-                    <h3>🔍 Consultar Estudiante Existente</h3>
+                    <div class="consulta-header">
+                        <h3>🔍 Consultar Estudiante Existente</h3>
+                        <p class="consulta-subtitle">Ingrese el número de cédula para buscar y cargar datos existentes</p>
+                    </div>
                     <div class="consulta-form">
-                        <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
-                        <button type="button" id="btnConsultar" class="btn-consulta">🔍 Buscar Estudiante</button>
+                        <div class="input-group">
+                            <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
+                            <button type="button" id="btnConsultar" class="btn-consulta">
+                                <span class="btn-icon">🔍</span>
+                                <span class="btn-text">Buscar Estudiante</span>
+                            </button>
+                        </div>
                     </div>
                     <div id="mensajeConsulta" class="mensaje-consulta"></div>
                 </div>
-                <div class="form-row">
+                <div class="form-row three-columns">
                     <div class="form-group">
                         <label for="nivel">Nivel:</label>
                         <select id="nivel" name="nivel" required>
@@ -84,7 +102,10 @@
 
             <!-- Student Data -->
             <div class="form-section">
-                <h2>Datos del Estudiante</h2>
+                <div class="section-header">
+                    <h2>👤 Datos del Estudiante</h2>
+                    <div class="section-line"></div>
+                </div>
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -155,7 +176,10 @@
 
             <!-- Mother/Guardian Data -->
             <div class="form-section">
-                <h2>Datos de la Madre o Encargada</h2>
+                <div class="section-header">
+                    <h2>👩 Datos de la Madre o Encargada</h2>
+                    <div class="section-line"></div>
+                </div>
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -194,7 +218,10 @@
 
             <!-- Father/Guardian Data -->
             <div class="form-section">
-                <h2>Datos del Padre o Encargado</h2>
+                <div class="section-header">
+                    <h2>👨 Datos del Padre o Encargado</h2>
+                    <div class="section-line"></div>
+                </div>
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -233,7 +260,10 @@
 
             <!-- Declaration and Signatures -->
             <div class="form-section">
-                <h2>Declaración y Firmas</h2>
+                <div class="section-header">
+                    <h2>✍️ Declaración y Firmas</h2>
+                    <div class="section-line"></div>
+                </div>
                 <div class="declaration">
                     <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
                 </div>
@@ -283,9 +313,18 @@
 
             <!-- Submit Button -->
             <div class="form-actions">
-                <button type="submit" class="btn-submit">Enviar Matrícula</button>
-                <button type="button" class="btn-reset" onclick="resetForm()">Limpiar Formulario</button>
-                <button type="button" class="btn-test" onclick="testFormSubmission()">🧪 Probar Envío</button>
+                <button type="submit" class="btn-submit">
+                    <span class="btn-icon">📤</span>
+                    <span class="btn-text">Enviar Matrícula</span>
+                </button>
+                <button type="button" class="btn-reset" onclick="resetForm()">
+                    <span class="btn-icon">🧹</span>
+                    <span class="btn-text">Limpiar Formulario</span>
+                </button>
+                <button type="button" class="btn-test" onclick="testFormSubmission()">
+                    <span class="btn-icon">🧪</span>
+                    <span class="btn-text">Probar Envío</span>
+                </button>
             </div>
         </form>
 
