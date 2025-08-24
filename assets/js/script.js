@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto-fill current date
     const today = new Date();
     document.getElementById('dia').value = today.getDate();
-    document.getElementById('mes').value = today.getMonth() + 1;
+    document.getElementById('mes').value = today.getMonth() + 1; // El select usa valores 1-12
     document.getElementById('anio').value = today.getFullYear();
     
     // Add optional validation feedback (not blocking)
@@ -582,7 +582,11 @@ function rellenarFormularioConEstudiante(estudiante) {
         const fechaParts = estudiante.fecha.split('/');
         if (fechaParts.length === 3) {
             document.getElementById('dia').value = fechaParts[0];
-            document.getElementById('mes').value = fechaParts[1];
+            // El select del mes espera valores 1-12, no strings
+            const mes = parseInt(fechaParts[1]);
+            if (!isNaN(mes) && mes >= 1 && mes <= 12) {
+                document.getElementById('mes').value = mes;
+            }
             document.getElementById('anio').value = fechaParts[2];
         }
     }

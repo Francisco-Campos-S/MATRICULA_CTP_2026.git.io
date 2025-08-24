@@ -68,8 +68,7 @@ const GOOGLE_SHEETS_CONFIG = {
             'nombreMadre',
             'cedulaMadre',
             'telefonoMadre',
-            'direccionMadre',
-            'firmaEncargada'
+            'direccionMadre'
         ]
     }
 };
