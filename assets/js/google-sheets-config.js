@@ -10,8 +10,9 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (debes crear esto)
     APPS_SCRIPT: {
-        // Reemplaza YOUR_SCRIPT_ID con el ID real de tu Google Apps Script
-        WEB_APP_URL: 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec',
+        // ⚠️ IMPORTANTE: Reemplaza esta URL con la URL real de tu Google Apps Script
+        // Después de crear el Apps Script, copia la URL del Web App aquí
+        WEB_APP_URL: 'https://script.google.com/macros/s/TU_SCRIPT_ID_REAL/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
@@ -82,7 +83,7 @@ function getGoogleSheetsConfig() {
 function isConfigComplete() {
     const config = GOOGLE_SHEETS_CONFIG;
     return config.SPREADSHEET_ID && 
-           (config.APPS_SCRIPT.WEB_APP_URL !== 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec' ||
+           (config.APPS_SCRIPT.WEB_APP_URL !== 'https://script.google.com/macros/s/TU_SCRIPT_ID_REAL/exec' ||
             config.APPS_SCRIPT.FORMS_URL !== 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform');
 }
 
@@ -98,7 +99,7 @@ function showConfigWarning() {
         warningDiv.className = 'config-warning';
         warningDiv.innerHTML = `
             <strong>⚠️ Configuración Pendiente</strong>
-            Para que el formulario funcione completamente, debes configurar Google Sheets.<br>
+            Para que el formulario funcione completamente, debes configurar Google Apps Script.<br>
             Consulta el archivo README.md para instrucciones detalladas.
         `;
         
