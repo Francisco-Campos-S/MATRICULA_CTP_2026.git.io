@@ -11,12 +11,13 @@ const GOOGLE_SHEETS_CONFIG = {
     // Configuración de Google Apps Script (debes crear esto)
     APPS_SCRIPT: {
         // ✅ CONFIGURADO: URL real de tu Google Apps Script
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycby_9BN4jxTaSV3i05uQV-QVTlZFZhRWa-HtnHuq2HOTuk0rvlSV4Bef1N_yER8_pa0Mdw/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzGZHwt1b26D95KzW5774jJbMZ5XzEgJL2McTvTvrSwAfDwb_TLBiqU9midk02v7ATD/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
     
     // Configuración de campos para la hoja de cálculo
+    // ⚠️ IMPORTANTE: Estos nombres deben coincidir EXACTAMENTE con las columnas de tu Google Sheet
     SHEET_COLUMNS: [
         'Timestamp',
         'Nivel',
@@ -24,9 +25,9 @@ const GOOGLE_SHEETS_CONFIG = {
         'Sección',
         'Primer Apellido',
         'Segundo Apellido',
-        'Nombre Estudiante',
-        'Teléfono Estudiante',
-        'Cédula Estudiante',
+        'Nombre',           // ← Cambiado de "Nombre Estudiante"
+        'Teléfono',         // ← Cambiado de "Teléfono Estudiante"
+        'Cédula',           // ← Cambiado de "Cédula Estudiante"
         'Fecha Nacimiento',
         'Nacionalidad',
         'Adecuación',

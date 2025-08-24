@@ -88,6 +88,28 @@ function addOptionalValidation() {
 
 // Collect form data - allows empty values
 function collectFormData() {
+    // Debug: Verificar que los elementos del DOM existan
+    const nombreElement = document.getElementById('nombreEstudiante');
+    const telefonoElement = document.getElementById('telefonoEstudiante');
+    const cedulaElement = document.getElementById('cedulaEstudiante');
+    
+    console.log('🔍 Elementos del DOM:');
+    console.log('nombreEstudiante:', nombreElement);
+    console.log('telefonoEstudiante:', telefonoElement);
+    console.log('cedulaEstudiante:', cedulaElement);
+    
+    // Debug: Verificar los valores directamente
+    console.log('🔍 Valores de los campos:');
+    console.log('nombreEstudiante.value:', nombreElement ? nombreElement.value : 'ELEMENTO NO ENCONTRADO');
+    console.log('telefonoEstudiante.value:', telefonoElement ? telefonoElement.value : 'ELEMENTO NO ENCONTRADO');
+    console.log('cedulaEstudiante.value:', cedulaElement ? cedulaElement.value : 'ELEMENTO NO ENCONTRADO');
+    
+    // Debug: Verificar si los elementos están en el DOM
+    console.log('🔍 Verificación del DOM:');
+    console.log('document.getElementById("nombreEstudiante"):', document.getElementById('nombreEstudiante'));
+    console.log('document.getElementById("telefonoEstudiante"):', document.getElementById('telefonoEstudiante'));
+    console.log('document.getElementById("cedulaEstudiante"):', document.getElementById('cedulaEstudiante'));
+    
     const formData = {
         timestamp: new Date().toISOString(),
         nivel: document.getElementById('nivel').value || '',
@@ -97,9 +119,9 @@ function collectFormData() {
         // Student data
         primerApellido: document.getElementById('primerApellido').value || '',
         segundoApellido: document.getElementById('segundoApellido').value || '',
-        nombreEstudiante: document.getElementById('nombreEstudiante').value || '',
-        telefonoEstudiante: document.getElementById('telefonoEstudiante').value || '',
-        cedulaEstudiante: document.getElementById('cedulaEstudiante').value || '',
+        nombre: nombreElement ? nombreElement.value || '' : '',           // ← Debug mejorado
+        telefono: telefonoElement ? telefonoElement.value || '' : '',     // ← Debug mejorado
+        cedula: cedulaElement ? cedulaElement.value || '' : '',           // ← Debug mejorado
         fechaNacimiento: document.getElementById('fechaNacimiento').value || '',
         nacionalidad: document.getElementById('nacionalidad').value || '',
         adecuacion: document.getElementById('adecuacion').value || '',
@@ -147,13 +169,45 @@ async function submitToGoogleSheets(formData) {
     
     try {
         // First, try to submit to Google Apps Script
+        // Get configuration from google-sheets-config.js
+        let config = {};
+        if (typeof getGoogleSheetsConfig === 'function') {
+            config = getGoogleSheetsConfig();
+        }
+        
+        const GOOGLE_APPS_SCRIPT_URL = config.APPS_SCRIPT?.WEB_APP_URL;
+        
+        if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes('TU_SCRIPT_ID_REAL')) {
+            throw new Error('Google Apps Script no está configurado');
+        }
+        
+        // Debug: Log los datos que se van a enviar
+        console.log('📤 Datos a enviar:', formData);
+        console.log('📤 FormData completo:', JSON.stringify(formData, null, 2));
+        
+        // Debug: Verificar campos específicos
+        console.log('🔍 Verificación de campos críticos:');
+        console.log('formData.nombre:', formData.nombre);
+        console.log('formData.telefono:', formData.telefono);
+        console.log('formData.cedula:', formData.cedula);
+        
+        // Convertir JSON a FormData para compatibilidad
+        const formDataToSend = new FormData();
+        Object.keys(formData).forEach(key => {
+            formDataToSend.append(key, formData[key]);
+            console.log(`📝 Enviando campo: ${key} = ${formData[key]}`);
+        });
+        
+        // Debug: Verificar FormData
+        console.log('🔍 FormData creado:');
+        for (let [key, value] of formDataToSend.entries()) {
+            console.log(`FormData[${key}] = ${value}`);
+        }
+        
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+            body: formDataToSend
         });
         
         // Since we're using no-cors, we can't read the response
@@ -227,7 +281,7 @@ function exportAsCSV(formData) {
     const url = URL.createObjectURL(blob);
     
     link.setAttribute('href', url);
-    link.setAttribute('download', `matricula_${formData.cedulaEstudiante || 'sin_cedula'}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `matricula_${formData.cedula || 'sin_cedula'}_${new Date().toISOString().split('T')[0]}.csv`);
     link.style.visibility = 'hidden';
     
     document.body.appendChild(link);
@@ -238,6 +292,48 @@ function exportAsCSV(formData) {
 // Print form
 function printForm() {
     window.print();
+}
+
+// Test form submission function
+function testFormSubmission() {
+    console.log('🧪 Iniciando prueba del formulario...');
+    
+    // Fill form with test data
+    document.getElementById('nivel').value = '7mo año';
+    document.getElementById('especialidad').value = 'Agropecuaria';
+    document.getElementById('seccion').value = 'A';
+    document.getElementById('primerApellido').value = 'González';
+    document.getElementById('segundoApellido').value = 'Pérez';
+    document.getElementById('nombreEstudiante').value = 'María';
+    document.getElementById('telefonoEstudiante').value = '88888888';
+    document.getElementById('cedulaEstudiante').value = '123456789';
+    document.getElementById('fechaNacimiento').value = '2009-03-15';
+    document.getElementById('adecuacion').value = 'No';
+    document.getElementById('rutaTransporte').value = 'Ruta 1';
+    document.getElementById('repitente').value = 'No';
+    document.getElementById('enfermedad').value = 'No';
+    document.getElementById('nombreMadre').value = 'Ana González';
+    document.getElementById('cedulaMadre').value = '987654321';
+    document.getElementById('telefonoMadre').value = '77777777';
+    document.getElementById('direccionMadre').value = 'Sabalito, Coto Brus';
+    document.getElementById('viveConEstudianteMadre').value = 'Sí';
+    document.getElementById('nombrePadre').value = 'Carlos Pérez';
+    document.getElementById('cedulaPadre').value = '456789123';
+    document.getElementById('telefonoPadre').value = '66666666';
+    document.getElementById('direccionPadre').value = 'Sabalito, Coto Brus';
+    document.getElementById('viveConEstudiantePadre').value = 'Sí';
+    document.getElementById('firmaEncargada').value = 'Ana González';
+    document.getElementById('firmaEncargado').value = 'Carlos Pérez';
+    document.getElementById('dia').value = '15';
+    document.getElementById('mes').value = '1';
+    document.getElementById('anio').value = '2026';
+    document.getElementById('observaciones').value = 'Estudiante nueva, excelente conducta';
+    
+    console.log('✅ Formulario llenado con datos de prueba');
+    console.log('🚀 Ahora haz clic en "Enviar Matrícula" para probar');
+    
+    // Scroll to submit button
+    document.querySelector('.btn-submit').scrollIntoView({ behavior: 'smooth' });
 }
 
 // Add print button functionality
