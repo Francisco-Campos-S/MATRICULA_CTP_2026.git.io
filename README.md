@@ -1,15 +1,15 @@
 # Formulario de Matrícula 2026 - CTP Agropecuario de Sabalito
 
-Un formulario web moderno y responsivo para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito, diseñado para ser desplegado en GitHub Pages y con integración a Google Sheets.
+Este es un formulario web moderno y responsivo para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito.
 
 ## 🚀 Características
 
-- **Diseño Moderno**: Interfaz limpia y profesional con colores institucionales
-- **Responsivo**: Funciona perfectamente en dispositivos móviles y de escritorio
-- **Validación**: Validación en tiempo real de campos requeridos
-- **Integración Google Sheets**: Guarda automáticamente los datos en Google Sheets
-- **Impresión**: Funcionalidad de impresión optimizada
-- **Accesibilidad**: Cumple con estándares de accesibilidad web
+- **Diseño Responsivo**: Funciona perfectamente en dispositivos móviles y de escritorio
+- **Validación de Formularios**: Validación en tiempo real de campos requeridos
+- **Integración con Google Sheets**: Los datos se envían automáticamente a Google Sheets
+- **Interfaz Moderna**: Diseño atractivo con gradientes y animaciones
+- **Funcionalidad de Impresión**: Botón para imprimir el formulario
+- **Exportación CSV**: Opción para descargar los datos en formato CSV
 
 ## 📋 Campos del Formulario
 
@@ -25,7 +25,7 @@ Un formulario web moderno y responsivo para la matrícula estudiantil del Colegi
 - Número de cédula
 - Fecha de nacimiento
 - Nacionalidad
-- Adecuación educativa
+- Adecuación curricular
 - Ruta de transporte
 - Condición de repitente
 - Información médica
@@ -52,99 +52,71 @@ Un formulario web moderno y responsivo para la matrícula estudiantil del Colegi
 - Fecha
 - Observaciones
 
-## 🛠️ Configuración
+## ⚙️ Configuración de Google Sheets
 
-### 1. Desplegar en GitHub Pages
+### Opción 1: Google Apps Script (Recomendado)
 
-1. **Crear un repositorio en GitHub**
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: Formulario de Matrícula 2026"
-   git branch -M main
-   git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   git push -u origin main
-   ```
-
-2. **Activar GitHub Pages**
-   - Ve a Settings > Pages
-   - Source: Deploy from a branch
-   - Branch: main
-   - Folder: / (root)
-   - Click Save
-
-3. **Tu formulario estará disponible en:**
-   ```
-   https://TU_USUARIO.github.io/TU_REPOSITORIO
-   ```
-
-### 2. Integración con Google Sheets
-
-#### Opción A: Google Apps Script (Recomendado)
-
-1. **Crear una nueva Google Sheet**
-   - Ve a [sheets.google.com](https://sheets.google.com)
-   - Crea una nueva hoja de cálculo
-
-2. **Configurar Google Apps Script**
-   - En tu Google Sheet, ve a Extensions > Apps Script
-   - Reemplaza el código por defecto con el siguiente:
+1. **Crear un nuevo proyecto en Google Apps Script**:
+   - Ve a [script.google.com](https://script.google.com)
+   - Crea un nuevo proyecto
+   - Copia el siguiente código:
 
 ```javascript
 function doPost(e) {
   try {
-    // Parse the JSON data
-    const data = JSON.parse(e.postData.contents);
+    // Obtener los datos del formulario
+    const formData = JSON.parse(e.postData.contents);
     
-    // Get the active spreadsheet
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    // ID de tu Google Sheet
+    const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
+    const sheet = SpreadsheetApp.openById(spreadsheetId).getActiveSheet();
     
-    // Prepare the row data
+    // Preparar los datos para la hoja
     const rowData = [
-      new Date(), // Timestamp
-      data.nivel,
-      data.especialidad,
-      data.seccion,
-      data.primerApellido,
-      data.segundoApellido,
-      data.nombreEstudiante,
-      data.telefonoEstudiante,
-      data.cedulaEstudiante,
-      data.fechaNacimiento,
-      data.nacionalidad,
-      data.adecuacion,
-      data.rutaTransporte,
-      data.repitente,
-      data.enfermedad,
-      data.detalleEnfermedad,
-      data.nombreMadre,
-      data.cedulaMadre,
-      data.telefonoMadre,
-      data.direccionMadre,
-      data.parentescoMadre,
-      data.viveConEstudianteMadre,
-      data.nombrePadre,
-      data.cedulaPadre,
-      data.telefonoPadre,
-      data.direccionPadre,
-      data.parentescoPadre,
-      data.viveConEstudiantePadre,
-      data.firmaEncargada,
-      data.firmaEncargado,
-      data.fecha,
-      data.observaciones
+      formData.timestamp,
+      formData.nivel,
+      formData.especialidad,
+      formData.seccion,
+      formData.primerApellido,
+      formData.segundoApellido,
+      formData.nombreEstudiante,
+      formData.telefonoEstudiante,
+      formData.cedulaEstudiante,
+      formData.fechaNacimiento,
+      formData.nacionalidad,
+      formData.adecuacion,
+      formData.rutaTransporte,
+      formData.repitente,
+      formData.enfermedad,
+      formData.detalleEnfermedad,
+      formData.nombreMadre,
+      formData.cedulaMadre,
+      formData.telefonoMadre,
+      formData.direccionMadre,
+      formData.parentescoMadre,
+      formData.viveConEstudianteMadre,
+      formData.nombrePadre,
+      formData.cedulaPadre,
+      formData.telefonoPadre,
+      formData.direccionPadre,
+      formData.parentescoPadre,
+      formData.viveConEstudiantePadre,
+      formData.firmaEncargada,
+      formData.firmaEncargado,
+      formData.fecha,
+      formData.observaciones
     ];
     
-    // Append the data to the sheet
+    // Agregar la fila a la hoja
     sheet.appendRow(rowData);
     
-    // Return success response
+    // Retornar respuesta exitosa
     return ContentService
       .createTextOutput(JSON.stringify({ 'result': 'success' }))
       .setMimeType(ContentService.MimeType.JSON);
       
-  } catch(error) {
-    // Return error response
+  } catch (error) {
+    // Retornar error
     return ContentService
       .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -152,100 +124,76 @@ function doPost(e) {
 }
 
 function doGet(e) {
-  return ContentService.createTextOutput('Formulario de Matrícula - Servidor Activo');
+  return ContentService.createTextOutput('Formulario de Matrícula CTP Sabalito');
 }
 ```
 
-3. **Configurar encabezados de la hoja**
-   - En la primera fila de tu Google Sheet, agrega estos encabezados:
-   ```
-   Timestamp | Nivel | Especialidad | Sección | Primer Apellido | Segundo Apellido | Nombre | Teléfono | Cédula | Fecha Nacimiento | Nacionalidad | Adecuación | Ruta Transporte | Repitente | Enfermedad | Detalle Enfermedad | Nombre Madre | Cédula Madre | Teléfono Madre | Dirección Madre | Parentesco Madre | Vive con Estudiante Madre | Nombre Padre | Cédula Padre | Teléfono Padre | Dirección Padre | Parentesco Padre | Vive con Estudiante Padre | Firma Encargada | Firma Encargado | Fecha | Observaciones
-   ```
+2. **Configurar el despliegue**:
+   - Haz clic en "Deploy" > "New deployment"
+   - Selecciona "Web app"
+   - Configura el acceso como "Anyone"
+   - Copia la URL del web app
 
-4. **Desplegar como aplicación web**
-   - Click en Deploy > New deployment
-   - Type: Web app
-   - Execute as: Me
-   - Who has access: Anyone
-   - Click Deploy
-   - Copia la URL de la aplicación web
+3. **Actualizar el JavaScript**:
+   - En `assets/js/script.js`, reemplaza `YOUR_SCRIPT_ID` con el ID de tu script
 
-5. **Actualizar el formulario**
-   - En `script.js`, reemplaza `YOUR_GOOGLE_APPS_SCRIPT_URL_HERE` con la URL de tu aplicación web
+### Opción 2: Google Forms
 
-#### Opción B: Google Forms (Alternativa)
-
-1. **Crear un Google Form**
-   - Ve a [forms.google.com](https://forms.google.com)
-   - Crea un formulario con todos los campos necesarios
-
+1. **Crear un Google Form** con todos los campos necesarios
 2. **Obtener la URL del formulario**
-   - Comparte el formulario y copia la URL
+3. **Actualizar el JavaScript** con la URL del formulario
 
-3. **Actualizar el formulario**
-   - En `script.js`, reemplaza `YOUR_GOOGLE_FORM_URL_HERE` con la URL de tu Google Form
+## 🎨 Personalización
 
-## 📱 Personalización
+### Colores
+Los colores principales se pueden modificar en `assets/css/styles.css`:
+- Color principal: `#1e3c72`
+- Color secundario: `#2a5298`
+- Color de acento: `#ffd700`
+- Color de éxito: `#28a745`
 
-### Cambiar Colores
-Edita `styles.css` para cambiar los colores institucionales:
+### Fuentes
+El formulario usa la fuente Roboto de Google Fonts. Puedes cambiarla modificando la importación en el HTML.
 
-```css
-:root {
-  --primary-color: #1e3c72;      /* Azul principal */
-  --secondary-color: #2a5298;    /* Azul secundario */
-  --accent-color: #ffd700;       /* Dorado */
-  --success-color: #28a745;      /* Verde */
-  --danger-color: #dc3545;       /* Rojo */
-}
-```
+## 📱 Responsive Design
 
-### Agregar/Quitar Campos
-1. Edita `index.html` para agregar/quitar campos
-2. Actualiza `script.js` en la función `collectFormData()`
-3. Actualiza el Google Apps Script si usas esa opción
+El formulario está optimizado para:
+- **Desktop**: 1200px y superior
+- **Tablet**: 768px - 1199px
+- **Mobile**: 480px - 767px
+- **Small Mobile**: Menos de 480px
 
-## 🔒 Seguridad y Privacidad
+## 🖨️ Funcionalidad de Impresión
 
-- Los datos se envían directamente a Google Sheets
-- No se almacenan datos en el servidor web
-- Se recomienda configurar permisos de acceso apropiados en Google Sheets
-- Considera implementar autenticación si es necesario
+El formulario incluye estilos específicos para impresión que ocultan elementos innecesarios y optimizan el layout para papel.
 
-## 🚨 Solución de Problemas
+## 🔧 Solución de Problemas
 
 ### El formulario no envía datos
 1. Verifica que la URL de Google Apps Script sea correcta
-2. Asegúrate de que la aplicación web esté desplegada
+2. Asegúrate de que el script tenga permisos de escritura en Google Sheets
 3. Revisa la consola del navegador para errores
 
-### Error de CORS
-- Google Apps Script maneja esto automáticamente
-- Si persiste, verifica la configuración de la aplicación web
+### Problemas de validación
+1. Verifica que todos los campos requeridos estén completos
+2. Los números de teléfono deben tener 8 dígitos
+3. Los números de cédula deben tener 9 dígitos
 
-### Los datos no aparecen en Google Sheets
-1. Verifica que el Google Apps Script esté funcionando
-2. Revisa los logs de ejecución en Google Apps Script
-3. Asegúrate de que los encabezados de la hoja coincidan
+### Problemas de estilo
+1. Verifica que los archivos CSS y JS estén en las carpetas correctas
+2. Limpia la caché del navegador
+3. Verifica que no haya conflictos con otros estilos
 
 ## 📞 Soporte
 
-Para soporte técnico o preguntas sobre la implementación:
-
-1. Revisa los logs de Google Apps Script
-2. Verifica la consola del navegador
-3. Consulta la documentación de Google Apps Script
+Para soporte técnico o preguntas sobre el formulario, contacta a:
+- **Email**: contacto@ctpsabalito.edu.cr
+- **Colegio**: CTP Agropecuario de Sabalito
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia MIT. Puedes modificarlo y distribuirlo libremente.
-
-## 🙏 Agradecimientos
-
-- Ministerio de Educación Pública de Costa Rica
-- Colegio Técnico Profesional Agropecuario de Sabalito
-- Comunidad de desarrolladores web
+Este proyecto está desarrollado para el uso exclusivo del Colegio Técnico Profesional Agropecuario de Sabalito.
 
 ---
 
-**Nota**: Este formulario está diseñado específicamente para el CTP Agropecuario de Sabalito. Ajusta los campos y validaciones según las necesidades específicas de tu institución.
+**Desarrollado con ❤️ para la comunidad educativa de Sabalito**

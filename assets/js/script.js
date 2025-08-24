@@ -4,6 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const successMessage = document.getElementById('successMessage');
     const loadingSpinner = document.getElementById('loadingSpinner');
     
+    // Show configuration warning if needed
+    if (typeof showConfigWarning === 'function') {
+        showConfigWarning();
+    }
+    
     // Show/hide illness detail field based on selection
     const enfermedadSelect = document.getElementById('enfermedad');
     const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
@@ -63,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Form validation
 function validateForm() {
+    const form = document.getElementById('matriculaForm');
     const requiredFields = form.querySelectorAll('[required]');
     let isValid = true;
     
@@ -160,15 +166,22 @@ function collectFormData() {
     return formData;
 }
 
-// Submit to Google Sheets via Google Apps Script
+// Submit to Google Sheets using Google Apps Script
 async function submitToGoogleSheets(formData) {
-    // Replace this URL with your Google Apps Script web app URL
-    const GOOGLE_APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    // Get configuration from google-sheets-config.js
+    let config = {};
+    if (typeof getGoogleSheetsConfig === 'function') {
+        config = getGoogleSheetsConfig();
+    }
+    
+    // Google Apps Script Web App URL
+    const GOOGLE_APPS_SCRIPT_URL = config.APPS_SCRIPT?.WEB_APP_URL || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
     
     try {
+        // First, try to submit to Google Apps Script
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: 'POST',
-            mode: 'no-cors', // Required for Google Apps Script
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -177,19 +190,26 @@ async function submitToGoogleSheets(formData) {
         
         // Since we're using no-cors, we can't read the response
         // The success is assumed if no error is thrown
+        console.log('✅ Datos enviados a Google Apps Script');
         return true;
         
     } catch (error) {
-        throw new Error('Failed to submit to Google Sheets: ' + error.message);
+        console.log('❌ Google Apps Script failed, trying alternative method...');
+        // Fallback to Google Forms method
+        return await submitToGoogleForms(formData);
     }
 }
 
 // Alternative method using Google Forms (more reliable)
 async function submitToGoogleForms(formData) {
-    // This is an alternative approach using Google Forms
-    // You would need to create a Google Form and get the pre-filled URL
+    // Get configuration from google-sheets-config.js
+    let config = {};
+    if (typeof getGoogleSheetsConfig === 'function') {
+        config = getGoogleSheetsConfig();
+    }
     
-    const googleFormUrl = 'YOUR_GOOGLE_FORM_URL_HERE';
+    // Create a Google Form and get the pre-filled URL
+    const googleFormUrl = config.APPS_SCRIPT?.FORMS_URL || 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform';
     const formUrl = new URL(googleFormUrl);
     
     // Add form data as URL parameters
@@ -202,6 +222,7 @@ async function submitToGoogleForms(formData) {
     // Open the form in a new window/tab
     window.open(formUrl.toString(), '_blank');
     
+    console.log('📝 Formulario abierto en Google Forms');
     return true;
 }
 
@@ -261,32 +282,34 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add print button to form actions
     const formActions = document.querySelector('.form-actions');
-    formActions.appendChild(printButton);
-    
-    // Style the print button
-    printButton.style.cssText = `
-        padding: 15px 30px;
-        border: none;
-        border-radius: 8px;
-        font-size: 1.1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        min-width: 180px;
-        background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
-        color: white;
-        margin-left: 20px;
-    `;
-    
-    printButton.addEventListener('mouseenter', function() {
-        this.style.background = 'linear-gradient(135deg, #138496 0%, #117a8b 100%)';
-        this.style.transform = 'translateY(-2px)';
-        this.style.boxShadow = '0 5px 15px rgba(23, 162, 184, 0.3)';
-    });
-    
-    printButton.addEventListener('mouseleave', function() {
-        this.style.background = 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)';
-        this.style.transform = 'translateY(0)';
-        this.style.boxShadow = 'none';
-    });
+    if (formActions) {
+        formActions.appendChild(printButton);
+        
+        // Style the print button
+        printButton.style.cssText = `
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+            color: white;
+            margin-left: 20px;
+        `;
+        
+        printButton.addEventListener('mouseenter', function() {
+            this.style.background = 'linear-gradient(135deg, #138496 0%, #117a8b 100%)';
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 5px 15px rgba(23, 162, 184, 0.3)';
+        });
+        
+        printButton.addEventListener('mouseleave', function() {
+            this.style.background = 'linear-gradient(135deg, #17a2b8 0%, #138496 100%)';
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
+        });
+    }
 });
