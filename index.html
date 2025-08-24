@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boleta de Matrícula 2026 - CTP Agropecuario de Sabalito</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="mep-logo">
+                    <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
+                    <p>GOBIERNO DE COSTA RICA</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="school-info">
+                    <h4>Dirección Regional de Educación de Coto</h4>
+                    <p>Supervisión de Centros Educativos, Circuito 06</p>
+                    <h3>Colegio Técnico Profesional Agropecuario de Sabalito</h3>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Title -->
+        <h1 class="main-title">BOLETA DE MATRÍCULA 2026</h1>
+
+        <!-- Form -->
+        <form id="matriculaForm" class="matricula-form">
+            <!-- General Enrollment Information -->
+            <div class="form-section">
+                <h2>Información General de Matrícula</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nivel">Nivel:</label>
+                        <input type="text" id="nivel" name="nivel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="especialidad">Especialidad:</label>
+                        <input type="text" id="especialidad" name="especialidad" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="seccion">Sección:</label>
+                        <input type="text" id="seccion" name="seccion" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student Data -->
+            <div class="form-section">
+                <h2>Datos del Estudiante</h2>
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="primerApellido">Primer apellido:</label>
+                            <input type="text" id="primerApellido" name="primerApellido" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="segundoApellido">Segundo apellido:</label>
+                            <input type="text" id="segundoApellido" name="segundoApellido">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombreEstudiante">Nombre:</label>
+                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoEstudiante">Nº teléfono:</label>
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
+                        </div>
+                        <div class="form-group">
+                            <label for="adecuacion">Posee adecuación:</label>
+                            <select id="adecuacion" name="adecuacion">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="rutaTransporte">Ruta de transporte:</label>
+                            <input type="text" id="rutaTransporte" name="rutaTransporte">
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="cedulaEstudiante">N° cédula:</label>
+                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha nacimiento:</label>
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nacionalidad">Nacionalidad:</label>
+                            <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense">
+                        </div>
+                        <div class="form-group">
+                            <label for="repitente">¿Es repitente?</label>
+                            <select id="repitente" name="repitente">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="enfermedad">Padece alguna enfermedad:</label>
+                            <select id="enfermedad" name="enfermedad">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="detalleEnfermedadGroup" style="display: none;">
+                            <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
+                            <textarea id="detalleEnfermedad" name="detalleEnfermedad" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mother/Guardian Data -->
+            <div class="form-section">
+                <h2>Datos de la Madre o Encargada</h2>
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="nombreMadre">Nombre:</label>
+                            <input type="text" id="nombreMadre" name="nombreMadre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cedulaMadre">N° de Cédula:</label>
+                            <input type="text" id="cedulaMadre" name="cedulaMadre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoMadre">Nº teléfono:</label>
+                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionMadre">Dirección exacta:</label>
+                            <textarea id="direccionMadre" name="direccionMadre" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="parentescoMadre">Parentesco:</label>
+                            <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre">
+                        </div>
+                        <div class="form-group">
+                            <label for="viveConEstudianteMadre">Vive con estudiante:</label>
+                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Father/Guardian Data -->
+            <div class="form-section">
+                <h2>Datos del Padre o Encargado</h2>
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="nombrePadre">Nombre:</label>
+                            <input type="text" id="nombrePadre" name="nombrePadre">
+                        </div>
+                        <div class="form-group">
+                            <label for="cedulaPadre">N° de Cédula:</label>
+                            <input type="text" id="cedulaPadre" name="cedulaPadre">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoPadre">Nº teléfono:</label>
+                            <input type="tel" id="telefonoPadre" name="telefonoPadre">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionPadre">Dirección:</label>
+                            <textarea id="direccionPadre" name="direccionPadre" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="parentescoPadre">Parentesco:</label>
+                            <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre">
+                        </div>
+                        <div class="form-group">
+                            <label for="viveConEstudiantePadre">Vive con estudiante:</label>
+                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Declaration and Signatures -->
+            <div class="form-section">
+                <h2>Declaración y Firmas</h2>
+                <div class="declaration">
+                    <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
+                </div>
+                <div class="form-row">
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="firmaEncargada">Firma de la Encargada:</label>
+                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="firmaEncargado">Firma del Encargado:</label>
+                            <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo">
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="fecha">Fecha:</label>
+                            <div class="date-inputs">
+                                <input type="number" id="dia" name="dia" min="1" max="31" placeholder="Día" required>
+                                <span>/</span>
+                                <input type="number" id="mes" name="mes" min="1" max="12" placeholder="Mes" required>
+                                <span>/</span>
+                                <input type="number" id="anio" name="anio" min="2020" max="2030" placeholder="Año" value="2026" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Enviar Matrícula</button>
+                <button type="button" class="btn-reset" onclick="resetForm()">Limpiar Formulario</button>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message" style="display: none;">
+            <h3>¡Matrícula Enviada Exitosamente!</h3>
+            <p>Los datos han sido guardados en Google Sheets.</p>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Enviando datos...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+# Jekyll configuration for GitHub Pages
+# This file helps optimize the deployment
+
+# Site settings
+title: "Formulario de Matrícula 2026 - CTP Agropecuario de Sabalito"
+description: "Formulario web para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito"
+author: "CTP Agropecuario de Sabalito"
+email: "contacto@ctpsabalito.edu.cr"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Collections
+collections:
+  _posts:
+    output: true
+    permalink: /:collection/:title/
+
+# Plugins (GitHub Pages compatible)
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Exclude from processing
+exclude:
+  - README.md
+  - _config.yml
+  - .gitignore
+  - node_modules
+  - package.json
+  - package-lock.json
+
+# Include in processing
+include:
+  - _posts
+  - _pages
+  - _layouts
+  - _includes
+  - assets
+  - images
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "CTP Agropecuario de Sabalito"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      author: "CTP Agropecuario de Sabalito"
+
+# Sitemap settings
+sitemap:
+  exclude: ['/feed.xml']
+  changefreq: 'weekly'
+  priority: 0.8
+
+# SEO settings
+seo:
+  title: "Formulario de Matrícula 2026 - CTP Agropecuario de Sabalito"
+  description: "Formulario web moderno y responsivo para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito"
+  keywords: "matrícula, formulario, CTP, agropecuario, sabalito, costa rica, educación"
+  author: "CTP Agropecuario de Sabalito"
+  image: "/images/logo-ctp.png"
+  twitter:
+    creator: "@ctpsabalito"
+    card: "summary_large_image"
+  facebook:
+    app_id: "123456789"
+    type: "website"
