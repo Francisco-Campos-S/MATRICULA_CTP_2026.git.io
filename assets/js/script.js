@@ -74,7 +74,7 @@ function addOptionalValidation() {
             // Optional validation feedback
             if (this.value.trim()) {
                 this.style.borderColor = '#28a745'; // Green for filled fields
-            } else {
+        } else {
                 this.style.borderColor = '#e1e8ed'; // Default for empty fields
             }
         });
@@ -347,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add print button to form actions
     const formActions = document.querySelector('.form-actions');
     if (formActions) {
-        formActions.appendChild(printButton);
+    formActions.appendChild(printButton);
     }
 });
 
