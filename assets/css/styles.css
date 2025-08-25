@@ -1506,3 +1506,706 @@ textarea:valid {
     font-size: 0.95rem;
     opacity: 0.9;
 }
+
+/* ===== ELEMENTOS DE IMPRESIÓN (OCULTOS EN VISTA NORMAL) ===== */
+
+/* Encabezado de impresión */
+.print-header {
+    display: none;
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 2px solid #000;
+    border-radius: 8px;
+}
+
+.print-header .mep-logos {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.print-header .mep-logos .left-logos {
+    text-align: left;
+    flex: 1;
+}
+
+.print-header .mep-logos .right-logos {
+    text-align: right;
+    flex: 1;
+}
+
+.print-header .mep-logos h3 {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: black;
+}
+
+.print-header .mep-logos p {
+    font-size: 12pt;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.print-header .mep-logos h4 {
+    font-size: 11pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.print-header .main-title {
+    font-size: 24pt;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 2px solid #000;
+    padding: 15px;
+    background: #f8f9fa;
+}
+
+/* Títulos de sección para impresión */
+.print-section-title {
+    display: none;
+    font-size: 14pt;
+    font-weight: bold;
+    color: black;
+    margin-bottom: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #000;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* Footer de impresión */
+.print-footer {
+    display: none;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #000;
+    text-align: center;
+    font-size: 10pt;
+    color: black;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.print-footer p {
+    margin: 5px 0;
+    line-height: 1.3;
+}
+
+/* ===== ESTILOS DE IMPRESIÓN PARA BOLETA DE MATRÍCULA ===== */
+
+/* Estilos específicos para impresión */
+@media print {
+    /* Reset general para impresión */
+    * {
+        margin: 0 !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+        font-family: 'Times New Roman', serif !important;
+        font-size: 10pt !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    
+    /* Ocultar elementos no necesarios para impresión */
+    .header,
+    .form-actions,
+    .success-message,
+    .loading-spinner,
+    .config-warning,
+    .consulta-section,
+    .theme-toggle,
+    .app-footer,
+    .section-header {
+        display: none !important;
+    }
+    
+    /* Contenedor principal */
+    .container {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    
+    /* Formulario principal */
+    .matricula-form {
+        background: white !important;
+        color: black !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        font-size: 10pt !important;
+    }
+    
+    /* Encabezado de la boleta */
+    .print-header {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 15px !important;
+        padding: 10px 0 !important;
+        border-bottom: 2px solid #000 !important;
+        background: white !important;
+    }
+    
+    .print-header .mep-logos {
+        display: flex !important;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 10px !important;
+    }
+    
+    .print-header .mep-logos .left-logos {
+        text-align: left;
+        flex: 1;
+    }
+    
+    .print-header .mep-logos .right-logos {
+        text-align: right;
+        flex: 1;
+    }
+    
+    .print-header .mep-logos h3 {
+        font-size: 12pt !important;
+        font-weight: bold !important;
+        margin-bottom: 3px !important;
+        color: black !important;
+    }
+    
+    .print-header .mep-logos p {
+        font-size: 10pt !important;
+        margin-bottom: 2px !important;
+        color: black !important;
+    }
+    
+    .print-header .mep-logos h4 {
+        font-size: 9pt !important;
+        font-weight: bold !important;
+        margin-bottom: 2px !important;
+        color: black !important;
+    }
+    
+    .print-header .main-title {
+        font-size: 18pt !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        margin: 10px 0 !important;
+        color: black !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1px !important;
+        border: 2px solid #000 !important;
+        padding: 8px !important;
+        background: #f8f9fa !important;
+    }
+    
+    /* Secciones del formulario */
+    .form-section {
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 8px 0 !important;
+        margin-bottom: 12px !important;
+        page-break-inside: avoid !important;
+    }
+    
+    /* Títulos de sección para impresión */
+    .print-section-title {
+        display: block !important;
+        font-size: 11pt !important;
+        font-weight: bold !important;
+        color: black !important;
+        margin-bottom: 8px !important;
+        padding-bottom: 2px !important;
+        border-bottom: 1px solid #000 !important;
+        text-transform: uppercase !important;
+        text-align: center !important;
+    }
+    
+    /* Información general */
+    .form-section:first-of-type {
+        margin-bottom: 15px !important;
+    }
+    
+    .form-section:first-of-type .form-row.three-columns {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 12px !important;
+    }
+    
+    .form-section:first-of-type .form-group {
+        flex: 1 !important;
+        margin-right: 15px !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .form-section:first-of-type .form-group:last-child {
+        margin-right: 0 !important;
+    }
+    
+    /* Filas de formulario */
+    .form-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-bottom: 8px !important;
+        gap: 0 !important;
+    }
+    
+    .form-column {
+        flex: 1 !important;
+        margin-right: 15px !important;
+    }
+    
+    .form-column:last-child {
+        margin-right: 0 !important;
+    }
+    
+    /* Campos del formulario */
+    .form-group {
+        margin-bottom: 6px !important;
+        page-break-inside: avoid !important;
+    }
+    
+    .form-group label {
+        display: inline-block !important;
+        font-weight: bold !important;
+        font-size: 9pt !important;
+        color: black !important;
+        margin-bottom: 2px !important;
+        min-width: 100px !important;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        display: inline-block !important;
+        width: auto !important;
+        min-width: 150px !important;
+        padding: 1px 4px !important;
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        background: white !important;
+        color: black !important;
+        font-size: 9pt !important;
+        font-family: 'Times New Roman', serif !important;
+        box-shadow: none !important;
+        margin-left: 8px !important;
+    }
+    
+    .form-group textarea {
+        min-height: 25px !important;
+        resize: none !important;
+    }
+    
+    /* Campos específicos optimizados */
+    .form-group input[name="fecha"] {
+        min-width: 100px !important;
+    }
+    
+    .form-group input[id*="cedula"] {
+        min-width: 120px !important;
+    }
+    
+    .form-group input[id*="telefono"] {
+        min-width: 100px !important;
+    }
+    
+    .form-group input[type="date"] {
+        min-width: 110px !important;
+    }
+    
+    .form-group textarea[name="direccionMadre"],
+    .form-group textarea[name="direccionPadre"] {
+        min-width: 200px !important;
+        min-height: 20px !important;
+    }
+    
+    .form-group select#especialidad {
+        min-width: 250px !important;
+    }
+    
+    .form-group textarea[name="observaciones"] {
+        min-width: 300px !important;
+        min-height: 30px !important;
+    }
+    
+    .form-group textarea[name="detalleEnfermedad"] {
+        min-width: 150px !important;
+        min-height: 20px !important;
+    }
+    
+    .form-group input[name="rutaTransporte"] {
+        min-width: 140px !important;
+    }
+    
+    .form-group input[id*="parentesco"] {
+        min-width: 100px !important;
+    }
+    
+    .form-group select[id*="viveConEstudiante"] {
+        min-width: 60px !important;
+    }
+    
+    .form-group select[id="adecuacion"],
+    .form-group select[id="repitente"],
+    .form-group select[id="enfermedad"] {
+        min-width: 60px !important;
+    }
+    
+    .form-group input[name="nacionalidad"] {
+        min-width: 120px !important;
+    }
+    
+    .form-group select[id="nivel"],
+    .form-group input[id="seccion"] {
+        min-width: 100px !important;
+    }
+    
+    /* Declaración */
+    .declaration {
+        background: white !important;
+        border: none !important;
+        padding: 10px 0 !important;
+        margin: 10px 0 !important;
+        text-align: center !important;
+        border-top: 1px solid #000 !important;
+        border-bottom: 1px solid #000 !important;
+    }
+    
+    .declaration p {
+        font-size: 10pt !important;
+        font-weight: bold !important;
+        color: black !important;
+        margin: 0 !important;
+    }
+    
+    /* Firmas */
+    .form-group input[id*="firma"] {
+        min-width: 180px !important;
+        border-bottom: 1px solid #000 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        background: transparent !important;
+        text-align: center !important;
+        padding: 1px 0 !important;
+    }
+    
+    /* Footer de la boleta */
+    .print-footer {
+        display: block !important;
+        margin-top: 15px !important;
+        padding-top: 10px !important;
+        border-top: 1px solid #000 !important;
+        text-align: center !important;
+        font-size: 8pt !important;
+        color: black !important;
+        background: #f8f9fa !important;
+        padding: 8px !important;
+        border-radius: 3px !important;
+    }
+    
+    .print-footer p {
+        margin: 3px 0 !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Asegurar que todo quepa en una página */
+    @page {
+        size: A4;
+        margin: 1.2cm;
+    }
+    
+    /* Evitar saltos de página no deseados */
+    .form-section,
+    .form-row,
+    .form-group {
+        page-break-inside: avoid !important;
+    }
+    
+    /* Optimizaciones adicionales para ahorrar espacio */
+    .form-group label {
+        margin-bottom: 1px !important;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        margin-bottom: 2px !important;
+    }
+    
+    /* Ajustes para campos de tres columnas */
+    .form-row.three-columns .form-group {
+        margin-right: 10px !important;
+    }
+    
+    .form-row.three-columns .form-group:last-child {
+        margin-right: 0 !important;
+    }
+    
+    /* Ajustes para el encabezado */
+    .print-header {
+        margin-bottom: 10px !important;
+        padding: 8px 0 !important;
+    }
+    
+    .print-header .main-title {
+        font-size: 16pt !important;
+        margin: 8px 0 !important;
+        padding: 6px !important;
+    }
+    
+    /* Ajustes para títulos de sección */
+    .print-section-title {
+        font-size: 10pt !important;
+        margin-bottom: 6px !important;
+        padding-bottom: 2px !important;
+    }
+    
+    /* Ajustes para la declaración */
+    .declaration {
+        padding: 8px 0 !important;
+        margin: 8px 0 !important;
+    }
+    
+    .declaration p {
+        font-size: 9pt !important;
+    }
+    
+    /* Ajustes para el footer */
+    .print-footer {
+        margin-top: 12px !important;
+        padding-top: 8px !important;
+        font-size: 7pt !important;
+    }
+    
+    /* Ocultar elementos de interfaz web */
+    .btn-theme-toggle,
+    .theme-toggle,
+    .consulta-section,
+    .form-actions {
+        display: none !important;
+    }
+    
+    /* Mejoras adicionales para la distribución */
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group input[type="date"] {
+        height: 20px !important;
+    }
+    
+    .form-group select {
+        height: 20px !important;
+    }
+    
+    .form-group textarea {
+        line-height: 1.1 !important;
+    }
+    
+    /* Ajustes para campos específicos que necesitan más espacio */
+    .form-group input[name="nombreEstudiante"],
+    .form-group input[name="nombreMadre"],
+    .form-group input[name="nombrePadre"] {
+        min-width: 180px !important;
+    }
+    
+    /* Ajustes para campos de dirección */
+    .form-group textarea[name="direccionMadre"],
+    .form-group textarea[name="direccionPadre"] {
+        min-width: 220px !important;
+        min-height: 18px !important;
+    }
+    
+    /* Ajustes para campos de observaciones */
+    .form-group textarea[name="observaciones"] {
+        min-width: 280px !important;
+        min-height: 25px !important;
+    }
+    
+    /* Ajustes para campos de especialidad */
+    .form-group select#especialidad {
+        min-width: 220px !important;
+    }
+    
+    /* Ajustes para campos de firma */
+    .form-group input[id*="firma"] {
+        min-width: 160px !important;
+        height: 18px !important;
+    }
+    
+    /* Ajustes para la declaración */
+    .declaration {
+        padding: 6px 0 !important;
+        margin: 8px 0 !important;
+    }
+    
+    .declaration p {
+        font-size: 8pt !important;
+        line-height: 1.1 !important;
+    }
+    
+    /* Ajustes para el footer */
+    .print-footer {
+        margin-top: 10px !important;
+        padding-top: 6px !important;
+        font-size: 6pt !important;
+    }
+    
+    .print-footer p {
+        margin: 2px 0 !important;
+        line-height: 1.1 !important;
+    }
+    
+    /* Ajustes para el encabezado */
+    .print-header {
+        margin-bottom: 8px !important;
+        padding: 6px 0 !important;
+    }
+    
+    .print-header .main-title {
+        font-size: 14pt !important;
+        margin: 6px 0 !important;
+        padding: 4px !important;
+    }
+    
+    /* Ajustes para títulos de sección */
+    .print-section-title {
+        font-size: 9pt !important;
+        margin-bottom: 4px !important;
+        padding-bottom: 1px !important;
+    }
+    
+    /* Ajustes para campos de tres columnas */
+    .form-row.three-columns {
+        margin-bottom: 8px !important;
+    }
+    
+    .form-row.three-columns .form-group {
+        margin-right: 8px !important;
+    }
+    
+    /* Ajustes para filas de formulario */
+    .form-row {
+        margin-bottom: 6px !important;
+    }
+    
+    .form-column {
+        margin-right: 12px !important;
+    }
+    
+    /* Ajustes para grupos de formulario */
+    .form-group {
+        margin-bottom: 4px !important;
+    }
+    
+    .form-group label {
+        margin-bottom: 1px !important;
+        font-size: 8pt !important;
+        min-width: 90px !important;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        margin-bottom: 1px !important;
+        font-size: 8pt !important;
+        padding: 0 2px !important;
+        margin-left: 6px !important;
+    }
+    
+    /* Ajustes para secciones */
+    .form-section {
+        padding: 6px 0 !important;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Ajustes específicos para el campo de fecha de matrícula */
+    .form-group input[name="fecha"] {
+        min-width: 90px !important;
+        text-align: center !important;
+        font-weight: bold !important;
+    }
+    
+    /* Ajustes para campos de cédula */
+    .form-group input[id*="cedula"] {
+        min-width: 110px !important;
+        font-family: 'Courier New', monospace !important;
+    }
+    
+    /* Ajustes para campos de teléfono */
+    .form-group input[id*="telefono"] {
+        min-width: 90px !important;
+        font-family: 'Courier New', monospace !important;
+    }
+    
+    /* Ajustes para campos de fecha de nacimiento */
+    .form-group input[name="fechaNacimiento"] {
+        min-width: 100px !important;
+        font-family: 'Courier New', monospace !important;
+    }
+    
+    /* Ajustes para campos de nacionalidad */
+    .form-group input[name="nacionalidad"] {
+        min-width: 100px !important;
+    }
+    
+    /* Ajustes para campos de nivel y sección */
+    .form-group select[id="nivel"],
+    .form-group input[id="seccion"] {
+        min-width: 80px !important;
+    }
+    
+    /* Ajustes para campos de adecuación, repitente y enfermedad */
+    .form-group select[id="adecuacion"],
+    .form-group select[id="repitente"],
+    .form-group select[id="enfermedad"] {
+        min-width: 50px !important;
+    }
+    
+    /* Ajustes para campos de vive con estudiante */
+    .form-group select[id*="viveConEstudiante"] {
+        min-width: 50px !important;
+    }
+    
+    /* Ajustes para campos de parentesco */
+    .form-group input[id*="parentesco"] {
+        min-width: 80px !important;
+    }
+    
+    /* Ajustes para campos de ruta de transporte */
+    .form-group input[name="rutaTransporte"] {
+        min-width: 120px !important;
+    }
+    
+    /* Ajustes para campos de detalle de enfermedad */
+    .form-group textarea[name="detalleEnfermedad"] {
+        min-width: 120px !important;
+        min-height: 15px !important;
+    }
+    
+    /* Ajustes para campos de nombre */
+    .form-group input[id*="nombre"] {
+        min-width: 160px !important;
+    }
+    
+    /* Ajustes para campos de apellido */
+    .form-group input[id*="apellido"] {
+        min-width: 140px !important;
+    }
+}

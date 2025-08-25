@@ -49,12 +49,31 @@
 
         <!-- Form -->
         <form id="matriculaForm" class="matricula-form">
+            <!-- Print Header (solo visible al imprimir) -->
+            <div class="print-header">
+                <div class="mep-logos">
+                    <div class="left-logos">
+                        <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
+                        <p>GOBIERNO DE COSTA RICA</p>
+                    </div>
+                    <div class="right-logos">
+                        <h4>Dirección Regional de Educación de Coto</h4>
+                        <p>Supervisión de Centros Educativos, Circuito 06</p>
+                        <h4>Colegio Técnico Profesional Agropecuario de Sabalito</h4>
+                    </div>
+                </div>
+                <div class="main-title">BOLETA MATRÍCULA 2026</div>
+            </div>
+
             <!-- General Enrollment Information -->
             <div class="form-section">
                 <div class="section-header">
                     <h2>📋 Información General de Matrícula</h2>
                     <div class="section-line"></div>
                 </div>
+                
+                <!-- Título de sección para impresión -->
+                <div class="print-section-title">INFORMACIÓN GENERAL DE MATRÍCULA</div>
                 
                 <!-- Botón de consulta por cédula -->
                 <div class="consulta-section">
@@ -113,6 +132,10 @@
                     <h2>👤 Datos del Estudiante</h2>
                     <div class="section-line"></div>
                 </div>
+                
+                <!-- Título de sección para impresión -->
+                <div class="print-section-title">DATOS DEL ESTUDIANTE</div>
+                
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -187,6 +210,10 @@
                     <h2>👩 Datos de la Madre o Encargada</h2>
                     <div class="section-line"></div>
                 </div>
+                
+                <!-- Título de sección para impresión -->
+                <div class="print-section-title">DATOS DE LA MADRE O ENCARGADA</div>
+                
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -229,6 +256,10 @@
                     <h2>👨 Datos del Padre o Encargado</h2>
                     <div class="section-line"></div>
                 </div>
+                
+                <!-- Título de sección para impresión -->
+                <div class="print-section-title">DATOS DEL PADRE O ENCARGADO</div>
+                
                 <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
@@ -271,6 +302,10 @@
                     <h2>✍️ Declaración y Firmas</h2>
                     <div class="section-line"></div>
                 </div>
+                
+                <!-- Título de sección para impresión -->
+                <div class="print-section-title">DECLARACIÓN Y FIRMAS</div>
+                
                 <div class="declaration">
                     <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
                 </div>
@@ -298,6 +333,13 @@
                 </div>
             </div>
 
+            <!-- Print Footer (solo visible al imprimir) -->
+            <div class="print-footer">
+                <p><strong>Dirección:</strong> Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                <p><strong>Teléfono:</strong> (506) 2784-0616 / <strong>WhatsApp:</strong> 89914536</p>
+                <p><strong>Email:</strong> Clp.desabalito@mep.go.cr</p>
+            </div>
+
             <!-- Submit Button -->
             <div class="form-actions">
                 <button type="submit" class="btn-submit">
@@ -307,6 +349,10 @@
                 <button type="button" class="btn-reset" onclick="resetForm()">
                     <span class="btn-icon">🧹</span>
                     <span class="btn-text">Limpiar Formulario</span>
+                </button>
+                <button type="button" class="btn-print" onclick="printForm()">
+                    <span class="btn-icon">🖨️</span>
+                    <span class="btn-text">Imprimir Boleta</span>
                 </button>
                 <button type="button" class="btn-test" onclick="testFormSubmission()">
                     <span class="btn-icon">🧪</span>
