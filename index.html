@@ -336,8 +336,7 @@
             <!-- Print Footer (solo visible al imprimir) -->
             <div class="print-footer">
                 <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                <p>Teléfono (506) 2784-0616/WhatsApp 89914536</p>
-                <p>Email: Clp.desabalito@mep.go.cr</p>
+                <p>Teléfono (506) 2784-0616/WhatsApp 89914536. Email: Clp.desabalito@mep.go.cr</p>
             </div>
 
             <!-- Submit Button -->
@@ -385,6 +384,67 @@
             <p>Sistema de Matrícula Estudiantil 2026</p>
         </footer>
     </div>
+
+    <!-- CSS NUCLEAR para forzar footer visible al imprimir -->
+    <style>
+        /* Footer oculto en pantalla */
+        .print-footer {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
+            top: -9999px !important;
+        }
+        
+        /* REGLAS NUCLEARES para mostrar footer al imprimir */
+        @media print {
+            .print-footer {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                position: fixed !important;
+                bottom: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                top: auto !important;
+                z-index: 9999 !important;
+                background: white !important;
+                border-top: 1px solid #666 !important;
+                padding: 15px !important;
+                text-align: left !important;
+                color: #000 !important;
+                font-size: 10pt !important;
+                margin: 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .print-footer p {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                margin: 5px 0 !important;
+                line-height: 1.3 !important;
+                text-align: left !important;
+                font-weight: bold !important;
+                color: #000 !important;
+                font-size: 10pt !important;
+                background: white !important;
+            }
+            
+            /* OCULTAR footer automático del navegador */
+            @page {
+                margin-bottom: 0 !important;
+            }
+            
+            /* Ocultar URLs y títulos automáticos del navegador */
+            body::after {
+                display: none !important;
+                content: none !important;
+            }
+        }
+    </style>
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>

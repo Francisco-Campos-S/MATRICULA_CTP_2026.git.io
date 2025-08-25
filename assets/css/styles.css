@@ -1161,6 +1161,50 @@ body::before {
         border-right: none !important;
     }
     
+    /* REGLA NUCLEAR para Observaciones Adicionales */
+    textarea[name="observacionesAdicionales"],
+    textarea#observacionesAdicionales,
+    .form-group textarea[name="observacionesAdicionales"],
+    .form-group textarea#observacionesAdicionales {
+        all: unset !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-width: 0 0 1px 0 !important;
+        border-style: none none solid none !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 20px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* REGLA NUCLEAR para TODOS los textarea sin excepción */
+    textarea,
+    textarea *,
+    textarea::before,
+    textarea::after {
+        all: unset !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-width: 0 0 1px 0 !important;
+        border-style: none none solid none !important;
+    }
+    
     /* CORREGIR TEXTO CORTADO al imprimir */
     .declaration p,
     .print-header p,
@@ -1747,23 +1791,45 @@ textarea:valid {
     text-align: center;
 }
 
-/* Footer de impresión */
+/* Footer de impresión - OCULTO en web */
 .print-footer {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #000;
-    text-align: center;
+    border-top: 1px solid #666; /* Línea superior delgada y gris oscuro */
+    text-align: center; /* Alineado al centro */
     font-size: 10pt;
-    color: black;
-    background: #f8f9fa;
+    color: #000; /* Texto negro */
+    background: white; /* Fondo blanco */
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 0; /* Sin bordes redondeados */
 }
 
 .print-footer p {
     margin: 5px 0;
     line-height: 1.3;
+    font-weight: bold; /* En negrita */
+}
+
+/* Primera línea - Dirección (texto más grande) */
+.print-footer p:first-child {
+    font-size: 11pt; /* Texto ligeramente más grande */
+    margin-bottom: 8px;
+    color: #000; /* Texto negro */
+    font-weight: bold; /* En negrita */
+}
+
+/* Segunda línea - Contacto (texto más pequeño) */
+.print-footer p:last-child {
+    font-size: 9pt; /* Texto más pequeño */
+    margin-top: 8px;
+    color: #000; /* Texto negro */
+    font-weight: bold; /* En negrita */
 }
 
 /* ===== ESTILOS DE IMPRESIÓN PARA BOLETA DE MATRÍCULA ===== */
@@ -1777,12 +1843,46 @@ textarea:valid {
         box-sizing: border-box !important;
     }
     
+    /* MOSTRAR FOOTER al imprimir - REGLAS ULTRA AGRESIVAS */
+    .print-footer {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 9999 !important;
+        margin: 0 !important;
+        padding: 15px !important;
+        background: white !important;
+        border-top: 1px solid #666 !important;
+        text-align: center !important;
+        color: #000 !important;
+        /* SOBRESCRIBIR reglas de ocultamiento */
+        position: fixed !important;
+        left: 0 !important;
+        top: auto !important;
+    }
+    
+    .print-footer p {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin: 5px 0 !important;
+        line-height: 1.3 !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        font-size: 9pt !important;
+    }
+    
     body {
         background: white !important;
         color: black !important;
         font-family: 'Times New Roman', serif !important;
-        font-size: 11pt !important;
-        line-height: 1.2 !important;
+        font-size: 14pt !important; /* Letra más grande */
+        line-height: 1.1 !important; /* Menos espacio entre líneas para ahorrar espacio */
         margin: 0 !important;
         padding: 0 !important;
     }
@@ -1855,7 +1955,7 @@ textarea:valid {
         border: none !important;
         box-shadow: none !important;
         border-radius: 0 !important;
-        font-size: 11pt !important;
+        font-size: 13pt !important; /* Letra más grande */
     }
     
     /* Encabezado de la boleta - ULTRA COMPACTO */
@@ -1906,7 +2006,7 @@ textarea:valid {
     }
     
     .print-header .main-title {
-        font-size: 14pt !important;
+        font-size: 16pt !important; /* Título más grande */
         font-weight: bold !important;
         text-align: center !important;
         margin: 8px 0 !important;
@@ -1931,7 +2031,7 @@ textarea:valid {
     /* Títulos de sección para impresión - ULTRA COMPACTO */
     .print-section-title {
         display: block !important;
-        font-size: 11pt !important;
+        font-size: 13pt !important; /* Letra más grande */
         font-weight: bold !important;
         color: black !important;
         margin-bottom: 6px !important;
@@ -1988,7 +2088,7 @@ textarea:valid {
     .form-group label {
         display: inline-block !important;
         font-weight: bold !important;
-        font-size: 10pt !important;
+        font-size: 12pt !important; /* Letra más grande */
         color: black !important;
         margin-bottom: 1px !important;
         min-width: 90px !important;
@@ -2006,7 +2106,7 @@ textarea:valid {
         border-radius: 0 !important;
         background: transparent !important;
         color: black !important;
-        font-size: 10pt !important;
+        font-size: 12pt !important; /* Letra más grande */
         font-family: 'Times New Roman', serif !important;
         box-shadow: none !important;
         margin-left: 6px !important;
@@ -2159,9 +2259,9 @@ textarea:valid {
         margin-top: 10px !important;
         padding-top: 6px !important;
         border-top: 1px solid #666 !important;
-        text-align: left !important;
+        text-align: center !important;
         font-size: 9pt !important;
-        color: #333 !important;
+        color: #000 !important;
         background: white !important;
         padding: 0 !important;
         border-radius: 0 !important;
@@ -2171,14 +2271,26 @@ textarea:valid {
     .print-footer p {
         margin: 3px 0 !important;
         line-height: 1.3 !important;
-        text-align: left !important;
-        font-weight: normal !important;
+        text-align: center !important;
+        font-weight: bold !important;
     }
     
     /* Asegurar que todo quepa en una página */
     @page {
         size: A4;
         margin: 1cm;
+        margin-bottom: 0 !important;
+    }
+    
+    /* Ocultar footers automáticos del navegador */
+    @page {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Ocultar URLs y títulos automáticos */
+    body::after {
+        display: none !important;
+        content: none !important;
     }
     
     /* Evitar saltos de página no deseados */
@@ -2215,16 +2327,18 @@ textarea:valid {
     }
     
     .print-header .main-title {
-        font-size: 12pt !important;
+        font-size: 14pt !important; /* Título principal más grande */
         margin: 6px 0 !important;
         padding: 0 !important;
+        font-weight: bold !important; /* Título en negrita */
     }
     
     /* Ajustes para títulos de sección */
     .print-section-title {
-        font-size: 9pt !important;
+        font-size: 11pt !important; /* Letra más grande para títulos */
         margin-bottom: 4px !important;
         padding-bottom: 0 !important;
+        font-weight: bold !important; /* Títulos en negrita para mejor jerarquía */
     }
     
     /* Ajustes para la declaración */
@@ -2241,7 +2355,29 @@ textarea:valid {
     .print-footer {
         margin-top: 8px !important;
         padding-top: 4px !important;
-        font-size: 6pt !important;
+        border-top: 1px solid #666 !important; /* Línea superior gris oscuro */
+        text-align: center !important; /* Alineado al centro */
+        background: white !important; /* Fondo blanco */
+        padding: 15px !important;
+        border-radius: 0 !important; /* Sin bordes redondeados */
+    }
+    
+    /* Primera línea - Dirección (texto más grande) */
+    .print-footer p:first-child {
+        font-size: 11pt !important; /* Texto ligeramente más grande */
+        margin-bottom: 8px !important;
+        color: #666 !important; /* Texto gris oscuro */
+        font-weight: normal !important; /* Sin negritas */
+        line-height: 1.3 !important;
+    }
+    
+    /* Segunda línea - Contacto (texto más pequeño) */
+    .print-footer p:last-child {
+        font-size: 9pt !important; /* Texto más pequeño */
+        margin-top: 8px !important;
+        color: #666 !important; /* Texto gris oscuro */
+        font-weight: normal !important; /* Sin negritas */
+        line-height: 1.3 !important;
     }
     
     /* Ajustes para campos de tres columnas */
@@ -2265,7 +2401,7 @@ textarea:valid {
     
     .form-group label {
         margin-bottom: 0 !important;
-        font-size: 8pt !important;
+        font-size: 10pt !important; /* Letra más grande para etiquetas */
         min-width: 80px !important;
     }
     
@@ -2273,15 +2409,15 @@ textarea:valid {
     .form-group select,
     .form-group textarea {
         margin-bottom: 1px !important;
-        font-size: 8pt !important;
+        font-size: 10pt !important; /* Letra más grande para campos */
         padding: 0 2px !important;
         margin-left: 4px !important;
     }
     
     /* Ajustes para secciones */
     .form-section {
-        padding: 4px 0 !important;
-        margin-bottom: 6px !important;
+        padding: 3px 0 !important; /* Menos padding para ahorrar espacio */
+        margin-bottom: 4px !important; /* Menos margen entre secciones */
     }
     
     /* Ocultar elementos de interfaz web */
@@ -2299,6 +2435,65 @@ textarea:valid {
         background: white !important;
         box-shadow: none !important;
         outline: none !important;
+    }
+    
+    /* OPTIMIZACIÓN PARA UNA SOLA PÁGINA */
+    body {
+        max-height: 100vh !important; /* Máximo altura de una página */
+        overflow: hidden !important; /* Evitar scroll */
+    }
+    
+    .matricula-form {
+        max-height: 100vh !important; /* Máximo altura de una página */
+        page-break-inside: avoid !important; /* Evitar cortes de página */
+    }
+    
+    /* Ajustes de espaciado para optimizar espacio */
+    .form-group {
+        margin-bottom: 2px !important; /* Menos espacio entre grupos */
+    }
+    
+    .form-row {
+        margin-bottom: 3px !important; /* Menos espacio entre filas */
+    }
+    
+    .form-column {
+        margin-right: 6px !important; /* Menos espacio entre columnas */
+    }
+    
+    /* Campos de tres columnas más compactos */
+    .form-row.three-columns {
+        margin-bottom: 4px !important;
+    }
+    
+    .form-row.three-columns .form-group {
+        margin-right: 6px !important;
+    }
+    
+    /* REGLA NUCLEAR para TODOS los campos de entrada al imprimir */
+    input, select, textarea, button {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        border-top-color: #000 !important;
+        border-left-color: #000 !important;
+        border-right-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* REGLA ESPECÍFICA para campos con estilos inline */
+    input[style*="green"], input[style*="28a745"], input[style*="40, 167, 69"],
+    select[style*="green"], select[style*="28a745"], select[style*="40, 167, 69"],
+    textarea[style*="green"], textarea[style*="28a745"], textarea[style*="40, 167, 69"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        border-top-color: #000 !important;
+        border-left-color: #000 !important;
+        border-right-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
     }
     
     /* Forzar campos específicos a negro */
@@ -2360,6 +2555,50 @@ textarea:valid {
         background: transparent !important;
         box-shadow: none !important;
         outline: none !important;
+    }
+    
+    /* REGLA NUCLEAR para Observaciones Adicionales */
+    textarea[name="observacionesAdicionales"],
+    textarea#observacionesAdicionales,
+    .form-group textarea[name="observacionesAdicionales"],
+    .form-group textarea#observacionesAdicionales {
+        all: unset !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-width: 0 0 1px 0 !important;
+        border-style: none none solid none !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 20px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    
+    /* REGLA NUCLEAR para TODOS los textarea sin excepción */
+    textarea,
+    textarea *,
+    textarea::before,
+    textarea::after {
+        all: unset !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-width: 0 0 1px 0 !important;
+        border-style: none none solid none !important;
     }
     
     /* QUITAR ESPECÍFICAMENTE LAS LÍNEAS VERDES DE FIRMA */
