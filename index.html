@@ -399,7 +399,9 @@
         
         /* REGLAS NUCLEARES para mostrar footer al imprimir */
         @media print {
+            /* RESET NUCLEAR para footer */
             .print-footer {
+                all: unset !important;
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
@@ -414,13 +416,15 @@
                 padding: 15px !important;
                 text-align: left !important;
                 color: #000 !important;
-                font-size: 10pt !important;
+                font-size: 11pt !important;
                 margin: 0 !important;
                 width: 100% !important;
                 box-sizing: border-box !important;
+                font-family: 'Times New Roman', serif !important;
             }
             
             .print-footer p {
+                all: unset !important;
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
@@ -429,8 +433,9 @@
                 text-align: left !important;
                 font-weight: bold !important;
                 color: #000 !important;
-                font-size: 10pt !important;
+                font-size: 11pt !important;
                 background: white !important;
+                font-family: 'Times New Roman', serif !important;
             }
             
             /* OCULTAR footer automático del navegador */

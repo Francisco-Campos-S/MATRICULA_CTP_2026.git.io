@@ -1881,7 +1881,7 @@ textarea:valid {
         background: white !important;
         color: black !important;
         font-family: 'Times New Roman', serif !important;
-        font-size: 14pt !important; /* Letra más grande */
+        font-size: 16pt !important; /* Letra más grande */
         line-height: 1.1 !important; /* Menos espacio entre líneas para ahorrar espacio */
         margin: 0 !important;
         padding: 0 !important;
@@ -1955,7 +1955,7 @@ textarea:valid {
         border: none !important;
         box-shadow: none !important;
         border-radius: 0 !important;
-        font-size: 13pt !important; /* Letra más grande */
+        font-size: 15pt !important; /* Letra más grande */
     }
     
     /* Encabezado de la boleta - ULTRA COMPACTO */
@@ -2006,10 +2006,10 @@ textarea:valid {
     }
     
     .print-header .main-title {
-        font-size: 16pt !important; /* Título más grande */
+        font-size: 18pt !important; /* Título más grande */
         font-weight: bold !important;
         text-align: center !important;
-        margin: 8px 0 !important;
+        margin: 10px 0 !important;
         color: black !important;
         text-transform: uppercase !important;
         letter-spacing: 0.5px !important;
@@ -2023,18 +2023,18 @@ textarea:valid {
         background: white !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 5px 0 !important;
-        margin-bottom: 8px !important;
+        padding: 8px 0 !important;
+        margin-bottom: 12px !important;
         page-break-inside: avoid !important;
     }
     
     /* Títulos de sección para impresión - ULTRA COMPACTO */
     .print-section-title {
         display: block !important;
-        font-size: 13pt !important; /* Letra más grande */
+        font-size: 15pt !important; /* Letra más grande */
         font-weight: bold !important;
         color: black !important;
-        margin-bottom: 6px !important;
+        margin-bottom: 8px !important;
         padding-bottom: 0 !important;
         border: none !important;
         text-transform: uppercase !important;
@@ -2081,16 +2081,16 @@ textarea:valid {
     
     /* Campos del formulario - ULTRA COMPACTO */
     .form-group {
-        margin-bottom: 4px !important;
+        margin-bottom: 6px !important;
         page-break-inside: avoid !important;
     }
     
     .form-group label {
         display: inline-block !important;
         font-weight: bold !important;
-        font-size: 12pt !important; /* Letra más grande */
+        font-size: 14pt !important; /* Letra más grande */
         color: black !important;
-        margin-bottom: 1px !important;
+        margin-bottom: 2px !important;
         min-width: 90px !important;
     }
     
@@ -2106,7 +2106,7 @@ textarea:valid {
         border-radius: 0 !important;
         background: transparent !important;
         color: black !important;
-        font-size: 12pt !important; /* Letra más grande */
+        font-size: 14pt !important; /* Letra más grande */
         font-family: 'Times New Roman', serif !important;
         box-shadow: none !important;
         margin-left: 6px !important;
