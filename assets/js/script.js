@@ -17,57 +17,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
     
     if (enfermedadSelect && detalleEnfermedadGroup) {
-        enfermedadSelect.addEventListener('change', function() {
-            if (this.value === 'Sí') {
-                detalleEnfermedadGroup.style.display = 'block';
-            } else {
-                detalleEnfermedadGroup.style.display = 'none';
+    enfermedadSelect.addEventListener('change', function() {
+        if (this.value === 'Sí') {
+            detalleEnfermedadGroup.style.display = 'block';
+        } else {
+            detalleEnfermedadGroup.style.display = 'none';
                 const detalleEnfermedad = document.getElementById('detalleEnfermedad');
                 if (detalleEnfermedad) detalleEnfermedad.value = '';
-            }
-        });
+        }
+    });
     }
     
     // Form submission - allows incomplete fields
     if (form) {
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
             
             console.log('🚀 Iniciando envío del formulario...');
-            
-            // Show loading spinner
+        
+        // Show loading spinner
             if (loadingSpinner) loadingSpinner.style.display = 'block';
             if (form) form.style.display = 'none';
-            
-            try {
+        
+        try {
                 console.log('📝 Recolectando datos del formulario...');
-                const formData = collectFormData();
+            const formData = collectFormData();
                 console.log('📊 Datos recolectados:', formData);
                 
                 console.log('📤 Enviando a Google Sheets...');
                 const result = await submitToGoogleSheets(formData);
                 console.log('✅ Resultado del envío:', result);
-                
-                // Show success message
+            
+            // Show success message
                 if (successMessage) successMessage.style.display = 'block';
                 if (loadingSpinner) loadingSpinner.style.display = 'none';
-                
-                // Reset form after 3 seconds
-                setTimeout(() => {
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
                     if (successMessage) successMessage.style.display = 'none';
                     if (form) form.style.display = 'block';
-                    resetForm();
-                }, 3000);
-                
-            } catch (error) {
+                resetForm();
+            }, 3000);
+            
+        } catch (error) {
                 console.error('❌ Error submitting form:', error);
                 alert('Error al enviar el formulario: ' + error.message + '\nPor favor, inténtelo de nuevo.');
-                
-                // Hide loading spinner and show form again
+            
+            // Hide loading spinner and show form again
                 if (loadingSpinner) loadingSpinner.style.display = 'none';
                 if (form) form.style.display = 'block';
-            }
-        });
+        }
+    });
     }
     
     // Auto-fill current date
@@ -162,14 +162,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 2025 && year <= 2027) {
                         // Solo aplicar color verde si NO estamos imprimiendo
                         if (!document.body.classList.contains('printing')) {
-                            this.style.borderColor = '#28a745'; // Verde si es válida
+                        this.style.borderColor = '#28a745'; // Verde si es válida
                         }
                     } else {
                         // Solo aplicar color rojo si NO estamos imprimiendo
                         if (!document.body.classList.contains('printing')) {
-                            this.style.borderColor = '#dc3545'; // Rojo si es inválida
-                            alert('Por favor ingrese una fecha válida en formato DD/MM/AAAA');
-                            this.focus();
+                        this.style.borderColor = '#dc3545'; // Rojo si es inválida
+                        alert('Por favor ingrese una fecha válida en formato DD/MM/AAAA');
+                        this.focus();
                         }
                     }
                 }
@@ -189,11 +189,11 @@ function addOptionalValidation() {
         field.addEventListener('blur', function() {
             // Solo aplicar colores si NO estamos imprimiendo
             if (!document.body.classList.contains('printing')) {
-                // Optional validation feedback
-                if (this.value.trim()) {
-                    this.style.borderColor = '#28a745'; // Green for filled fields
-                } else {
-                    this.style.borderColor = '#e1e8ed'; // Default for empty fields
+            // Optional validation feedback
+            if (this.value.trim()) {
+                this.style.borderColor = '#28a745'; // Green for filled fields
+        } else {
+                this.style.borderColor = '#e1e8ed'; // Default for empty fields
                 }
             }
         });
@@ -201,8 +201,8 @@ function addOptionalValidation() {
         field.addEventListener('input', function() {
             // Solo aplicar colores si NO estamos imprimiendo
             if (!document.body.classList.contains('printing')) {
-                // Clear validation styling when user starts typing
-                this.style.borderColor = '#e1e8ed';
+            // Clear validation styling when user starts typing
+            this.style.borderColor = '#e1e8ed';
             }
         });
     });
@@ -848,8 +848,8 @@ function rellenarFormularioConEstudiante(estudiante) {
     });
     
     // Handle date fields separately - SIEMPRE establecer la fecha actual al consultar
-    const fechaInput = document.getElementById('fecha');
-    if (fechaInput) {
+        const fechaInput = document.getElementById('fecha');
+        if (fechaInput) {
         // Establecer la fecha actual (fecha de la consulta) sin importar si ya tenía fecha
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
