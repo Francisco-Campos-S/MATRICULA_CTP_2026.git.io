@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Funcionalidad - Formulario de Matrícula</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .test-form {
+            display: grid;
+            gap: 15px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .test-results {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 4px solid #007bff;
+            margin-top: 20px;
+        }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .info { color: #17a2b8; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de Funcionalidad - Formulario de Matrícula</h1>
+    
+    <div class="test-container">
+        <h2>📝 Formulario de Prueba</h2>
+        <form id="testForm" class="test-form">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ingrese su nombre">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Ingrese su email">
+            </div>
+            
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Ingrese su teléfono">
+            </div>
+            
+            <div class="form-group">
+                <label for="nivel">Nivel:</label>
+                <select id="nivel" name="nivel">
+                    <option value="">Seleccione un nivel</option>
+                    <option value="Sétimo">Sétimo</option>
+                    <option value="Octavo">Octavo</option>
+                    <option value="Noveno">Noveno</option>
+                    <option value="Décimo">Décimo</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="observaciones">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones" rows="3" placeholder="Observaciones adicionales"></textarea>
+            </div>
+            
+            <div>
+                <button type="submit">🚀 Enviar Formulario</button>
+                <button type="button" onclick="testAutoSave()">💾 Probar Auto-Guardado</button>
+                <button type="button" onclick="testLoadData()">📂 Cargar Datos Guardados</button>
+                <button type="button" onclick="clearTestData()">🗑️ Limpiar Datos</button>
+            </div>
+        </form>
+    </div>
+    
+    <div class="test-container">
+        <h2>🔍 Resultados de las Pruebas</h2>
+        <div id="testResults" class="test-results">
+            <p>Presiona los botones para probar las funcionalidades...</p>
+        </div>
+    </div>
+    
+    <div class="test-container">
+        <h2>📊 Estado del localStorage</h2>
+        <div id="localStorageStatus" class="test-results">
+            <p>Estado actual del localStorage:</p>
+            <pre id="localStorageData"></pre>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/google-sheets-config.js"></script>
+    <script>
+        // Función para mostrar resultados de las pruebas
+        function showResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('testResults');
+            const resultElement = document.createElement('div');
+            resultElement.className = type;
+            resultElement.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            resultsDiv.appendChild(resultElement);
+            resultsDiv.scrollTop = resultsDiv.scrollHeight;
+        }
+        
+        // Función para actualizar el estado del localStorage
+        function updateLocalStorageStatus() {
+            const statusDiv = document.getElementById('localStorageData');
+            const data = localStorage.getItem('testFormData');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    statusDiv.textContent = JSON.stringify(parsed, null, 2);
+                } catch (e) {
+                    statusDiv.textContent = 'Error al parsear datos: ' + e.message;
+                }
+            } else {
+                statusDiv.textContent = 'No hay datos guardados';
+            }
+        }
+        
+        // Función para probar el auto-guardado
+        function testAutoSave() {
+            showResult('🧪 Probando auto-guardado...', 'info');
+            
+            // Simular cambios en los campos
+            const nombreInput = document.getElementById('nombre');
+            const emailInput = document.getElementById('email');
+            
+            nombreInput.value = 'Juan Pérez';
+            emailInput.value = 'juan@test.com';
+            
+            // Disparar eventos para activar el auto-guardado
+            nombreInput.dispatchEvent(new Event('input'));
+            emailInput.dispatchEvent(new Event('change'));
+            
+            setTimeout(() => {
+                updateLocalStorageStatus();
+                showResult('✅ Auto-guardado probado. Revisa el localStorage arriba.', 'success');
+            }, 500);
+        }
+        
+        // Función para probar la carga de datos
+        function testLoadData() {
+            showResult('🧪 Probando carga de datos...', 'info');
+            
+            const data = localStorage.getItem('testFormData');
+            if (data) {
+                try {
+                    const parsed = JSON.parse(data);
+                    showResult(`✅ Datos cargados: ${Object.keys(parsed).length} campos`, 'success');
+                    showResult(`📋 Contenido: ${JSON.stringify(parsed)}`, 'info');
+                } catch (e) {
+                    showResult(`❌ Error al cargar datos: ${e.message}`, 'error');
+                }
+            } else {
+                showResult('❌ No hay datos guardados para cargar', 'error');
+            }
+        }
+        
+        // Función para limpiar datos de prueba
+        function clearTestData() {
+            localStorage.removeItem('testFormData');
+            updateLocalStorageStatus();
+            showResult('🗑️ Datos de prueba eliminados', 'success');
+            
+            // Limpiar formulario
+            document.getElementById('testForm').reset();
+        }
+        
+        // Configurar auto-guardado para el formulario de prueba
+        function setupTestAutoSave() {
+            const form = document.getElementById('testForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', saveTestFormData);
+                input.addEventListener('change', saveTestFormData);
+            });
+            
+            showResult('🔄 Auto-guardado configurado para formulario de prueba', 'success');
+        }
+        
+        // Función para guardar datos del formulario de prueba
+        function saveTestFormData() {
+            const form = document.getElementById('testForm');
+            const formData = new FormData(form);
+            const dataToSave = {};
+            
+            for (let [key, value] of formData.entries()) {
+                dataToSave[key] = value;
+            }
+            
+            localStorage.setItem('testFormData', JSON.stringify(dataToSave));
+            showResult('💾 Datos guardados automáticamente', 'success');
+            updateLocalStorageStatus();
+        }
+        
+        // Función para cargar datos guardados en el formulario de prueba
+        function loadTestFormData() {
+            const data = localStorage.getItem('testFormData');
+            if (!data) return;
+            
+            try {
+                const parsed = JSON.parse(data);
+                const form = document.getElementById('testForm');
+                
+                Object.keys(parsed).forEach(fieldName => {
+                    const element = document.getElementById(fieldName);
+                    if (element && parsed[fieldName]) {
+                        element.value = parsed[fieldName];
+                    }
+                });
+                
+                showResult('📂 Datos del formulario de prueba restaurados', 'success');
+            } catch (error) {
+                showResult(`❌ Error al cargar datos: ${error.message}`, 'error');
+            }
+        }
+        
+        // Configurar envío del formulario de prueba
+        function setupTestFormSubmission() {
+            const form = document.getElementById('testForm');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                showResult('🚀 Enviando formulario de prueba...', 'info');
+                
+                try {
+                    const formData = new FormData(form);
+                    const data = {};
+                    
+                    for (let [key, value] of formData.entries()) {
+                        data[key] = value;
+                    }
+                    
+                    showResult(`📤 Datos a enviar: ${JSON.stringify(data)}`, 'info');
+                    
+                    // Simular envío exitoso
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    showResult('✅ Formulario enviado exitosamente (simulado)', 'success');
+                    
+                    // Limpiar formulario después del envío
+                    setTimeout(() => {
+                        form.reset();
+                        showResult('🧹 Formulario limpiado después del envío', 'info');
+                    }, 2000);
+                    
+                } catch (error) {
+                    showResult(`❌ Error al enviar: ${error.message}`, 'error');
+                }
+            });
+            
+            showResult('📝 Envío del formulario de prueba configurado', 'success');
+        }
+        
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', function() {
+            showResult('🚀 Página de pruebas cargada', 'success');
+            
+            // Configurar funcionalidades
+            setupTestAutoSave();
+            setupTestFormSubmission();
+            
+            // Cargar datos guardados si existen
+            loadTestFormData();
+            
+            // Actualizar estado del localStorage
+            updateLocalStorageStatus();
+            
+            showResult('✅ Todas las funcionalidades de prueba configuradas', 'success');
+        });
+        
+        // Actualizar estado del localStorage cada 2 segundos
+        setInterval(updateLocalStorageStatus, 2000);
+    </script>
+</body>
+</html>
