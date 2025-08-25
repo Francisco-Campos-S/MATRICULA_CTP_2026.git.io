@@ -346,29 +346,51 @@ async function submitToGoogleForms(formData) {
     return true;
 }
 
-// Reset form
+// Función para imprimir el formulario como boleta de matrícula
+function printForm() {
+    // Ocultar elementos que no queremos en la impresión
+    const elementsToHide = document.querySelectorAll('.header, .form-actions, .consulta-section, .app-footer');
+    elementsToHide.forEach(el => el.style.display = 'none');
+    
+    // Mostrar elementos de impresión
+    const printElements = document.querySelectorAll('.print-header, .print-section-title, .print-footer');
+    printElements.forEach(el => el.style.display = 'block');
+    
+    // Aplicar estilos de impresión temporalmente
+    document.body.classList.add('printing');
+    
+    // Imprimir
+    window.print();
+    
+    // Restaurar la vista después de la impresión
+    setTimeout(() => {
+        elementsToHide.forEach(el => el.style.display = '');
+        printElements.forEach(el => el.style.display = 'none');
+        document.body.classList.remove('printing');
+    }, 1000);
+}
+
+// Función para resetear el formulario
 function resetForm() {
     document.getElementById('matriculaForm').reset();
     
-    // Reset custom styling
-    const inputs = document.querySelectorAll('input, select, textarea');
-    inputs.forEach(input => {
-        input.style.borderColor = '#e1e8ed';
-    });
+    // Ocultar el campo de detalle de enfermedad
+    const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
+    if (detalleEnfermedadGroup) {
+        detalleEnfermedadGroup.style.display = 'none';
+    }
     
-    // Hide illness detail field
-    document.getElementById('detalleEnfermedadGroup').style.display = 'none';
-    
-    // Reset date to current date
+    // Restablecer la fecha actual
     const today = new Date();
     const fechaInput = document.getElementById('fecha');
     if (fechaInput) {
-        // Formatear la fecha como DD/MM/AAAA para edición manual
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const year = today.getFullYear();
         fechaInput.value = `${day}/${month}/${year}`;
     }
+    
+    console.log('✅ Formulario reseteado');
 }
 
 // Export form data as CSV (for backup purposes)
@@ -390,11 +412,6 @@ function exportAsCSV(formData) {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-}
-
-// Print form
-function printForm() {
-    window.print();
 }
 
 // Test form submission function
