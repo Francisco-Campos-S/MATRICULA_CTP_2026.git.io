@@ -956,11 +956,6 @@ body::before {
         padding-top: 0;
         margin-top: 15px;
     }
-        text-align: center;
-        gap: 20px;
-    }
-    
-
     
     .matricula-form {
         padding: 20px;
@@ -1062,13 +1057,42 @@ body::before {
 [data-theme="dark"] .form-group input,
 [data-theme="dark"] .form-group select,
 [data-theme="dark"] .form-group textarea {
-    background: var(--bg-secondary);
-    color: var(--text-primary);
+    background: #2d3748;
+    color: #ffffff;
+    border-color: #4a5568;
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    background: #2d3748;
+    color: #ffffff;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 4px rgba(72, 209, 204, 0.2), 0 8px 25px var(--shadow-primary);
+}
+
+[data-theme="dark"] .form-group input:hover,
+[data-theme="dark"] .form-group select:hover,
+[data-theme="dark"] .form-group textarea:hover {
+    background: #2d3748;
+    color: #ffffff;
+    border-color: var(--accent-color-light);
 }
 
 [data-theme="dark"] .form-group input::placeholder,
 [data-theme="dark"] .form-group textarea::placeholder {
-    color: var(--text-muted);
+    color: #a0aec0;
+}
+
+/* Estilos para las opciones de los selects en modo oscuro */
+[data-theme="dark"] .form-group select option {
+    background: #2d3748;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .form-group select option:hover {
+    background: #4a5568;
+    color: #ffffff;
 }
 
 [data-theme="dark"] .success-message {
