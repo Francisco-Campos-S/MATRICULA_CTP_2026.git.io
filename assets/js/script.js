@@ -244,7 +244,7 @@ function collectFormData() {
         // Signatures and date
         firmaEncargada: document.getElementById('firmaEncargada').value || '',
         firmaEncargado: document.getElementById('firmaEncargado').value || '',
-        fecha: `${document.getElementById('dia').value || ''}/${document.getElementById('mes').value || ''}/${document.getElementById('anio').value || ''}`,
+        fecha: document.getElementById('fecha').value || '',
         observaciones: document.getElementById('observaciones').value || ''
     };
     
