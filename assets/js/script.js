@@ -438,26 +438,101 @@ function clearAllGreenColors() {
     const allInputs = document.querySelectorAll('input, select, textarea');
     
     allInputs.forEach(input => {
-        // Limpiar cualquier color verde o rojo
-        if (input.style.borderColor === '#28a745' || 
-            input.style.borderColor === '#dc3545' ||
-            input.style.borderColor === 'rgb(40, 167, 69)' ||
-            input.style.borderColor === 'rgb(220, 53, 69)') {
-            input.style.borderColor = '#000';
-            input.style.borderBottomColor = '#000';
-        }
+        // LIMPIEZA NUCLEAR para TODOS los campos - FORZAR NEGRO
+        input.style.borderColor = '#000';
+        input.style.borderBottomColor = '#000';
+        input.style.borderTopColor = '#000';
+        input.style.borderLeftColor = '#000';
+        input.style.borderRightColor = '#000';
+        
+        // Usar setProperty con !important para mayor prioridad
+        input.style.setProperty('border-color', '#000', 'important');
+        input.style.setProperty('border-bottom-color', '#000', 'important');
+        input.style.setProperty('border-top-color', '#000', 'important');
+        input.style.setProperty('border-left-color', '#000', 'important');
+        input.style.setProperty('border-right-color', '#000', 'important');
         
         // Limpiar cualquier estilo inline que pueda tener colores
         if (input.style.cssText.includes('28a745') || 
             input.style.cssText.includes('40, 167, 69') ||
             input.style.cssText.includes('dc3545') ||
-            input.style.cssText.includes('220, 53, 69')) {
-            input.style.borderColor = '#000';
-            input.style.borderBottomColor = '#000';
+            input.style.cssText.includes('220, 53, 69') ||
+            input.style.cssText.includes('green') ||
+            input.style.cssText.includes('rgb(40, 167, 69)')) {
+            
+            // Forzar todos los bordes a negro
+            input.style.setProperty('border-color', '#000', 'important');
+            input.style.setProperty('border-bottom-color', '#000', 'important');
+            input.style.setProperty('border-top-color', '#000', 'important');
+            input.style.setProperty('border-left-color', '#000', 'important');
+            input.style.setProperty('border-right-color', '#000', 'important');
         }
     });
     
-    console.log('🧹 Colores verdes limpiados antes de imprimir');
+    // LIMPIEZA NUCLEAR para textarea - QUITAR TODOS LOS RECUADROS
+    const allTextareas = document.querySelectorAll('textarea');
+    allTextareas.forEach(textarea => {
+        // Resetear TODOS los estilos de borde
+        textarea.style.border = 'none';
+        textarea.style.borderTop = 'none';
+        textarea.style.borderLeft = 'none';
+        textarea.style.borderRight = 'none';
+        textarea.style.borderBottom = '1px solid #000';
+        textarea.style.borderRadius = '0';
+        textarea.style.boxShadow = 'none';
+        textarea.style.outline = 'none';
+        textarea.style.backgroundColor = 'transparent';
+        
+        // Forzar estilos específicos
+        textarea.style.setProperty('border', 'none', 'important');
+        textarea.style.setProperty('border-top', 'none', 'important');
+        textarea.style.setProperty('border-left', 'none', 'important');
+        textarea.style.setProperty('border-right', 'none', 'important');
+        textarea.style.setProperty('border-bottom', '1px solid #000', 'important');
+        textarea.style.setProperty('border-radius', '0', 'important');
+        textarea.style.setProperty('box-shadow', 'none', 'important');
+        textarea.style.setProperty('outline', 'none', 'important');
+        textarea.style.setProperty('background-color', 'transparent', 'important');
+    });
+    
+    // LIMPIEZA ESPECÍFICA para Observaciones Adicionales
+    const observacionesTextarea = document.querySelector('textarea[name="observacionesAdicionales"]');
+    if (observacionesTextarea) {
+        // Aplicar limpieza nuclear específica
+        observacionesTextarea.style.cssText = `
+            border: none !important;
+            border-bottom: 1px solid #000 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            outline: none !important;
+            border-radius: 0 !important;
+            border-top: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-width: 0 0 1px 0 !important;
+            border-style: none none solid none !important;
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 20px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        `;
+        
+        console.log('🧹 Recuadro de Observaciones Adicionales limpiado nuclearmente');
+    }
+    
+    // LIMPIEZA ADICIONAL para campos específicos que suelen tener colores
+    const signatureInputs = document.querySelectorAll('input[name*="firma"], input[placeholder*="firma"], input[placeholder*="Firma"]');
+    signatureInputs.forEach(input => {
+        input.style.setProperty('border-color', '#000', 'important');
+        input.style.setProperty('border-bottom-color', '#000', 'important');
+        input.style.setProperty('border-top-color', '#000', 'important');
+        input.style.setProperty('border-left-color', '#000', 'important');
+        input.style.setProperty('border-right-color', '#000', 'important');
+    });
+    
+    console.log('🧹 TODOS los colores verdes y recuadros limpiados nuclearmente');
 }
 
 // Función para resetear el formulario
