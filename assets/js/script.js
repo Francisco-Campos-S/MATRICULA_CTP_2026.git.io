@@ -348,6 +348,18 @@ async function submitToGoogleForms(formData) {
 
 // Función para imprimir el formulario como boleta de matrícula
 function printForm() {
+    // Obtener el nombre del estudiante y la sección para el nombre del archivo
+    const nombreEstudiante = document.getElementById('nombreEstudiante').value || 'Estudiante';
+    const primerApellido = document.getElementById('primerApellido').value || '';
+    const segundoApellido = document.getElementById('segundoApellido').value || '';
+    const seccion = document.getElementById('seccion').value || 'Seccion';
+    const nivel = document.getElementById('nivel').value || 'Nivel';
+    
+    // Crear nombre del archivo
+    const apellidos = [primerApellido, segundoApellido].filter(ap => ap.trim()).join('_');
+    const nombreCompleto = apellidos ? `${apellidos}_${nombreEstudiante}` : nombreEstudiante;
+    const nombreArchivo = `Boleta_Matricula_${nombreCompleto}_${nivel}_${seccion}_2026`;
+    
     // Ocultar elementos que no queremos en la impresión
     const elementsToHide = document.querySelectorAll('.header, .form-actions, .consulta-section, .app-footer');
     elementsToHide.forEach(el => el.style.display = 'none');
@@ -359,6 +371,10 @@ function printForm() {
     // Aplicar estilos de impresión temporalmente
     document.body.classList.add('printing');
     
+    // Configurar el nombre del archivo antes de imprimir
+    const originalTitle = document.title;
+    document.title = nombreArchivo;
+    
     // Imprimir
     window.print();
     
@@ -367,7 +383,10 @@ function printForm() {
         elementsToHide.forEach(el => el.style.display = '');
         printElements.forEach(el => el.style.display = 'none');
         document.body.classList.remove('printing');
+        document.title = originalTitle;
     }, 1000);
+    
+    console.log(`🖨️ Imprimiendo boleta para: ${nombreArchivo}`);
 }
 
 // Función para resetear el formulario
@@ -453,21 +472,6 @@ function testFormSubmission() {
     // Scroll to submit button
     document.querySelector('.btn-submit').scrollIntoView({ behavior: 'smooth' });
 }
-
-// Add print button functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const printButton = document.createElement('button');
-    printButton.type = 'button';
-    printButton.className = 'btn-print';
-    printButton.textContent = 'Imprimir Formulario';
-    printButton.onclick = printForm;
-    
-    // Add print button to form actions
-    const formActions = document.querySelector('.form-actions');
-    if (formActions) {
-    formActions.appendChild(printButton);
-    }
-});
 
 // Theme Toggle Functionality
 function initializeThemeToggle() {
