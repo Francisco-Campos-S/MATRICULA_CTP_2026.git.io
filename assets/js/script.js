@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const successMessage = document.getElementById('successMessage');
     const loadingSpinner = document.getElementById('loadingSpinner');
     
+    // Theme toggle functionality
+    initializeThemeToggle();
+    
     // Show configuration warning if needed
     if (typeof showConfigWarning === 'function') {
         showConfigWarning();
@@ -449,6 +452,49 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Theme Toggle Functionality
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    const themeText = themeToggle.querySelector('.theme-text');
+    
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeButton(savedTheme);
+    
+    // Theme toggle click handler
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        // Apply new theme
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        // Update button
+        updateThemeButton(newTheme);
+        
+        // Add transition effect
+        document.body.style.transition = 'all 0.3s ease';
+        
+        console.log(`🎨 Tema cambiado a: ${newTheme === 'dark' ? 'Modo Oscuro' : 'Modo Claro'}`);
+    });
+}
+
+function updateThemeButton(theme) {
+    const themeIcon = document.querySelector('.theme-icon');
+    const themeText = document.querySelector('.theme-text');
+    
+    if (theme === 'dark') {
+        themeIcon.textContent = '☀️';
+        themeText.textContent = 'Modo Claro';
+    } else {
+        themeIcon.textContent = '🌙';
+        themeText.textContent = 'Modo Oscuro';
+    }
+}
+
 // ===== FUNCIONALIDAD DE CONSULTA DE ESTUDIANTES =====
 
 // Initialize consulta functionality when DOM is loaded
@@ -527,6 +573,18 @@ async function consultarEstudiante() {
         if (estudianteEncontrado) {
             rellenarFormularioConEstudiante(estudianteEncontrado);
             mostrarMensajeConsulta('✅ Estudiante encontrado y formulario rellenado', 'success');
+            
+            // Ocultar el mensaje después de 3 segundos
+            setTimeout(() => {
+                const mensajeConsulta = document.getElementById('mensajeConsulta');
+                if (mensajeConsulta) {
+                    mensajeConsulta.style.opacity = '0';
+                    setTimeout(() => {
+                        mensajeConsulta.style.display = 'none';
+                        mensajeConsulta.style.opacity = '1';
+                    }, 300);
+                }
+            }, 3000);
         } else {
             mostrarMensajeConsulta('❌ No se encontró estudiante con esa cédula', 'error');
         }
@@ -613,7 +671,32 @@ function rellenarFormularioConEstudiante(estudiante) {
 function mostrarMensajeConsulta(mensaje, tipo) {
     const mensajeConsulta = document.getElementById('mensajeConsulta');
     if (mensajeConsulta) {
+        // Limpiar cualquier timeout anterior
+        if (mensajeConsulta.timeoutId) {
+            clearTimeout(mensajeConsulta.timeoutId);
+        }
+        
+        // Mostrar el mensaje con transición suave
+        mensajeConsulta.style.display = 'block';
+        mensajeConsulta.style.opacity = '0';
         mensajeConsulta.textContent = mensaje;
         mensajeConsulta.className = 'mensaje-consulta ' + tipo;
+        
+        // Fade in
+        setTimeout(() => {
+            mensajeConsulta.style.opacity = '1';
+        }, 10);
+        
+        // Solo auto-ocultar mensajes de éxito, no los de error
+        if (tipo === 'success') {
+            mensajeConsulta.timeoutId = setTimeout(() => {
+                // Fade out
+                mensajeConsulta.style.opacity = '0';
+                setTimeout(() => {
+                    mensajeConsulta.style.display = 'none';
+                    mensajeConsulta.style.opacity = '1';
+                }, 300);
+            }, 3000);
+        }
     }
 }
