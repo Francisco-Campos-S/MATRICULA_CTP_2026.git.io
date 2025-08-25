@@ -1,199 +1,116 @@
-# Formulario de Matrícula 2026 - CTP Agropecuario de Sabalito
+# 🎓 Sistema de Matrícula Estudiantil 2026 - CTP Agropecuario de Sabalito
 
-Este es un formulario web moderno y responsivo para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito.
+## 📁 **ESTRUCTURA DEL PROYECTO**
 
-## 🚀 Características
-
-- **Diseño Responsivo**: Funciona perfectamente en dispositivos móviles y de escritorio
-- **Validación de Formularios**: Validación en tiempo real de campos requeridos
-- **Integración con Google Sheets**: Los datos se envían automáticamente a Google Sheets
-- **Interfaz Moderna**: Diseño atractivo con gradientes y animaciones
-- **Funcionalidad de Impresión**: Botón para imprimir el formulario
-- **Exportación CSV**: Opción para descargar los datos en formato CSV
-
-## 📋 Campos del Formulario
-
-### Información General de Matrícula
-- Nivel
-- Especialidad
-- Sección
-
-### Datos del Estudiante
-- Primer y segundo apellido
-- Nombre
-- Número de teléfono
-- Número de cédula
-- Fecha de nacimiento
-- Nacionalidad
-- Adecuación curricular
-- Ruta de transporte
-- Condición de repitente
-- Información médica
-
-### Datos de la Madre o Encargada
-- Nombre completo
-- Número de cédula
-- Teléfono
-- Dirección exacta
-- Parentesco
-- Vive con el estudiante
-
-### Datos del Padre o Encargado
-- Nombre completo
-- Número de cédula
-- Teléfono
-- Dirección
-- Parentesco
-- Vive con el estudiante
-
-### Declaración y Firmas
-- Firma de la encargada
-- Firma del encargado
-- Fecha
-- Observaciones
-
-## ⚙️ Configuración de Google Sheets
-
-### Opción 1: Google Apps Script (Recomendado)
-
-1. **Crear un nuevo proyecto en Google Apps Script**:
-   - Ve a [script.google.com](https://script.google.com)
-   - Crea un nuevo proyecto
-   - Copia el siguiente código:
-
-```javascript
-function doPost(e) {
-  try {
-    // Obtener los datos del formulario
-    const formData = JSON.parse(e.postData.contents);
-    
-    // ID de tu Google Sheet
-    const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
-    const sheet = SpreadsheetApp.openById(spreadsheetId).getActiveSheet();
-    
-    // Preparar los datos para la hoja
-    const rowData = [
-      formData.timestamp,
-      formData.nivel,
-      formData.especialidad,
-      formData.seccion,
-      formData.primerApellido,
-      formData.segundoApellido,
-      formData.nombreEstudiante,
-      formData.telefonoEstudiante,
-      formData.cedulaEstudiante,
-      formData.fechaNacimiento,
-      formData.nacionalidad,
-      formData.adecuacion,
-      formData.rutaTransporte,
-      formData.repitente,
-      formData.enfermedad,
-      formData.detalleEnfermedad,
-      formData.nombreMadre,
-      formData.cedulaMadre,
-      formData.telefonoMadre,
-      formData.direccionMadre,
-      formData.parentescoMadre,
-      formData.viveConEstudianteMadre,
-      formData.nombrePadre,
-      formData.cedulaPadre,
-      formData.telefonoPadre,
-      formData.direccionPadre,
-      formData.parentescoPadre,
-      formData.viveConEstudiantePadre,
-      formData.firmaEncargada,
-      formData.firmaEncargado,
-      formData.fecha,
-      formData.observaciones
-    ];
-    
-    // Agregar la fila a la hoja
-    sheet.appendRow(rowData);
-    
-    // Retornar respuesta exitosa
-    return ContentService
-      .createTextOutput(JSON.stringify({ 'result': 'success' }))
-      .setMimeType(ContentService.MimeType.JSON);
-      
-  } catch (error) {
-    // Retornar error
-    return ContentService
-      .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet(e) {
-  return ContentService.createTextOutput('Formulario de Matrícula CTP Sabalito');
-}
+```
+MATRICULA_CTP_2026.git.io/
+├── 📄 index.html                 # 🏠 Página principal (requerido para GitHub Pages)
+├── 📁 _layouts/                  # 🎨 Plantillas de Jekyll
+├── 📁 assets/                    # 🎨 Recursos estáticos
+│   ├── css/                      # Estilos CSS
+│   ├── js/                       # JavaScript del formulario
+│   └── images/                   # Imágenes y logos
+├── 📁 docs/                      # 📚 Documentación completa del proyecto
+│   ├── README.md                 # Documentación técnica detallada
+│   ├── GOOGLE_APPS_SCRIPT_SETUP.md  # Guía de configuración
+│   ├── RESUMEN_PROYECTO.md      # Resumen ejecutivo
+│   ├── DEVELOPMENT.md            # Guía de desarrollo
+│   └── CHANGELOG.md             # Historial de cambios
+├── 📁 config/                    # ⚙️ Archivos de configuración
+│   ├── _config.yml              # Configuración de Jekyll
+│   └── project-config.json      # Configuración del proyecto
+├── 📁 scripts/                   # 🔧 Scripts de Google Apps Script
+│   └── GOOGLE_APPS_SCRIPT_CON_CONSULTA.gs
+├── 📁 templates/                 # 📋 Plantillas y datos de ejemplo
+│   ├── Boleta de matrícula 2026.docx
+│   └── DATOS ESTUDIANTES 2025 (10).xlsx
+├── 📁 src/                       # 💻 Código fuente (para desarrollo)
+│   └── index.html               # Copia para desarrollo local
+└── 📄 Archivos de configuración
+    ├── logo.png                  # Logo del colegio
+    ├── .gitignore               # Archivos ignorados por Git
+    └── README.md                # Este archivo
 ```
 
-2. **Configurar el despliegue**:
-   - Haz clic en "Deploy" > "New deployment"
-   - Selecciona "Web app"
-   - Configura el acceso como "Anyone"
-   - Copia la URL del web app
+## 🚀 **INICIO RÁPIDO**
 
-3. **Actualizar el JavaScript**:
-   - En `assets/js/script.js`, reemplaza `YOUR_SCRIPT_ID` con el ID de tu script
+### **Para Usuarios Finales:**
+1. **🌐 Acceso directo**: El formulario está disponible en GitHub Pages
+2. **📱 Funciona en**: Todos los dispositivos y navegadores modernos
+3. **🔍 URL**: `https://tu-usuario.github.io/MATRICULA_CTP_2026.git.io/`
 
-### Opción 2: Google Forms
+### **Para Desarrolladores:**
+1. **Clona el repositorio**
+2. **Edita archivos** en la raíz (para GitHub Pages) o en `src/` (para desarrollo local)
+3. **Revisa `docs/`** para la documentación completa
+4. **Configura Google Apps Script** siguiendo `docs/GOOGLE_APPS_SCRIPT_SETUP.md`
 
-1. **Crear un Google Form** con todos los campos necesarios
-2. **Obtener la URL del formulario**
-3. **Actualizar el JavaScript** con la URL del formulario
+## 📚 **DOCUMENTACIÓN**
 
-## 🎨 Personalización
+- **📖 [Documentación Técnica](docs/README.md)** - Guía completa de desarrollo
+- **🔧 [Configuración Google Apps Script](docs/GOOGLE_APPS_SCRIPT_SETUP.md)** - Setup paso a paso
+- **📋 [Resumen del Proyecto](docs/RESUMEN_PROYECTO.md)** - Vista ejecutiva
+- **🚀 [Guía de Desarrollo](docs/DEVELOPMENT.md)** - Para desarrolladores
+- **📝 [Changelog](docs/CHANGELOG.md)** - Historial de cambios
+- **🚀 [Guía de Despliegue](docs/DEPLOYMENT.md)** - Despliegue en GitHub Pages
 
-### Colores
-Los colores principales se pueden modificar en `assets/css/styles.css`:
-- Color principal: `#1e3c72`
-- Color secundario: `#2a5298`
-- Color de acento: `#ffd700`
-- Color de éxito: `#28a745`
+## 🎯 **CARACTERÍSTICAS PRINCIPALES**
 
-### Fuentes
-El formulario usa la fuente Roboto de Google Fonts. Puedes cambiarla modificando la importación en el HTML.
+- ✅ **Formulario Web Responsivo** - Funciona en todos los dispositivos
+- ✅ **Integración con Google Sheets** - Almacenamiento automático de datos
+- ✅ **Consulta de Estudiantes** - Búsqueda por número de cédula
+- ✅ **Validación en Tiempo Real** - Campos requeridos y formatos
+- ✅ **Interfaz Moderna** - Diseño atractivo y profesional
+- ✅ **Exportación de Datos** - Múltiples formatos de salida
+- ✅ **GitHub Pages** - Despliegue automático y gratuito
 
-## 📱 Responsive Design
+## 🔧 **TECNOLOGÍAS UTILIZADAS**
 
-El formulario está optimizado para:
-- **Desktop**: 1200px y superior
-- **Tablet**: 768px - 1199px
-- **Mobile**: 480px - 767px
-- **Small Mobile**: Menos de 480px
+- **Frontend:** HTML5, CSS3, JavaScript ES6+
+- **Backend:** Google Apps Script
+- **Base de Datos:** Google Sheets
+- **Despliegue:** GitHub Pages
+- **Framework:** Jekyll (opcional)
 
-## 🖨️ Funcionalidad de Impresión
+## 📱 **COMPATIBILIDAD**
 
-El formulario incluye estilos específicos para impresión que ocultan elementos innecesarios y optimizan el layout para papel.
+- **🌐 Navegadores:** Chrome, Firefox, Safari, Edge
+- **📱 Dispositivos:** Desktop, Tablet, Mobile
+- **💻 Sistemas:** Windows, macOS, Linux, Android, iOS
 
-## 🔧 Solución de Problemas
+## 🚀 **DESPLIEGUE EN GITHUB PAGES**
 
-### El formulario no envía datos
-1. Verifica que la URL de Google Apps Script sea correcta
-2. Asegúrate de que el script tenga permisos de escritura en Google Sheets
-3. Revisa la consola del navegador para errores
+### **Configuración automática:**
+1. **Push** cambios a la rama `main`
+2. **GitHub Pages** se despliega automáticamente
+3. **URL disponible** en `https://tu-usuario.github.io/MATRICULA_CTP_2026.git.io/`
 
-### Problemas de validación
-1. Verifica que todos los campos requeridos estén completos
-2. Los números de teléfono deben tener 8 dígitos
-3. Los números de cédula deben tener 9 dígitos
+### **Configuración manual:**
+1. Ve a **Settings** > **Pages**
+2. **Source**: Deploy from a branch
+3. **Branch**: `main`
+4. **Folder**: `/ (root)`
 
-### Problemas de estilo
-1. Verifica que los archivos CSS y JS estén en las carpetas correctas
-2. Limpia la caché del navegador
-3. Verifica que no haya conflictos con otros estilos
+## 🤝 **CONTRIBUCIÓN**
 
-## 📞 Soporte
+1. **Fork** el proyecto
+2. **Crea** una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. **Commit** tus cambios (`git commit -m 'feat: agregar nueva funcionalidad'`)
+4. **Push** a la rama (`git push origin feature/AmazingFeature`)
+5. **Abre** un Pull Request
 
-Para soporte técnico o preguntas sobre el formulario, contacta a:
-- **Email**: contacto@ctpsabalito.edu.cr
-- **Colegio**: CTP Agropecuario de Sabalito
+## 📞 **CONTACTO**
 
-## 📄 Licencia
+- **🏫 Colegio:** CTP Agropecuario de Sabalito
+- **📧 Email:** contacto@ctpsabalito.edu.cr
+- **🌐 Sitio Web:** [ctpsabalito.edu.cr](https://ctpsabalito.edu.cr)
 
-Este proyecto está desarrollado para el uso exclusivo del Colegio Técnico Profesional Agropecuario de Sabalito.
+## 📄 **LICENCIA**
+
+Este proyecto está desarrollado para el uso exclusivo del **Colegio Técnico Profesional Agropecuario de Sabalito**.
 
 ---
 
-**Desarrollado con ❤️ para la comunidad educativa de Sabalito**
+**Desarrollado con ❤️ para la comunidad educativa de Sabalito** 🇨🇷
+
+*Última actualización: Agosto 2025*

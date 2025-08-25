@@ -1,0 +1,47 @@
+# Jekyll configuration for GitHub Pages
+# This file helps optimize the deployment
+
+# Site settings
+title: "Formulario de Matrícula 2026 - CTP Agropecuario de Sabalito"
+description: "Formulario web para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito"
+author: "CTP Agropecuario de Sabalito"
+email: "contacto@ctpsabalito.edu.cr"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# GitHub Pages settings
+baseurl: ""
+url: "https://yourusername.github.io/MATRICULA_CTP_2026.git.io"
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .gitignore
+  - node_modules
+  - package.json
+  - package-lock.json
+  - Boleta de matrícula 2026.docx
+  - DATOS ESTUDIANTES 2025 (10).xlsx
+
+# Include in processing
+include:
+  - assets
+  - images
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      author: "CTP Agropecuario de Sabalito"
+
+# Sitemap settings
+sitemap:
+  exclude: ['/feed.xml']
+  changefreq: 'weekly'
+  priority: 0.8
