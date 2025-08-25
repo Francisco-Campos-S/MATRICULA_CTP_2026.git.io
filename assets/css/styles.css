@@ -827,17 +827,19 @@ body::before {
 .btn-print {
     background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
     color: white;
-    padding: 20px 40px;
-    border-radius: 18px;
+    padding: 25px 50px;
+    border-radius: 25px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-width: 200px;
+    gap: 15px;
+    min-width: 250px;
     justify-content: center;
-    box-shadow: 0 8px 25px rgba(23, 162, 184, 0.4);
+    box-shadow: 0 10px 30px rgba(23, 162, 184, 0.4);
     position: relative;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.3rem;
+    font-weight: 600;
 }
 
 .btn-print::before {
@@ -857,8 +859,54 @@ body::before {
 
 .btn-print:hover {
     background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(23, 162, 184, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(23, 162, 184, 0.5);
+}
+
+.btn-print:active {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(23, 162, 184, 0.4);
+}
+
+.btn-print .btn-icon {
+    font-size: 24px;
+}
+
+.btn-print .btn-text {
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* Información sobre la impresión */
+.print-info {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 2px solid #2196f3;
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+}
+
+.print-info p {
+    margin: 8px 0;
+    color: #1565c0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.print-info p:first-child {
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.print-info p:last-child {
+    font-family: 'Courier New', monospace;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #2196f3;
+    font-size: 0.9rem;
 }
 
 /* Success Message */
@@ -973,8 +1021,7 @@ body::before {
     }
     
     .btn-submit,
-    .btn-reset,
-    .btn-print {
+    .btn-reset {
         width: auto;
         min-width: 150px;
         max-width: 200px;
@@ -1003,8 +1050,7 @@ body::before {
     }
     
     .btn-submit,
-    .btn-reset,
-    .btn-print {
+    .btn-reset {
         width: 100%;
         max-width: 300px;
     }
@@ -1020,8 +1066,13 @@ body::before {
     .form-actions,
     .success-message,
     .loading-spinner,
-    .config-warning {
-        display: none;
+    .config-warning,
+    .consulta-section,
+    .theme-toggle,
+    .app-footer,
+    .section-header,
+    .print-info {
+        display: none !important;
     }
     
     .matricula-form {
@@ -1631,7 +1682,8 @@ textarea:valid {
     .consulta-section,
     .theme-toggle,
     .app-footer,
-    .section-header {
+    .section-header,
+    .print-info {
         display: none !important;
     }
     
