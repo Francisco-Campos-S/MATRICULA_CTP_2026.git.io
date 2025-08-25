@@ -1084,6 +1084,120 @@ body::before {
         border-bottom: 1px solid #ccc;
         page-break-inside: avoid;
     }
+    
+    /* Ocultar asteriscos al imprimir */
+    .form-group label::after {
+        content: "" !important;
+    }
+    
+    /* Forzar bordes negros al imprimir */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        border-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Quitar TODOS los colores verdes/rojos al imprimir */
+    input[style*="green"],
+    input[style*="red"],
+    select[style*="green"],
+    select[style*="red"],
+    textarea[style*="green"],
+    textarea[style*="red"] {
+        border-color: #000 !important;
+        background: white !important;
+        color: #000 !important;
+    }
+    
+    /* Quitar recuadros y sombras al imprimir */
+    .form-group,
+    .form-section,
+    .section-content {
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+    }
+    
+    /* QUITAR ESPECÍFICAMENTE EL CUADRO DE DIRECCIÓN */
+    textarea[name="direccionMadre"],
+    textarea[name="direccionPadre"],
+    textarea[name="direccionResponsable"],
+    textarea[name="detalleEnfermedad"],
+    textarea[name="observacionesAdicionales"] {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Quitar TODOS los bordes de campos de texto al imprimir */
+    textarea {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* REGLA ULTRA-AGRESIVA para TODOS los textarea */
+    textarea,
+    textarea[style*="border"],
+    textarea[style*="border-color"],
+    textarea[style*="border-width"],
+    textarea[style*="border-style"] {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+        border-radius: 0 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+    }
+    
+    /* CORREGIR TEXTO CORTADO al imprimir */
+    .declaration p,
+    .print-header p,
+    .print-header h3,
+    .print-header h4,
+    .form-group label,
+    .print-section-title {
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        text-overflow: unset !important;
+        max-width: none !important;
+        width: auto !important;
+    }
+    
+    /* Asegurar que el texto de declaración se vea completo */
+    .declaration {
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+    }
+    
+    /* REGLA ULTRA-AGRESIVA para TODOS los inputs de firma */
+    input[type="text"],
+    input[type="text"][style*="green"],
+    input[type="text"][style*="border"],
+    input[type="text"][style*="border-color"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        background: transparent !important;
+        color: #000 !important;
+        border-top: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-width: 0 0 1px 0 !important;
+        border-style: none none solid none !important;
+    }
 }
 
 /* Additional Form Enhancements */
@@ -1687,6 +1801,43 @@ textarea:valid {
         display: none !important;
     }
     
+    /* Ocultar asteriscos al imprimir */
+    .form-group label::after {
+        content: "" !important;
+    }
+    
+    /* Forzar bordes negros al imprimir */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        border-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Quitar TODOS los colores verdes/rojos al imprimir */
+    input[style*="green"],
+    input[style*="red"],
+    select[style*="green"],
+    select[style*="red"],
+    textarea[style*="green"],
+    textarea[style*="red"] {
+        border-color: #000 !important;
+        background: white !important;
+        color: #000 !important;
+    }
+    
+    /* Quitar recuadros y sombras al imprimir */
+    .form-group,
+    .form-section,
+    .section-content {
+        border: none !important;
+        box-shadow: none !important;
+        background: white !important;
+    }
+    
     /* Contenedor principal */
     .container {
         max-width: none !important;
@@ -2139,5 +2290,120 @@ textarea:valid {
     .consulta-section,
     .form-actions {
         display: none !important;
+    }
+    
+    /* REGLAS FINALES: Quitar TODOS los colores y recuadros */
+    * {
+        border-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Forzar campos específicos a negro */
+    input, select, textarea, button {
+        border-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Quitar cualquier estilo inline que tenga colores */
+    [style*="green"], [style*="red"], [style*="blue"], [style*="yellow"] {
+        border-color: #000 !important;
+        color: #000 !important;
+        background: white !important;
+    }
+    
+    /* QUITAR ESPECÍFICAMENTE LAS LÍNEAS VERDES DE FIRMA */
+    input[name="firmaEncargada"],
+    input[name="firmaEncargado"],
+    input[name="firmaEstudiante"],
+    input[name="firmaMadre"],
+    input[name="firmaPadre"],
+    input[name="firmaResponsable"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+    
+    /* Forzar TODAS las líneas de firma a negro */
+    .signature-line,
+    input[type="text"][placeholder*="firma"],
+    input[type="text"][placeholder*="Firma"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+    
+    /* QUITAR ESPECÍFICAMENTE EL CUADRO DE DIRECCIÓN */
+    textarea[name="direccionMadre"],
+    textarea[name="direccionPadre"],
+    textarea[name="direccionResponsable"],
+    textarea[name="detalleEnfermedad"],
+    textarea[name="observacionesAdicionales"] {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* Quitar TODOS los bordes de campos de texto al imprimir */
+    textarea {
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    
+    /* QUITAR ESPECÍFICAMENTE LAS LÍNEAS VERDES DE FIRMA */
+    input[name="firmaEncargada"],
+    input[name="firmaEncargado"],
+    input[name="firmaEstudiante"],
+    input[name="firmaMadre"],
+    input[name="firmaPadre"],
+    input[name="firmaResponsable"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+    
+    /* Forzar TODAS las líneas de firma a negro */
+    .signature-line,
+    input[type="text"][placeholder*="firma"],
+    input[type="text"][placeholder*="Firma"] {
+        border-color: #000 !important;
+        border-bottom-color: #000 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+    
+    /* CORREGIR TEXTO CORTADO al imprimir */
+    .declaration p,
+    .print-header p,
+    .print-header h3,
+    .print-header h4,
+    .form-group label,
+    .print-section-title {
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        text-overflow: unset !important;
+        max-width: none !important;
+        width: auto !important;
+    }
+    
+    /* Asegurar que el texto de declaración se vea completo */
+    .declaration {
+        overflow: visible !important;
+        white-space: normal !important;
+        word-wrap: break-word !important;
     }
 }

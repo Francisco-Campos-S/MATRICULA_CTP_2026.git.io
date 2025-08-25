@@ -16,47 +16,59 @@ document.addEventListener('DOMContentLoaded', function() {
     const enfermedadSelect = document.getElementById('enfermedad');
     const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
     
-    enfermedadSelect.addEventListener('change', function() {
-        if (this.value === 'Sí') {
-            detalleEnfermedadGroup.style.display = 'block';
-        } else {
-            detalleEnfermedadGroup.style.display = 'none';
-            document.getElementById('detalleEnfermedad').value = '';
-        }
-    });
+    if (enfermedadSelect && detalleEnfermedadGroup) {
+        enfermedadSelect.addEventListener('change', function() {
+            if (this.value === 'Sí') {
+                detalleEnfermedadGroup.style.display = 'block';
+            } else {
+                detalleEnfermedadGroup.style.display = 'none';
+                const detalleEnfermedad = document.getElementById('detalleEnfermedad');
+                if (detalleEnfermedad) detalleEnfermedad.value = '';
+            }
+        });
+    }
     
     // Form submission - allows incomplete fields
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // Show loading spinner
-        loadingSpinner.style.display = 'block';
-        form.style.display = 'none';
-        
-        try {
-            const formData = collectFormData();
-            await submitToGoogleSheets(formData);
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Show success message
-            successMessage.style.display = 'block';
-            loadingSpinner.style.display = 'none';
+            console.log('🚀 Iniciando envío del formulario...');
             
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-                form.style.display = 'block';
-                resetForm();
-            }, 3000);
+            // Show loading spinner
+            if (loadingSpinner) loadingSpinner.style.display = 'block';
+            if (form) form.style.display = 'none';
             
-        } catch (error) {
-            console.error('Error submitting form:', error);
-            alert('Error al enviar el formulario. Por favor, inténtelo de nuevo.');
-            
-            // Hide loading spinner and show form again
-            loadingSpinner.style.display = 'none';
-            form.style.display = 'block';
-        }
-    });
+            try {
+                console.log('📝 Recolectando datos del formulario...');
+                const formData = collectFormData();
+                console.log('📊 Datos recolectados:', formData);
+                
+                console.log('📤 Enviando a Google Sheets...');
+                const result = await submitToGoogleSheets(formData);
+                console.log('✅ Resultado del envío:', result);
+                
+                // Show success message
+                if (successMessage) successMessage.style.display = 'block';
+                if (loadingSpinner) loadingSpinner.style.display = 'none';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    if (successMessage) successMessage.style.display = 'none';
+                    if (form) form.style.display = 'block';
+                    resetForm();
+                }, 3000);
+                
+            } catch (error) {
+                console.error('❌ Error submitting form:', error);
+                alert('Error al enviar el formulario: ' + error.message + '\nPor favor, inténtelo de nuevo.');
+                
+                // Hide loading spinner and show form again
+                if (loadingSpinner) loadingSpinner.style.display = 'none';
+                if (form) form.style.display = 'block';
+            }
+        });
+    }
     
     // Auto-fill current date
     const today = new Date();
@@ -148,11 +160,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Validar rango de fechas
                     if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 2025 && year <= 2027) {
-                        this.style.borderColor = '#28a745'; // Verde si es válida
+                        // Solo aplicar color verde si NO estamos imprimiendo
+                        if (!document.body.classList.contains('printing')) {
+                            this.style.borderColor = '#28a745'; // Verde si es válida
+                        }
                     } else {
-                        this.style.borderColor = '#dc3545'; // Rojo si es inválida
-                        alert('Por favor ingrese una fecha válida en formato DD/MM/AAAA');
-                        this.focus();
+                        // Solo aplicar color rojo si NO estamos imprimiendo
+                        if (!document.body.classList.contains('printing')) {
+                            this.style.borderColor = '#dc3545'; // Rojo si es inválida
+                            alert('Por favor ingrese una fecha válida en formato DD/MM/AAAA');
+                            this.focus();
+                        }
                     }
                 }
             }
@@ -169,17 +187,23 @@ function addOptionalValidation() {
     
     fields.forEach(field => {
         field.addEventListener('blur', function() {
-            // Optional validation feedback
-            if (this.value.trim()) {
-                this.style.borderColor = '#28a745'; // Green for filled fields
-        } else {
-                this.style.borderColor = '#e1e8ed'; // Default for empty fields
+            // Solo aplicar colores si NO estamos imprimiendo
+            if (!document.body.classList.contains('printing')) {
+                // Optional validation feedback
+                if (this.value.trim()) {
+                    this.style.borderColor = '#28a745'; // Green for filled fields
+                } else {
+                    this.style.borderColor = '#e1e8ed'; // Default for empty fields
+                }
             }
         });
         
         field.addEventListener('input', function() {
-            // Clear validation styling when user starts typing
-            this.style.borderColor = '#e1e8ed';
+            // Solo aplicar colores si NO estamos imprimiendo
+            if (!document.body.classList.contains('printing')) {
+                // Clear validation styling when user starts typing
+                this.style.borderColor = '#e1e8ed';
+            }
         });
     });
 }
@@ -210,45 +234,45 @@ function collectFormData() {
     
     const formData = {
         timestamp: new Date().toISOString(),
-        nivel: document.getElementById('nivel').value || '',
-        especialidad: document.getElementById('especialidad').value || '',
-        seccion: document.getElementById('seccion').value || '',
+        nivel: document.getElementById('nivel')?.value || '',
+        especialidad: document.getElementById('especialidad')?.value || '',
+        seccion: document.getElementById('seccion')?.value || '',
         
         // Student data
-        primerApellido: document.getElementById('primerApellido').value || '',
-        segundoApellido: document.getElementById('segundoApellido').value || '',
-        nombre: nombreElement ? nombreElement.value || '' : '',           // ← Debug mejorado
-        telefono: telefonoElement ? telefonoElement.value || '' : '',     // ← Debug mejorado
-        cedula: cedulaElement ? cedulaElement.value || '' : '',           // ← Debug mejorado
-        fechaNacimiento: document.getElementById('fechaNacimiento').value || '',
-        nacionalidad: document.getElementById('nacionalidad').value || '',
-        adecuacion: document.getElementById('adecuacion').value || '',
-        rutaTransporte: document.getElementById('rutaTransporte').value || '',
-        repitente: document.getElementById('repitente').value || '',
-        enfermedad: document.getElementById('enfermedad').value || '',
-        detalleEnfermedad: document.getElementById('detalleEnfermedad').value || '',
+        primerApellido: document.getElementById('primerApellido')?.value || '',
+        segundoApellido: document.getElementById('segundoApellido')?.value || '',
+        nombre: nombreElement ? nombreElement.value || '' : '',
+        telefono: telefonoElement ? telefonoElement.value || '' : '',
+        cedula: cedulaElement ? cedulaElement.value || '' : '',
+        fechaNacimiento: document.getElementById('fechaNacimiento')?.value || '',
+        nacionalidad: document.getElementById('nacionalidad')?.value || '',
+        adecuacion: document.getElementById('adecuacion')?.value || '',
+        rutaTransporte: document.getElementById('rutaTransporte')?.value || '',
+        repitente: document.getElementById('repitente')?.value || '',
+        enfermedad: document.getElementById('enfermedad')?.value || '',
+        detalleEnfermedad: document.getElementById('detalleEnfermedad')?.value || '',
         
         // Mother/Guardian data
-        nombreMadre: document.getElementById('nombreMadre').value || '',
-        cedulaMadre: document.getElementById('cedulaMadre').value || '',
-        telefonoMadre: document.getElementById('telefonoMadre').value || '',
-        direccionMadre: document.getElementById('direccionMadre').value || '',
-        parentescoMadre: document.getElementById('parentescoMadre').value || '',
-        viveConEstudianteMadre: document.getElementById('viveConEstudianteMadre').value || '',
+        nombreMadre: document.getElementById('nombreMadre')?.value || '',
+        cedulaMadre: document.getElementById('cedulaMadre')?.value || '',
+        telefonoMadre: document.getElementById('telefonoMadre')?.value || '',
+        direccionMadre: document.getElementById('direccionMadre')?.value || '',
+        parentescoMadre: document.getElementById('parentescoMadre')?.value || '',
+        viveConEstudianteMadre: document.getElementById('viveConEstudianteMadre')?.value || '',
         
         // Father/Guardian data
-        nombrePadre: document.getElementById('nombrePadre').value || '',
-        cedulaPadre: document.getElementById('cedulaPadre').value || '',
-        telefonoPadre: document.getElementById('telefonoPadre').value || '',
-        direccionPadre: document.getElementById('direccionPadre').value || '',
-        parentescoPadre: document.getElementById('parentescoPadre').value || '',
-        viveConEstudiantePadre: document.getElementById('viveConEstudiantePadre').value || '',
+        nombrePadre: document.getElementById('nombrePadre')?.value || '',
+        cedulaPadre: document.getElementById('cedulaPadre')?.value || '',
+        telefonoPadre: document.getElementById('telefonoPadre')?.value || '',
+        direccionPadre: document.getElementById('direccionPadre')?.value || '',
+        parentescoPadre: document.getElementById('parentescoPadre')?.value || '',
+        viveConEstudiantePadre: document.getElementById('viveConEstudiantePadre')?.value || '',
         
         // Signatures and date
-        firmaEncargada: document.getElementById('firmaEncargada').value || '',
-        firmaEncargado: document.getElementById('firmaEncargado').value || '',
-        fecha: document.getElementById('fecha').value || '',
-        observaciones: document.getElementById('observaciones').value || ''
+        firmaEncargada: document.getElementById('firmaEncargada')?.value || '',
+        firmaEncargado: document.getElementById('firmaEncargado')?.value || '',
+        fecha: document.getElementById('fecha')?.value || '',
+        observaciones: document.getElementById('observaciones')?.value || ''
     };
     
     return formData;
@@ -256,24 +280,22 @@ function collectFormData() {
 
 // Submit to Google Sheets using Google Apps Script
 async function submitToGoogleSheets(formData) {
+    console.log('🔧 Iniciando submitToGoogleSheets...');
+    
     // Get configuration from google-sheets-config.js
     let config = {};
     if (typeof getGoogleSheetsConfig === 'function') {
         config = getGoogleSheetsConfig();
+        console.log('✅ Configuración obtenida:', config);
+    } else {
+        console.log('❌ Función getGoogleSheetsConfig no disponible');
+        throw new Error('Función getGoogleSheetsConfig no disponible');
     }
-    
-    // Google Apps Script Web App URL
-    const GOOGLE_APPS_SCRIPT_URL = config.APPS_SCRIPT?.WEB_APP_URL || 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
     
     try {
         // First, try to submit to Google Apps Script
-        // Get configuration from google-sheets-config.js
-        let config = {};
-        if (typeof getGoogleSheetsConfig === 'function') {
-            config = getGoogleSheetsConfig();
-        }
-        
         const GOOGLE_APPS_SCRIPT_URL = config.APPS_SCRIPT?.WEB_APP_URL;
+        console.log('🔗 URL de Google Apps Script:', GOOGLE_APPS_SCRIPT_URL);
         
         if (!GOOGLE_APPS_SCRIPT_URL || GOOGLE_APPS_SCRIPT_URL.includes('TU_SCRIPT_ID_REAL')) {
             throw new Error('Google Apps Script no está configurado');
@@ -302,15 +324,34 @@ async function submitToGoogleSheets(formData) {
             console.log(`FormData[${key}] = ${value}`);
         }
         
+        console.log('🌐 Realizando fetch a:', GOOGLE_APPS_SCRIPT_URL);
+        
+        // Intentar primero con URLSearchParams (más compatible con Apps Script)
+        console.log('🔄 Intentando envío con URLSearchParams...');
+        
+        const urlParams = new URLSearchParams();
+        Object.keys(formData).forEach(key => {
+            urlParams.append(key, formData[key]);
+        });
+        
+
+        
+        // Cambiar a modo 'no-cors' para mejor compatibilidad con Apps Script
         const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
-            body: formDataToSend
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: urlParams.toString()
         });
         
-        // Since we're using no-cors, we can't read the response
-        // The success is assumed if no error is thrown
-        console.log('✅ Datos enviados a Google Apps Script');
+        console.log('📡 Respuesta del fetch:', response);
+        console.log('📡 Status:', response.status);
+        console.log('📡 StatusText:', response.statusText);
+        
+        // Con no-cors, siempre asumimos éxito si no hay error
+        console.log('✅ Datos enviados exitosamente con URLSearchParams (no-cors)');
         return true;
         
     } catch (error) {
@@ -349,16 +390,19 @@ async function submitToGoogleForms(formData) {
 // Función para imprimir el formulario como boleta de matrícula
 function printForm() {
     // Obtener el nombre del estudiante y la sección para el nombre del archivo
-    const nombreEstudiante = document.getElementById('nombreEstudiante').value || 'Estudiante';
-    const primerApellido = document.getElementById('primerApellido').value || '';
-    const segundoApellido = document.getElementById('segundoApellido').value || '';
-    const seccion = document.getElementById('seccion').value || 'Seccion';
-    const nivel = document.getElementById('nivel').value || 'Nivel';
+    const nombreEstudiante = document.getElementById('nombreEstudiante')?.value || 'Estudiante';
+    const primerApellido = document.getElementById('primerApellido')?.value || '';
+    const segundoApellido = document.getElementById('segundoApellido')?.value || '';
+    const seccion = document.getElementById('seccion')?.value || 'Seccion';
+    const nivel = document.getElementById('nivel')?.value || 'Nivel';
     
     // Crear nombre del archivo
     const apellidos = [primerApellido, segundoApellido].filter(ap => ap.trim()).join('_');
     const nombreCompleto = apellidos ? `${apellidos}_${nombreEstudiante}` : nombreEstudiante;
     const nombreArchivo = `Boleta_Matricula_${nombreCompleto}_${nivel}_${seccion}_2026`;
+    
+    // LIMPIAR TODOS LOS COLORES VERDES ANTES DE IMPRIMIR
+    clearAllGreenColors();
     
     // Ocultar elementos que no queremos en la impresión
     const elementsToHide = document.querySelectorAll('.header, .form-actions, .consulta-section, .app-footer');
@@ -389,9 +433,37 @@ function printForm() {
     console.log(`🖨️ Imprimiendo boleta para: ${nombreArchivo}`);
 }
 
+// Función para limpiar todos los colores verdes
+function clearAllGreenColors() {
+    const allInputs = document.querySelectorAll('input, select, textarea');
+    
+    allInputs.forEach(input => {
+        // Limpiar cualquier color verde o rojo
+        if (input.style.borderColor === '#28a745' || 
+            input.style.borderColor === '#dc3545' ||
+            input.style.borderColor === 'rgb(40, 167, 69)' ||
+            input.style.borderColor === 'rgb(220, 53, 69)') {
+            input.style.borderColor = '#000';
+            input.style.borderBottomColor = '#000';
+        }
+        
+        // Limpiar cualquier estilo inline que pueda tener colores
+        if (input.style.cssText.includes('28a745') || 
+            input.style.cssText.includes('40, 167, 69') ||
+            input.style.cssText.includes('dc3545') ||
+            input.style.cssText.includes('220, 53, 69')) {
+            input.style.borderColor = '#000';
+            input.style.borderBottomColor = '#000';
+        }
+    });
+    
+    console.log('🧹 Colores verdes limpiados antes de imprimir');
+}
+
 // Función para resetear el formulario
 function resetForm() {
-    document.getElementById('matriculaForm').reset();
+    const form = document.getElementById('matriculaForm');
+    if (form) form.reset();
     
     // Ocultar el campo de detalle de enfermedad
     const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
@@ -438,46 +510,65 @@ function testFormSubmission() {
     console.log('🧪 Iniciando prueba del formulario...');
     
     // Fill form with test data
-    document.getElementById('nivel').value = 'Sétimo';
-    document.getElementById('especialidad').value = 'Agropecuaria';
-    document.getElementById('seccion').value = 'A';
-    document.getElementById('primerApellido').value = 'González';
-    document.getElementById('segundoApellido').value = 'Pérez';
-    document.getElementById('nombreEstudiante').value = 'María';
-    document.getElementById('telefonoEstudiante').value = '88888888';
-    document.getElementById('cedulaEstudiante').value = '123456789';
-    document.getElementById('fechaNacimiento').value = '2009-03-15';
-    document.getElementById('adecuacion').value = 'No';
-    document.getElementById('rutaTransporte').value = 'Ruta 1';
-    document.getElementById('repitente').value = 'No';
-    document.getElementById('enfermedad').value = 'No';
-    document.getElementById('nombreMadre').value = 'Ana González';
-    document.getElementById('cedulaMadre').value = '987654321';
-    document.getElementById('telefonoMadre').value = '77777777';
-    document.getElementById('direccionMadre').value = 'Sabalito, Coto Brus';
-    document.getElementById('viveConEstudianteMadre').value = 'Sí';
-    document.getElementById('nombrePadre').value = 'Carlos Pérez';
-    document.getElementById('cedulaPadre').value = '456789123';
-    document.getElementById('telefonoPadre').value = '66666666';
-    document.getElementById('direccionPadre').value = 'Sabalito, Coto Brus';
-    document.getElementById('viveConEstudiantePadre').value = 'Sí';
-    document.getElementById('firmaEncargada').value = 'Ana González';
-    document.getElementById('firmaEncargado').value = 'Carlos Pérez';
-    document.getElementById('fecha').value = '15/01/2026';
-    document.getElementById('observaciones').value = 'Estudiante nueva, excelente conducta';
+    const testFields = {
+        'nivel': 'Sétimo',
+        'especialidad': 'Agropecuaria',
+        'seccion': 'A',
+        'primerApellido': 'González',
+        'segundoApellido': 'Pérez',
+        'nombreEstudiante': 'María',
+        'telefonoEstudiante': '88888888',
+        'cedulaEstudiante': '123456789',
+        'fechaNacimiento': '2009-03-15',
+        'adecuacion': 'No',
+        'rutaTransporte': 'Ruta 1',
+        'repitente': 'No',
+        'enfermedad': 'No',
+        'nombreMadre': 'Ana González',
+        'cedulaMadre': '987654321',
+        'telefonoMadre': '77777777',
+        'direccionMadre': 'Sabalito, Coto Brus',
+        'viveConEstudianteMadre': 'Sí',
+        'nombrePadre': 'Carlos Pérez',
+        'cedulaPadre': '456789123',
+        'telefonoPadre': '66666666',
+        'direccionPadre': 'Sabalito, Coto Brus',
+        'viveConEstudiantePadre': 'Sí',
+        'firmaEncargada': 'Ana González',
+        'firmaEncargado': 'Carlos Pérez',
+        'fecha': '15/01/2026',
+        'observaciones': 'Estudiante nueva, excelente conducta'
+    };
+    
+    // Fill each field safely
+    Object.keys(testFields).forEach(fieldId => {
+        const element = document.getElementById(fieldId);
+        if (element) {
+            element.value = testFields[fieldId];
+        }
+    });
     
     console.log('✅ Formulario llenado con datos de prueba');
     console.log('🚀 Ahora haz clic en "Enviar Matrícula" para probar');
     
     // Scroll to submit button
-    document.querySelector('.btn-submit').scrollIntoView({ behavior: 'smooth' });
+    const submitButton = document.querySelector('.btn-submit');
+    if (submitButton) {
+        submitButton.scrollIntoView({ behavior: 'smooth' });
+    }
 }
+
+
 
 // Theme Toggle Functionality
 function initializeThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+    
     const themeIcon = themeToggle.querySelector('.theme-icon');
     const themeText = themeToggle.querySelector('.theme-text');
+    
+    if (!themeIcon || !themeText) return;
     
     // Load saved theme from localStorage
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -506,6 +597,8 @@ function initializeThemeToggle() {
 function updateThemeButton(theme) {
     const themeIcon = document.querySelector('.theme-icon');
     const themeText = document.querySelector('.theme-text');
+    
+    if (!themeIcon || !themeText) return;
     
     if (theme === 'dark') {
         themeIcon.textContent = '☀️';
@@ -538,7 +631,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to consult student by cédula
 async function consultarEstudiante() {
-    const cedula = document.getElementById('cedulaConsulta').value.trim();
+    const cedula = document.getElementById('cedulaConsulta')?.value?.trim();
     const mensajeConsulta = document.getElementById('mensajeConsulta');
     
     if (!cedula) {
@@ -671,18 +764,25 @@ function rellenarFormularioConEstudiante(estudiante) {
             
             // Special handling for illness detail
             if (fieldId === 'enfermedad' && estudiante.enfermedad === 'Sí') {
-                document.getElementById('detalleEnfermedadGroup').style.display = 'block';
+                const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
+                if (detalleEnfermedadGroup) {
+                    detalleEnfermedadGroup.style.display = 'block';
+                }
             }
         }
     });
     
-    // Handle date fields separately
-    if (estudiante.fecha) {
-        const fechaInput = document.getElementById('fecha');
-        if (fechaInput) {
-            // La fecha ya viene en formato DD/MM/AAAA, solo asignarla
-            fechaInput.value = estudiante.fecha;
-        }
+    // Handle date fields separately - SIEMPRE establecer la fecha actual al consultar
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        // Establecer la fecha actual (fecha de la consulta) sin importar si ya tenía fecha
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        fechaInput.value = `${day}/${month}/${year}`;
+        
+        console.log(`📅 Fecha de matrícula establecida como fecha actual: ${day}/${month}/${year}`);
     }
     
     console.log('✅ Formulario rellenado exitosamente');
