@@ -48,7 +48,7 @@
 
 
         <!-- Form -->
-        <form id="matriculaForm" class="matricula-form">
+        <form id="matriculaForm" class="matricula-form" action="#" method="post">
             <!-- Print Header (solo visible al imprimir) -->
             <div class="print-header">
                 <div class="mep-logos">
@@ -345,7 +345,7 @@
                     <span class="btn-icon">📤</span>
                     <span class="btn-text">Enviar Matrícula</span>
                 </button>
-                <button type="button" class="btn-reset" onclick="resetForm()">
+                <button type="button" class="btn-reset" onclick="limpiarFormularioCompleto()">
                     <span class="btn-icon">🧹</span>
                     <span class="btn-text">Limpiar Formulario</span>
                 </button>
@@ -353,9 +353,9 @@
                     <span class="btn-icon">🖨️</span>
                     <span class="btn-text">Imprimir Formulario</span>
                 </button>
-                <button type="button" class="btn-test" onclick="testFormSubmission()">
+                <button type="button" class="btn-test" onclick="cargarDatosPrueba()">
                     <span class="btn-icon">🧪</span>
-                    <span class="btn-text">Probar Envío</span>
+                    <span class="btn-text">Cargar Datos de Prueba</span>
                 </button>
             </div>
             
