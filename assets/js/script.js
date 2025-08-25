@@ -57,9 +57,104 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Auto-fill current date
     const today = new Date();
-    document.getElementById('dia').value = today.getDate();
-    document.getElementById('mes').value = today.getMonth() + 1; // El select usa valores 1-12
-    document.getElementById('anio').value = today.getFullYear();
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        // Formatear la fecha como DD/MM/AAAA para edición manual
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        fechaInput.value = `${day}/${month}/${year}`;
+        
+        // Agregar funcionalidad de calendario al hacer clic
+        fechaInput.addEventListener('click', function() {
+            // Crear un input temporal de tipo date para mostrar el calendario
+            const tempDateInput = document.createElement('input');
+            tempDateInput.type = 'date';
+            tempDateInput.style.position = 'absolute';
+            tempDateInput.style.left = '-9999px';
+            tempDateInput.style.opacity = '0';
+            
+            // Convertir la fecha actual del input al formato YYYY-MM-DD
+            const currentDate = this.value;
+            if (currentDate && currentDate.includes('/')) {
+                const parts = currentDate.split('/');
+                if (parts.length === 3) {
+                    const day = parts[0];
+                    const month = parts[1];
+                    const year = parts[2];
+                    tempDateInput.value = `${year}-${month}-${day}`;
+                }
+            }
+            
+            document.body.appendChild(tempDateInput);
+            tempDateInput.focus();
+            tempDateInput.click();
+            
+            // Escuchar cambios en el input temporal
+            tempDateInput.addEventListener('change', function() {
+                if (this.value) {
+                    const date = new Date(this.value);
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    fechaInput.value = `${day}/${month}/${year}`;
+                }
+                document.body.removeChild(tempDateInput);
+            });
+            
+            // Si se cancela, remover el input temporal
+            tempDateInput.addEventListener('blur', function() {
+                setTimeout(() => {
+                    if (document.body.contains(tempDateInput)) {
+                        document.body.removeChild(tempDateInput);
+                    }
+                }, 100);
+            });
+        });
+        
+        // Validar formato de fecha al escribir manualmente
+        fechaInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            
+            // Permitir solo números y barras
+            value = value.replace(/[^0-9/]/g, '');
+            
+            // Auto-insertar barras
+            if (value.length === 2 && !value.includes('/')) {
+                value += '/';
+            }
+            if (value.length === 5 && value.split('/').length === 2) {
+                value += '/';
+            }
+            
+            // Limitar a 10 caracteres (DD/MM/AAAA)
+            if (value.length <= 10) {
+                e.target.value = value;
+            }
+        });
+        
+        // Validar fecha al perder el foco
+        fechaInput.addEventListener('blur', function() {
+            const value = this.value;
+            if (value && value.includes('/')) {
+                const parts = value.split('/');
+                if (parts.length === 3) {
+                    const day = parseInt(parts[0]);
+                    const month = parseInt(parts[1]);
+                    const year = parseInt(parts[2]);
+                    
+                    // Validar rango de fechas
+                    if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 2025 && year <= 2027) {
+                        this.style.borderColor = '#28a745'; // Verde si es válida
+                    } else {
+                        this.style.borderColor = '#dc3545'; // Rojo si es inválida
+                        alert('Por favor ingrese una fecha válida en formato DD/MM/AAAA');
+                        this.focus();
+                    }
+                }
+            }
+        });
+    }
     
     // Add optional validation feedback (not blocking)
     addOptionalValidation();
@@ -263,9 +358,14 @@ function resetForm() {
     
     // Reset date to current date
     const today = new Date();
-    document.getElementById('dia').value = today.getDate();
-    document.getElementById('mes').value = today.getMonth() + 1;
-    document.getElementById('anio').value = today.getFullYear();
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        // Formatear la fecha como DD/MM/AAAA para edición manual
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        fechaInput.value = `${day}/${month}/${year}`;
+    }
 }
 
 // Export form data as CSV (for backup purposes)
@@ -324,9 +424,7 @@ function testFormSubmission() {
     document.getElementById('viveConEstudiantePadre').value = 'Sí';
     document.getElementById('firmaEncargada').value = 'Ana González';
     document.getElementById('firmaEncargado').value = 'Carlos Pérez';
-    document.getElementById('dia').value = '15';
-    document.getElementById('mes').value = '1';
-    document.getElementById('anio').value = '2026';
+    document.getElementById('fecha').value = '15/01/2026';
     document.getElementById('observaciones').value = 'Estudiante nueva, excelente conducta';
     
     console.log('✅ Formulario llenado con datos de prueba');
@@ -501,15 +599,10 @@ function rellenarFormularioConEstudiante(estudiante) {
     
     // Handle date fields separately
     if (estudiante.fecha) {
-        const fechaParts = estudiante.fecha.split('/');
-        if (fechaParts.length === 3) {
-            document.getElementById('dia').value = fechaParts[0];
-            // El select del mes espera valores 1-12, no strings
-            const mes = parseInt(fechaParts[1]);
-            if (!isNaN(mes) && mes >= 1 && mes <= 12) {
-                document.getElementById('mes').value = mes;
-            }
-            document.getElementById('anio').value = fechaParts[2];
+        const fechaInput = document.getElementById('fecha');
+        if (fechaInput) {
+            // La fecha ya viene en formato DD/MM/AAAA, solo asignarla
+            fechaInput.value = estudiante.fecha;
         }
     }
     
