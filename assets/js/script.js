@@ -885,22 +885,22 @@ function updateEspecialidades(nivel) {
             'Administración'
         ],
         'Décimo': [
-            'Contabilidad',
-            'Organización de empresas de Turismo Rural',
-            'Procesos productivos e inspección en la Industria Alimentaria',
-            'Producción Agrícola y Pecuaria'
+            'CONTABILIDAD',
+            'ORGANIZACIÓN DE EMPRESAS DE TURISMO RURAL',
+            'PROCESOS PRODUCTIVOS EN INSPECCIÓN EN LA INDUSTRIA ALIMENTARIA',
+            'PRODUCCIÓN AGRÍCOLA Y PECUARIA'
         ],
         'Undécimo': [
-            'Contabilidad',
-            'Organización de empresas de Turismo Rural',
-            'Procesos productivos e inspección en la Industria Alimentaria',
-            'Producción Agrícola y Pecuaria'
+            'CONTABILIDAD Y FINANZAS',
+            'TURISMO RURAL',
+            'PROCESOS PRODUCTIVOS EN INSPECCIÓN EN LA INDUSTRIA ALIMENTARIA',
+            'PRODUCCIÓN AGRÍCOLA Y PECUARIA'
         ],
         'Duodécimo': [
-            'Contabilidad',
-            'Organización de empresas de Turismo Rural',
-            'Procesos productivos e inspección en la Industria Alimentaria',
-            'Producción Agrícola y Pecuaria'
+            'CONTABILIDAD',
+            'TURISMO RURAL',
+            'AGROINDUSTRIA ALIMENTARIA CON TECNOLOGÍA AGRÍCOLA',
+            'PRODUCCIÓN AGRÍCOLA Y PECUARIA'
         ]
     };
     
@@ -998,7 +998,7 @@ function cargarDatosPrueba() {
     // Datos de prueba para llenar el formulario
     const datosPrueba = {
         'nivel': 'Décimo',
-        'especialidad': 'Contabilidad',
+        'especialidad': 'CONTABILIDAD Y FINANZAS',
         'seccion': 'A',
         'primerApellido': 'González',
         'segundoApellido': 'López',
