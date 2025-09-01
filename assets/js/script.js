@@ -594,56 +594,58 @@ async function consultarEstudiante() {
     }
 }
 
-// Inicializar cuando el DOM esté listo
+// Función para mostrar el tipo de matrícula seleccionado
+function mostrarTipoMatriculaSeleccionado() {
+    const tipoRegular = document.getElementById('regular');
+    const tipoPlanNacional = document.getElementById('planNacional');
+    
+    // Crear elemento para mostrar el tipo seleccionado
+    let tipoSeleccionadoDiv = document.getElementById('tipoSeleccionado');
+    if (!tipoSeleccionadoDiv) {
+        tipoSeleccionadoDiv = document.createElement('div');
+        tipoSeleccionadoDiv.id = 'tipoSeleccionado';
+        tipoSeleccionadoDiv.className = 'tipo-seleccionado-display';
+        tipoSeleccionadoDiv.style.cssText = 'margin-top: 5px; padding: 3px; background: #e8f5e8; border: 1px solid #4caf50; border-radius: 3px; font-size: 0.8rem; color: #2e7d32; text-align: center;';
+        
+        // Insertar después de las opciones
+        const tipoMatriculaOptions = document.querySelector('.tipo-matricula-options');
+        tipoMatriculaOptions.parentNode.insertBefore(tipoSeleccionadoDiv, tipoMatriculaOptions.nextSibling);
+    }
+    
+    // Mostrar el tipo seleccionado
+    if (tipoRegular.checked) {
+        tipoSeleccionadoDiv.textContent = '✅ Tipo seleccionado: REGULAR CTP 2026';
+        tipoSeleccionadoDiv.style.background = '#e8f5e8';
+        tipoSeleccionadoDiv.style.borderColor = '#4caf50';
+        tipoSeleccionadoDiv.style.color = '#2e7d32';
+    } else if (tipoPlanNacional.checked) {
+        tipoSeleccionadoDiv.textContent = '✅ Tipo seleccionado: PLAN NACIONAL 2026';
+        tipoSeleccionadoDiv.style.background = '#fff3e0';
+        tipoSeleccionadoDiv.style.borderColor = '#ff9800';
+        tipoSeleccionadoDiv.style.color = '#e65100';
+    } else {
+        tipoSeleccionadoDiv.textContent = '⚠️ Seleccione un tipo de matrícula';
+        tipoSeleccionadoDiv.style.background = '#fff3e0';
+        tipoSeleccionadoDiv.style.borderColor = '#ff9800';
+        tipoSeleccionadoDiv.style.color = '#e65100';
+    }
+}
+
+// Agregar event listeners cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Inicializando formulario de matrícula con Google Sheets...');
+    // Event listeners para los tipos de matrícula
+    const tipoRegular = document.getElementById('regular');
+    const tipoPlanNacional = document.getElementById('planNacional');
     
-    // Configurar selector de tipo de matrícula
-    setupTipoMatricula();
-    
-    // Configurar botones de acción
-    const btnConsultar = document.getElementById('btnConsultar');
-    const btnSubmit = document.getElementById('btnSubmit');
-    const btnReset = document.getElementById('btnReset');
-    const btnPrint = document.getElementById('btnPrint');
-    
-    if (btnConsultar) {
-        btnConsultar.addEventListener('click', consultarEstudiante);
+    if (tipoRegular) {
+        tipoRegular.addEventListener('change', mostrarTipoMatriculaSeleccionado);
     }
     
-    // btnSubmit ya tiene onclick en el HTML, no necesitamos event listener adicional
-    // if (btnSubmit) {
-    //     btnSubmit.addEventListener('click', enviarFormulario);
-    // }
-    
-    // Los botones ya tienen onclick en el HTML, no necesitamos event listeners adicionales
-    // if (btnReset) {
-    //     btnReset.addEventListener('click', limpiarFormulario);
-    // }
-    
-    // if (btnPrint) {
-    //     btnPrint.addEventListener('click', imprimirFormulario);
-    // }
-    
-    // Configurar campo de enfermedad para mostrar/ocultar detalle
-    const enfermedadSelect = document.getElementById('enfermedad');
-    const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
-    
-    if (enfermedadSelect && detalleEnfermedadGroup) {
-        enfermedadSelect.addEventListener('change', function() {
-            if (this.value === 'Sí') {
-                detalleEnfermedadGroup.style.display = 'block';
-            } else {
-                detalleEnfermedadGroup.style.display = 'none';
-                const detalleEnfermedad = document.getElementById('detalleEnfermedad');
-                if (detalleEnfermedad) detalleEnfermedad.value = '';
-            }
-        });
+    if (tipoPlanNacional) {
+        tipoPlanNacional.addEventListener('change', mostrarTipoMatriculaSeleccionado);
     }
     
-    // Por defecto, mostrar formulario Regular
-    cambiarFormularioRegular();
-    
-    console.log('Formulario inicializado correctamente con Google Sheets');
+    // Mostrar estado inicial
+    setTimeout(mostrarTipoMatriculaSeleccionado, 100);
 });
 

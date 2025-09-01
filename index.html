@@ -49,7 +49,7 @@
                 <div class="main-title">BOLETA MATRÍCULA 2026</div>
             </div>
 
-            <!-- General Enrollment Information -->
+            <!-- Información General de Matrícula -->
             <div class="form-section">
                 <div class="section-header">
                     <h2>📋 Información General de Matrícula</h2>
@@ -58,87 +58,89 @@
                 <!-- Título de sección para impresión -->
                 <div class="print-section-title" style="display: none;">INFORMACIÓN GENERAL DE MATRÍCULA</div>
                 
-                <!-- Contenedor horizontal para consulta y tipo de matrícula -->
+                <!-- Contenedor horizontal para consulta, tipo de matrícula y nivel/especialidad/sección -->
                 <div class="consulta-tipo-container">
-                    <!-- Botón de consulta por cédula -->
+                    <!-- Sección de consulta -->
                     <div class="consulta-section">
                         <div class="consulta-header">
                             <h3>🔍 Consultar Estudiante Existente</h3>
-                            <p class="consulta-subtitle">Ingrese el número de cédula para buscar y cargar datos existentes</p>
+                        </div>
+                        <div class="consulta-subtitle">
+                            Ingrese el número de cédula del estudiante
                         </div>
                         <div class="consulta-form">
-                            <div class="input-group">
-                                <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
-                                <button type="button" id="btnConsultar" class="btn-consulta">
-                                    <span class="btn-icon">🔍</span>
-                                    <span class="btn-text">Buscar Estudiante</span>
+                            <div class="input-button-container">
+                                <input type="text" id="cedulaConsulta" placeholder="Número de cédula" required>
+                                <button type="button" class="btn-consulta" onclick="consultarEstudiante()">
+                                    🔍 Buscar
                                 </button>
                             </div>
                         </div>
                         <div id="mensajeConsulta" class="mensaje-consulta"></div>
                     </div>
                     
-                    <!-- Selector de tipo de matrícula -->
+                    <!-- Sección de tipo de matrícula -->
                     <div class="tipo-matricula-section">
                         <div class="tipo-matricula-header">
-                            <h3>📋 Tipo de Matrícula</h3>
-                            <p class="tipo-matricula-subtitle">Seleccione el tipo de matrícula que desea realizar</p>
+                            <h3>🎯 Tipo de Matrícula</h3>
                         </div>
+                        <div class="tipo-matricula-subtitle">Seleccione el tipo de matrícula</div>
                         <div class="tipo-matricula-options">
                             <div class="tipo-option">
-                                <input type="radio" id="tipoRegular" name="tipoMatricula" value="regular" checked>
-                                <label for="tipoRegular" class="tipo-label">
-                                    <span class="tipo-icon">🎓</span>
-                                    <span class="tipo-text">REGULAR CTP 2026</span>
+                                <input type="radio" id="regular" name="tipoMatricula" value="regular" required>
+                                <label for="regular" class="tipo-label">
+                                    <span class="tipo-icon">🏫</span>
+                                    <span class="tipo-text">Regular CTP 2026</span>
                                 </label>
                             </div>
                             <div class="tipo-option">
-                                <input type="radio" id="tipoPlanNacional" name="tipoMatricula" value="planNacional">
-                                <label for="tipoPlanNacional" class="tipo-label">
+                                <input type="radio" id="planNacional" name="tipoMatricula" value="planNacional" required>
+                                <label for="planNacional" class="tipo-label">
                                     <span class="tipo-icon">🇨🇷</span>
-                                    <span class="tipo-text">PLAN NACIONAL 2026</span>
+                                    <span class="tipo-text">Plan Nacional 2026</span>
                                 </label>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Sección de nivel, especialidad y sección -->
+                    <div class="nivel-especialidad-section">
+                        <div class="nivel-especialidad-header">
+                            <h3>📚 Nivel y Especialidad</h3>
+                        </div>
+                        <div class="nivel-especialidad-subtitle">Seleccione el nivel y especialidad</div>
+                        <div class="nivel-especialidad-fields">
+                            <div class="form-group">
+                                <label for="nivel">Nivel:</label>
+                                <select id="nivel" name="nivel" required>
+                                    <option value="">Seleccione un nivel</option>
+                                    <option value="Sétimo">Sétimo</option>
+                                    <option value="Octavo">Octavo</option>
+                                    <option value="Noveno">Noveno</option>
+                                    <option value="Décimo">Décimo</option>
+                                    <option value="Undécimo">Undécimo</option>
+                                    <option value="Duodécimo">Duodécimo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="especialidad">Especialidad:</label>
+                                <select id="especialidad" name="especialidad" required>
+                                    <option value="">Seleccione una especialidad</option>
+                                    <option value="Agropecuaria">Agropecuaria</option>
+                                    <option value="Informática">Informática</option>
+                                    <option value="Administración">Administración</option>
+                                    <option value="Turismo">Turismo</option>
+                                    <option value="Contabilidad">Contabilidad</option>
+                                    <option value="Secretariado">Secretariado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="seccion">Sección:</label>
+                                <input type="text" id="seccion" name="seccion" placeholder="Ej: 7-1, 8-2" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Información básica en tres columnas -->
-                <div class="form-row three-columns">
-                    <div class="form-group">
-                        <label for="nivel">Nivel:</label>
-                        <select id="nivel" name="nivel" required>
-                            <option value="">Seleccione un nivel</option>
-                            <option value="Sétimo">Sétimo</option>
-                            <option value="Octavo">Octavo</option>
-                            <option value="Noveno">Noveno</option>
-                            <option value="Décimo">Décimo</option>
-                            <option value="Undécimo">Undécimo</option>
-                            <option value="Duodécimo">Duodécimo</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="especialidad">Especialidad:</label>
-                        <select id="especialidad" name="especialidad" required>
-                            <option value="">Seleccione una especialidad</option>
-                            <option value="SIN ESPECIALIDAD">SIN ESPECIALIDAD</option>
-                            <option value="TURISMO RURAL">TURISMO RURAL</option>
-                            <option value="ORGANIZACIÓN DE EMPRESAS DE TURISMO RURAL">ORGANIZACIÓN DE EMPRESAS DE TURISMO RURAL</option>
-                            <option value="PRODUCCIÓN AGRÍCOLA Y PECUARIA">PRODUCCIÓN AGRÍCOLA Y PECUARIA</option>
-                            <option value="AGROINDUSTRIA ALIMENTARIA CON TECNOLOGÍA AGRÍCOLA">AGROINDUSTRIA ALIMENTARIA CON TECNOLOGÍA AGRÍCOLA</option>
-                            <option value="CONTABILIDAD">CONTABILIDAD</option>
-                            <option value="CONTABILIDAD Y FINANZAS">CONTABILIDAD Y FINANZAS</option>
-                            <option value="PROCESOS PRODUCTIVOS EN INSPECCIÓN EN LA INDUSTRIA ALIMENTARIA">PROCESOS PRODUCTIVOS EN INSPECCIÓN EN LA INDUSTRIA ALIMENTARIA</option>
-                            <option value="AGROINDUSTRIA ALIMENTARIA CON TECNOLOGÍA PECUARIA">AGROINDUSTRIA ALIMENTARIA CON TECNOLOGÍA PECUARIA</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="seccion">Sección:</label>
-                        <input type="text" id="seccion" name="seccion" required>
-                    </div>
-                </div>
-                
-
             </div>
 
             <!-- Student Data -->
@@ -406,11 +408,7 @@
             <p>Enviando datos...</p>
         </div>
 
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p>&copy; 2025 Colegio Técnico Profesional Agropecuario de Sabalito</p>
-            <p>Sistema de Matrícula Estudiantil 2026</p>
-        </footer>
+
     </div>
 
     <!-- CSS NUCLEAR para forzar footer visible al imprimir -->
