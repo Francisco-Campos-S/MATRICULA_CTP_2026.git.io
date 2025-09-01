@@ -76,6 +76,30 @@
                     <div id="mensajeConsulta" class="mensaje-consulta"></div>
                 </div>
                 
+                <!-- Selector de tipo de matrícula -->
+                <div class="tipo-matricula-section">
+                    <div class="tipo-matricula-header">
+                        <h3>📋 Tipo de Matrícula</h3>
+                        <p class="tipo-matricula-subtitle">Seleccione el tipo de matrícula que desea realizar</p>
+                    </div>
+                    <div class="tipo-matricula-options">
+                        <div class="tipo-option">
+                            <input type="radio" id="tipoRegular" name="tipoMatricula" value="regular" checked>
+                            <label for="tipoRegular" class="tipo-label">
+                                <span class="tipo-icon">🎓</span>
+                                <span class="tipo-text">REGULAR CTP 2026</span>
+                            </label>
+                        </div>
+                        <div class="tipo-option">
+                            <input type="radio" id="tipoPlanNacional" name="tipoMatricula" value="planNacional">
+                            <label for="tipoPlanNacional" class="tipo-label">
+                                <span class="tipo-icon">🇨🇷</span>
+                                <span class="tipo-text">PLAN NACIONAL 2026</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Información básica en tres columnas -->
                 <div class="form-row three-columns">
                     <div class="form-group">
@@ -110,6 +134,8 @@
                         <input type="text" id="seccion" name="seccion" required>
                     </div>
                 </div>
+                
+
             </div>
 
             <!-- Student Data -->
@@ -307,9 +333,11 @@
                         </div>
                     </div>
                     <div class="form-column">
-                        <div class="form-group">
-                            <label for="firmaEncargado">Firma del Encargado:</label>
-                            <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado">
+                        <div class="form-column">
+                            <div class="form-group">
+                                <label for="firmaEncargado">Firma del Encargado:</label>
+                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado">
+                            </div>
                         </div>
                     </div>
                     <div class="form-column">
@@ -324,6 +352,8 @@
                     <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula"></textarea>
                 </div>
             </div>
+            
+
 
             <!-- Print Footer (solo visible al imprimir) -->
             <div class="print-footer" style="display: none;">
@@ -331,30 +361,33 @@
                 <p>Teléfono (506) 2784-0616/WhatsApp 89914536. Email: Clp.desabalito@mep.go.cr</p>
             </div>
 
-            <!-- Submit Button -->
+            <!-- Botones de Acción -->
             <div class="form-actions">
-                <button type="submit" class="btn-submit">
-                    <span class="btn-icon">📤</span>
-                    <span class="btn-text">Enviar Matrícula</span>
+                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()">
+                    <span class="btn-icon">🧪</span>
+                    <span class="btn-text">Cargar Datos de Prueba</span>
                 </button>
-                <button type="button" class="btn-reset" onclick="limpiarFormularioCompleto()">
+                
+                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()">
+                    <span class="btn-icon">📤</span>
+                    <span class="btn-text">Enviar Formulario</span>
+                </button>
+                
+                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()">
                     <span class="btn-icon">🧹</span>
                     <span class="btn-text">Limpiar Formulario</span>
                 </button>
-                <button type="button" class="btn-print" onclick="printForm()">
+                
+                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()">
                     <span class="btn-icon">🖨️</span>
-                    <span class="btn-text">Imprimir Formulario</span>
-                </button>
-                <button type="button" class="btn-test" onclick="cargarDatosPrueba()">
-                    <span class="btn-icon">🧪</span>
-                    <span class="btn-text">Cargar Datos de Prueba</span>
+                    <span class="btn-text">Imprimir</span>
                 </button>
             </div>
             
             <!-- Información sobre la impresión -->
             <div class="print-info" style="display: none;">
                 <p><strong>💡 Nota:</strong> Al imprimir, el archivo se guardará automáticamente con el nombre del estudiante, nivel, sección y año.</p>
-                <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nombre_Nivel_Seccion_2026.pdf</p>
+                <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nivel_Seccion_2026.pdf</p>
             </div>
         </form>
 

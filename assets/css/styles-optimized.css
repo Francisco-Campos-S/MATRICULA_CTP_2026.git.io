@@ -206,6 +206,85 @@ body {
     min-height: 18px;
 }
 
+/* Tipo de Matrícula Section */
+.tipo-matricula-section {
+    background: #f0f8ff;
+    padding: 3px;
+    border-radius: 3px;
+    margin-bottom: 3px;
+    border: 1px solid #b3d9ff;
+    border-left: 3px solid #0066cc;
+}
+
+.tipo-matricula-header h3 {
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+    color: #0066cc;
+    text-align: center;
+}
+
+.tipo-matricula-subtitle {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+    text-align: center;
+}
+
+.tipo-matricula-options {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.tipo-option {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tipo-option input[type="radio"] {
+    display: none;
+}
+
+.tipo-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    font-size: 16px;
+    color: #666;
+}
+
+.tipo-label:hover {
+    border-color: #0066cc;
+    background: #f0f8ff;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,102,204,0.2);
+}
+
+.tipo-option input[type="radio"]:checked + .tipo-label {
+    border-color: #0066cc;
+    background: #0066cc;
+    color: white;
+    box-shadow: 0 2px 8px rgba(0,102,204,0.3);
+}
+
+.tipo-icon {
+    font-size: 18px;
+}
+
+.tipo-text {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
 /* Consulta Section */
 .consulta-section {
     background: #f8f9fa;
@@ -265,71 +344,93 @@ body {
 /* Botones de Acción - CRÍTICO PARA VISIBILIDAD */
 .form-actions {
     display: flex !important;
-    gap: 2px;
+    gap: 8px;
     justify-content: center;
-    margin-top: 2px;
-    flex-wrap: wrap;
-    padding: 3px;
+    align-items: center;
+    margin-top: 4px;
+    flex-wrap: nowrap;
+    padding: 8px;
     background: #f8f9fa;
-    border-radius: 3px;
+    border-radius: 6px;
     border: 1px solid #dee2e6;
     flex-shrink: 0;
     position: relative;
     z-index: 100;
     visibility: visible !important;
     opacity: 1 !important;
-    margin-bottom: 2px;
 }
 
-.btn-submit,
-.btn-reset,
-.btn-print,
-.btn-test {
-    background: var(--accent-color);
-    color: white;
+/* Estilos para botones de acción */
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 20px;
     border: none;
-    padding: 4px 8px;
-    border-radius: 2px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    display: flex !important;
-    align-items: center;
-    gap: 2px;
-    transition: all 0.2s ease;
-    min-width: 100px;
-    justify-content: center;
-    position: relative;
-    z-index: 101;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    visibility: visible !important;
-    opacity: 1 !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    white-space: nowrap;
+    min-height: 24px;
+    min-width: 140px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.btn-submit:hover,
-.btn-print:hover {
-    background: var(--accent-color-light);
+.btn:hover {
     transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.btn-reset {
-    background: var(--warning-color);
+.btn-icon {
+    font-size: 18px;
 }
 
-.btn-reset:hover {
-    background: #e0a800;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+.btn-text {
+    font-weight: 600;
 }
 
+/* Botón de prueba */
 .btn-test {
-    background: var(--info-color);
+    background: #17a2b8;
+    color: white;
 }
 
 .btn-test:hover {
     background: #138496;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Botón de envío */
+.btn-submit {
+    background: var(--accent-color);
+    color: white;
+}
+
+.btn-submit:hover {
+    background: var(--accent-color-light);
+}
+
+/* Botón de limpiar */
+.btn-reset {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-reset:hover {
+    background: #5a6268;
+}
+
+/* Botón de imprimir */
+.btn-print {
+    background: #28a745;
+    color: white;
+}
+
+.btn-print:hover {
+    background: #218838;
 }
 
 /* Footer */
