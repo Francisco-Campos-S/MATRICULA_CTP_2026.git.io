@@ -9,7 +9,7 @@
     <meta name="author" content="CTP Agropecuario de Sabalito">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles-optimized.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -27,22 +27,6 @@
                     <h2>Sistema de Matrícula Estudiantil 2026</h2>
                 </div>
             </div>
-            <div class="header-right">
-                <div class="mep-info">
-                    <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
-                    <p>GOBIERNO DE COSTA RICA</p>
-                    <div class="regional-info">
-                        <h4>Dirección Regional de Educación de Coto</h4>
-                        <p>Supervisión de Centros Educativos, Circuito 06</p>
-                    </div>
-                </div>
-                <div class="theme-toggle">
-                    <button id="themeToggle" class="btn-theme-toggle" title="Cambiar tema">
-                        <span class="theme-icon">🌙</span>
-                        <span class="theme-text">Modo Oscuro</span>
-                    </button>
-                </div>
-            </div>
         </header>
 
 
@@ -50,7 +34,7 @@
         <!-- Form -->
         <form id="matriculaForm" class="matricula-form" action="#" method="post">
             <!-- Print Header (solo visible al imprimir) -->
-            <div class="print-header">
+            <div class="print-header" style="display: none;">
                 <div class="mep-logos">
                     <div class="left-logos">
                         <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
@@ -69,11 +53,10 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>📋 Información General de Matrícula</h2>
-                    <div class="section-line"></div>
                 </div>
                 
                 <!-- Título de sección para impresión -->
-                <div class="print-section-title">INFORMACIÓN GENERAL DE MATRÍCULA</div>
+                <div class="print-section-title" style="display: none;">INFORMACIÓN GENERAL DE MATRÍCULA</div>
                 
                 <!-- Botón de consulta por cédula -->
                 <div class="consulta-section">
@@ -92,6 +75,8 @@
                     </div>
                     <div id="mensajeConsulta" class="mensaje-consulta"></div>
                 </div>
+                
+                <!-- Información básica en tres columnas -->
                 <div class="form-row three-columns">
                     <div class="form-group">
                         <label for="nivel">Nivel:</label>
@@ -131,13 +116,12 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>👤 Datos del Estudiante</h2>
-                    <div class="section-line"></div>
                 </div>
                 
                 <!-- Título de sección para impresión -->
-                <div class="print-section-title">DATOS DEL ESTUDIANTE</div>
+                <div class="print-section-title" style="display: none;">DATOS DEL ESTUDIANTE</div>
                 
-                <div class="form-row">
+                <div class="form-row four-columns">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="primerApellido">Primer apellido:</label>
@@ -150,22 +134,6 @@
                         <div class="form-group">
                             <label for="nombreEstudiante">Nombre:</label>
                             <input type="text" id="nombreEstudiante" name="nombreEstudiante" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="telefonoEstudiante">Nº teléfono:</label>
-                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
-                        </div>
-                        <div class="form-group">
-                            <label for="adecuacion">Posee adecuación:</label>
-                            <select id="adecuacion" name="adecuacion">
-                                <option value="">Seleccione...</option>
-                                <option value="Sí">Sí</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="rutaTransporte">Ruta de transporte:</label>
-                            <input type="text" id="rutaTransporte" name="rutaTransporte">
                         </div>
                     </div>
                     <div class="form-column">
@@ -181,6 +149,20 @@
                             <label for="nacionalidad">Nacionalidad:</label>
                             <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense">
                         </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="telefonoEstudiante">Nº teléfono:</label>
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
+                        </div>
+                        <div class="form-group">
+                            <label for="adecuacion">Posee adecuación:</label>
+                            <select id="adecuacion" name="adecuacion">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
                         <div class="form-group">
                             <label for="repitente">¿Es repitente?</label>
                             <select id="repitente" name="repitente">
@@ -189,6 +171,8 @@
                                 <option value="No">No</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="enfermedad">Padece alguna enfermedad:</label>
                             <select id="enfermedad" name="enfermedad">
@@ -199,7 +183,11 @@
                         </div>
                         <div class="form-group" id="detalleEnfermedadGroup" style="display: none;">
                             <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
-                            <textarea id="detalleEnfermedad" name="detalleEnfermedad" rows="2"></textarea>
+                            <textarea id="detalleEnfermedad" name="detalleEnfermedad" rows="1"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="rutaTransporte">Ruta de transporte:</label>
+                            <input type="text" id="rutaTransporte" name="rutaTransporte">
                         </div>
                     </div>
                 </div>
@@ -209,13 +197,12 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>👩 Datos de la Madre o Encargada</h2>
-                    <div class="section-line"></div>
                 </div>
                 
                 <!-- Título de sección para impresión -->
-                <div class="print-section-title">DATOS DE LA MADRE O ENCARGADA</div>
+                <div class="print-section-title" style="display: none;">DATOS DE LA MADRE O ENCARGADA</div>
                 
-                <div class="form-row">
+                <div class="form-row three-columns">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreMadre">Nombre:</label>
@@ -225,20 +212,18 @@
                             <label for="cedulaMadre">N° de Cédula:</label>
                             <input type="text" id="cedulaMadre" name="cedulaMadre" required>
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoMadre">Nº teléfono:</label>
                             <input type="tel" id="telefonoMadre" name="telefonoMadre" required>
                         </div>
                         <div class="form-group">
-                            <label for="direccionMadre">Dirección exacta:</label>
-                            <textarea id="direccionMadre" name="direccionMadre" rows="2" required></textarea>
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-group">
                             <label for="parentescoMadre">Parentesco:</label>
                             <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre">
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudianteMadre">Vive con estudiante:</label>
                             <select id="viveConEstudianteMadre" name="viveConEstudianteMadre">
@@ -246,6 +231,10 @@
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionMadre">Dirección exacta:</label>
+                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -255,13 +244,12 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>👨 Datos del Padre o Encargado</h2>
-                    <div class="section-line"></div>
                 </div>
                 
                 <!-- Título de sección para impresión -->
-                <div class="print-section-title">DATOS DEL PADRE O ENCARGADO</div>
+                <div class="print-section-title" style="display: none;">DATOS DEL PADRE O ENCARGADO</div>
                 
-                <div class="form-row">
+                <div class="form-row three-columns">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombrePadre">Nombre:</label>
@@ -271,20 +259,18 @@
                             <label for="cedulaPadre">N° de Cédula:</label>
                             <input type="text" id="cedulaPadre" name="cedulaPadre">
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoPadre">Nº teléfono:</label>
                             <input type="tel" id="telefonoPadre" name="telefonoPadre">
                         </div>
                         <div class="form-group">
-                            <label for="direccionPadre">Dirección:</label>
-                            <textarea id="direccionPadre" name="direccionPadre" rows="2"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-group">
                             <label for="parentescoPadre">Parentesco:</label>
                             <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre">
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudiantePadre">Vive con estudiante:</label>
                             <select id="viveConEstudiantePadre" name="viveConEstudiantePadre">
@@ -292,6 +278,10 @@
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="direccionPadre">Dirección:</label>
+                            <textarea id="direccionPadre" name="direccionPadre" rows="1"></textarea>
                         </div>
                     </div>
                 </div>
@@ -301,21 +291,22 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>✍️ Declaración y Firmas</h2>
-                    <div class="section-line"></div>
                 </div>
                 
                 <!-- Título de sección para impresión -->
-                <div class="print-section-title">DECLARACIÓN Y FIRMAS</div>
+                <div class="print-section-title" style="display: none;">DECLARACIÓN Y FIRMAS</div>
                 
                 <div class="declaration">
                     <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
                 </div>
-                <div class="form-row">
+                <div class="form-row three-columns">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="firmaEncargada">Firma de la Encargada:</label>
                             <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada">
                         </div>
+                    </div>
+                    <div class="form-column">
                         <div class="form-group">
                             <label for="firmaEncargado">Firma del Encargado:</label>
                             <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado">
@@ -330,12 +321,12 @@
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones Adicionales:</label>
-                    <textarea id="observaciones" name="observaciones" rows="3" placeholder="Información adicional o comentarios sobre la matrícula"></textarea>
+                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula"></textarea>
                 </div>
             </div>
 
             <!-- Print Footer (solo visible al imprimir) -->
-            <div class="print-footer">
+            <div class="print-footer" style="display: none;">
                 <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
                 <p>Teléfono (506) 2784-0616/WhatsApp 89914536. Email: Clp.desabalito@mep.go.cr</p>
             </div>
@@ -361,7 +352,7 @@
             </div>
             
             <!-- Información sobre la impresión -->
-            <div class="print-info">
+            <div class="print-info" style="display: none;">
                 <p><strong>💡 Nota:</strong> Al imprimir, el archivo se guardará automáticamente con el nombre del estudiante, nivel, sección y año.</p>
                 <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nombre_Nivel_Seccion_2026.pdf</p>
             </div>
