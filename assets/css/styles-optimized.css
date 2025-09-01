@@ -87,28 +87,26 @@ body {
 .matricula-form {
     background: white;
     color: #2c3e50;
-    padding: 2px;
+    padding: 1px;
     border-radius: 4px;
     box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     border: 1px solid #e8f4f8;
     flex: 1;
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     min-height: 0;
 }
 
 .form-section {
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     padding: 2px;
-    border-radius: 3px;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border-color-accent);
-    box-shadow: 0 1px 2px var(--shadow-secondary);
-    transition: all 0.2s ease;
-    flex-shrink: 0;
+    background: #f8f9fa;
+    border-radius: 4px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .form-section:hover {
@@ -117,13 +115,13 @@ body {
 }
 
 .section-header {
-    margin-bottom: 2px;
-    text-align: center;
+    margin-bottom: 1px;
     padding: 2px;
-    background: var(--bg-tertiary);
-    border-radius: 2px;
-    border: 1px solid var(--border-color-accent);
-    box-shadow: 0 1px 1px var(--shadow-accent);
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-color-light));
+    border-radius: 4px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .section-header h2 {
@@ -183,13 +181,14 @@ body {
 .form-group input,
 .form-group select,
 .form-group textarea {
-    padding: 3px 5px;
-    border: 1px solid var(--border-color);
-    border-radius: 2px;
+    padding: 6px 8px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
     font-size: 17px;
     background: white;
-    transition: all 0.2s ease;
-    min-height: 18px;
+    transition: all 0.3s ease;
+    min-height: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .form-group input:focus,
@@ -197,8 +196,9 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.1);
+    box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.15);
     transform: translateY(-1px);
+    background: #f8fff9;
 }
 
 .form-group textarea {
@@ -209,31 +209,39 @@ body {
 /* Tipo de Matrícula Section */
 .tipo-matricula-section {
     background: #f0f8ff;
-    padding: 3px;
-    border-radius: 3px;
-    margin-bottom: 3px;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 0;
     border: 1px solid #b3d9ff;
-    border-left: 3px solid #0066cc;
+    border-left: 4px solid #0066cc;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0,102,204,0.08);
+    transition: all 0.3s ease;
+}
+
+.tipo-matricula-section:hover {
+    box-shadow: 0 4px 12px rgba(0,102,204,0.12);
+    transform: translateY(-1px);
 }
 
 .tipo-matricula-header h3 {
     font-size: 0.9rem;
     margin-bottom: 2px;
     color: #0066cc;
-    text-align: center;
+    text-align: left;
 }
 
 .tipo-matricula-subtitle {
     font-size: 15px;
     color: var(--text-muted);
     margin-bottom: 2px;
-    text-align: center;
+    text-align: left;
 }
 
 .tipo-matricula-options {
     display: flex;
     gap: 8px;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
 }
 
@@ -285,14 +293,29 @@ body {
     white-space: nowrap;
 }
 
+/* Contenedor horizontal para consulta y tipo de matrícula */
+.consulta-tipo-container {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 1px;
+}
+
 /* Consulta Section */
 .consulta-section {
     background: #f8f9fa;
-    padding: 3px;
-    border-radius: 3px;
-    margin-bottom: 3px;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 0;
     border: 1px solid #dee2e6;
-    border-left: 3px solid var(--accent-color);
+    border-left: 4px solid var(--accent-color);
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.consulta-section:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
 }
 
 .consulta-header h3 {
@@ -307,38 +330,59 @@ body {
     margin-bottom: 2px;
 }
 
-.consulta-form .input-group {
+.consulta-form {
     display: flex;
-    gap: 3px;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+}
+
+.consulta-form .input-button-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .consulta-form input {
-    flex: 1;
-    padding: 3px 5px;
-    border: 1px solid #ced4da;
-    border-radius: 2px;
-    font-size: 17px;
+    width: 450px;
+    max-width: 450px;
+    padding: 12px 16px;
+    border: 3px solid #007bff;
+    border-radius: 8px;
+    font-size: 20px;
+    flex-shrink: 0;
+    background: #ffffff;
+    box-shadow: 0 3px 6px rgba(0, 123, 255, 0.15);
+    transition: all 0.3s ease;
+}
+
+.consulta-form input:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    transform: translateY(-1px);
 }
 
 .btn-consulta {
     background: var(--accent-color);
     color: white;
     border: none;
-    padding: 3px 8px;
-    border-radius: 2px;
+    padding: 12px 18px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 8px;
     white-space: nowrap;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    height: 55px;
 }
 
 .btn-consulta:hover {
     background: var(--accent-color-light);
-    transform: translateY(-1px);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 /* Botones de Acción - CRÍTICO PARA VISIBILIDAD */
@@ -484,10 +528,30 @@ body {
 
 .form-group select {
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .form-group select:hover {
     border-color: var(--accent-color-light);
+    box-shadow: 0 2px 4px rgba(46, 139, 87, 0.1);
+}
+
+/* Campo de detalle de enfermedad - mantiene tamaño */
+#detalleEnfermedadGroup {
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+#detalleEnfermedadGroup.show {
+    max-height: 100px;
+    opacity: 1;
+}
+
+#detalleEnfermedadGroup.hide {
+    max-height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
 }
 
 /* Scrollbar personalizado para mejor visibilidad */
@@ -532,8 +596,19 @@ body {
         grid-template-columns: 1fr;
     }
     
+    .consulta-tipo-container {
+        flex-direction: column;
+        gap: 3px;
+    }
+    
     .consulta-form .input-group {
         flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .consulta-form input {
+        width: 100%;
+        max-width: none;
     }
     
     .form-actions {
@@ -564,4 +639,116 @@ body {
     .print-info {
         display: block !important;
     }
+}
+
+/* Nivel, Especialidad y Sección Section - MÁS COMPACTO Y VISIBLE */
+.nivel-especialidad-section {
+    background: #fff3cd;
+    padding: 3px;
+    border-radius: 6px;
+    margin-bottom: 0;
+    border: 1px solid #ffeaa7;
+    border-left: 4px solid #f39c12;
+    flex: 1;
+    box-shadow: 0 2px 6px rgba(243,156,18,0.08);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.nivel-especialidad-section:hover {
+    box-shadow: 0 4px 12px rgba(243,156,18,0.12);
+    transform: translateY(-1px);
+}
+
+.nivel-especialidad-header h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1px;
+    color: #d68910;
+    text-align: left;
+}
+
+.nivel-especialidad-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+    text-align: left;
+}
+
+.nivel-especialidad-fields {
+    display: flex;
+    flex-direction: row;
+    gap: 2px;
+    align-items: flex-end;
+}
+
+.nivel-especialidad-fields .form-group {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.nivel-especialidad-fields .form-group label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #d68910;
+    margin-bottom: 1px;
+}
+
+.nivel-especialidad-fields .form-group input,
+.nivel-especialidad-fields .form-group select {
+    padding: 2px 4px;
+    border: 1px solid #ffeaa7;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    min-height: 18px;
+    background: white;
+    width: 100%;
+    overflow: hidden;
+    resize: none;
+}
+
+.nivel-especialidad-fields .form-group input:focus,
+.nivel-especialidad-fields .form-group select:focus {
+    outline: none;
+    border-color: #f39c12;
+    box-shadow: 0 0 0 2px rgba(243,156,18,0.25);
+}
+
+/* Botones de acción */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 15px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.action-buttons button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    min-height: 40px;
+}
+
+/* Footer separado de los botones */
+footer {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 2px solid #e9ecef;
+    text-align: center;
+    color: #6c757d;
+    font-size: 14px;
+    line-height: 1.4;
 }
