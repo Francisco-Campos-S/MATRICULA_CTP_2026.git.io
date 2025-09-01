@@ -58,44 +58,47 @@
                 <!-- Título de sección para impresión -->
                 <div class="print-section-title" style="display: none;">INFORMACIÓN GENERAL DE MATRÍCULA</div>
                 
-                <!-- Botón de consulta por cédula -->
-                <div class="consulta-section">
-                    <div class="consulta-header">
-                        <h3>🔍 Consultar Estudiante Existente</h3>
-                        <p class="consulta-subtitle">Ingrese el número de cédula para buscar y cargar datos existentes</p>
-                    </div>
-                    <div class="consulta-form">
-                        <div class="input-group">
-                            <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
-                            <button type="button" id="btnConsultar" class="btn-consulta">
-                                <span class="btn-icon">🔍</span>
-                                <span class="btn-text">Buscar Estudiante</span>
-                            </button>
+                <!-- Contenedor horizontal para consulta y tipo de matrícula -->
+                <div class="consulta-tipo-container">
+                    <!-- Botón de consulta por cédula -->
+                    <div class="consulta-section">
+                        <div class="consulta-header">
+                            <h3>🔍 Consultar Estudiante Existente</h3>
+                            <p class="consulta-subtitle">Ingrese el número de cédula para buscar y cargar datos existentes</p>
                         </div>
-                    </div>
-                    <div id="mensajeConsulta" class="mensaje-consulta"></div>
-                </div>
-                
-                <!-- Selector de tipo de matrícula -->
-                <div class="tipo-matricula-section">
-                    <div class="tipo-matricula-header">
-                        <h3>📋 Tipo de Matrícula</h3>
-                        <p class="tipo-matricula-subtitle">Seleccione el tipo de matrícula que desea realizar</p>
-                    </div>
-                    <div class="tipo-matricula-options">
-                        <div class="tipo-option">
-                            <input type="radio" id="tipoRegular" name="tipoMatricula" value="regular" checked>
-                            <label for="tipoRegular" class="tipo-label">
-                                <span class="tipo-icon">🎓</span>
-                                <span class="tipo-text">REGULAR CTP 2026</span>
-                            </label>
+                        <div class="consulta-form">
+                            <div class="input-group">
+                                <input type="text" id="cedulaConsulta" placeholder="Ingrese número de cédula" maxlength="20">
+                                <button type="button" id="btnConsultar" class="btn-consulta">
+                                    <span class="btn-icon">🔍</span>
+                                    <span class="btn-text">Buscar Estudiante</span>
+                                </button>
+                            </div>
                         </div>
-                        <div class="tipo-option">
-                            <input type="radio" id="tipoPlanNacional" name="tipoMatricula" value="planNacional">
-                            <label for="tipoPlanNacional" class="tipo-label">
-                                <span class="tipo-icon">🇨🇷</span>
-                                <span class="tipo-text">PLAN NACIONAL 2026</span>
-                            </label>
+                        <div id="mensajeConsulta" class="mensaje-consulta"></div>
+                    </div>
+                    
+                    <!-- Selector de tipo de matrícula -->
+                    <div class="tipo-matricula-section">
+                        <div class="tipo-matricula-header">
+                            <h3>📋 Tipo de Matrícula</h3>
+                            <p class="tipo-matricula-subtitle">Seleccione el tipo de matrícula que desea realizar</p>
+                        </div>
+                        <div class="tipo-matricula-options">
+                            <div class="tipo-option">
+                                <input type="radio" id="tipoRegular" name="tipoMatricula" value="regular" checked>
+                                <label for="tipoRegular" class="tipo-label">
+                                    <span class="tipo-icon">🎓</span>
+                                    <span class="tipo-text">REGULAR CTP 2026</span>
+                                </label>
+                            </div>
+                            <div class="tipo-option">
+                                <input type="radio" id="tipoPlanNacional" name="tipoMatricula" value="planNacional">
+                                <label for="tipoPlanNacional" class="tipo-label">
+                                    <span class="tipo-icon">🇨🇷</span>
+                                    <span class="tipo-text">PLAN NACIONAL 2026</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
