@@ -159,40 +159,70 @@
                             <input type="text" id="primerApellido" name="primerApellido" required>
                         </div>
                         <div class="form-group">
+                            <label for="nacionalidad">Nacionalidad:</label>
+                            <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense">
+                        </div>
+                        <div class="form-group">
+                            <label for="discapacidad">¿Tiene alguna discapacidad?:</label>
+                            <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="tipoDiscapacidadGroup" style="display: none;">
+                            <label for="tipoDiscapacidad">Tipo de discapacidad:</label>
+                            <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad">
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
                             <label for="segundoApellido">Segundo apellido:</label>
                             <input type="text" id="segundoApellido" name="segundoApellido">
                         </div>
                         <div class="form-group">
-                            <label for="nombreEstudiante">Nombre:</label>
-                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required>
+                            <label for="adecuacion">Posee adecuación:</label>
+                            <select id="adecuacion" name="adecuacion" onchange="mostrarTipoAdecuacion()">
+                                <option value="">Seleccione...</option>
+                                <option value="Sí">Sí</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="tipoAdecuacionGroup" style="display: none;">
+                            <label for="tipoAdecuacion">Tipo de adecuación:</label>
+                            <input type="text" id="tipoAdecuacion" name="tipoAdecuacion" placeholder="Especifique el tipo de adecuación">
                         </div>
                     </div>
                     <div class="form-column">
+                        <div class="form-group">
+                            <label for="nombreEstudiante">Nombre:</label>
+                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required>
+                        </div>
                         <div class="form-group">
                             <label for="cedulaEstudiante">N° cédula:</label>
                             <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required>
                         </div>
                         <div class="form-group">
-                            <label for="fechaNacimiento">Fecha nacimiento:</label>
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="nacionalidad">Nacionalidad:</label>
-                            <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense">
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label for="telefonoEstudiante">Nº teléfono:</label>
-                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
-                        </div>
-                        <div class="form-group">
-                            <label for="adecuacion">Posee adecuación:</label>
-                            <select id="adecuacion" name="adecuacion">
+                            <label for="enfermedad">Padece alguna enfermedad:</label>
+                            <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
                             </select>
+                        </div>
+                        <div class="form-group" id="detalleEnfermedadGroup" style="display: none;">
+                            <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
+                            <textarea id="detalleEnfermedad" name="detalleEnfermedad" rows="2" placeholder="Describa la enfermedad o condición médica"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="fechaNacimiento">Fecha nacimiento:</label>
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefonoEstudiante">Nº teléfono:</label>
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
                         </div>
                         <div class="form-group">
                             <label for="repitente">¿Es repitente?</label>
@@ -202,23 +232,9 @@
                                 <option value="No">No</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label for="enfermedad">Padece alguna enfermedad:</label>
-                            <select id="enfermedad" name="enfermedad">
-                                <option value="">Seleccione...</option>
-                                <option value="Sí">Sí</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                        <div class="form-group" id="detalleEnfermedadGroup" style="display: none;">
-                            <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
-                            <textarea id="detalleEnfermedad" name="detalleEnfermedad" rows="1"></textarea>
-                        </div>
                         <div class="form-group">
                             <label for="rutaTransporte">Ruta de transporte:</label>
-                            <input type="text" id="rutaTransporte" name="rutaTransporte">
+                            <input type="text" id="rutaTransporte" name="rutaTransporte" placeholder="Especifique la ruta de transporte">
                         </div>
                     </div>
                 </div>

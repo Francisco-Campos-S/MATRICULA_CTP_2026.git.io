@@ -752,3 +752,54 @@ footer {
     font-size: 14px;
     line-height: 1.4;
 }
+
+/* Optimización de la sección de datos del estudiante con 4 columnas */
+.datos-estudiante-section .form-row.four-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    align-items: start;
+}
+
+.datos-estudiante-section .form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.datos-estudiante-section .form-group {
+    margin-bottom: 0;
+}
+
+.datos-estudiante-section label {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #333;
+    line-height: 1.2;
+}
+
+.datos-estudiante-section input,
+.datos-estudiante-section select,
+.datos-estudiante-section textarea {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 13px;
+    background-color: #fff;
+    min-height: 32px;
+}
+
+.datos-estudiante-section input:focus,
+.datos-estudiante-section select:focus,
+.datos-estudiante-section textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.datos-estudiante-section textarea {
+    resize: vertical;
+    min-height: 40px;
+}
