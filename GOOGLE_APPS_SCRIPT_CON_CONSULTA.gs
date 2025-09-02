@@ -99,8 +99,10 @@ function doPost(e) {
         console.log(`⚠️ Hoja "${nombreHoja}" no encontrada, creando nueva hoja...`);
         hojaDestino = spreadsheet.insertSheet(nombreHoja);
         
-        // Crear encabezados en la nueva hoja con las 34 columnas en el orden EXACTO que especificaste
+        // Crear encabezados en la nueva hoja con las 36 columnas en el orden EXACTO que especificaste
         const headers = [
+          'Timestamp',
+          'Número Secuencial',
           'Número de identificación',
           'Tipo de identificación', 
           'Primer apellido',
@@ -151,45 +153,94 @@ function doPost(e) {
       return ContentService.createTextOutput(`Error: No se pudo acceder a la hoja ${nombreHoja}`).setMimeType(ContentService.MimeType.TEXT);
     }
     
-    // PREPARAR DATOS PARA LA FILA CON LAS 34 COLUMNAS EN EL ORDEN EXACTO
+    // PREPARAR DATOS PARA LA FILA CON LAS 36 COLUMNAS EN EL ORDEN EXACTO
     // Orden según las columnas que especificaste:
-    // °	Número de identificación	Tipo de identificación	Primer apellido	Segundo apellido	Nombre	Fecha de nacimiento	Edad	Identidad de género	Nacionalidad	Repitente	Refugiado	Discapacidad	Especialidad	Nivel	Sección	Título	Celular estudiante	Encargada	Cédula	Celular	Parentesco	Vive con estud	Dirección exacta	Encargado	Cédula2	Celular2	Parentezco2	Otro Cel	Dirección2	MOVIMIENTO	Columna1	Columna2	Columna3	Columna4
+    // 0. Timestamp (fecha y hora del envío)
+    // 1. Número Secuencial (conteo de estudiantes)
+    // 2. Número de identificación
+    // 3. Tipo de identificación
+    // 4. Primer apellido
+    // 5. Segundo apellido
+    // 6. Nombre
+    // 7. Fecha de nacimiento
+    // 8. Edad
+    // 9. Identidad de género
+    // 10. Nacionalidad
+    // 11. Repitente
+    // 12. Refugiado
+    // 13. Discapacidad
+    // 14. Especialidad
+    // 15. Nivel
+    // 16. Sección
+    // 17. Título
+    // 18. Celular estudiante
+    // 19. Encargada
+    // 20. Cédula
+    // 21. Celular
+    // 22. Parentesco
+    // 23. Vive con estud
+    // 24. Dirección exacta
+    // 25. Encargado
+    // 26. Cédula2
+    // 27. Celular2
+    // 28. Parentezco2
+    // 29. Otro Cel
+    // 30. Dirección2
+    // 31. MOVIMIENTO
+    // 32. Columna1
+    // 33. Columna2
+    // 34. Columna3
+    // 35. Columna4
+    
+    // Obtener el siguiente número secuencial para esta hoja
+    let siguienteNumero = 1;
+    if (hojaDestino.getLastRow() > 0) {
+        // Buscar en la primera columna (Timestamp) para contar registros existentes
+        const dataExistente = hojaDestino.getDataRange().getValues();
+        siguienteNumero = dataExistente.length; // +1 porque ya tenemos el encabezado
+    }
+    
+    // Obtener fecha y hora actual en formato legible
+    const ahora = new Date();
+    const timestamp = Utilities.formatDate(ahora, 'America/Costa_Rica', 'dd/MM/yyyy HH:mm:ss');
     
     const rowData = [
-      formData.numeroIdentificacion || '',          // 1. Número de identificación
-      'CÉDULA',                                    // 2. Tipo de identificación (siempre CÉDULA)
-      formData.primerApellido || '',                // 3. Primer apellido
-      formData.segundoApellido || '',               // 4. Segundo apellido
-      formData.nombre || '',                        // 5. Nombre
-      formData.fechaNacimiento || '',               // 6. Fecha de nacimiento
-      '',                                          // 7. Edad (vacío, se calcula en Sheets)
-      '',                                          // 8. Identidad de género (vacío)
-      formData.nacionalidad || '',                  // 9. Nacionalidad
-      formData.repitente || '',                     // 10. Repitente
-      '',                                          // 11. Refugiado (vacío)
-      formData.discapacidad || '',                  // 12. Discapacidad
-      formData.especialidad || '',                  // 13. Especialidad
-      formData.nivel || '',                         // 14. Nivel
-      formData.seccion || '',                       // 15. Sección
-      '',                                          // 16. Título (vacío)
-      formData.celularEstudiante || '',             // 17. Celular estudiante
-      formData.encargada || '',                     // 18. Encargada
-      formData.cedula || '',                        // 19. Cédula
-      formData.celular || '',                       // 20. Celular
-      formData.parentesco || '',                    // 21. Parentesco
-      formData.viveConEstudiante || '',             // 22. Vive con estud
-      formData.direccionExacta || '',               // 23. Dirección exacta
-      formData.encargado || '',                     // 24. Encargado
-      formData.cedula2 || '',                       // 25. Cédula2
-      formData.celular2 || '',                      // 26. Celular2
-      formData.parentezco2 || '',                   // 27. Parentezco2
-      '',                                          // 28. Otro Cel (vacío)
-      formData.direccion2 || '',                    // 29. Dirección2
-      'NUEVA MATRÍCULA 2026',                      // 30. MOVIMIENTO
-      '',                                          // 31. Columna1 (vacío)
-      '',                                          // 32. Columna2 (vacío)
-      '',                                          // 33. Columna3 (vacío)
-      ''                                           // 34. Columna4 (vacío)
+      timestamp,                                    // 0. Timestamp (fecha y hora del envío)
+      siguienteNumero,                              // 1. Número Secuencial (conteo de estudiantes)
+      formData.numeroIdentificacion || '',          // 2. Número de identificación
+      'CÉDULA',                                    // 3. Tipo de identificación (siempre CÉDULA)
+      formData.primerApellido || '',                // 4. Primer apellido
+      formData.segundoApellido || '',               // 5. Segundo apellido
+      formData.nombre || '',                        // 6. Nombre
+      formData.fechaNacimiento || '',               // 7. Fecha de nacimiento
+      '',                                          // 8. Edad (vacío, se calcula en Sheets)
+      '',                                          // 9. Identidad de género (vacío)
+      formData.nacionalidad || '',                  // 10. Nacionalidad
+      formData.repitente || '',                     // 11. Repitente
+      '',                                          // 12. Refugiado (vacío)
+      formData.discapacidad || '',                  // 13. Discapacidad
+      formData.especialidad || '',                  // 14. Especialidad
+      formData.nivel || '',                         // 15. Nivel
+      formData.seccion || '',                       // 16. Sección
+      '',                                          // 17. Título (vacío)
+      formData.celularEstudiante || '',             // 18. Celular estudiante
+      formData.encargada || '',                     // 19. Encargada
+      formData.cedula || '',                        // 20. Cédula
+      formData.celular || '',                       // 21. Celular
+      formData.parentesco || '',                    // 22. Parentesco
+      formData.viveConEstudiante || '',             // 23. Vive con estud
+      formData.direccionExacta || '',               // 24. Dirección exacta
+      formData.encargado || '',                     // 25. Encargado
+      formData.cedula2 || '',                       // 26. Cédula2
+      formData.celular2 || '',                      // 27. Celular2
+      formData.parentezco2 || '',                   // 28. Parentezco2
+      formData.otroCel || '',                       // 29. Otro Cel
+      formData.direccion2 || '',                    // 30. Dirección2
+      'NUEVA MATRÍCULA 2026',                      // 31. MOVIMIENTO
+      '',                                          // 32. Columna1 (vacío)
+      '',                                          // 33. Columna2 (vacío)
+      '',                                          // 34. Columna3 (vacío)
+      ''                                           // 35. Columna4 (vacío)
     ];
     
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);

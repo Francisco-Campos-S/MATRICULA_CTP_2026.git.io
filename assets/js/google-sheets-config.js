@@ -11,7 +11,7 @@ const GOOGLE_SHEETS_CONFIG = {
     // Configuración de Google Apps Script (debes crear esto)
     APPS_SCRIPT: {
         // ✅ CONFIGURADO: URL real de tu Google Apps Script
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyFmC36fkkraO5amUr9rScr8rWiMUDK7ksqXK8FSCc0ci03NKw9Awo47lCy3tbJ3795Hw/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwLOjntz5UqfhXcT_UczbSzotqgtTGDhYBJkdCyS1elsU3mRPwlAqAkQRHvxXioAYjgig/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
