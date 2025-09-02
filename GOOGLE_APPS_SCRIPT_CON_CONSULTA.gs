@@ -98,14 +98,9 @@ function doPost(e) {
       if (!hojaDestino) {
         console.log(`⚠️ Hoja "${nombreHoja}" no encontrada, creando nueva hoja...`);
         hojaDestino = spreadsheet.insertSheet(nombreHoja);
+        console.log(`✅ Nueva hoja "${nombreHoja}" creada exitosamente`);
       } else {
         console.log(`✅ Hoja "${nombreHoja}" ya existe`);
-        
-        // ELIMINAR Y RECREAR LA HOJA PARA GARANTIZAR HEADERS CORRECTOS
-        console.log(`🔄 Eliminando hoja "${nombreHoja}" existente para recrearla con headers correctos...`);
-        spreadsheet.deleteSheet(hojaDestino);
-        hojaDestino = spreadsheet.insertSheet(nombreHoja);
-        console.log(`✅ Hoja "${nombreHoja}" recreada exitosamente`);
       }
       
       // SIEMPRE verificar y actualizar los headers para asegurar que tengan las 41 columnas correctas
@@ -153,14 +148,41 @@ function doPost(e) {
         'Columna4'
       ];
       
-      // CREAR HEADERS EN LA HOJA NUEVA/RECREADA
-      console.log(`🔄 Creando headers en hoja "${nombreHoja}" con ${headers.length} columnas...`);
-      hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
-      console.log(`✅ Headers creados en hoja "${nombreHoja}" con ${headers.length} columnas`);
+      // VERIFICAR Y ACTUALIZAR HEADERS SIN ELIMINAR DATOS EXISTENTES
+      console.log(`🔄 Verificando headers en hoja "${nombreHoja}"...`);
       
-      // Verificar que se crearon correctamente
+      // Verificar si la hoja está completamente vacía (recién creada)
+      const isHojaNueva = hojaDestino.getLastRow() === 0;
+      console.log(`🔍 ¿Es una hoja nueva? ${isHojaNueva ? 'SÍ' : 'NO'}`);
+      
+      if (isHojaNueva) {
+        console.log(`📝 Hoja nueva detectada, insertando headers...`);
+        hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
+        console.log(`✅ Headers insertados en hoja nueva "${nombreHoja}" con ${headers.length} columnas`);
+      } else {
+        // Obtener headers actuales
+        const headersActuales = hojaDestino.getRange(1, 1, 1, hojaDestino.getLastColumn()).getValues()[0];
+        console.log(`📊 Headers actuales: ${headersActuales.length}, Headers correctos: ${headers.length}`);
+        console.log(`📋 Headers actuales:`, headersActuales);
+        
+        // Verificar si los headers son correctos
+        const headersCorrectos = headersActuales.length === headers.length && 
+                                 headersActuales.every((header, index) => header === headers[index]);
+        
+        if (!headersCorrectos) {
+          console.log(`⚠️ Headers incorrectos, actualizando solo la primera fila...`);
+          
+          // Solo actualizar la primera fila (headers) sin tocar los datos
+          hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
+          console.log(`✅ Headers actualizados en hoja "${nombreHoja}" con ${headers.length} columnas`);
+        } else {
+          console.log(`✅ Headers ya son correctos en hoja "${nombreHoja}" con ${headers.length} columnas`);
+        }
+      }
+      
+      // Verificar que se actualizaron correctamente
       const headersVerificados = hojaDestino.getRange(1, 1, 1, headers.length).getValues()[0];
-      console.log(`🔍 Headers verificados después de crear:`, headersVerificados);
+      console.log(`🔍 Headers verificados:`, headersVerificados);
       console.log(`✅ Hoja destino obtenida: ${hojaDestino.getName()}`);
       console.log(`🔍 Verificando que la hoja destino no sea null:`, hojaDestino ? 'NO ES NULL' : 'ES NULL');
       console.log(`🔍 Nombre de la hoja destino:`, hojaDestino ? hojaDestino.getName() : 'NULL');
@@ -215,10 +237,21 @@ function doPost(e) {
     
     // Obtener el siguiente número secuencial para esta hoja
     let siguienteNumero = 1;
-    if (hojaDestino.getLastRow() > 0) {
-        // Buscar en la primera columna (Timestamp) para contar registros existentes
-        const dataExistente = hojaDestino.getDataRange().getValues();
-        siguienteNumero = dataExistente.length; // +1 porque ya tenemos el encabezado
+    const lastRow = hojaDestino.getLastRow();
+    console.log(`📊 Última fila en hoja "${nombreHoja}": ${lastRow}`);
+    
+    if (lastRow > 1) {
+        // Si hay datos (más de 1 fila = header + datos), el siguiente número es la última fila
+        siguienteNumero = lastRow;
+        console.log(`📊 Hoja con datos existentes, siguiente número: ${siguienteNumero}`);
+    } else if (lastRow === 1) {
+        // Si solo hay header (1 fila), el siguiente número es 1
+        siguienteNumero = 1;
+        console.log(`📊 Hoja solo con header, siguiente número: ${siguienteNumero}`);
+    } else {
+        // Si está completamente vacía (0 filas), el siguiente número es 1
+        siguienteNumero = 1;
+        console.log(`📊 Hoja vacía, siguiente número: ${siguienteNumero}`);
     }
     
     // Obtener fecha y hora actual en formato legible
@@ -272,6 +305,8 @@ function doPost(e) {
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);
     console.log(`📊 Total de columnas: ${rowData.length}`);
     console.log(`🔍 Verificando que la hoja "${nombreHoja}" existe antes de insertar...`);
+    console.log(`🔍 Hoja destino válida:`, hojaDestino ? 'SÍ' : 'NO');
+    console.log(`🔍 Nombre de la hoja destino:`, hojaDestino ? hojaDestino.getName() : 'NULL');
     
     // Verificar que la hoja existe antes de insertar
     if (!hojaDestino) {
@@ -280,10 +315,18 @@ function doPost(e) {
     }
     
     // Insertar en la hoja destino
-    const lastRow = hojaDestino.getLastRow();
-    console.log(`📊 Última fila en hoja "${nombreHoja}": ${lastRow}`);
+    console.log(`📊 Número secuencial calculado: ${siguienteNumero}`);
+    console.log(`📊 Timestamp generado: ${timestamp}`);
+    console.log(`📊 Insertando en fila: ${lastRow + 1}`);
+    
+    // Verificar que rowData no esté vacío
+    if (!rowData || rowData.length === 0) {
+      console.log('❌ ERROR: rowData está vacío');
+      return ContentService.createTextOutput(`Error: No hay datos para insertar`).setMimeType(ContentService.MimeType.TEXT);
+    }
     
     try {
+      console.log(`🔄 Intentando insertar en fila ${lastRow + 1} con ${rowData.length} columnas...`);
       hojaDestino.getRange(lastRow + 1, 1, 1, rowData.length).setValues([rowData]);
       console.log(`✅ Nueva matrícula insertada exitosamente en hoja "${nombreHoja}" fila ${lastRow + 1}`);
       
@@ -295,6 +338,8 @@ function doPost(e) {
       return ContentService.createTextOutput(`Matrícula guardada exitosamente en ${nombreHoja}`).setMimeType(ContentService.MimeType.TEXT);
     } catch (insertError) {
       console.error('❌ Error insertando datos:', insertError);
+      console.error('❌ Detalles del error:', insertError.toString());
+      console.error('❌ Stack trace:', insertError.stack);
       return ContentService.createTextOutput(`Error al insertar datos en ${nombreHoja}: ${insertError.toString()}`).setMimeType(ContentService.MimeType.TEXT);
     }
     
@@ -473,5 +518,54 @@ function testConsulta() {
     console.log('✅ Resultado de la consulta:', resultado.getContent());
   } catch (error) {
     console.error('❌ Error en la prueba:', error);
+  }
+}
+
+// Función de prueba para verificar el envío de datos
+function testEnvio() {
+  console.log('🧪 Iniciando prueba de envío de datos...');
+  
+  // Simular datos de prueba
+  const mockData = {
+    parameter: {
+      action: 'insertar',
+      tipoMatricula: 'regular',
+      numeroIdentificacion: '123456789',
+      primerApellido: 'PRUEBA',
+      segundoApellido: 'TEST',
+      nombre: 'ESTUDIANTE',
+      fechaNacimiento: '01/01/2000',
+      nacionalidad: 'COSTARRICENSE',
+      repitente: 'No',
+      discapacidad: 'No',
+      tipoDiscapacidad: '',
+      adecuacion: 'No',
+      tipoAdecuacion: '',
+      enfermedad: 'No',
+      tipoEnfermedad: '',
+      especialidad: 'Agropecuaria',
+      nivel: 'Décimo',
+      seccion: 'A',
+      celularEstudiante: '88888888',
+      encargada: 'MADRE PRUEBA',
+      cedula: '111111111',
+      celular: '77777777',
+      parentesco: 'Madre',
+      viveConEstudiante: 'Sí',
+      direccionExacta: 'Dirección de prueba',
+      encargado: 'PADRE PRUEBA',
+      cedula2: '222222222',
+      celular2: '66666666',
+      parentezco2: 'Padre',
+      otroCel: '',
+      direccion2: 'Dirección padre prueba'
+    }
+  };
+  
+  try {
+    const resultado = doPost(mockData);
+    console.log('✅ Resultado del envío:', resultado.getContent());
+  } catch (error) {
+    console.error('❌ Error en la prueba de envío:', error);
   }
 }
