@@ -206,6 +206,115 @@ body {
     min-height: 18px;
 }
 
+/* Campos horizontales para optimizar espacio */
+.horizontal-group {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    align-items: start;
+    padding: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fafafa;
+    margin-bottom: 6px;
+    min-height: 80px;
+}
+
+.horizontal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 120px;
+    padding: 4px;
+}
+
+.horizontal-field:first-child {
+    border-right: 1px solid #d0d0d0;
+    padding-right: 12px;
+    margin-right: 8px;
+}
+
+.horizontal-field label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+}
+
+.horizontal-field input,
+.horizontal-field select {
+    padding: 8px 10px;
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 15px;
+    background: white;
+    transition: all 0.3s ease;
+    min-height: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    width: 100%;
+    margin-top: 2px;
+}
+
+.horizontal-field input:focus,
+.horizontal-field select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.15);
+    transform: translateY(-1px);
+    background: #f8fff9;
+}
+
+/* Colores distintivos para cada sección condicional */
+#discapacidadGroup {
+    border-color: #e74c3c !important;
+    background: linear-gradient(135deg, #fdf2f2 0%, #fef5f5 100%) !important;
+}
+
+#discapacidadGroup .horizontal-field:first-child {
+    border-right-color: #e74c3c !important;
+}
+
+#discapacidadGroup .horizontal-field label {
+    color: #c0392b !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+#adecuacionGroup {
+    border-color: #f39c12 !important;
+    background: linear-gradient(135deg, #fef9e7 0%, #fffbf0 100%) !important;
+}
+
+#adecuacionGroup .horizontal-field:first-child {
+    border-right-color: #f39c12 !important;
+}
+
+#adecuacionGroup .horizontal-field label {
+    color: #d68910 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+#enfermedadGroup {
+    border-color: #8e44ad !important;
+    background: linear-gradient(135deg, #f4f0f7 0%, #faf8fc 100%) !important;
+}
+
+#enfermedadGroup .horizontal-field:first-child {
+    border-right-color: #8e44ad !important;
+}
+
+#enfermedadGroup .horizontal-field label {
+    color: #7d3c98 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
 /* Tipo de Matrícula Section */
 .tipo-matricula-section {
     background: #f0f8ff;
