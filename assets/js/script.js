@@ -133,9 +133,8 @@ function llenarFormularioConEstudiante(estudiante) {
     
     // Mapear campos de Google Sheets a campos del formulario
     // Los nombres deben coincidir EXACTAMENTE con los que devuelve el Google Apps Script
+    // IMPORTANTE: NO se mapean "nivel", "especialidad" y "seccion" para que el usuario los seleccione manualmente
     const mapeoCampos = {
-        'especialidad': 'especialidad',
-        'seccion': 'seccion',
         'primerApellido': 'primerApellido',
         'segundoApellido': 'segundoApellido',
         'nombre': 'nombreEstudiante',
@@ -167,6 +166,7 @@ function llenarFormularioConEstudiante(estudiante) {
     
     console.log('Mapeo de campos:', mapeoCampos);
     console.log('Datos del estudiante recibidos:', estudiante);
+    console.log('⚠️ NOTA: Los campos "nivel", "especialidad" y "seccion" NO se llenan automáticamente para que el usuario los seleccione manualmente');
     
     // Llenar cada campo
     let camposLlenados = 0;
@@ -205,7 +205,18 @@ function llenarFormularioConEstudiante(estudiante) {
         }
     });
     
+    // LIMPIAR EXPLÍCITAMENTE los campos de Nivel, Especialidad y Sección
+    const camposNivelEspecialidad = ['nivel', 'especialidad', 'seccion'];
+    camposNivelEspecialidad.forEach(campo => {
+        const elemento = document.getElementById(campo);
+        if (elemento) {
+            elemento.value = '';
+            console.log(`🧹 Campo "${campo}" limpiado para selección manual`);
+        }
+    });
+    
     console.log(`📊 Resumen de llenado: ${camposLlenados} campos llenados, ${camposVacios} vacíos, ${camposNoEncontrados} no encontrados`);
+    console.log(`🧹 Campos de Nivel/Especialidad/Sección limpiados para selección manual`);
     
     // Establecer fecha actual
     const fechaInput = document.getElementById('fecha');
@@ -296,10 +307,24 @@ async function enviarFormulario() {
 
 // Función para recolectar datos del formulario
 function recolectarDatosFormulario() {
+    // Obtener fecha y hora actual
+    const ahora = new Date();
+    const timestamp = ahora.toLocaleString('es-CR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+    
     // Mapear campos del formulario al orden EXACTO de las columnas de la base de datos
     // IMPORTANTE: Todas las columnas se envían con sus encabezados, incluso las vacías
     // Esto asegura que Google Sheets mantenga la estructura correcta de las columnas
     const formData = {
+        // 0. Timestamp (fecha y hora del envío)
+        timestamp: timestamp,
+        
         // 1. Número de identificación
         numeroIdentificacion: document.getElementById('cedulaEstudiante').value,
         
@@ -382,10 +407,10 @@ function recolectarDatosFormulario() {
         parentezco2: document.getElementById('parentescoPadre').value,
         
         // 28. Otro Cel
-        otroCel: '',
+        otroCel: document.getElementById('telefonoOtroEncargado') ? document.getElementById('telefonoOtroEncargado').value : '',
         
         // 29. Dirección2
-        direccion2: document.getElementById('direccionPadre').value,
+        direccion2: document.getElementById('direccionOtroEncargado') ? document.getElementById('direccionOtroEncargado').value : '',
         
         // 30. MOVIMIENTO
         movimiento: 'NUEVA MATRÍCULA 2026',
@@ -400,21 +425,10 @@ function recolectarDatosFormulario() {
         columna3: '',
         
         // 34. Columna4
-        columna4: '',
-        
-        // Campos adicionales del formulario que no están en la base de datos
-        rutaTransporte: document.getElementById('rutaTransporte').value,
-        enfermedad: document.getElementById('enfermedad').value,
-        detalleEnfermedad: document.getElementById('detalleEnfermedad').value,
-        firmaEncargada: document.getElementById('firmaEncargada').value,
-        firmaEncargado: document.getElementById('firmaEncargado').value,
-        fecha: document.getElementById('fecha').value,
-        observaciones: document.getElementById('observaciones').value,
-        
-        // Timestamp para auditoría
-        timestamp: new Date().toISOString()
+        columna4: ''
     };
     
+    console.log('📊 Datos recolectados del formulario:', formData);
     return formData;
 }
 
