@@ -576,7 +576,7 @@ function mostrarMensaje(mensaje, tipo = 'info') {
         mensajeElement.className = `mensaje-consulta ${tipo}`;
         
         // Limpiar mensaje después de 5 segundos
-        setTimeout(() => {
+            setTimeout(() => {
             mensajeElement.textContent = '';
             mensajeElement.className = 'mensaje-consulta';
         }, 5000);
@@ -713,6 +713,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Mostrar estado inicial
     setTimeout(mostrarTipoMatriculaSeleccionado, 100);
+    
+    // Inicializar campos condicionales
+    setTimeout(function() {
+        mostrarTipoDiscapacidad();
+        mostrarTipoAdecuacion();
+        mostrarDetalleEnfermedad();
+    }, 200);
 });
 
 // Función para mostrar/ocultar campo de tipo de discapacidad
@@ -720,16 +727,24 @@ function mostrarTipoDiscapacidad() {
     const discapacidad = document.getElementById('discapacidad').value;
     const tipoDiscapacidadGroup = document.getElementById('tipoDiscapacidadGroup');
     const tipoDiscapacidadInput = document.getElementById('tipoDiscapacidad');
+    const discapacidadGroup = document.getElementById('discapacidadGroup');
     
     if (discapacidad === 'Sí') {
-        tipoDiscapacidadGroup.style.display = 'block';
+        // Mostrar ambos campos (horizontal) - con estilos especiales
+        tipoDiscapacidadGroup.style.display = 'flex';
         tipoDiscapacidadInput.required = true;
-        console.log('✅ Campo de tipo de discapacidad mostrado');
+        discapacidadGroup.style.flexDirection = 'row';
+        discapacidadGroup.classList.remove('solo-campo');
+        console.log('✅ Campo de tipo de discapacidad mostrado - Layout horizontal');
     } else {
+        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
         tipoDiscapacidadGroup.style.display = 'none';
         tipoDiscapacidadInput.required = false;
         tipoDiscapacidadInput.value = '';
-        console.log('🧹 Campo de tipo de discapacidad ocultado y limpiado');
+        discapacidadGroup.style.flexDirection = 'column';
+        discapacidadGroup.style.width = '100%';
+        discapacidadGroup.classList.add('solo-campo');
+        console.log('🧹 Campo de tipo de discapacidad ocultado - Layout vertical (valor:', discapacidad, ')');
     }
 }
 
@@ -738,34 +753,50 @@ function mostrarTipoAdecuacion() {
     const adecuacion = document.getElementById('adecuacion').value;
     const tipoAdecuacionGroup = document.getElementById('tipoAdecuacionGroup');
     const tipoAdecuacionInput = document.getElementById('tipoAdecuacion');
+    const adecuacionGroup = document.getElementById('adecuacionGroup');
     
     if (adecuacion === 'Sí') {
-        tipoAdecuacionGroup.style.display = 'block';
+        // Mostrar ambos campos (horizontal) - con estilos especiales
+        tipoAdecuacionGroup.style.display = 'flex';
         tipoAdecuacionInput.required = true;
-        console.log('✅ Campo de tipo de adecuación mostrado');
+        adecuacionGroup.style.flexDirection = 'row';
+        adecuacionGroup.classList.remove('solo-campo');
+        console.log('✅ Campo de tipo de adecuación mostrado - Layout horizontal');
     } else {
+        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
         tipoAdecuacionGroup.style.display = 'none';
         tipoAdecuacionInput.required = false;
         tipoAdecuacionInput.value = '';
-        console.log('🧹 Campo de tipo de adecuación ocultado y limpiado');
+        adecuacionGroup.style.flexDirection = 'column';
+        adecuacionGroup.style.width = '100%';
+        adecuacionGroup.classList.add('solo-campo');
+        console.log('🧹 Campo de tipo de adecuación ocultado - Layout vertical (valor:', adecuacion, ')');
     }
 }
 
 // Función para mostrar/ocultar campo de detalle de enfermedad
 function mostrarDetalleEnfermedad() {
     const enfermedad = document.getElementById('enfermedad').value;
-                const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
+    const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
     const detalleEnfermedadInput = document.getElementById('detalleEnfermedad');
+    const enfermedadGroup = document.getElementById('enfermedadGroup');
     
     if (enfermedad === 'Sí') {
-                    detalleEnfermedadGroup.style.display = 'block';
+        // Mostrar ambos campos (horizontal) - con estilos especiales
+        detalleEnfermedadGroup.style.display = 'flex';
         detalleEnfermedadInput.required = true;
-        console.log('✅ Campo de detalle de enfermedad mostrado');
+        enfermedadGroup.style.flexDirection = 'row';
+        enfermedadGroup.classList.remove('solo-campo');
+        console.log('✅ Campo de detalle de enfermedad mostrado - Layout horizontal');
     } else {
+        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
         detalleEnfermedadGroup.style.display = 'none';
         detalleEnfermedadInput.required = false;
         detalleEnfermedadInput.value = '';
-        console.log('🧹 Campo de detalle de enfermedad ocultado y limpiado');
+        enfermedadGroup.style.flexDirection = 'column';
+        enfermedadGroup.style.width = '100%';
+        enfermedadGroup.classList.add('solo-campo');
+        console.log('🧹 Campo de detalle de enfermedad ocultado - Layout vertical (valor:', enfermedad, ')');
     }
 }
 
