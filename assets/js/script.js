@@ -198,8 +198,8 @@ function llenarFormularioConEstudiante(estudiante) {
                     detalleEnfermedadGroup.style.display = 'block';
                     console.log('✅ Campo de detalle de enfermedad mostrado');
                 }
-            }
-        } else {
+                        }
+                    } else {
             console.log(`⚠️ Campo "${campoFormulario}" no se llenó - valor: "${valor}"`);
             camposVacios++;
         }
@@ -359,74 +359,108 @@ function recolectarDatosFormulario() {
         refugiado: '',
         
         // 12. Discapacidad
-        discapacidad: document.getElementById('adecuacion').value,
+        discapacidad: document.getElementById('discapacidad').value,
         
-        // 13. Especialidad
+        // 13. Tipo de Discapacidad
+        tipoDiscapacidad: document.getElementById('tipoDiscapacidad') ? document.getElementById('tipoDiscapacidad').value : '',
+        
+        // 14. Adecuación
+        adecuacion: document.getElementById('adecuacion').value,
+        
+        // 15. Tipo de Adecuación
+        tipoAdecuacion: document.getElementById('tipoAdecuacion') ? document.getElementById('tipoAdecuacion').value : '',
+        
+        // 16. Enfermedad
+        enfermedad: document.getElementById('enfermedad').value,
+        
+        // 17. Tipo de Enfermedad
+        tipoEnfermedad: document.getElementById('detalleEnfermedad') ? document.getElementById('detalleEnfermedad').value : '',
+        
+        // 18. Especialidad
         especialidad: document.getElementById('especialidad').value,
         
-        // 14. Nivel
+        // 19. Nivel
         nivel: document.getElementById('nivel').value,
         
-        // 15. Sección
+        // 20. Sección
         seccion: document.getElementById('seccion').value,
         
-        // 16. Título
+        // 21. Título
         titulo: '',
         
-        // 17. Celular estudiante
+        // 22. Celular estudiante
         celularEstudiante: document.getElementById('telefonoEstudiante').value,
         
-        // 18. Encargada
+        // 23. Encargada
         encargada: document.getElementById('nombreMadre').value,
         
-        // 19. Cédula
+        // 24. Cédula
         cedula: document.getElementById('cedulaMadre').value,
         
-        // 20. Celular
+        // 25. Celular
         celular: document.getElementById('telefonoMadre').value,
         
-        // 21. Parentesco
+        // 26. Parentesco
         parentesco: document.getElementById('parentescoMadre').value,
         
-        // 22. Vive con estud
+        // 27. Vive con estud
         viveConEstudiante: document.getElementById('viveConEstudianteMadre').value,
         
-        // 23. Dirección exacta
+        // 28. Dirección exacta
         direccionExacta: document.getElementById('direccionMadre').value,
         
-        // 24. Encargado
+        // 29. Encargado
         encargado: document.getElementById('nombrePadre').value,
         
-        // 25. Cédula2
+        // 30. Cédula2
         cedula2: document.getElementById('cedulaPadre').value,
         
-        // 26. Celular2
+        // 31. Celular2
         celular2: document.getElementById('telefonoPadre').value,
         
-        // 27. Parentezco2
+        // 32. Parentezco2
         parentezco2: document.getElementById('parentescoPadre').value,
         
-        // 28. Otro Cel
+        // 33. Otro Cel
         otroCel: document.getElementById('telefonoOtroEncargado') ? document.getElementById('telefonoOtroEncargado').value : '',
         
-        // 29. Dirección2
+        // 34. Dirección2
         direccion2: document.getElementById('direccionOtroEncargado') ? document.getElementById('direccionOtroEncargado').value : '',
         
-        // 30. MOVIMIENTO
+        // 35. MOVIMIENTO
         movimiento: 'NUEVA MATRÍCULA 2026',
         
-        // 31. Columna1
+        // 36. Columna1
         columna1: '',
         
-        // 32. Columna2
+        // 37. Columna2
         columna2: '',
         
-        // 33. Columna3
+        // 38. Columna3
         columna3: '',
         
-        // 34. Columna4
+        // 39. Columna4
         columna4: ''
     };
+    
+    // LÓGICA ESPECIAL PARA CAMPOS CONDICIONALES
+    // Si discapacidad es "No", limpiar tipo de discapacidad
+    if (formData.discapacidad === 'No') {
+        formData.tipoDiscapacidad = '';
+        console.log('🧹 Discapacidad es "No", tipo de discapacidad limpiado');
+    }
+    
+    // Si adecuación es "No", limpiar tipo de adecuación
+    if (formData.adecuacion === 'No') {
+        formData.tipoAdecuacion = '';
+        console.log('🧹 Adecuación es "No", tipo de adecuación limpiado');
+    }
+    
+    // Si enfermedad es "No", limpiar tipo de enfermedad
+    if (formData.enfermedad === 'No') {
+        formData.tipoEnfermedad = '';
+        console.log('🧹 Enfermedad es "No", tipo de enfermedad limpiado');
+    }
     
     console.log('📊 Datos recolectados del formulario:', formData);
     return formData;
@@ -498,8 +532,26 @@ function limpiarFormulario() {
     });
     
     // Resetear radio buttons
-    document.getElementById('tipoRegular').checked = true;
-    cambiarFormularioRegular();
+    const radioRegular = document.getElementById('regular');
+    if (radioRegular) {
+        radioRegular.checked = true;
+    }
+    
+    // Ocultar campos condicionales
+    const tipoDiscapacidadGroup = document.getElementById('tipoDiscapacidadGroup');
+    if (tipoDiscapacidadGroup) {
+        tipoDiscapacidadGroup.style.display = 'none';
+    }
+    
+    const tipoAdecuacionGroup = document.getElementById('tipoAdecuacionGroup');
+    if (tipoAdecuacionGroup) {
+        tipoAdecuacionGroup.style.display = 'none';
+    }
+    
+    const tipoEnfermedadGroup = document.getElementById('tipoEnfermedadGroup');
+    if (tipoEnfermedadGroup) {
+        tipoEnfermedadGroup.style.display = 'none';
+    }
     
     // Ocultar campo de detalle de enfermedad
     const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
@@ -662,4 +714,58 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mostrar estado inicial
     setTimeout(mostrarTipoMatriculaSeleccionado, 100);
 });
+
+// Función para mostrar/ocultar campo de tipo de discapacidad
+function mostrarTipoDiscapacidad() {
+    const discapacidad = document.getElementById('discapacidad').value;
+    const tipoDiscapacidadGroup = document.getElementById('tipoDiscapacidadGroup');
+    const tipoDiscapacidadInput = document.getElementById('tipoDiscapacidad');
+    
+    if (discapacidad === 'Sí') {
+        tipoDiscapacidadGroup.style.display = 'block';
+        tipoDiscapacidadInput.required = true;
+        console.log('✅ Campo de tipo de discapacidad mostrado');
+    } else {
+        tipoDiscapacidadGroup.style.display = 'none';
+        tipoDiscapacidadInput.required = false;
+        tipoDiscapacidadInput.value = '';
+        console.log('🧹 Campo de tipo de discapacidad ocultado y limpiado');
+    }
+}
+
+// Función para mostrar/ocultar campo de tipo de adecuación
+function mostrarTipoAdecuacion() {
+    const adecuacion = document.getElementById('adecuacion').value;
+    const tipoAdecuacionGroup = document.getElementById('tipoAdecuacionGroup');
+    const tipoAdecuacionInput = document.getElementById('tipoAdecuacion');
+    
+    if (adecuacion === 'Sí') {
+        tipoAdecuacionGroup.style.display = 'block';
+        tipoAdecuacionInput.required = true;
+        console.log('✅ Campo de tipo de adecuación mostrado');
+    } else {
+        tipoAdecuacionGroup.style.display = 'none';
+        tipoAdecuacionInput.required = false;
+        tipoAdecuacionInput.value = '';
+        console.log('🧹 Campo de tipo de adecuación ocultado y limpiado');
+    }
+}
+
+// Función para mostrar/ocultar campo de detalle de enfermedad
+function mostrarDetalleEnfermedad() {
+    const enfermedad = document.getElementById('enfermedad').value;
+                const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
+    const detalleEnfermedadInput = document.getElementById('detalleEnfermedad');
+    
+    if (enfermedad === 'Sí') {
+                    detalleEnfermedadGroup.style.display = 'block';
+        detalleEnfermedadInput.required = true;
+        console.log('✅ Campo de detalle de enfermedad mostrado');
+    } else {
+        detalleEnfermedadGroup.style.display = 'none';
+        detalleEnfermedadInput.required = false;
+        detalleEnfermedadInput.value = '';
+        console.log('🧹 Campo de detalle de enfermedad ocultado y limpiado');
+    }
+}
 

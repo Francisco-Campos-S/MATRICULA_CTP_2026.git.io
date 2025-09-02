@@ -98,53 +98,69 @@ function doPost(e) {
       if (!hojaDestino) {
         console.log(`⚠️ Hoja "${nombreHoja}" no encontrada, creando nueva hoja...`);
         hojaDestino = spreadsheet.insertSheet(nombreHoja);
-        
-        // Crear encabezados en la nueva hoja con las 36 columnas en el orden EXACTO que especificaste
-        const headers = [
-          'Timestamp',
-          'Número Secuencial',
-          'Número de identificación',
-          'Tipo de identificación', 
-          'Primer apellido',
-          'Segundo apellido',
-          'Nombre',
-          'Fecha de nacimiento',
-          'Edad',
-          'Identidad de género',
-          'Nacionalidad',
-          'Repitente',
-          'Refugiado',
-          'Discapacidad',
-          'Especialidad',
-          'Nivel',
-          'Sección',
-          'Título',
-          'Celular estudiante',
-          'Encargada',
-          'Cédula',
-          'Celular',
-          'Parentesco',
-          'Vive con estud',
-          'Dirección exacta',
-          'Encargado',
-          'Cédula2',
-          'Celular2',
-          'Parentezco2',
-          'Otro Cel',
-          'Dirección2',
-          'MOVIMIENTO',
-          'Columna1',
-          'Columna2',
-          'Columna3',
-          'Columna4'
-        ];
-        
-        hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
-        console.log(`✅ Encabezados creados en nueva hoja "${nombreHoja}" con ${headers.length} columnas`);
-        console.log(`🔍 Verificando que la hoja "${nombreHoja}" existe después de crearla:`, spreadsheet.getSheetByName(nombreHoja) ? 'SÍ' : 'NO');
       } else {
         console.log(`✅ Hoja "${nombreHoja}" ya existe`);
+        
+        // ELIMINAR Y RECREAR LA HOJA PARA GARANTIZAR HEADERS CORRECTOS
+        console.log(`🔄 Eliminando hoja "${nombreHoja}" existente para recrearla con headers correctos...`);
+        spreadsheet.deleteSheet(hojaDestino);
+        hojaDestino = spreadsheet.insertSheet(nombreHoja);
+        console.log(`✅ Hoja "${nombreHoja}" recreada exitosamente`);
       }
+      
+      // SIEMPRE verificar y actualizar los headers para asegurar que tengan las 41 columnas correctas
+      const headers = [
+        'Timestamp',
+        'Número Secuencial',
+        'Número de identificación',
+        'Tipo de identificación', 
+        'Primer apellido',
+        'Segundo apellido',
+        'Nombre',
+        'Fecha de nacimiento',
+        'Edad',
+        'Identidad de género',
+        'Nacionalidad',
+        'Repitente',
+        'Refugiado',
+        'Discapacidad',
+        'Tipo de Discapacidad',
+        'Adecuación',
+        'Tipo de Adecuación',
+        'Enfermedad',
+        'Tipo de Enfermedad',
+        'Especialidad',
+        'Nivel',
+        'Sección',
+        'Título',
+        'Celular estudiante',
+        'Encargada',
+        'Cédula',
+        'Celular',
+        'Parentesco',
+        'Vive con estud',
+        'Dirección exacta',
+        'Encargado',
+        'Cédula2',
+        'Celular2',
+        'Parentezco2',
+        'Otro Cel',
+        'Dirección2',
+        'MOVIMIENTO',
+        'Columna1',
+        'Columna2',
+        'Columna3',
+        'Columna4'
+      ];
+      
+      // CREAR HEADERS EN LA HOJA NUEVA/RECREADA
+      console.log(`🔄 Creando headers en hoja "${nombreHoja}" con ${headers.length} columnas...`);
+      hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
+      console.log(`✅ Headers creados en hoja "${nombreHoja}" con ${headers.length} columnas`);
+      
+      // Verificar que se crearon correctamente
+      const headersVerificados = hojaDestino.getRange(1, 1, 1, headers.length).getValues()[0];
+      console.log(`🔍 Headers verificados después de crear:`, headersVerificados);
       console.log(`✅ Hoja destino obtenida: ${hojaDestino.getName()}`);
       console.log(`🔍 Verificando que la hoja destino no sea null:`, hojaDestino ? 'NO ES NULL' : 'ES NULL');
       console.log(`🔍 Nombre de la hoja destino:`, hojaDestino ? hojaDestino.getName() : 'NULL');
@@ -153,7 +169,7 @@ function doPost(e) {
       return ContentService.createTextOutput(`Error: No se pudo acceder a la hoja ${nombreHoja}`).setMimeType(ContentService.MimeType.TEXT);
     }
     
-    // PREPARAR DATOS PARA LA FILA CON LAS 36 COLUMNAS EN EL ORDEN EXACTO
+    // PREPARAR DATOS PARA LA FILA CON LAS 42 COLUMNAS EN EL ORDEN EXACTO
     // Orden según las columnas que especificaste:
     // 0. Timestamp (fecha y hora del envío)
     // 1. Número Secuencial (conteo de estudiantes)
@@ -168,29 +184,34 @@ function doPost(e) {
     // 10. Nacionalidad
     // 11. Repitente
     // 12. Refugiado
-    // 13. Discapacidad
-    // 14. Especialidad
-    // 15. Nivel
-    // 16. Sección
-    // 17. Título
-    // 18. Celular estudiante
-    // 19. Encargada
-    // 20. Cédula
-    // 21. Celular
-    // 22. Parentesco
-    // 23. Vive con estud
-    // 24. Dirección exacta
-    // 25. Encargado
-    // 26. Cédula2
-    // 27. Celular2
-    // 28. Parentezco2
-    // 29. Otro Cel
-    // 30. Dirección2
-    // 31. MOVIMIENTO
-    // 32. Columna1
-    // 33. Columna2
-    // 34. Columna3
-    // 35. Columna4
+    // 13. Discapacidad (Sí/No)
+    // 14. Tipo de Discapacidad
+    // 15. Adecuación (Sí/No)
+    // 16. Tipo de Adecuación
+    // 17. Enfermedad (Sí/No)
+    // 18. Tipo de Enfermedad
+    // 19. Especialidad
+    // 20. Nivel
+    // 21. Sección
+    // 22. Título
+    // 23. Celular estudiante
+    // 24. Encargada
+    // 25. Cédula
+    // 26. Celular
+    // 27. Parentesco
+    // 28. Vive con estud
+    // 29. Dirección exacta
+    // 30. Encargado
+    // 31. Cédula2
+    // 32. Celular2
+    // 33. Parentezco2
+    // 34. Otro Cel
+    // 35. Dirección2
+    // 36. MOVIMIENTO
+    // 37. Columna1
+    // 38. Columna2
+    // 39. Columna3
+    // 40. Columna4
     
     // Obtener el siguiente número secuencial para esta hoja
     let siguienteNumero = 1;
@@ -219,28 +240,33 @@ function doPost(e) {
       formData.repitente || '',                     // 11. Repitente
       '',                                          // 12. Refugiado (vacío)
       formData.discapacidad || '',                  // 13. Discapacidad
-      formData.especialidad || '',                  // 14. Especialidad
-      formData.nivel || '',                         // 15. Nivel
-      formData.seccion || '',                       // 16. Sección
-      '',                                          // 17. Título (vacío)
-      formData.celularEstudiante || '',             // 18. Celular estudiante
-      formData.encargada || '',                     // 19. Encargada
-      formData.cedula || '',                        // 20. Cédula
-      formData.celular || '',                       // 21. Celular
-      formData.parentesco || '',                    // 22. Parentesco
-      formData.viveConEstudiante || '',             // 23. Vive con estud
-      formData.direccionExacta || '',               // 24. Dirección exacta
-      formData.encargado || '',                     // 25. Encargado
-      formData.cedula2 || '',                       // 26. Cédula2
-      formData.celular2 || '',                      // 27. Celular2
-      formData.parentezco2 || '',                   // 28. Parentezco2
-      formData.otroCel || '',                       // 29. Otro Cel
-      formData.direccion2 || '',                    // 30. Dirección2
-      'NUEVA MATRÍCULA 2026',                      // 31. MOVIMIENTO
-      '',                                          // 32. Columna1 (vacío)
-      '',                                          // 33. Columna2 (vacío)
-      '',                                          // 34. Columna3 (vacío)
-      ''                                           // 35. Columna4 (vacío)
+      formData.tipoDiscapacidad || '',              // 14. Tipo de Discapacidad
+      formData.adecuacion || '',                    // 15. Adecuación
+      formData.tipoAdecuacion || '',                // 16. Tipo de Adecuación
+      formData.enfermedad || '',                    // 17. Enfermedad
+      formData.tipoEnfermedad || '',                // 18. Tipo de Enfermedad
+      formData.especialidad || '',                  // 19. Especialidad
+      formData.nivel || '',                         // 20. Nivel
+      formData.seccion || '',                       // 21. Sección
+      '',                                          // 22. Título (vacío)
+      formData.celularEstudiante || '',             // 23. Celular estudiante
+      formData.encargada || '',                     // 24. Encargada
+      formData.cedula || '',                        // 25. Cédula
+      formData.celular || '',                       // 26. Celular
+      formData.parentesco || '',                    // 27. Parentesco
+      formData.viveConEstudiante || '',             // 28. Vive con estud
+      formData.direccionExacta || '',               // 29. Dirección exacta
+      formData.encargado || '',                     // 30. Encargado
+      formData.cedula2 || '',                       // 31. Cédula2
+      formData.celular2 || '',                      // 32. Celular2
+      formData.parentezco2 || '',                   // 33. Parentezco2
+      formData.otroCel || '',                       // 34. Otro Cel
+      formData.direccion2 || '',                    // 35. Dirección2
+      'NUEVA MATRÍCULA 2026',                      // 36. MOVIMIENTO
+      '',                                          // 37. Columna1 (vacío)
+      '',                                          // 38. Columna2 (vacío)
+      '',                                          // 39. Columna3 (vacío)
+      ''                                           // 40. Columna4 (vacío)
     ];
     
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);
