@@ -1,16 +1,16 @@
 /* CSS Optimizado para Pantalla Completa - Layout Multi-Columnas - Letra Grande */
 :root {
-    --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --bg-primary: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     --bg-secondary: #ffffff;
     --bg-tertiary: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-    --text-primary: #333;
-    --text-secondary: #2c3e50;
+    --text-primary: #2c3e50;
+    --text-secondary: #34495e;
     --text-muted: #6c757d;
-    --border-color: #e9ecef;
-    --border-color-accent: rgba(46, 139, 87, 0.1);
-    --shadow-primary: rgba(0, 0, 0, 0.1);
-    --shadow-secondary: rgba(0, 0, 0, 0.05);
-    --shadow-accent: rgba(46, 139, 87, 0.25);
+    --border-color: #dee2e6;
+    --border-color-accent: rgba(46, 139, 87, 0.15);
+    --shadow-primary: rgba(0, 0, 0, 0.08);
+    --shadow-secondary: rgba(0, 0, 0, 0.04);
+    --shadow-accent: rgba(46, 139, 87, 0.2);
     --accent-color: #1B5E20;
     --accent-color-light: #2E7D32;
     --accent-color-lighter: #388E3C;
@@ -39,7 +39,7 @@ body {
 .container {
     max-width: 100%;
     margin: 0;
-    padding: 2px 2px 8px 2px;
+    padding: 1px 1px 6px 1px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -87,26 +87,26 @@ body {
 .matricula-form {
     background: white;
     color: #2c3e50;
-    padding: 1px 1px 5px 1px;
-    border-radius: 4px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    padding: 1px 1px 3px 1px;
+    border-radius: 3px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     margin-bottom: 1px;
     border: 1px solid #e8f4f8;
     flex: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 0px;
     min-height: 0;
 }
 
 .form-section {
     margin-bottom: 1px;
-    padding: 2px;
+    padding: 1px;
     background: #f8f9fa;
-    border-radius: 4px;
+    border-radius: 3px;
     border: 1px solid #e9ecef;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* Sección de Declaración y Firmas - Más compacta */
@@ -131,17 +131,24 @@ body {
 }
 
 .section-header h2 {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 700;
     margin: 0;
+    color: var(--accent-color);
+    text-align: center;
+    padding: 1px 0;
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+    border-radius: 2px;
+    border: 1px solid var(--accent-color-light);
+    box-shadow: 0 1px 2px rgba(27, 94, 32, 0.08);
 }
 
 /* Layout de Columnas - Multi-Columnas */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 2px;
-    margin-bottom: 2px;
+    gap: 1px;
+    margin-bottom: 1px;
     max-width: 100%;
 }
 
@@ -157,7 +164,7 @@ body {
 
 .form-row.four-columns {
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 6px;
     max-width: 100%;
 }
 
@@ -175,28 +182,29 @@ body {
 }
 
 .form-group:hover {
-    transform: translateY(-1px);
+    transform: translateY(-0.5px);
 }
 
 .form-group label {
     font-weight: 600;
-    font-size: 17px;
+    font-size: 16px;
     color: var(--text-secondary);
     margin-bottom: 1px;
     white-space: nowrap;
+    line-height: 1.2;
 }
 
 .form-group input,
 .form-group select,
 .form-group textarea {
-    padding: 6px 8px;
-    border: 2px solid var(--border-color);
-    border-radius: 4px;
-    font-size: 17px;
+    padding: 5px 7px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    font-size: 16px;
     background: white;
-    transition: all 0.3s ease;
-    min-height: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+    min-height: 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }
 
 .form-group input:focus,
@@ -204,8 +212,8 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.15);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.12);
+    transform: translateY(-0.5px);
     background: #f8fff9;
 }
 
@@ -333,15 +341,15 @@ body {
 .horizontal-field select:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.15);
-    transform: translateY(-1px);
+    box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.12);
+    transform: translateY(-0.5px);
     background: #f8fff9;
 }
 
-/* Colores distintivos para cada sección condicional */
+/* Colores distintivos para cada sección condicional - Mejorados */
 #discapacidadGroup {
     border-color: #e74c3c !important;
-    background: linear-gradient(135deg, #fdf2f2 0%, #fef5f5 100%) !important;
+    background: linear-gradient(135deg, #fef2f2 0%, #fef7f7 100%) !important;
 }
 
 #discapacidadGroup .horizontal-field:first-child {
@@ -349,37 +357,37 @@ body {
 }
 
 #discapacidadGroup .horizontal-field label {
-    color: #c0392b !important;
+    color: #b91c1c !important;
     font-size: 11px !important;
     font-weight: 600 !important;
 }
 
 #adecuacionGroup {
-    border-color: #f39c12 !important;
-    background: linear-gradient(135deg, #fef9e7 0%, #fffbf0 100%) !important;
+    border-color: #f59e0b !important;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
 }
 
 #adecuacionGroup .horizontal-field:first-child {
-    border-right-color: #f39c12 !important;
+    border-right-color: #f59e0b !important;
 }
 
 #adecuacionGroup .horizontal-field label {
-    color: #d68910 !important;
+    color: #d97706 !important;
     font-size: 11px !important;
     font-weight: 600 !important;
 }
 
 #enfermedadGroup {
-    border-color: #8e44ad !important;
-    background: linear-gradient(135deg, #f4f0f7 0%, #faf8fc 100%) !important;
+    border-color: #8b5cf6 !important;
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%) !important;
 }
 
 #enfermedadGroup .horizontal-field:first-child {
-    border-right-color: #8e44ad !important;
+    border-right-color: #8b5cf6 !important;
 }
 
 #enfermedadGroup .horizontal-field label {
-    color: #7d3c98 !important;
+    color: #7c3aed !important;
     font-size: 11px !important;
     font-weight: 600 !important;
 }
@@ -711,7 +719,7 @@ body {
 
 .form-group select:hover {
     border-color: var(--accent-color-light);
-    box-shadow: 0 2px 4px rgba(46, 139, 87, 0.1);
+    box-shadow: 0 1px 3px rgba(46, 139, 87, 0.08);
 }
 
 /* Campo de detalle de enfermedad - mantiene tamaño */
@@ -894,44 +902,44 @@ body {
 /* Botones de acción */
 .action-buttons {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     justify-content: center;
-    margin: 8px 0 12px 0;
-    padding: 8px 10px 12px 10px;
+    margin: 6px 0 8px 0;
+    padding: 6px 8px 8px 8px;
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid #e9ecef;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .action-buttons button {
-    padding: 10px 16px;
+    padding: 8px 12px;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     white-space: nowrap;
-    min-height: 40px;
+    min-height: 32px;
 }
 
 /* Sección de Declaración y Firmas - Más compacta */
 .declaration {
-    margin-bottom: 4px;
-    padding: 4px;
+    margin-bottom: 2px;
+    padding: 2px;
 }
 
 .declaration p {
     margin: 0;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     color: #2c3e50;
     text-align: center;
-    padding: 2px;
+    padding: 1px;
 }
 
 /* Footer separado de los botones */
