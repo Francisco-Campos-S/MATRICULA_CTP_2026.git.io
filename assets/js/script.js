@@ -1293,9 +1293,15 @@ function actualizarEdad() {
     const fechaNacimiento = document.getElementById('fechaNacimiento').value;
     const edad = calcularEdad(fechaNacimiento);
     
+    // Actualizar el campo de edad calculada
+    const edadCalculadaField = document.getElementById('edadCalculada');
+    if (edadCalculadaField) {
+        edadCalculadaField.value = edad || '';
+    }
+    
     // Mostrar la edad calculada en consola para debugging
     if (edad) {
-        console.log(`🎂 Edad calculada: ${edad}`);
+        console.log(`🎂 Edad calculada al 01 de febrero de 2026: ${edad}`);
     }
     
     return edad;
