@@ -3,21 +3,28 @@
     --bg-primary: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     --bg-secondary: #ffffff;
     --bg-tertiary: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    --bg-zebra-even: #f8f9fa;
+    --bg-zebra-odd: #ffffff;
+    --bg-zebra-hover: #e3f2fd;
     --text-primary: #2c3e50;
     --text-secondary: #34495e;
     --text-muted: #6c757d;
     --border-color: #dee2e6;
     --border-color-accent: rgba(46, 139, 87, 0.15);
+    --border-color-soft: rgba(46, 139, 87, 0.08);
     --shadow-primary: rgba(0, 0, 0, 0.08);
     --shadow-secondary: rgba(0, 0, 0, 0.04);
     --shadow-accent: rgba(46, 139, 87, 0.2);
     --accent-color: #1B5E20;
     --accent-color-light: #2E7D32;
     --accent-color-lighter: #388E3C;
+    --accent-color-soft: rgba(27, 94, 32, 0.05);
     --success-color: #28a745;
     --error-color: #dc3545;
     --warning-color: #ffc107;
     --info-color: #17a2b8;
+    --focus-color: rgba(27, 94, 32, 0.12);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -32,8 +39,18 @@ body {
     color: var(--text-primary);
     background: var(--bg-primary);
     height: 100vh;
+    height: 100dvh; /* Altura dinámica del viewport - mejor compatibilidad */
+    min-height: 100vh;
     overflow: hidden;
     font-size: 20px;
+    margin: 0;
+    padding: 0;
+    /* Asegurar que el body ocupe toda la pantalla */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 .container {
@@ -41,8 +58,13 @@ body {
     margin: 0;
     padding: 1px 1px 6px 1px;
     height: 100vh;
+    height: 100dvh; /* Altura dinámica del viewport */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    /* Asegurar que el contenedor ocupe toda la pantalla disponible */
+    position: relative;
+    overflow: hidden;
 }
 
 /* Header Optimizado */
@@ -101,12 +123,37 @@ body {
 }
 
 .form-section {
-    margin-bottom: 1px;
-    padding: 1px;
-    background: #f8f9fa;
-    border-radius: 3px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    margin-bottom: 0.5px;
+    padding: 0.5px;
+    background: var(--bg-zebra-even);
+    border-radius: 4px;
+    border: 1px solid var(--border-color-soft);
+    box-shadow: 0 1px 2px var(--shadow-secondary);
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efecto zebra para secciones - más sutil y agradable */
+.form-section:nth-child(even) {
+    background: var(--bg-zebra-odd);
+    border-color: var(--border-color);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.form-section:nth-child(odd) {
+    background: var(--bg-zebra-even);
+    border-color: var(--border-color-soft);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+/* Efecto zebra sutil para las filas dentro de cada sección */
+.form-section:nth-child(even) .form-row {
+    background: rgba(248, 249, 250, 0.1);
+}
+
+.form-section:nth-child(odd) .form-row {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* Sección de Declaración y Firmas - Más compacta */
@@ -115,20 +162,22 @@ body {
     padding: 1px;
 }
 
-.form-section:hover {
-    box-shadow: 0 2px 4px var(--shadow-secondary);
-    border-color: var(--accent-color);
-}
+/* Efectos de hover removidos */
 
 .section-header {
     margin-bottom: 1px;
-    padding: 2px;
+    padding: 4px 8px;
     background: linear-gradient(135deg, var(--accent-color), var(--accent-color-light));
-    border-radius: 4px;
+    border-radius: 6px;
     color: white;
     text-align: center;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
 }
+
+/* Efectos de hover removidos */
 
 .section-header h2 {
     font-size: 0.95rem;
@@ -147,10 +196,64 @@ body {
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 1px;
-    margin-bottom: 1px;
+    gap: 0.5px;
+    margin-bottom: 0.5px;
     max-width: 100%;
+    transition: var(--transition-smooth);
+    border-radius: 3px;
+    overflow: hidden;
 }
+
+/* Efecto zebra para columnas - contraste más visible */
+.form-row .form-column:nth-child(1) {
+    background: #f0f2f5;
+    border-radius: 3px;
+    margin: 0.5px;
+    padding: 2px;
+    border: 1px solid #e1e5e9;
+}
+
+.form-row .form-column:nth-child(2) {
+    background: #ffffff;
+    border-radius: 3px;
+    margin: 0.5px;
+    padding: 2px;
+    border: 1px solid #e9ecef;
+}
+
+.form-row .form-column:nth-child(3) {
+    background: #f0f2f5;
+    border-radius: 3px;
+    margin: 0.5px;
+    padding: 2px;
+    border: 1px solid #e1e5e9;
+}
+
+.form-row .form-column:nth-child(4) {
+    background: #ffffff;
+    border-radius: 3px;
+    margin: 0.5px;
+    padding: 2px;
+    border: 1px solid #e9ecef;
+}
+
+.form-row .form-column:nth-child(5) {
+    background: #f0f2f5;
+    border-radius: 3px;
+    margin: 0.5px;
+    padding: 2px;
+    border: 1px solid #e1e5e9;
+}
+
+/* Grupos de formulario sin efecto zebra adicional */
+.form-row .form-group {
+    background: transparent;
+    border-radius: 2px;
+    margin: 0;
+    padding: 1px;
+}
+
+/* Efectos de hover removidos */
 
 .form-row.two-columns {
     grid-template-columns: 1fr 1fr;
@@ -177,13 +280,14 @@ body {
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 1px;
-    transition: all 0.2s ease;
+    gap: 0.5px;
+    transition: var(--transition-smooth);
+    padding: 1px;
+    border-radius: 2px;
+    position: relative;
 }
 
-.form-group:hover {
-    transform: translateY(-0.5px);
-}
+/* Efectos de hover removidos */
 
 .form-group label {
     font-weight: 600;
@@ -212,9 +316,39 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.12);
-    transform: translateY(-0.5px);
+    box-shadow: 0 0 0 3px var(--focus-color);
+    transform: translateY(-1px);
     background: #f8fff9;
+    transition: var(--transition-smooth);
+}
+
+/* Efecto de resplandor suave en focus */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    position: relative;
+}
+
+/* Indicador visual para campo activo */
+.form-group:has(input:focus),
+.form-group:has(select:focus),
+.form-group:has(textarea:focus) {
+    background: var(--accent-color-soft);
+    box-shadow: 0 0 0 2px var(--focus-color);
+    transform: translateY(-1px);
+}
+
+/* Efecto de pulso suave para campos en focus */
+@keyframes pulse-soft {
+    0% { box-shadow: 0 0 0 0 var(--focus-color); }
+    70% { box-shadow: 0 0 0 4px rgba(27, 94, 32, 0.1); }
+    100% { box-shadow: 0 0 0 0 var(--focus-color); }
+}
+
+.form-group:has(input:focus),
+.form-group:has(select:focus),
+.form-group:has(textarea:focus) {
+    animation: pulse-soft 2s infinite;
 }
 
 .form-group textarea {
@@ -305,6 +439,69 @@ body {
 #tipoIdentificacionGroup .horizontal-field:first-child select {
     width: 100% !important;
     max-width: 100% !important;
+}
+
+/* Estilo específico para nacionalidad - igual que tipo de identificación */
+#nacionalidadGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: stretch;
+    padding: 4px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fafafa;
+    margin-bottom: 4px;
+    min-height: 60px;
+    max-width: 100%;
+    transition: all 0.3s ease;
+}
+
+#nacionalidadGroup .horizontal-field:first-child {
+    border-right: 1px solid #d0d0d0;
+    padding-right: 6px;
+    margin-right: 4px;
+    max-width: 100%;
+    flex: 1;
+}
+
+#nacionalidadGroup .horizontal-field:first-child select {
+    width: 100%;
+    max-width: 100%;
+}
+
+#nacionalidadGroup .horizontal-field label {
+    font-weight: 600;
+    font-size: 12px;
+    color: #2c3e50;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    line-height: 1.1;
+}
+
+#nacionalidadGroup .horizontal-field input,
+#nacionalidadGroup .horizontal-field select {
+    padding: 4px 6px;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    font-size: 13px;
+    background: white;
+    transition: all 0.3s ease;
+    min-height: 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    width: 100%;
+    margin-top: 1px;
+}
+
+#nacionalidadGroup .horizontal-field input:focus,
+#nacionalidadGroup .horizontal-field select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.12);
+    transform: translateY(-0.5px);
+    background: #f8fff9;
 }
 
 /* Estilos para select de discapacidad */
@@ -780,6 +977,120 @@ body {
     background: var(--accent-color-light);
 }
 
+/* Compatibilidad específica para navegadores */
+@supports (height: 100dvh) {
+    body {
+        height: 100dvh;
+    }
+    .container {
+        height: 100dvh;
+    }
+}
+
+/* Fallback para navegadores que no soportan dvh */
+@supports not (height: 100dvh) {
+    body {
+        height: 100vh;
+        /* Ajuste específico para Firefox */
+        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+    .container {
+        height: 100vh;
+        height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    }
+}
+
+/* Ajustes específicos para Safari */
+@supports (-webkit-touch-callout: none) {
+    body {
+        height: -webkit-fill-available;
+    }
+    .container {
+        height: -webkit-fill-available;
+    }
+}
+
+/* Ajustes específicos para Firefox */
+@-moz-document url-prefix() {
+    body {
+        height: calc(100vh - 4px);
+        min-height: calc(100vh - 4px);
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        height: calc(100vh - 4px);
+        min-height: calc(100vh - 4px);
+        padding: 0.5px 0.5px 2px 0.5px;
+        margin: 0;
+    }
+    .matricula-form {
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
+        padding: 0.5px;
+        margin-bottom: 0.5px;
+    }
+    .form-section {
+        margin-bottom: 0.3px;
+        padding: 0.3px;
+    }
+    .form-row {
+        margin-bottom: 0.3px;
+        gap: 0.3px;
+    }
+    .form-group {
+        margin-bottom: 0.2px;
+        padding: 0.5px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 3px 5px;
+        font-size: 15px;
+        min-height: 16px;
+    }
+    .form-group label {
+        font-size: 14px;
+        margin-bottom: 0.5px;
+    }
+    .header {
+        padding: 2px 4px;
+        margin-bottom: 1px;
+    }
+    .school-title h1 {
+        font-size: 0.9rem;
+    }
+    .school-title h2 {
+        font-size: 0.7rem;
+    }
+    .form-actions {
+        margin-top: 2px;
+        padding: 4px;
+    }
+    .btn {
+        padding: 8px 16px;
+        font-size: 14px;
+        min-height: 20px;
+    }
+}
+
+/* Ajustes para navegadores móviles */
+@media screen and (max-height: 600px) {
+    body {
+        font-size: 18px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 14px;
+        padding: 4px 6px;
+        min-height: 16px;
+    }
+    .form-group label {
+        font-size: 14px;
+    }
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
     .form-row {
@@ -927,26 +1238,33 @@ body {
     justify-content: center;
     margin: 6px 0 8px 0;
     padding: 6px 8px 8px 8px;
-    background: #f8f9fa;
-    border-radius: 4px;
-    border: 1px solid #e9ecef;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    background: var(--bg-zebra-even);
+    border-radius: 8px;
+    border: 1px solid var(--border-color-soft);
+    box-shadow: 0 2px 6px var(--shadow-secondary);
+    transition: var(--transition-smooth);
 }
+
+/* Efectos de hover removidos */
 
 .action-buttons button {
     padding: 8px 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: var(--transition-smooth);
     display: flex;
     align-items: center;
     gap: 4px;
     white-space: nowrap;
     min-height: 32px;
+    position: relative;
+    overflow: hidden;
 }
+
+/* Efectos de hover removidos */
 
 /* Sección de Declaración y Firmas - Más compacta */
 .declaration {
