@@ -87,6 +87,7 @@ function llenarFormularioConDatosGuardados(estudiante) {
         'cedula': 'cedulaEstudiante',
         'fechaNacimiento': 'fechaNacimiento',
         'nacionalidad': 'nacionalidad',
+        'nacionalidadOtro': 'nacionalidadOtro',
         'adecuacion': 'adecuacion',
         'rutaTransporte': 'rutaTransporte',
         'repitente': 'repitente',
@@ -141,6 +142,9 @@ function llenarFormularioConDatosGuardados(estudiante) {
                     const fechaConvertida = convertirFechaFormato(valor);
                     elemento.value = fechaConvertida;
                     console.log(`✅ Fecha ${campoFrontend} configurada a: "${fechaConvertida}"`);
+                } else if (campoFrontend === 'nacionalidad') {
+                    // Manejo especial para nacionalidad
+                    manejarNacionalidadEnFormulario(valor);
                 } else {
                     elemento.value = valor;
                     console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
@@ -174,6 +178,7 @@ function llenarFormularioConDatos(estudiante) {
         'cedula': 'cedulaEstudiante',
         'fechaNacimiento': 'fechaNacimiento',
         'nacionalidad': 'nacionalidad',
+        'nacionalidadOtro': 'nacionalidadOtro',
         'adecuacion': 'adecuacion',
         'rutaTransporte': 'rutaTransporte',
         'repitente': 'repitente',
@@ -231,6 +236,9 @@ function llenarFormularioConDatos(estudiante) {
                     const fechaConvertida = convertirFechaFormato(valor);
                     elemento.value = fechaConvertida;
                     console.log(`✅ Fecha ${campoFrontend} configurada a: "${fechaConvertida}"`);
+                } else if (campoFrontend === 'nacionalidad') {
+                    // Manejo especial para nacionalidad
+                    manejarNacionalidadEnFormulario(valor);
                 } else {
                     elemento.value = valor;
                     console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
@@ -287,6 +295,7 @@ function obtenerDatosFormulario() {
         'cedulaEstudiante': 'cedula',
         'fechaNacimiento': 'fechaNacimiento',
         'nacionalidad': 'nacionalidad',
+        'nacionalidadOtro': 'nacionalidadOtro',
         'adecuacion': 'adecuacion',
         'rutaTransporte': 'rutaTransporte',
         'repitente': 'repitente',
@@ -390,7 +399,7 @@ function limpiarFormularioCompleto() {
     const camposEspecificos = [
         'nivel', 'especialidad', 'seccion', 'primerApellido', 'segundoApellido', 
         'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'nacionalidad',
-        'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
+        'nacionalidadOtro', 'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
         'repitente', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'parentescoMadre', 'viveConEstudianteMadre', 'direccionMadre', 'nombrePadre',
         'cedulaPadre', 'telefonoPadre', 'parentescoPadre', 'viveConEstudiantePadre',
@@ -412,6 +421,23 @@ function limpiarFormularioCompleto() {
     
     // Actualizar especialidades después de limpiar
     actualizarEspecialidades();
+    
+    // Ocultar campo de nacionalidad personalizada y resetear layout
+    const nacionalidadOtroGroup = document.getElementById('nacionalidadOtroGroup');
+    const nacionalidadOtro = document.getElementById('nacionalidadOtro');
+    const nacionalidadGroup = document.getElementById('nacionalidadGroup');
+    
+    if (nacionalidadOtroGroup) {
+        nacionalidadOtroGroup.style.display = 'none';
+    }
+    if (nacionalidadOtro) {
+        nacionalidadOtro.required = false;
+    }
+    if (nacionalidadGroup) {
+        nacionalidadGroup.style.flexDirection = 'column';
+        nacionalidadGroup.style.gap = '4px';
+        nacionalidadGroup.style.alignItems = 'stretch';
+    }
     
     console.log('✅ Formulario limpiado completamente');
 }
@@ -463,7 +489,7 @@ function limpiarFormulario(forzarLimpieza = false) {
     const camposEspecificos = [
         'nivel', 'especialidad', 'seccion', 'primerApellido', 'segundoApellido', 
         'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'nacionalidad',
-        'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
+        'nacionalidadOtro', 'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
         'repitente', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'parentescoMadre', 'viveConEstudianteMadre', 'direccionMadre', 'nombrePadre',
         'cedulaPadre', 'telefonoPadre', 'parentescoPadre', 'viveConEstudiantePadre',
@@ -656,6 +682,7 @@ function llenarFormularioConEstudiante(estudiante) {
         'cedula': 'cedulaEstudiante',
         'fechaNacimiento': 'fechaNacimiento',
         'nacionalidad': 'nacionalidad',
+        'nacionalidadOtro': 'nacionalidadOtro',
         'adecuacion': 'adecuacion',
         'rutaTransporte': 'rutaTransporte',
         'repitente': 'repitente',
@@ -729,6 +756,9 @@ function llenarFormularioConEstudiante(estudiante) {
                     console.log(`⚠️ No se encontró opción para "${valor}" en el campo SELECT "${campoFormulario}"`);
                     console.log(`Opciones disponibles:`, opciones.map(op => op.textContent.trim()));
                 }
+            } else if (campoFormulario === 'nacionalidad') {
+                // Manejo especial para nacionalidad
+                manejarNacionalidadEnFormulario(valor);
             } else {
                 elemento.value = valor;
                 console.log(`✅ Campo "${campoFormulario}" llenado con: "${valor}"`);
@@ -894,7 +924,7 @@ function recolectarDatosFormulario() {
         identidadGenero: '',
         
         // 9. Nacionalidad
-        nacionalidad: document.getElementById('nacionalidad').value,
+        nacionalidad: obtenerNacionalidad(),
         
         // 10. Repitente
         repitente: document.getElementById('repitente').value,
@@ -1402,6 +1432,33 @@ function mostrarTipoIdentificacionOtro() {
     }
 }
 
+// Función para mostrar/ocultar campo de nacionalidad "Otro"
+function mostrarNacionalidadOtro() {
+    const nacionalidad = document.getElementById('nacionalidad');
+    const nacionalidadOtroGroup = document.getElementById('nacionalidadOtroGroup');
+    const nacionalidadOtro = document.getElementById('nacionalidadOtro');
+    const nacionalidadGroup = document.getElementById('nacionalidadGroup');
+    
+    if (nacionalidad.value === 'Otro') {
+        nacionalidadOtroGroup.style.display = 'block';
+        nacionalidadOtro.required = true;
+        // Cambiar el layout del grupo a horizontal cuando se muestra el campo "Otro"
+        nacionalidadGroup.style.flexDirection = 'row';
+        nacionalidadGroup.style.gap = '8px';
+        nacionalidadGroup.style.alignItems = 'start';
+        console.log('🌍 Campo de nacionalidad personalizada mostrado al lado');
+    } else {
+        nacionalidadOtroGroup.style.display = 'none';
+        nacionalidadOtro.required = false;
+        nacionalidadOtro.value = '';
+        // Volver al layout vertical cuando se oculta el campo "Otro"
+        nacionalidadGroup.style.flexDirection = 'column';
+        nacionalidadGroup.style.gap = '4px';
+        nacionalidadGroup.style.alignItems = 'stretch';
+        console.log('🌍 Campo de nacionalidad personalizada ocultado');
+    }
+}
+
 // Función para obtener el tipo de identificación correcto para enviar a la base de datos
 function obtenerTipoIdentificacion() {
     const tipoIdentificacion = document.getElementById('tipoIdentificacion');
@@ -1413,6 +1470,57 @@ function obtenerTipoIdentificacion() {
         return tipoIdentificacion.value.toUpperCase();
     } else {
         return 'CÉDULA'; // Valor por defecto
+    }
+}
+
+// Función para obtener la nacionalidad correcta para enviar a la base de datos
+function obtenerNacionalidad() {
+    const nacionalidad = document.getElementById('nacionalidad');
+    const nacionalidadOtro = document.getElementById('nacionalidadOtro');
+    
+    if (nacionalidad.value === 'Otro' && nacionalidadOtro.value.trim() !== '') {
+        return nacionalidadOtro.value.trim();
+    } else if (nacionalidad.value && nacionalidad.value !== 'Otro') {
+        return nacionalidad.value;
+    } else {
+        return ''; // Valor vacío si no se selecciona nada
+    }
+}
+
+// Función para manejar la nacionalidad al llenar el formulario
+function manejarNacionalidadEnFormulario(valor) {
+    const nacionalidadSelect = document.getElementById('nacionalidad');
+    const nacionalidadOtroInput = document.getElementById('nacionalidadOtro');
+    const nacionalidadOtroGroup = document.getElementById('nacionalidadOtroGroup');
+    const nacionalidadGroup = document.getElementById('nacionalidadGroup');
+    
+    if (!valor) return;
+    
+    // Lista de nacionalidades predefinidas
+    const nacionalidadesPredefinidas = ['Costarricense', 'Panameña', 'Nicaragüense', 'Venezolana'];
+    
+    if (nacionalidadesPredefinidas.includes(valor)) {
+        // Si es una nacionalidad predefinida, seleccionarla
+        nacionalidadSelect.value = valor;
+        nacionalidadOtroGroup.style.display = 'none';
+        nacionalidadOtroInput.value = '';
+        nacionalidadOtroInput.required = false;
+        // Asegurar layout vertical
+        nacionalidadGroup.style.flexDirection = 'column';
+        nacionalidadGroup.style.gap = '4px';
+        nacionalidadGroup.style.alignItems = 'stretch';
+        console.log(`✅ Nacionalidad predefinida seleccionada: ${valor}`);
+    } else {
+        // Si no es predefinida, usar "Otro" y llenar el campo personalizado
+        nacionalidadSelect.value = 'Otro';
+        nacionalidadOtroGroup.style.display = 'block';
+        nacionalidadOtroInput.value = valor;
+        nacionalidadOtroInput.required = true;
+        // Cambiar a layout horizontal
+        nacionalidadGroup.style.flexDirection = 'row';
+        nacionalidadGroup.style.gap = '8px';
+        nacionalidadGroup.style.alignItems = 'start';
+        console.log(`✅ Nacionalidad personalizada configurada: ${valor}`);
     }
 }
 
