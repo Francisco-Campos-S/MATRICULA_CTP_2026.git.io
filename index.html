@@ -180,33 +180,19 @@
                             <label for="segundoApellido">Segundo apellido:</label>
                             <input type="text" id="segundoApellido" name="segundoApellido" tabindex="9">
                         </div>
-                        <div class="form-group horizontal-group" id="adecuacionGroup">
-                            <div class="horizontal-field">
-                                <label for="adecuacion">Posee adecuación:</label>
-                                <select id="adecuacion" name="adecuacion" onchange="mostrarTipoAdecuacion()" tabindex="14">
-                                    <option value="">Seleccione...</option>
-                                    <option value="Sí">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="horizontal-field" id="tipoAdecuacionGroup" style="display: none;">
-                                <label for="tipoAdecuacion">Tipo de adecuación:</label>
-                                <input type="text" id="tipoAdecuacion" name="tipoAdecuacion" placeholder="Especifique el tipo de adecuación" tabindex="19">
-                            </div>
+                        <div class="form-group">
+                            <label for="adecuacion">Adecuación:</label>
+                            <select id="adecuacion" name="adecuacion" tabindex="14">
+                                <option value="">Seleccione...</option>
+                                <option value="Sin adecuación">Sin adecuación</option>
+                                <option value="Significativa">Significativa</option>
+                                <option value="No significativa">No significativa</option>
+                                <option value="Acceso">Acceso</option>
+                            </select>
                         </div>
-                        <div class="form-group horizontal-group" id="enfermedadGroup">
-                            <div class="horizontal-field">
-                                <label for="enfermedad">Padece alguna enfermedad:</label>
-                                <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()" tabindex="22">
-                                    <option value="">Seleccione...</option>
-                                    <option value="Sí">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="horizontal-field" id="detalleEnfermedadGroup" style="display: none;">
-                                <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
-                                <input type="text" id="detalleEnfermedad" name="detalleEnfermedad" placeholder="Describa la enfermedad o condición médica" tabindex="28">
-                            </div>
+                        <div class="form-group">
+                            <label for="enfermedad">Enfermedad:</label>
+                            <input type="text" id="enfermedad" name="enfermedad" placeholder="Describa la enfermedad o condición médica (dejar vacío si no aplica)" tabindex="22">
                         </div>
 
                     </div>

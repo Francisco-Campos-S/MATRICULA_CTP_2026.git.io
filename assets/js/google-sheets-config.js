@@ -10,46 +10,51 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (URL desplegada actualizada)
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzWczQ_ZAlSw9Ma2btRCG83jnPmEbXJhLqPI9NYusto9Mi4rN-CPr2xFWFn5rU5a_8k_w/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzrNDDInI7afqn0qw8PRmBXtuLvPt19WAuTMz2Nqc97SQwOgVTdCqIeTR2chvhygQNmSw/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
     
-    // Configuración de campos para la hoja de cálculo
+    // Configuración de campos para la hoja de cálculo (39 columnas para envío de matrícula)
     // ⚠️ IMPORTANTE: Estos nombres deben coincidir EXACTAMENTE con las columnas de tu Google Sheet
     SHEET_COLUMNS: [
-        'Timestamp',
-        'Número Secuencial',
-        'Número de identificación',
-        'Tipo de identificación',
-        'Primer Apellido',
-        'Segundo Apellido',
-        'Nombre',
-        'Fecha Nacimiento',
-        'Edad',
-        'Identidad de género',
-        'Nacionalidad',
-        'Adecuación',
-        'Ruta Transporte',
-        'Repitente',
-        'Enfermedad',
-        'Detalle Enfermedad',
-        'Nombre Madre',
-        'Cédula Madre',
-        'Teléfono Madre',
-        'Dirección Madre',
-        'Parentesco Madre',
-        'Vive con Estudiante Madre',
-        'Nombre Padre',
-        'Cédula Padre',
-        'Teléfono Padre',
-        'Dirección Padre',
-        'Parentesco Padre',
-        'Vive con Estudiante Padre',
-        'Firma Encargada',
-        'Firma Encargado',
-        'Fecha',
-        'Observaciones'
+        'Timestamp',                   // Columna A (0) - Timestamp
+        'Número Secuencial',           // Columna B (1) - Número secuencial
+        'Número de identificación',    // Columna C (2) - Cédula del estudiante
+        'Tipo de identificación',      // Columna D (3) - Tipo de cédula
+        'Primer apellido',             // Columna E (4) - Primer apellido
+        'Segundo apellido',            // Columna F (5) - Segundo apellido
+        'Nombre',                      // Columna G (6) - Nombre
+        'Fecha de nacimiento',         // Columna H (7) - Fecha de nacimiento
+        'Edad',                        // Columna I (8) - Edad calculada
+        'Identidad de género',         // Columna J (9) - Identidad de género
+        'Nacionalidad',                // Columna K (10) - Nacionalidad
+        'Repitente',                   // Columna L (11) - Repitente
+        'Refugiado',                   // Columna M (12) - Refugiado
+        'Discapacidad',                // Columna N (13) - Discapacidad
+        'Tipo de Discapacidad',        // Columna O (14) - Tipo de Discapacidad
+        'Adecuación',                  // Columna P (15) - Adecuación
+        'Tipo de Adecuación',          // Columna Q (16) - Tipo de Adecuación
+        'Enfermedad',                  // Columna R (17) - Enfermedad
+        'Tipo de Enfermedad',          // Columna S (18) - Tipo de Enfermedad
+        'Especialidad',                // Columna T (19) - Especialidad
+        'Nivel',                       // Columna U (20) - Nivel
+        'Sección',                     // Columna V (21) - Sección
+        'Título',                      // Columna W (22) - Título
+        'Celular estudiante',          // Columna X (23) - Celular estudiante
+        'Encargada',                   // Columna Y (24) - Encargada
+        'Cédula',                      // Columna Z (25) - Cédula de la madre
+        'Celular',                     // Columna AA (26) - Celular de la madre
+        'Parentesco',                  // Columna AB (27) - Parentesco
+        'Vive con estud',              // Columna AC (28) - Vive con estudiante
+        'Dirección exacta',            // Columna AD (29) - Dirección exacta
+        'Encargado',                   // Columna AE (30) - Encargado
+        'Cédula2',                     // Columna AF (31) - Cédula del padre
+        'Celular2',                    // Columna AG (32) - Celular del padre
+        'Parentezco2',                 // Columna AH (33) - Parentesco del padre
+        'Otro Cel',                    // Columna AI (34) - Otro celular
+        'Dirección2',                  // Columna AJ (35) - Dirección del padre
+        'MOVIMIENTO'                   // Columna AK (36) - Movimiento
     ],
     
     // Configuración de validación

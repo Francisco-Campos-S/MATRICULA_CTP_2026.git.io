@@ -1,70 +1,93 @@
 // Función para cargar datos de prueba
 function cargarDatosPrueba() {
-    console.log('Cargando datos de prueba...');
+    console.log('🔄 Iniciando carga de datos de prueba...');
     
-    // Datos de prueba para el formulario
-    const datosPrueba = {
-        // Información básica
-        nivel: 'Décimo',
-        especialidad: 'CONTABILIDAD',
-        seccion: 'A',
-        
-        // Datos del estudiante
-        primerApellido: 'ALVARADO',
-        segundoApellido: 'PINEDA',
-        nombreEstudiante: 'ESTUDIANTE',
-        cedulaEstudiante: '123456789',
-        fechaNacimiento: '2008-03-15',
-        nacionalidad: 'Costarricense',
-        tipoIdentificacion: 'Cédula',
-        telefonoEstudiante: '8888-8888',
-        enfermedad: 'No',
-        detalleEnfermedad: '',
-        adecuacion: 'No',
-        repitente: 'No',
-        rutaTransporte: 'Ruta 1',
-        
-        // Datos de la madre
-        nombreMadre: 'MARÍA',
-        cedulaMadre: '987654321',
-        telefonoMadre: '7777-7777',
-        parentescoMadre: 'Madre',
-        viveConEstudianteMadre: 'Sí',
-        direccionMadre: 'San José, Costa Rica',
-        
-        // Datos del padre
-        nombrePadre: 'JUAN',
-        cedulaPadre: '456789123',
-        telefonoPadre: '6666-6666',
-        parentescoPadre: 'Padre',
-        viveConEstudiantePadre: 'Sí',
-        direccionPadre: 'San José, Costa Rica',
-        
-        // Declaración y firmas
-        firmaEncargada: 'MARÍA GONZÁLEZ LÓPEZ',
-        firmaEncargado: 'JUAN RODRÍGUEZ MARTÍNEZ',
-        fecha: '15/01/2026',
-        observaciones: 'Estudiante nuevo ingreso'
-    };
-    
-    // Llenar todos los campos del formulario
-    Object.keys(datosPrueba).forEach(key => {
-        const elemento = document.getElementById(key);
-        if (elemento) {
-            elemento.value = datosPrueba[key];
+    try {
+        // Datos de prueba para el formulario
+        const datosPrueba = {
+            // Información básica
+            nivel: 'Décimo',
+            especialidad: 'CONTABILIDAD',
+            seccion: 'A',
             
-            // Manejar campos especiales
-            if (key === 'enfermedad' && datosPrueba[key] === 'Sí') {
-                const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
-                if (detalleEnfermedadGroup) {
-                    detalleEnfermedadGroup.style.display = 'block';
-                }
+            // Datos del estudiante
+            primerApellido: 'ALVARADO',
+            segundoApellido: 'PINEDA',
+            nombreEstudiante: 'ESTUDIANTE',
+            cedulaEstudiante: '123456789',
+            fechaNacimiento: '2008-03-15',
+            nacionalidad: 'Costarricense',
+            tipoIdentificacion: 'Cédula',
+            telefonoEstudiante: '8888-8888',
+            enfermedad: '',
+            adecuacion: 'Sin adecuación',
+            repitente: 'No',
+            rutaTransporte: 'Ruta 1',
+            
+            // Datos de la madre
+            nombreMadre: 'MARÍA',
+            cedulaMadre: '987654321',
+            telefonoMadre: '7777-7777',
+            parentescoMadre: 'Madre',
+            viveConEstudianteMadre: 'Sí',
+            direccionMadre: 'San José, Costa Rica',
+            
+            // Datos del padre
+            nombrePadre: 'JUAN',
+            cedulaPadre: '456789123',
+            telefonoPadre: '6666-6666',
+            parentescoPadre: 'Padre',
+            viveConEstudiantePadre: 'Sí',
+            direccionPadre: 'San José, Costa Rica',
+            
+            // Declaración y firmas
+            firmaEncargada: 'MARÍA GONZÁLEZ LÓPEZ',
+            firmaEncargado: 'JUAN RODRÍGUEZ MARTÍNEZ',
+            fecha: '15/01/2026',
+            observaciones: 'Estudiante nuevo ingreso'
+        };
+        
+        // Llenar todos los campos del formulario
+        let camposCargados = 0;
+        let camposNoEncontrados = [];
+        
+        Object.keys(datosPrueba).forEach(key => {
+            const elemento = document.getElementById(key);
+            if (elemento) {
+                elemento.value = datosPrueba[key];
+                camposCargados++;
+                console.log(`✅ Campo cargado: ${key} = ${datosPrueba[key]}`);
+            } else {
+                camposNoEncontrados.push(key);
+                console.warn(`⚠️ Campo no encontrado: ${key}`);
             }
+        });
+        
+        console.log(`📊 Resumen: ${camposCargados} campos cargados, ${camposNoEncontrados.length} no encontrados`);
+        
+        if (camposNoEncontrados.length > 0) {
+            console.log('❌ Campos no encontrados:', camposNoEncontrados);
         }
-    });
-    
-    console.log('Datos de prueba cargados exitosamente');
-    mostrarMensaje('✅ Datos de prueba cargados correctamente', 'success');
+        
+        // Mostrar mensaje de éxito
+        const mensajeElement = document.getElementById('mensajeConsulta');
+        if (mensajeElement) {
+            mensajeElement.textContent = `✅ Datos de prueba cargados correctamente (${camposCargados} campos)`;
+            mensajeElement.className = 'mensaje-consulta success';
+            
+            // Limpiar mensaje después de 5 segundos
+            setTimeout(() => {
+                mensajeElement.textContent = '';
+                mensajeElement.className = 'mensaje-consulta';
+            }, 5000);
+        }
+        
+        console.log('✅ Datos de prueba cargados exitosamente');
+        
+    } catch (error) {
+        console.error('❌ Error cargando datos de prueba:', error);
+        alert('Error al cargar los datos de prueba: ' + error.message);
+    }
 }
 
 // Función para llenar formulario con datos del estudiante (formato Google Sheets)
@@ -138,8 +161,8 @@ function llenarFormularioConEstudiante(estudiante) {
                     detalleEnfermedadGroup.style.display = 'block';
                     console.log('✅ Campo de detalle de enfermedad mostrado');
                 }
-                        }
-                    } else {
+            }
+        } else {
             console.log(`⚠️ Campo "${campoFormulario}" no se llenó - valor: "${valor}"`);
             camposVacios++;
         }
@@ -304,14 +327,9 @@ function recolectarDatosFormulario() {
         // 14. Adecuación
         adecuacion: document.getElementById('adecuacion').value,
         
-        // 15. Tipo de Adecuación
-        tipoAdecuacion: document.getElementById('tipoAdecuacion') ? document.getElementById('tipoAdecuacion').value : '',
         
-        // 16. Enfermedad
+        // 15. Enfermedad
         enfermedad: document.getElementById('enfermedad').value,
-        
-        // 17. Tipo de Enfermedad
-        tipoEnfermedad: document.getElementById('detalleEnfermedad') ? document.getElementById('detalleEnfermedad').value : '',
         
         // 18. Especialidad
         especialidad: document.getElementById('especialidad').value,
@@ -383,17 +401,7 @@ function recolectarDatosFormulario() {
     // LÓGICA ESPECIAL PARA CAMPOS CONDICIONALES
     // Ya no es necesaria lógica especial para discapacidad
     
-    // Si adecuación es "No", limpiar tipo de adecuación
-    if (formData.adecuacion === 'No') {
-        formData.tipoAdecuacion = '';
-        console.log('🧹 Adecuación es "No", tipo de adecuación limpiado');
-    }
     
-    // Si enfermedad es "No", limpiar tipo de enfermedad
-    if (formData.enfermedad === 'No') {
-        formData.tipoEnfermedad = '';
-        console.log('🧹 Enfermedad es "No", tipo de enfermedad limpiado');
-    }
     
     console.log('📊 Datos recolectados del formulario:', formData);
     return formData;
@@ -476,21 +484,7 @@ function limpiarFormulario() {
         tipoDiscapacidadGroup.style.display = 'none';
     }
     
-    const tipoAdecuacionGroup = document.getElementById('tipoAdecuacionGroup');
-    if (tipoAdecuacionGroup) {
-        tipoAdecuacionGroup.style.display = 'none';
-    }
     
-    const tipoEnfermedadGroup = document.getElementById('tipoEnfermedadGroup');
-    if (tipoEnfermedadGroup) {
-        tipoEnfermedadGroup.style.display = 'none';
-    }
-    
-    // Ocultar campo de detalle de enfermedad
-    const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
-    if (detalleEnfermedadGroup) {
-        detalleEnfermedadGroup.style.display = 'none';
-    }
     
     mostrarMensaje('🧹 Formulario limpiado correctamente', 'success');
 }
@@ -653,9 +647,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar campos condicionales
     setTimeout(function() {
-        mostrarTipoAdecuacion();
-        mostrarDetalleEnfermedad();
+        // Ya no hay campos condicionales que inicializar
     }, 200);
+    
+    // Cargar datos de prueba
+    setTimeout(cargarDatosPrueba, 300);
 });
 
 // Función para mostrar/ocultar campo de tipo de discapacidad
@@ -665,57 +661,7 @@ function obtenerDiscapacidadSeleccionada() {
     return discapacidadSelect ? discapacidadSelect.value : '';
 }
 
-// Función para mostrar/ocultar campo de tipo de adecuación
-function mostrarTipoAdecuacion() {
-    const adecuacion = document.getElementById('adecuacion').value;
-    const tipoAdecuacionGroup = document.getElementById('tipoAdecuacionGroup');
-    const tipoAdecuacionInput = document.getElementById('tipoAdecuacion');
-    const adecuacionGroup = document.getElementById('adecuacionGroup');
-    
-    if (adecuacion === 'Sí') {
-        // Mostrar ambos campos (horizontal) - con estilos especiales
-        tipoAdecuacionGroup.style.display = 'flex';
-        tipoAdecuacionInput.required = true;
-        adecuacionGroup.style.flexDirection = 'row';
-        adecuacionGroup.classList.remove('solo-campo');
-        console.log('✅ Campo de tipo de adecuación mostrado - Layout horizontal');
-    } else {
-        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
-        tipoAdecuacionGroup.style.display = 'none';
-        tipoAdecuacionInput.required = false;
-        tipoAdecuacionInput.value = '';
-        adecuacionGroup.style.flexDirection = 'column';
-        adecuacionGroup.style.width = '100%';
-        adecuacionGroup.classList.add('solo-campo');
-        console.log('🧹 Campo de tipo de adecuación ocultado - Layout vertical (valor:', adecuacion, ')');
-    }
-}
 
-// Función para mostrar/ocultar campo de detalle de enfermedad
-function mostrarDetalleEnfermedad() {
-    const enfermedad = document.getElementById('enfermedad').value;
-    const detalleEnfermedadGroup = document.getElementById('detalleEnfermedadGroup');
-    const detalleEnfermedadInput = document.getElementById('detalleEnfermedad');
-    const enfermedadGroup = document.getElementById('enfermedadGroup');
-    
-    if (enfermedad === 'Sí') {
-        // Mostrar ambos campos (horizontal) - con estilos especiales
-        detalleEnfermedadGroup.style.display = 'flex';
-        detalleEnfermedadInput.required = true;
-        enfermedadGroup.style.flexDirection = 'row';
-        enfermedadGroup.classList.remove('solo-campo');
-        console.log('✅ Campo de detalle de enfermedad mostrado - Layout horizontal');
-    } else {
-        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
-        detalleEnfermedadGroup.style.display = 'none';
-        detalleEnfermedadInput.required = false;
-        detalleEnfermedadInput.value = '';
-        enfermedadGroup.style.flexDirection = 'column';
-        enfermedadGroup.style.width = '100%';
-        enfermedadGroup.classList.add('solo-campo');
-        console.log('🧹 Campo de detalle de enfermedad ocultado - Layout vertical (valor:', enfermedad, ')');
-    }
-}
 
 // Función para mostrar/ocultar campo de tipo de identificación "Otro"
 function mostrarTipoIdentificacionOtro() {
@@ -747,7 +693,7 @@ function obtenerTipoIdentificacion() {
     }
 }
 
-// Función para calcular la edad al 1 de febrero de 2026
+// Función para calcular la edad al 1 de febrero de 2026 en formato "X años y Y meses"
 function calcularEdad(fechaNacimiento) {
     if (!fechaNacimiento) return '';
     
@@ -762,27 +708,42 @@ function calcularEdad(fechaNacimiento) {
             return '';
         }
         
-        // Calcular la diferencia en años
-        let edad = fechaReferencia.getFullYear() - fechaNac.getFullYear();
-        const mesReferencia = fechaReferencia.getMonth();
-        const mesNacimiento = fechaNac.getMonth();
+        // Calcular la diferencia en años y meses
+        let años = fechaReferencia.getFullYear() - fechaNac.getFullYear();
+        let meses = fechaReferencia.getMonth() - fechaNac.getMonth();
+        
+        // Ajustar si aún no ha cumplido años en 2026
+        if (meses < 0) {
+            años--;
+            meses += 12;
+        }
+        
+        // Ajustar por días si es necesario
         const diaReferencia = fechaReferencia.getDate();
         const diaNacimiento = fechaNac.getDate();
         
-        // Ajustar si aún no ha cumplido años en 2026
-        if (mesReferencia < mesNacimiento || 
-            (mesReferencia === mesNacimiento && diaReferencia < diaNacimiento)) {
-            edad--;
+        if (diaReferencia < diaNacimiento) {
+            meses--;
+            if (meses < 0) {
+                años--;
+                meses += 12;
+            }
         }
         
         // Verificar que la edad sea válida (entre 0 y 100 años)
-        if (edad < 0 || edad > 100) {
-            console.log('❌ Edad calculada inválida:', edad, 'para fecha:', fechaNacimiento);
+        if (años < 0 || años > 100) {
+            console.log('❌ Edad calculada inválida:', años, 'años para fecha:', fechaNacimiento);
             return '';
         }
         
-        console.log(`📅 Edad calculada: ${edad} años (nacimiento: ${fechaNacimiento}, referencia: 2026-02-01)`);
-        return edad.toString();
+        // Formatear la edad como "X años y Y meses"
+        let edadFormateada = `${años} años`;
+        if (meses > 0) {
+            edadFormateada += ` y ${meses} meses`;
+        }
+        
+        console.log(`📅 Edad calculada: ${edadFormateada} (nacimiento: ${fechaNacimiento}, referencia: 2026-02-01)`);
+        return edadFormateada;
         
     } catch (error) {
         console.error('❌ Error calculando edad:', error);
@@ -797,7 +758,7 @@ function actualizarEdad() {
     
     // Mostrar la edad calculada en consola para debugging
     if (edad) {
-        console.log(`🎂 Edad calculada: ${edad} años`);
+        console.log(`🎂 Edad calculada: ${edad}`);
     }
     
     return edad;
