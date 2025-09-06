@@ -103,7 +103,7 @@ function doPost(e) {
         console.log(`✅ Hoja "${nombreHoja}" ya existe`);
       }
       
-      // SIEMPRE verificar y actualizar los headers para asegurar que tengan las 41 columnas correctas
+      // SIEMPRE verificar y actualizar los headers para asegurar que tengan las 40 columnas correctas
       const headers = [
         'Timestamp',
         'Número Secuencial',
@@ -119,7 +119,6 @@ function doPost(e) {
         'Repitente',
         'Refugiado',
         'Discapacidad',
-        'Tipo de Discapacidad',
         'Adecuación',
         'Tipo de Adecuación',
         'Enfermedad',
@@ -191,7 +190,7 @@ function doPost(e) {
       return ContentService.createTextOutput(`Error: No se pudo acceder a la hoja ${nombreHoja}`).setMimeType(ContentService.MimeType.TEXT);
     }
     
-    // PREPARAR DATOS PARA LA FILA CON LAS 42 COLUMNAS EN EL ORDEN EXACTO
+    // PREPARAR DATOS PARA LA FILA CON LAS 40 COLUMNAS EN EL ORDEN EXACTO
     // Orden según las columnas que especificaste:
     // 0. Timestamp (fecha y hora del envío)
     // 1. Número Secuencial (conteo de estudiantes)
@@ -207,33 +206,32 @@ function doPost(e) {
     // 11. Repitente
     // 12. Refugiado
     // 13. Discapacidad (Sí/No)
-    // 14. Tipo de Discapacidad
-    // 15. Adecuación (Sí/No)
-    // 16. Tipo de Adecuación
-    // 17. Enfermedad (Sí/No)
-    // 18. Tipo de Enfermedad
-    // 19. Especialidad
-    // 20. Nivel
-    // 21. Sección
-    // 22. Título
-    // 23. Celular estudiante
-    // 24. Encargada
-    // 25. Cédula
-    // 26. Celular
-    // 27. Parentesco
-    // 28. Vive con estud
-    // 29. Dirección exacta
-    // 30. Encargado
-    // 31. Cédula2
-    // 32. Celular2
-    // 33. Parentezco2
-    // 34. Otro Cel
-    // 35. Dirección2
-    // 36. MOVIMIENTO
-    // 37. Columna1
-    // 38. Columna2
-    // 39. Columna3
-    // 40. Columna4
+    // 14. Adecuación (Sí/No)
+    // 15. Tipo de Adecuación
+    // 16. Enfermedad (Sí/No)
+    // 17. Tipo de Enfermedad
+    // 18. Especialidad
+    // 19. Nivel
+    // 20. Sección
+    // 21. Título
+    // 22. Celular estudiante
+    // 23. Encargada
+    // 24. Cédula
+    // 25. Celular
+    // 26. Parentesco
+    // 27. Vive con estud
+    // 28. Dirección exacta
+    // 29. Encargado
+    // 30. Cédula2
+    // 31. Celular2
+    // 32. Parentezco2
+    // 33. Otro Cel
+    // 34. Dirección2
+    // 35. MOVIMIENTO
+    // 36. Columna1
+    // 37. Columna2
+    // 38. Columna3
+    // 39. Columna4
     
     // Obtener el siguiente número secuencial para esta hoja
     let siguienteNumero = 1;
@@ -273,33 +271,32 @@ function doPost(e) {
       formData.repitente || '',                     // 11. Repitente
       '',                                          // 12. Refugiado (vacío)
       formData.discapacidad || '',                  // 13. Discapacidad
-      formData.tipoDiscapacidad || '',              // 14. Tipo de Discapacidad
-      formData.adecuacion || '',                    // 15. Adecuación
-      formData.tipoAdecuacion || '',                // 16. Tipo de Adecuación
-      formData.enfermedad || '',                    // 17. Enfermedad
-      formData.tipoEnfermedad || '',                // 18. Tipo de Enfermedad
-      formData.especialidad || '',                  // 19. Especialidad
-      formData.nivel || '',                         // 20. Nivel
-      formData.seccion || '',                       // 21. Sección
-      '',                                          // 22. Título (vacío)
-      formData.celularEstudiante || '',             // 23. Celular estudiante
-      formData.encargada || '',                     // 24. Encargada
-      formData.cedula || '',                        // 25. Cédula
-      formData.celular || '',                       // 26. Celular
-      formData.parentesco || '',                    // 27. Parentesco
-      formData.viveConEstudiante || '',             // 28. Vive con estud
-      formData.direccionExacta || '',               // 29. Dirección exacta
-      formData.encargado || '',                     // 30. Encargado
-      formData.cedula2 || '',                       // 31. Cédula2
-      formData.celular2 || '',                      // 32. Celular2
-      formData.parentezco2 || '',                   // 33. Parentezco2
-      formData.otroCel || '',                       // 34. Otro Cel
-      formData.direccion2 || '',                    // 35. Dirección2
-      'NUEVA MATRÍCULA 2026',                      // 36. MOVIMIENTO
-      '',                                          // 37. Columna1 (vacío)
-      '',                                          // 38. Columna2 (vacío)
-      '',                                          // 39. Columna3 (vacío)
-      ''                                           // 40. Columna4 (vacío)
+      formData.adecuacion || '',                    // 14. Adecuación
+      formData.tipoAdecuacion || '',                // 15. Tipo de Adecuación
+      formData.enfermedad || '',                    // 16. Enfermedad
+      formData.tipoEnfermedad || '',                // 17. Tipo de Enfermedad
+      formData.especialidad || '',                  // 18. Especialidad
+      formData.nivel || '',                         // 19. Nivel
+      formData.seccion || '',                       // 20. Sección
+      '',                                          // 21. Título (vacío)
+      formData.celularEstudiante || '',             // 22. Celular estudiante
+      formData.encargada || '',                     // 23. Encargada
+      formData.cedula || '',                        // 24. Cédula
+      formData.celular || '',                       // 25. Celular
+      formData.parentesco || '',                    // 26. Parentesco
+      formData.viveConEstudiante || '',             // 27. Vive con estud
+      formData.direccionExacta || '',               // 28. Dirección exacta
+      formData.encargado || '',                     // 29. Encargado
+      formData.cedula2 || '',                       // 30. Cédula2
+      formData.celular2 || '',                      // 31. Celular2
+      formData.parentezco2 || '',                   // 32. Parentezco2
+      formData.otroCel || '',                       // 33. Otro Cel
+      formData.direccion2 || '',                    // 34. Dirección2
+      'NUEVA MATRÍCULA 2026',                      // 35. MOVIMIENTO
+      '',                                          // 36. Columna1 (vacío)
+      '',                                          // 37. Columna2 (vacío)
+      '',                                          // 38. Columna3 (vacío)
+      ''                                           // 39. Columna4 (vacío)
     ];
     
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);
@@ -540,8 +537,7 @@ function testEnvio() {
       edad: '26',
       nacionalidad: 'COSTARRICENSE',
       repitente: 'No',
-      discapacidad: 'No',
-      tipoDiscapacidad: '',
+      discapacidad: 'Sin discapacidad',
       adecuacion: 'No',
       tipoAdecuacion: '',
       enfermedad: 'No',
@@ -570,5 +566,36 @@ function testEnvio() {
     console.log('✅ Resultado del envío:', resultado.getContent());
   } catch (error) {
     console.error('❌ Error en la prueba de envío:', error);
+  }
+}
+
+// Función para verificar las columnas actuales en Google Sheets
+function verificarColumnas() {
+  console.log('🔍 Verificando columnas actuales en Google Sheets...');
+  
+  try {
+    const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
+    const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+    
+    // Verificar hoja REGULAR CTP 2026
+    let hojaRegular = spreadsheet.getSheetByName('REGULAR CTP 2026');
+    if (hojaRegular) {
+      const headersRegular = hojaRegular.getRange(1, 1, 1, hojaRegular.getLastColumn()).getValues()[0];
+      console.log('📋 Headers en REGULAR CTP 2026:', headersRegular);
+      console.log('📊 Total de columnas en REGULAR:', headersRegular.length);
+    }
+    
+    // Verificar hoja PLAN NACIONAL 2026
+    let hojaPlan = spreadsheet.getSheetByName('PLAN NACIONAL 2026');
+    if (hojaPlan) {
+      const headersPlan = hojaPlan.getRange(1, 1, 1, hojaPlan.getLastColumn()).getValues()[0];
+      console.log('📋 Headers en PLAN NACIONAL 2026:', headersPlan);
+      console.log('📊 Total de columnas en PLAN NACIONAL:', headersPlan.length);
+    }
+    
+    return 'Verificación completada. Revisa los logs.';
+  } catch (error) {
+    console.error('❌ Error verificando columnas:', error);
+    return 'Error: ' + error.toString();
   }
 }
