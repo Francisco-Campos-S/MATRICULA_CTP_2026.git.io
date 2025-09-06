@@ -262,12 +262,12 @@ function doPost(e) {
       timestamp,                                    // 0. Timestamp (fecha y hora del envío)
       siguienteNumero,                              // 1. Número Secuencial (conteo de estudiantes)
       formData.numeroIdentificacion || '',          // 2. Número de identificación
-      'CÉDULA',                                    // 3. Tipo de identificación (siempre CÉDULA)
+      formData.tipoIdentificacion || 'CÉDULA',      // 3. Tipo de identificación
       formData.primerApellido || '',                // 4. Primer apellido
       formData.segundoApellido || '',               // 5. Segundo apellido
       formData.nombre || '',                        // 6. Nombre
       formData.fechaNacimiento || '',               // 7. Fecha de nacimiento
-      '',                                          // 8. Edad (vacío, se calcula en Sheets)
+      formData.edad || '',                          // 8. Edad (calculada automáticamente)
       '',                                          // 9. Identidad de género (vacío)
       formData.nacionalidad || '',                  // 10. Nacionalidad
       formData.repitente || '',                     // 11. Repitente
@@ -456,6 +456,7 @@ function buscarEstudiantePorCedula(sheet, cedula) {
           cedula: row[8] || '',           // Columna I (índice 8) - CÉDULA
           fechaNacimiento: row[9] || '',  // Columna J (índice 9) - FECHA NACIMIENTO
           nacionalidad: row[10] || '',    // Columna K (índice 10) - NACIONALIDAD
+          tipoIdentificacion: 'Cédula',   // Valor por defecto ya que no existe en la base actual
           adecuacion: row[11] || '',      // Columna L (índice 11) - ADECUACIÓN
           rutaTransporte: row[12] || '',  // Columna M (índice 12) - RUTA TRANSPORTE
           repitente: row[13] || '',       // Columna N (índice 13) - REPITENTE
@@ -531,10 +532,12 @@ function testEnvio() {
       action: 'insertar',
       tipoMatricula: 'regular',
       numeroIdentificacion: '123456789',
+      tipoIdentificacion: 'CÉDULA',
       primerApellido: 'PRUEBA',
       segundoApellido: 'TEST',
       nombre: 'ESTUDIANTE',
       fechaNacimiento: '01/01/2000',
+      edad: '26',
       nacionalidad: 'COSTARRICENSE',
       repitente: 'No',
       discapacidad: 'No',

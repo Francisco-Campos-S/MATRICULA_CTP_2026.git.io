@@ -16,6 +16,7 @@ function cargarDatosPrueba() {
         cedulaEstudiante: '123456789',
         fechaNacimiento: '2008-03-15',
         nacionalidad: 'Costarricense',
+        tipoIdentificacion: 'Cédula',
         telefonoEstudiante: '8888-8888',
         enfermedad: 'No',
         detalleEnfermedad: '',
@@ -190,7 +191,7 @@ async function enviarFormulario() {
     const camposRequeridos = [
         'nivel', 'especialidad', 'seccion', 'primerApellido', 
         'segundoApellido', 'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento',
-        'nacionalidad', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
+        'nacionalidad', 'tipoIdentificacion', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'direccionMadre', 'fecha'
     ];
     
@@ -268,7 +269,7 @@ function recolectarDatosFormulario() {
         numeroIdentificacion: document.getElementById('cedulaEstudiante').value,
         
         // 2. Tipo de identificación
-        tipoIdentificacion: 'CÉDULA',
+        tipoIdentificacion: obtenerTipoIdentificacion(),
         
         // 3. Primer apellido
         primerApellido: document.getElementById('primerApellido').value,
@@ -282,8 +283,8 @@ function recolectarDatosFormulario() {
         // 6. Fecha de nacimiento
         fechaNacimiento: document.getElementById('fechaNacimiento').value,
         
-        // 7. Edad
-        edad: '',
+        // 7. Edad (calculada automáticamente)
+        edad: calcularEdad(document.getElementById('fechaNacimiento').value),
         
         // 8. Identidad de género
         identidadGenero: '',
@@ -553,9 +554,13 @@ async function consultarEstudiante() {
         // Realizar consulta simple
         console.log('📡 Enviando consulta...');
         
+        // Usar método alternativo para evitar problemas de CORS
         const response = await fetch(consultaUrl, {
             method: 'GET',
-            mode: 'cors'
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+            }
         });
         
         console.log('📡 Respuesta del servidor:', response);
@@ -736,6 +741,128 @@ function mostrarDetalleEnfermedad() {
         enfermedadGroup.style.width = '100%';
         enfermedadGroup.classList.add('solo-campo');
         console.log('🧹 Campo de detalle de enfermedad ocultado - Layout vertical (valor:', enfermedad, ')');
+    }
+}
+
+// Función para mostrar/ocultar campo de tipo de identificación "Otro"
+function mostrarTipoIdentificacionOtro() {
+    const tipoIdentificacion = document.getElementById('tipoIdentificacion');
+    const tipoIdentificacionOtroGroup = document.getElementById('tipoIdentificacionOtroGroup');
+    const tipoIdentificacionOtro = document.getElementById('tipoIdentificacionOtro');
+    
+    if (tipoIdentificacion.value === 'Otro') {
+        tipoIdentificacionOtroGroup.style.display = 'block';
+        tipoIdentificacionOtro.required = true;
+    } else {
+        tipoIdentificacionOtroGroup.style.display = 'none';
+        tipoIdentificacionOtro.required = false;
+        tipoIdentificacionOtro.value = '';
+    }
+}
+
+// Función para obtener el tipo de identificación correcto para enviar a la base de datos
+function obtenerTipoIdentificacion() {
+    const tipoIdentificacion = document.getElementById('tipoIdentificacion');
+    const tipoIdentificacionOtro = document.getElementById('tipoIdentificacionOtro');
+    
+    if (tipoIdentificacion.value === 'Otro' && tipoIdentificacionOtro.value.trim() !== '') {
+        return tipoIdentificacionOtro.value.trim().toUpperCase();
+    } else if (tipoIdentificacion.value && tipoIdentificacion.value !== 'Otro') {
+        return tipoIdentificacion.value.toUpperCase();
+    } else {
+        return 'CÉDULA'; // Valor por defecto
+    }
+}
+
+// Función para calcular la edad al 1 de febrero de 2026
+function calcularEdad(fechaNacimiento) {
+    if (!fechaNacimiento) return '';
+    
+    try {
+        // Fecha de referencia: 1 de febrero de 2026
+        const fechaReferencia = new Date('2026-02-01');
+        const fechaNac = new Date(fechaNacimiento);
+        
+        // Verificar que la fecha de nacimiento sea válida
+        if (isNaN(fechaNac.getTime())) {
+            console.log('❌ Fecha de nacimiento inválida:', fechaNacimiento);
+            return '';
+        }
+        
+        // Calcular la diferencia en años
+        let edad = fechaReferencia.getFullYear() - fechaNac.getFullYear();
+        const mesReferencia = fechaReferencia.getMonth();
+        const mesNacimiento = fechaNac.getMonth();
+        const diaReferencia = fechaReferencia.getDate();
+        const diaNacimiento = fechaNac.getDate();
+        
+        // Ajustar si aún no ha cumplido años en 2026
+        if (mesReferencia < mesNacimiento || 
+            (mesReferencia === mesNacimiento && diaReferencia < diaNacimiento)) {
+            edad--;
+        }
+        
+        // Verificar que la edad sea válida (entre 0 y 100 años)
+        if (edad < 0 || edad > 100) {
+            console.log('❌ Edad calculada inválida:', edad, 'para fecha:', fechaNacimiento);
+            return '';
+        }
+        
+        console.log(`📅 Edad calculada: ${edad} años (nacimiento: ${fechaNacimiento}, referencia: 2026-02-01)`);
+        return edad.toString();
+        
+    } catch (error) {
+        console.error('❌ Error calculando edad:', error);
+        return '';
+    }
+}
+
+// Función para actualizar la edad cuando cambia la fecha de nacimiento
+function actualizarEdad() {
+    const fechaNacimiento = document.getElementById('fechaNacimiento').value;
+    const edad = calcularEdad(fechaNacimiento);
+    
+    // Mostrar la edad calculada en consola para debugging
+    if (edad) {
+        console.log(`🎂 Edad calculada: ${edad} años`);
+    }
+    
+    return edad;
+}
+
+// Función de prueba para verificar la consulta
+async function probarConsulta() {
+    const config = getGoogleSheetsConfig();
+    const testUrl = `${config.APPS_SCRIPT.WEB_APP_URL}?action=consulta&cedula=123456789`;
+    
+    console.log('🧪 Probando consulta con URL:', testUrl);
+    
+    try {
+        const response = await fetch(testUrl, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json',
+            }
+        });
+        
+        console.log('📡 Respuesta de prueba:', response);
+        console.log('📊 Status:', response.status);
+        
+        const responseText = await response.text();
+        console.log('📄 Respuesta en texto:', responseText);
+        
+        try {
+            const data = JSON.parse(responseText);
+            console.log('✅ Datos de prueba parseados:', data);
+            return data;
+        } catch (parseError) {
+            console.error('❌ Error parseando respuesta de prueba:', parseError);
+            return null;
+        }
+    } catch (error) {
+        console.error('❌ Error en prueba de consulta:', error);
+        return null;
     }
 }
 

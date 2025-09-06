@@ -8,9 +8,9 @@ const GOOGLE_SHEETS_CONFIG = {
     // URL de la hoja de cálculo
     SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI/edit?gid=0#gid=0',
     
-    // Configuración de Google Apps Script (debes crear esto)
+    // Configuración de Google Apps Script (URL desplegada actualizada)
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxEFquvjZkVQjrRfwYeglqFA_I4EQWKaN8Rswe7KU4wvqgxettNqu-pIphK2pOEaY1JiQ/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbwOAGkSSXT8CQ4EZGDSlxaTicWIVWTjfL7D80jSPEoj9N83HerWM0z0ZupNWXELz2z9Rg/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
@@ -19,15 +19,15 @@ const GOOGLE_SHEETS_CONFIG = {
     // ⚠️ IMPORTANTE: Estos nombres deben coincidir EXACTAMENTE con las columnas de tu Google Sheet
     SHEET_COLUMNS: [
         'Timestamp',
-        'Nivel',
-        'Especialidad',
-        'Sección',
+        'Número Secuencial',
+        'Número de identificación',
+        'Tipo de identificación',
         'Primer Apellido',
         'Segundo Apellido',
-        'Nombre',           // ← Cambiado de "Nombre Estudiante"
-        'Teléfono',         // ← Cambiado de "Teléfono Estudiante"
-        'Cédula',           // ← Cambiado de "Cédula Estudiante"
+        'Nombre',
         'Fecha Nacimiento',
+        'Edad',
+        'Identidad de género',
         'Nacionalidad',
         'Adecuación',
         'Ruta Transporte',

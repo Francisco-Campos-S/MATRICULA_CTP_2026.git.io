@@ -165,7 +165,7 @@
                         <div class="form-group horizontal-group" id="discapacidadGroup">
                             <div class="horizontal-field">
                                 <label for="discapacidad">¿Tiene alguna discapacidad?:</label>
-                                <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()" tabindex="18">
+                                <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()" tabindex="20">
                                     <option value="">Seleccione...</option>
                                     <option value="Sí">Sí</option>
                                     <option value="No">No</option>
@@ -173,7 +173,7 @@
                             </div>
                             <div class="horizontal-field" id="tipoDiscapacidadGroup" style="display: none;">
                                 <label for="tipoDiscapacidad">Tipo de discapacidad:</label>
-                                <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad" tabindex="25">
+                                <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad" tabindex="27">
                             </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                         <div class="form-group horizontal-group" id="enfermedadGroup">
                             <div class="horizontal-field">
                                 <label for="enfermedad">Padece alguna enfermedad:</label>
-                                <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()" tabindex="21">
+                                <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()" tabindex="22">
                                     <option value="">Seleccione...</option>
                                     <option value="Sí">Sí</option>
                                     <option value="No">No</option>
@@ -207,7 +207,7 @@
                             </div>
                             <div class="horizontal-field" id="detalleEnfermedadGroup" style="display: none;">
                                 <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
-                                <input type="text" id="detalleEnfermedad" name="detalleEnfermedad" placeholder="Describa la enfermedad o condición médica" tabindex="26">
+                                <input type="text" id="detalleEnfermedad" name="detalleEnfermedad" placeholder="Describa la enfermedad o condición médica" tabindex="28">
                             </div>
                         </div>
 
@@ -217,30 +217,36 @@
                             <label for="nombreEstudiante">Nombre:</label>
                             <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="10">
                         </div>
-                        <div class="form-group">
-                            <label for="tipoIdentificacion">Tipo de identificación:</label>
-                            <select id="tipoIdentificacion" name="tipoIdentificacion" required tabindex="15">
-                                <option value="">Seleccione...</option>
-                                <option value="Cédula">Cédula</option>
-                                <option value="YR">YR</option>
-                                <option value="DIMEX">DIMEX</option>
-                                <option value="Otro">Otro</option>
-                            </select>
+                        <div class="form-group horizontal-group" id="tipoIdentificacionGroup">
+                            <div class="horizontal-field">
+                                <label for="tipoIdentificacion">Tipo de identificación:</label>
+                                <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="15">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Cédula">Cédula</option>
+                                    <option value="YR">YR</option>
+                                    <option value="DIMEX">DIMEX</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="horizontal-field" id="tipoIdentificacionOtroGroup" style="display: none;">
+                                <label for="tipoIdentificacionOtro">Especifique el tipo:</label>
+                                <input type="text" id="tipoIdentificacionOtro" name="tipoIdentificacionOtro" placeholder="Especifique el tipo de identificación" tabindex="16">
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="cedulaEstudiante">N° cédula:</label>
-                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="22">
+                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="17">
                         </div>
 
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="fechaNacimiento">Fecha nacimiento:</label>
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required tabindex="11">
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" onchange="actualizarEdad()" required tabindex="11">
                         </div>
                         <div class="form-group">
                             <label for="telefonoEstudiante">Nº teléfono:</label>
-                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="16">
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="18">
                         </div>
                     </div>
                     <div class="form-column">
@@ -254,7 +260,7 @@
                         </div>
                         <div class="form-group">
                             <label for="rutaTransporte">Ruta de transporte:</label>
-                            <input type="text" id="rutaTransporte" name="rutaTransporte" placeholder="Especifique la ruta de transporte" tabindex="17">
+                            <input type="text" id="rutaTransporte" name="rutaTransporte" placeholder="Especifique la ruta de transporte" tabindex="19">
                         </div>
 
                     </div>
@@ -274,27 +280,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreMadre">Nombre:</label>
-                            <input type="text" id="nombreMadre" name="nombreMadre" required tabindex="27">
+                            <input type="text" id="nombreMadre" name="nombreMadre" required tabindex="29">
                         </div>
                         <div class="form-group">
                             <label for="cedulaMadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaMadre" name="cedulaMadre" required tabindex="30">
+                            <input type="text" id="cedulaMadre" name="cedulaMadre" required tabindex="32">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoMadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required tabindex="28">
+                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required tabindex="30">
                         </div>
                         <div class="form-group">
                             <label for="parentescoMadre">Parentesco:</label>
-                            <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre" tabindex="31">
+                            <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre" tabindex="33">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudianteMadre">Vive con estudiante:</label>
-                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="29">
+                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="31">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -302,7 +308,7 @@
                         </div>
                         <div class="form-group">
                             <label for="direccionMadre">Dirección exacta:</label>
-                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required tabindex="32"></textarea>
+                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required tabindex="34"></textarea>
                         </div>
                     </div>
                 </div>
@@ -321,27 +327,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombrePadre">Nombre:</label>
-                            <input type="text" id="nombrePadre" name="nombrePadre" tabindex="33">
+                            <input type="text" id="nombrePadre" name="nombrePadre" tabindex="35">
                         </div>
                         <div class="form-group">
                             <label for="cedulaPadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaPadre" name="cedulaPadre" tabindex="36">
+                            <input type="text" id="cedulaPadre" name="cedulaPadre" tabindex="38">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoPadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoPadre" name="telefonoPadre" tabindex="34">
+                            <input type="tel" id="telefonoPadre" name="telefonoPadre" tabindex="36">
                         </div>
                         <div class="form-group">
                             <label for="parentescoPadre">Parentesco:</label>
-                            <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre" tabindex="37">
+                            <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre" tabindex="39">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudiantePadre">Vive con estudiante:</label>
-                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="35">
+                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="37">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -349,7 +355,7 @@
                         </div>
                         <div class="form-group">
                             <label for="direccionPadre">Dirección:</label>
-                            <textarea id="direccionPadre" name="direccionPadre" rows="1" tabindex="38"></textarea>
+                            <textarea id="direccionPadre" name="direccionPadre" rows="1" tabindex="40"></textarea>
                         </div>
                     </div>
                 </div>
@@ -371,27 +377,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="firmaEncargada">Firma de la Encargada:</label>
-                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada" tabindex="39">
+                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada" tabindex="41">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-column">
                             <div class="form-group">
                                 <label for="firmaEncargado">Firma del Encargado:</label>
-                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado" tabindex="40">
+                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado" tabindex="42">
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="fecha">Fecha de Matrícula:</label>
-                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="41">
+                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="43">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones Adicionales:</label>
-                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="42"></textarea>
+                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="44"></textarea>
                 </div>
             </div>
             
@@ -405,22 +411,22 @@
 
             <!-- Botones de Acción -->
             <div class="form-actions">
-                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="43">
+                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="45">
                     <span class="btn-icon">🧪</span>
                     <span class="btn-text">Cargar Datos de Prueba</span>
                 </button>
                 
-                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="44">
+                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="46">
                     <span class="btn-icon">📤</span>
                     <span class="btn-text">Enviar Formulario</span>
                 </button>
                 
-                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="45">
+                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="47">
                     <span class="btn-icon">🧹</span>
                     <span class="btn-text">Limpiar Formulario</span>
                 </button>
                 
-                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()" tabindex="46">
+                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()" tabindex="48">
                     <span class="btn-icon">🖨️</span>
                     <span class="btn-text">Imprimir</span>
                 </button>
