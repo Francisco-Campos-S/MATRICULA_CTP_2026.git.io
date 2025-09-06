@@ -10,7 +10,7 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (URL desplegada actualizada)
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzku6A2DpUyPGLauxhJnT8aeOhcrQwWBm1Ji8JOc41lgwE6eTQNKfpSF7K5Fyvz2KgnGQ/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyMqp041MdxsJ4HO654NMCWfA-mkYfBo6ZIYW3vgamMKvz9x3czktj2PtoaXqbU4Nmcrw/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
