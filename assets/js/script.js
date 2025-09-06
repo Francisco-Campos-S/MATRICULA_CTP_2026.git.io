@@ -1,3 +1,457 @@
+// Variable para controlar si se está editando un estudiante
+let editandoEstudiante = false;
+
+// Claves para localStorage
+const STORAGE_KEYS = {
+    EDITANDO: 'editandoEstudiante',
+    DATOS_ESTUDIANTE: 'datosEstudianteEditando'
+};
+
+// Función para guardar el estado de edición en localStorage
+function guardarEstadoEdicion(estudiante) {
+    try {
+        localStorage.setItem(STORAGE_KEYS.EDITANDO, 'true');
+        localStorage.setItem(STORAGE_KEYS.DATOS_ESTUDIANTE, JSON.stringify(estudiante));
+        console.log('💾 Estado de edición guardado en localStorage');
+    } catch (error) {
+        console.error('❌ Error guardando estado de edición:', error);
+    }
+}
+
+// Función para cargar el estado de edición desde localStorage
+function cargarEstadoEdicion() {
+    try {
+        const editando = localStorage.getItem(STORAGE_KEYS.EDITANDO);
+        const datosEstudiante = localStorage.getItem(STORAGE_KEYS.DATOS_ESTUDIANTE);
+        
+        if (editando === 'true' && datosEstudiante) {
+            editandoEstudiante = true;
+            const estudiante = JSON.parse(datosEstudiante);
+            console.log('📂 Estado de edición cargado desde localStorage:', estudiante);
+            
+            // Llenar el formulario con los datos guardados (sin limpiar ni guardar nuevamente)
+            llenarFormularioConDatosGuardados(estudiante);
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('❌ Error cargando estado de edición:', error);
+        return false;
+    }
+}
+
+// Función para llenar el formulario con datos guardados (sin guardar en localStorage)
+function llenarFormularioConDatosGuardados(estudiante) {
+    console.log('Llenando formulario con datos guardados:', estudiante);
+    
+    // Actualizar visibilidad del botón de reset
+    actualizarBotonReset();
+    
+    // Mapear campos de Google Sheets a campos del formulario
+    const mapeoCampos = {
+        'primerApellido': 'primerApellido',
+        'segundoApellido': 'segundoApellido',
+        'nombre': 'nombreEstudiante',
+        'telefono': 'telefonoEstudiante',
+        'cedula': 'cedulaEstudiante',
+        'fechaNacimiento': 'fechaNacimiento',
+        'nacionalidad': 'nacionalidad',
+        'adecuacion': 'adecuacion',
+        'rutaTransporte': 'rutaTransporte',
+        'repitente': 'repitente',
+        'discapacidad': 'discapacidad',
+        'enfermedad': 'enfermedad',
+        'detalleEnfermedad': 'detalleEnfermedad',
+        'tipoIdentificacion': 'tipoIdentificacion',
+        'edad': 'edad',
+        'identidadGenero': 'identidadGenero',
+        'titulo': 'titulo',
+        'refugiado': 'refugiado',
+        'nombreMadre': 'nombreMadre',
+        'cedulaMadre': 'cedulaMadre',
+        'telefonoMadre': 'telefonoMadre',
+        'parentescoMadre': 'parentescoMadre',
+        'viveConEstudianteMadre': 'viveConEstudianteMadre',
+        'direccionMadre': 'direccionMadre',
+        'nombrePadre': 'nombrePadre',
+        'cedulaPadre': 'cedulaPadre',
+        'telefonoPadre': 'telefonoPadre',
+        'parentescoPadre': 'parentescoPadre',
+        'viveConEstudiantePadre': 'viveConEstudiantePadre',
+        'direccionPadre': 'direccionPadre',
+        'firmaEncargada': 'firmaEncargada',
+        'firmaEncargado': 'firmaEncargado',
+        'observaciones': 'observaciones'
+    };
+    
+    // Llenar campos mapeados
+    Object.keys(mapeoCampos).forEach(campoBackend => {
+        const campoFrontend = mapeoCampos[campoBackend];
+        const valor = estudiante[campoBackend];
+        
+        console.log(`🔍 Mapeando ${campoBackend} -> ${campoFrontend}: "${valor}"`);
+        
+        if (valor !== undefined && valor !== null && valor !== '') {
+            const elemento = document.getElementById(campoFrontend);
+            if (elemento) {
+                if (elemento.tagName === 'SELECT') {
+                    // Para selectores, buscar por valor o texto
+                    const opcion = Array.from(elemento.options).find(opt => 
+                        opt.value === valor || opt.textContent.trim() === valor
+                    );
+                    if (opcion) {
+                        elemento.value = opcion.value;
+                        console.log(`✅ Selector ${campoFrontend} configurado a: "${opcion.value}"`);
+                    } else {
+                        console.log(`⚠️ No se encontró opción para ${campoFrontend} con valor: "${valor}"`);
+                    }
+                } else if (elemento.type === 'date') {
+                    // Para campos de fecha, convertir formato si es necesario
+                    const fechaConvertida = convertirFechaFormato(valor);
+                    elemento.value = fechaConvertida;
+                    console.log(`✅ Fecha ${campoFrontend} configurada a: "${fechaConvertida}"`);
+                } else {
+                    elemento.value = valor;
+                    console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
+                }
+            } else {
+                console.log(`❌ No se encontró elemento con ID: ${campoFrontend}`);
+            }
+        } else {
+            console.log(`⚠️ Valor vacío para ${campoBackend}: "${valor}"`);
+        }
+    });
+    
+    // Calcular edad si hay fecha de nacimiento
+    if (estudiante.fechaNacimiento) {
+        actualizarEdad();
+    }
+    
+    console.log('✅ Formulario llenado con datos guardados');
+}
+
+// Función para llenar el formulario con datos (sin limpiar)
+function llenarFormularioConDatos(estudiante) {
+    console.log('📝 Llenando formulario con datos:', estudiante);
+    
+    // Mapear campos de Google Sheets a campos del formulario
+    const mapeoCampos = {
+        'primerApellido': 'primerApellido',
+        'segundoApellido': 'segundoApellido',
+        'nombre': 'nombreEstudiante',
+        'telefono': 'telefonoEstudiante',
+        'cedula': 'cedulaEstudiante',
+        'fechaNacimiento': 'fechaNacimiento',
+        'nacionalidad': 'nacionalidad',
+        'adecuacion': 'adecuacion',
+        'rutaTransporte': 'rutaTransporte',
+        'repitente': 'repitente',
+        'discapacidad': 'discapacidad',
+        'enfermedad': 'enfermedad',
+        'detalleEnfermedad': 'detalleEnfermedad',
+        'tipoIdentificacion': 'tipoIdentificacion',
+        'edad': 'edad',
+        'identidadGenero': 'identidadGenero',
+        'titulo': 'titulo',
+        'refugiado': 'refugiado',
+        'nombreMadre': 'nombreMadre',
+        'cedulaMadre': 'cedulaMadre',
+        'telefonoMadre': 'telefonoMadre',
+        'parentescoMadre': 'parentescoMadre',
+        'viveConEstudianteMadre': 'viveConEstudianteMadre',
+        'direccionMadre': 'direccionMadre',
+        'nombrePadre': 'nombrePadre',
+        'cedulaPadre': 'cedulaPadre',
+        'telefonoPadre': 'telefonoPadre',
+        'parentescoPadre': 'parentescoPadre',
+        'viveConEstudiantePadre': 'viveConEstudiantePadre',
+        'direccionPadre': 'direccionPadre',
+        'firmaEncargada': 'firmaEncargada',
+        'firmaEncargado': 'firmaEncargado',
+        'observaciones': 'observaciones'
+    };
+    
+    console.log('Mapeo de campos:', mapeoCampos);
+    console.log('Datos del estudiante recibidos:', estudiante);
+    
+    // Llenar campos mapeados
+    Object.keys(mapeoCampos).forEach(campoBackend => {
+        const campoFrontend = mapeoCampos[campoBackend];
+        const valor = estudiante[campoBackend];
+        
+        console.log(`🔍 Mapeando ${campoBackend} -> ${campoFrontend}: "${valor}"`);
+        
+        if (valor !== undefined && valor !== null && valor !== '') {
+            const elemento = document.getElementById(campoFrontend);
+            if (elemento) {
+                if (elemento.tagName === 'SELECT') {
+                    // Para selectores, buscar por valor o texto
+                    const opcion = Array.from(elemento.options).find(opt => 
+                        opt.value === valor || opt.textContent.trim() === valor
+                    );
+                    if (opcion) {
+                        elemento.value = opcion.value;
+                        console.log(`✅ Selector ${campoFrontend} configurado a: "${opcion.value}"`);
+                    } else {
+                        console.log(`⚠️ No se encontró opción para ${campoFrontend} con valor: "${valor}"`);
+                    }
+                } else if (elemento.type === 'date') {
+                    // Para campos de fecha, convertir formato si es necesario
+                    const fechaConvertida = convertirFechaFormato(valor);
+                    elemento.value = fechaConvertida;
+                    console.log(`✅ Fecha ${campoFrontend} configurada a: "${fechaConvertida}"`);
+                } else {
+                    elemento.value = valor;
+                    console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
+                }
+            } else {
+                console.log(`❌ No se encontró elemento con ID: ${campoFrontend}`);
+            }
+        } else {
+            console.log(`⚠️ Valor vacío para ${campoBackend}: "${valor}"`);
+        }
+    });
+    
+    // Calcular edad si hay fecha de nacimiento
+    if (estudiante.fechaNacimiento) {
+        actualizarEdad();
+    }
+    
+    console.log('✅ Formulario llenado con datos del estudiante');
+}
+
+// Variable para controlar el timeout de actualización
+let timeoutActualizacion = null;
+
+// Función para actualizar los datos guardados cuando el usuario modifica el formulario
+function actualizarDatosGuardados() {
+    if (editandoEstudiante) {
+        // Cancelar actualización anterior si existe
+        if (timeoutActualizacion) {
+            clearTimeout(timeoutActualizacion);
+        }
+        
+        // Actualizar con un pequeño delay para evitar actualizaciones excesivas
+        timeoutActualizacion = setTimeout(() => {
+            // Obtener los datos actuales del formulario
+            const datosActuales = obtenerDatosFormulario();
+            
+            // Guardar los datos actualizados
+            guardarEstadoEdicion(datosActuales);
+            console.log('💾 Datos de edición actualizados en localStorage');
+        }, 500); // 500ms de delay
+    }
+}
+
+// Función para obtener los datos actuales del formulario
+function obtenerDatosFormulario() {
+    const datos = {};
+    
+    // Mapear campos del formulario a datos del estudiante
+    const mapeoCampos = {
+        'primerApellido': 'primerApellido',
+        'segundoApellido': 'segundoApellido',
+        'nombreEstudiante': 'nombre',
+        'telefonoEstudiante': 'telefono',
+        'cedulaEstudiante': 'cedula',
+        'fechaNacimiento': 'fechaNacimiento',
+        'nacionalidad': 'nacionalidad',
+        'adecuacion': 'adecuacion',
+        'rutaTransporte': 'rutaTransporte',
+        'repitente': 'repitente',
+        'discapacidad': 'discapacidad',
+        'enfermedad': 'enfermedad',
+        'tipoIdentificacion': 'tipoIdentificacion',
+        'edad': 'edad',
+        'identidadGenero': 'identidadGenero',
+        'titulo': 'titulo',
+        'refugiado': 'refugiado',
+        'nombreMadre': 'nombreMadre',
+        'cedulaMadre': 'cedulaMadre',
+        'telefonoMadre': 'telefonoMadre',
+        'parentescoMadre': 'parentescoMadre',
+        'viveConEstudianteMadre': 'viveConEstudianteMadre',
+        'direccionMadre': 'direccionMadre',
+        'nombrePadre': 'nombrePadre',
+        'cedulaPadre': 'cedulaPadre',
+        'telefonoPadre': 'telefonoPadre',
+        'parentescoPadre': 'parentescoPadre',
+        'viveConEstudiantePadre': 'viveConEstudiantePadre',
+        'direccionPadre': 'direccionPadre',
+        'firmaEncargada': 'firmaEncargada',
+        'firmaEncargado': 'firmaEncargado',
+        'observaciones': 'observaciones'
+    };
+    
+    // Obtener valores de los campos
+    Object.keys(mapeoCampos).forEach(campoFrontend => {
+        const campoBackend = mapeoCampos[campoFrontend];
+        const elemento = document.getElementById(campoFrontend);
+        if (elemento) {
+            datos[campoBackend] = elemento.value || '';
+        }
+    });
+    
+    return datos;
+}
+
+// Función para agregar event listeners que actualicen los datos durante la edición
+function agregarEventListenersEdicion() {
+    // Lista de campos que deben actualizar los datos guardados cuando cambien
+    const camposEdicion = [
+        'nivel', 'especialidad', 'seccion', 'primerApellido', 'segundoApellido', 
+        'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'nacionalidad',
+        'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
+        'repitente', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
+        'parentescoMadre', 'viveConEstudianteMadre', 'direccionMadre', 'nombrePadre',
+        'cedulaPadre', 'telefonoPadre', 'parentescoPadre', 'viveConEstudiantePadre',
+        'direccionPadre', 'firmaEncargada', 'firmaEncargado', 'observaciones'
+    ];
+    
+    // Agregar event listener a cada campo
+    camposEdicion.forEach(campoId => {
+        const campo = document.getElementById(campoId);
+        if (campo) {
+            // Para campos de texto, usar 'input' para capturar cambios en tiempo real
+            if (campo.type === 'text' || campo.type === 'tel' || campo.type === 'date' || campo.tagName === 'TEXTAREA') {
+                campo.addEventListener('input', actualizarDatosGuardados);
+            }
+            // Para selectores, usar 'change' para capturar selecciones
+            else if (campo.tagName === 'SELECT') {
+                campo.addEventListener('change', actualizarDatosGuardados);
+            }
+        }
+    });
+    
+    console.log('📝 Event listeners de edición agregados');
+}
+
+
+// Función para limpiar el estado de edición del localStorage
+function limpiarEstadoEdicion() {
+    try {
+        localStorage.removeItem(STORAGE_KEYS.EDITANDO);
+        localStorage.removeItem(STORAGE_KEYS.DATOS_ESTUDIANTE);
+        console.log('🗑️ Estado de edición limpiado del localStorage');
+    } catch (error) {
+        console.error('❌ Error limpiando estado de edición:', error);
+    }
+}
+
+// Función para limpiar completamente el formulario (sin afectar estado de edición)
+function limpiarFormularioCompleto() {
+    console.log('🧹 Limpiando formulario completamente...');
+    
+    // Limpiar todos los campos del formulario
+    const campos = document.querySelectorAll('input, select, textarea');
+    
+    campos.forEach(campo => {
+        if (campo.type === 'checkbox' || campo.type === 'radio') {
+            campo.checked = false;
+        } else if (campo.type === 'date') {
+            campo.value = '';
+        } else {
+            campo.value = '';
+        }
+    });
+    
+    // Limpiar campos específicos que podrían tener valores por defecto
+    const camposEspecificos = [
+        'nivel', 'especialidad', 'seccion', 'primerApellido', 'segundoApellido', 
+        'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'nacionalidad',
+        'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
+        'repitente', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
+        'parentescoMadre', 'viveConEstudianteMadre', 'direccionMadre', 'nombrePadre',
+        'cedulaPadre', 'telefonoPadre', 'parentescoPadre', 'viveConEstudiantePadre',
+        'direccionPadre', 'firmaEncargada', 'firmaEncargado', 'observaciones'
+    ];
+    
+    camposEspecificos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo) {
+            campo.value = '';
+        }
+    });
+    
+    // Limpiar campos de edad calculada
+    const edadCampo = document.getElementById('edad');
+    if (edadCampo) {
+        edadCampo.value = '';
+    }
+    
+    console.log('✅ Formulario limpiado completamente');
+}
+
+// Función para actualizar la visibilidad del botón de reset
+function actualizarBotonReset() {
+    const botonReset = document.getElementById('btnReset');
+    if (botonReset) {
+        if (editandoEstudiante) {
+            botonReset.style.display = 'inline-block';
+            botonReset.textContent = 'Limpiar Formulario';
+            botonReset.title = 'Limpiar el formulario y cancelar la edición';
+        } else {
+            botonReset.style.display = 'inline-block';
+            botonReset.textContent = 'Limpiar Formulario';
+            botonReset.title = 'Limpiar el formulario';
+        }
+    }
+}
+
+// Función para limpiar el formulario
+function limpiarFormulario(forzarLimpieza = false) {
+    console.log('🧹 Limpiando formulario...');
+    
+    // Si se está editando y no es una limpieza forzada, confirmar antes de limpiar
+    if (editandoEstudiante && !forzarLimpieza) {
+        const confirmar = confirm('¿Está seguro de que desea limpiar el formulario y cancelar la edición?');
+        if (!confirmar) {
+            console.log('❌ Limpieza cancelada por el usuario');
+            return;
+        }
+        console.log('✅ Usuario confirmó la limpieza durante la edición');
+    }
+    
+    // Limpiar todos los campos del formulario
+    const campos = document.querySelectorAll('input, select, textarea');
+    
+    campos.forEach(campo => {
+        if (campo.type === 'checkbox' || campo.type === 'radio') {
+            campo.checked = false;
+        } else if (campo.type === 'date') {
+            campo.value = '';
+        } else {
+            campo.value = '';
+        }
+    });
+    
+    // Limpiar campos específicos que podrían tener valores por defecto
+    const camposEspecificos = [
+        'nivel', 'especialidad', 'seccion', 'primerApellido', 'segundoApellido', 
+        'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento', 'nacionalidad',
+        'tipoIdentificacion', 'telefonoEstudiante', 'enfermedad', 'adecuacion',
+        'repitente', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
+        'parentescoMadre', 'viveConEstudianteMadre', 'direccionMadre', 'nombrePadre',
+        'cedulaPadre', 'telefonoPadre', 'parentescoPadre', 'viveConEstudiantePadre',
+        'direccionPadre', 'firmaEncargada', 'firmaEncargado', 'observaciones'
+    ];
+    
+    camposEspecificos.forEach(id => {
+        const campo = document.getElementById(id);
+        if (campo) {
+            campo.value = '';
+        }
+    });
+    
+    // Limpiar campos de edad calculada
+    const edadCampo = document.getElementById('edad');
+    if (edadCampo) {
+        edadCampo.value = '';
+    }
+    
+    console.log('✅ Formulario limpiado correctamente');
+}
+
 // Función para cargar datos de prueba
 function cargarDatosPrueba() {
     console.log('🔄 Iniciando carga de datos de prueba...');
@@ -118,6 +572,26 @@ function convertirFechaFormato(fechaString) {
 
 function llenarFormularioConEstudiante(estudiante) {
     console.log('Llenando formulario con datos del estudiante:', estudiante);
+    
+    // Activar modo de edición PRIMERO
+    editandoEstudiante = true;
+    console.log('✏️ Modo de edición activado');
+    
+    // Limpiar formulario SIN desactivar el modo de edición
+    console.log('🧹 Limpiando formulario antes de llenar con nuevos datos...');
+    limpiarFormularioCompleto();
+    
+    // Pequeño delay para asegurar que la limpieza se complete
+    setTimeout(() => {
+        // Llenar el formulario con los datos
+        llenarFormularioConDatos(estudiante);
+        
+        // Guardar estado de edición en localStorage
+        guardarEstadoEdicion(estudiante);
+        
+        // Actualizar visibilidad del botón de reset
+        actualizarBotonReset();
+    }, 50);
     
     // Mapear campos de Google Sheets a campos del formulario
     // Los nombres deben coincidir EXACTAMENTE con los que devuelve el Google Apps Script
@@ -705,8 +1179,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Ya no hay campos condicionales que inicializar
     }, 200);
     
-    // Cargar datos de prueba
-    setTimeout(cargarDatosPrueba, 300);
+    // Limpiar formulario al cargar la página (siempre vacío al inicio)
+    setTimeout(() => {
+        limpiarFormulario(true); // Forzar limpieza sin confirmación
+    }, 100);
+    
+    // Inicializar botón de reset
+    actualizarBotonReset();
+    
+    // Agregar event listeners para actualizar datos durante la edición
+    agregarEventListenersEdicion();
 });
 
 // Función para mostrar/ocultar campo de tipo de discapacidad
