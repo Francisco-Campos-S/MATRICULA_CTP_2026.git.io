@@ -1,3 +1,59 @@
+// Función para convertir fecha de formato dd/MM/yyyy a yyyy-MM-dd
+function convertirFecha(fechaString) {
+  try {
+    // Si ya está en formato yyyy-MM-dd, devolverlo tal como está
+    if (/^\d{4}-\d{2}-\d{2}$/.test(fechaString)) {
+      return fechaString;
+    }
+    
+    // Si está en formato dd/MM/yyyy o dd/M/yyyy, convertir
+    const partes = fechaString.split('/');
+    if (partes.length === 3) {
+      const dia = partes[0].padStart(2, '0');
+      const mes = partes[1].padStart(2, '0');
+      const año = partes[2];
+      return `${año}-${mes}-${dia}`;
+    }
+    
+    // Si no se puede convertir, devolver la fecha original
+    return fechaString;
+  } catch (error) {
+    console.log('Error convirtiendo fecha:', error);
+    return fechaString;
+  }
+}
+
+// Función para mapear tipo de identificación a valores del HTML
+function mapearTipoIdentificacion(tipo) {
+  const mapeo = {
+    'CÉDULA': 'Cédula',
+    'Cédula': 'Cédula',
+    'YÍS RÖ - IDENTIFICACIÓN MEP': 'YR',
+    'YR': 'YR',
+    'DIMEX': 'DIMEX',
+    'Dimex': 'DIMEX'
+  };
+  
+  return mapeo[tipo] || tipo;
+}
+
+// Función para mapear discapacidad a valores del HTML
+function mapearDiscapacidad(discapacidad) {
+  const mapeo = {
+    'SIN DISCAPACIDAD': 'Sin discapacidad',
+    'Sin discapacidad': 'Sin discapacidad',
+    'BAJA VISIÓN': 'Baja Visión',
+    'Baja Visión': 'Baja Visión',
+    'CEGUERA': 'Ceguera',
+    'Ceguera': 'Ceguera',
+    'DISCAPACIDAD INTELECTUAL': 'Discapacidad Intelectual (Retraso Mental)',
+    'DISCAPACIDAD MOTORA': 'Discapacidad motora',
+    'DISCAPACIDAD MÚLTIPLE': 'Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)'
+  };
+  
+  return mapeo[discapacidad] || discapacidad;
+}
+
 function doPost(e) {
   try {
     console.log('🚀 INICIO - Guardando nueva matrícula...');
@@ -26,6 +82,7 @@ function doPost(e) {
     if (Object.keys(formData).length === 0) {
       return ContentService.createTextOutput('Error: No hay datos para procesar').setMimeType(ContentService.MimeType.TEXT);
     }
+    
     
     console.log('📊 Datos a procesar:', formData);
     console.log('🔍 Tipo de matrícula recibido:', formData.tipoMatricula);
@@ -467,6 +524,13 @@ function buscarEstudiantePorCedula(sheet, cedula) {
       const cedulaBuscada = cedula.trim();
       
       console.log(`🔍 Fila ${i + 1}: Cédula encontrada: "${cedulaEncontrada}" (tipo: ${typeof cedulaEnFila}) vs buscada: "${cedulaBuscada}"`);
+      console.log(`🔍 Fila ${i + 1}: Tipo de identificación en la fila: "${row[2]}" (tipo: ${typeof row[2]})`);
+      console.log(`🔍 Fila ${i + 1}: Todos los valores de la fila:`, row);
+      console.log(`🔍 Fila ${i + 1}: Verificando si cédula empieza con YR:`, cedulaEncontrada.startsWith('YR'));
+      console.log(`🔍 Fila ${i + 1}: Fecha de nacimiento en row[6]:`, `"${row[6]}" (tipo: ${typeof row[6]})`);
+      console.log(`🔍 Fila ${i + 1}: Repitente en row[10]:`, `"${row[10]}" (tipo: ${typeof row[10]})`);
+      console.log(`🔍 Fila ${i + 1}: Discapacidad en row[12]:`, `"${row[12]}" (tipo: ${typeof row[12]})`);
+      console.log(`🔍 Fila ${i + 1}: Ruta en row[31]:`, `"${row[31]}" (tipo: ${typeof row[31]})`);
       
       if (cedulaEncontrada === cedulaBuscada || 
           cedulaEncontrada === cedulaBuscada.replace(/^0+/, '') || // Quitar ceros a la izquierda
@@ -476,42 +540,47 @@ function buscarEstudiantePorCedula(sheet, cedula) {
         // Mapear los datos de la fila según la estructura real de BASE 2025
         // Estructura: ° | Número de identificación | Tipo de identificación | Primer apellido | Segundo apellido | Nombre | Fecha de nacimiento | Edad | Identidad de género | Nacionalidad | Repitente | Refugiado | Discapacidad | Especialidad | Nivel | Sección | Título | Celular estudiante | Encargada | Cédula | Celular | Parentesco | Vive con estud | Dirección exacta | Encargado | Cédula2 | Celular2 | Parentezco2 | Otro Cel | Dirección2 | MOVIMIENTO | Ruta
         const estudiante = {
-          // Información básica (no se mapean para que el usuario los seleccione)
-          nivel: '',                      // No se mapea - usuario debe seleccionar
-          especialidad: '',               // No se mapea - usuario debe seleccionar  
-          seccion: '',                    // No se mapea - usuario debe seleccionar
+          // Información básica - CARGAR DESDE LA BASE
+          nivel: row[14] ? row[14].toString().trim() : '',        // Columna O (índice 14) - Nivel
+          especialidad: row[13] ? row[13].toString().trim() : '', // Columna N (índice 13) - Especialidad
+          seccion: row[15] ? row[15].toString().trim() : '',      // Columna P (índice 15) - Sección
           
           // Datos del estudiante
           primerApellido: row[3] || '',   // Columna D (índice 3) - Primer apellido
           segundoApellido: row[4] || '',  // Columna E (índice 4) - Segundo apellido
           nombre: row[5] || '',           // Columna F (índice 5) - Nombre
           cedula: row[1] || '',           // Columna B (índice 1) - Número de identificación
-          tipoIdentificacion: row[2] || 'Cédula', // Columna C (índice 2) - Tipo de identificación
-          fechaNacimiento: row[6] || '',  // Columna G (índice 6) - Fecha de nacimiento
+          tipoIdentificacion: row[2] ? mapearTipoIdentificacion(row[2].toString().trim()) : '', // Columna C (índice 2) - Tipo de identificación
+          fechaNacimiento: row[6] ? (row[6] instanceof Date ? row[6].toISOString().split('T')[0] : convertirFecha(row[6].toString().trim())) : '',  // Columna G (índice 6) - Fecha de nacimiento
           nacionalidad: row[9] || '',     // Columna J (índice 9) - Nacionalidad
           telefono: row[17] || '',        // Columna R (índice 17) - Celular estudiante
-          repitente: row[10] || '',       // Columna K (índice 10) - Repitente
-          refugiado: row[11] || '',       // Columna L (índice 11) - Refugiado
-          discapacidad: row[12] || '',    // Columna M (índice 12) - Discapacidad
+          repitente: row[10] ? row[10].toString().trim() : '',       // Columna K (índice 10) - Repitente
+          refugiado: row[11] ? row[11].toString().trim() : '',       // Columna L (índice 11) - Refugiado
+          discapacidad: row[12] ? mapearDiscapacidad(row[12].toString().trim()) : '',    // Columna M (índice 12) - Discapacidad
           adecuacion: '',                 // No disponible en la base
           enfermedad: '',                 // No disponible en la base
-          rutaTransporte: row[32] || '',  // Columna AG (índice 32) - Ruta
+          rutaTransporte: row[31] ? row[31].toString().trim() : '',  // Columna AF (índice 31) - Ruta
+          
+          // Campos adicionales disponibles en la base
+          edad: row[7] ? row[7].toString().trim() : '',           // Columna H (índice 7) - Edad
+          identidadGenero: row[8] ? row[8].toString().trim() : '', // Columna I (índice 8) - Identidad de género
+          titulo: row[16] ? row[16].toString().trim() : '',       // Columna Q (índice 16) - Título
           
           // Datos de la madre
-          nombreMadre: row[18] || '',     // Columna S (índice 18) - Encargada
-          cedulaMadre: row[19] || '',     // Columna T (índice 19) - Cédula
-          telefonoMadre: row[20] || '',   // Columna U (índice 20) - Celular
-          parentescoMadre: row[21] || '', // Columna V (índice 21) - Parentesco
-          viveConEstudianteMadre: row[22] || '', // Columna W (índice 22) - Vive con estud
-          direccionMadre: row[23] || '',  // Columna X (índice 23) - Dirección exacta
+          nombreMadre: row[18] ? row[18].toString().trim() : '',     // Columna S (índice 18) - Encargada
+          cedulaMadre: row[19] ? row[19].toString().trim() : '',     // Columna T (índice 19) - Cédula
+          telefonoMadre: row[20] ? row[20].toString().trim() : '',   // Columna U (índice 20) - Celular
+          parentescoMadre: row[21] ? row[21].toString().trim() : '', // Columna V (índice 21) - Parentesco
+          viveConEstudianteMadre: row[22] ? row[22].toString().trim() : '', // Columna W (índice 22) - Vive con estud
+          direccionMadre: row[23] ? row[23].toString().trim() : '',  // Columna X (índice 23) - Dirección exacta
           
           // Datos del padre
-          nombrePadre: row[24] || '',     // Columna Y (índice 24) - Encargado
-          cedulaPadre: row[25] || '',     // Columna Z (índice 25) - Cédula2
-          telefonoPadre: row[26] || '',   // Columna AA (índice 26) - Celular2
-          parentescoPadre: row[27] || '', // Columna AB (índice 27) - Parentezco2
-          viveConEstudiantePadre: row[28] || '', // Columna AC (índice 28) - Otro Cel
-          direccionPadre: row[29] || '',  // Columna AD (índice 29) - Dirección2
+          nombrePadre: row[24] ? row[24].toString().trim() : '',     // Columna Y (índice 24) - Encargado
+          cedulaPadre: row[25] ? row[25].toString().trim() : '',     // Columna Z (índice 25) - Cédula2
+          telefonoPadre: row[26] ? row[26].toString().trim() : '',   // Columna AA (índice 26) - Celular2
+          parentescoPadre: row[27] ? row[27].toString().trim() : '', // Columna AB (índice 27) - Parentezco2
+          viveConEstudiantePadre: row[28] ? row[28].toString().trim() : '', // Columna AC (índice 28) - Otro Cel
+          direccionPadre: row[29] ? row[29].toString().trim() : '',  // Columna AD (índice 29) - Dirección2
           
           // Campos adicionales
           firmaEncargada: '',             // No disponible en la base
@@ -522,11 +591,38 @@ function buscarEstudiantePorCedula(sheet, cedula) {
         console.log('📝 Datos del estudiante extraídos de la base:', estudiante);
         console.log('🔍 Campos críticos:');
         console.log('   - Cédula:', estudiante.cedula);
-        console.log('   - Tipo de Identificación:', estudiante.tipoIdentificacion);
+        console.log('   - Tipo de Identificación:', `"${estudiante.tipoIdentificacion}" (longitud: ${estudiante.tipoIdentificacion.length})`);
+        console.log('   - Valor original en row[2]:', `"${row[2]}" (tipo: ${typeof row[2]})`);
+        console.log('   - Fecha de Nacimiento:', `"${estudiante.fechaNacimiento}" (longitud: ${estudiante.fechaNacimiento.length})`);
+        console.log('   - Valor original en row[6]:', `"${row[6]}" (tipo: ${typeof row[6]})`);
+        console.log('   - ✅ Cargando tipo exacto de la base de datos sin modificaciones');
+        
+        // Verificación adicional para cédulas YR
+        if (estudiante.cedula && estudiante.cedula.startsWith('YR') && !estudiante.tipoIdentificacion) {
+          console.log('⚠️ Cédula YR encontrada pero tipo de identificación vacío, asignando valor por defecto');
+          estudiante.tipoIdentificacion = 'YÍS RÖ - IDENTIFICACIÓN MEP';
+        }
+        
         console.log('   - Nombre:', estudiante.nombre);
         console.log('   - Nivel:', estudiante.nivel);
         console.log('   - Especialidad:', estudiante.especialidad);
         console.log('   - Sección:', estudiante.seccion);
+        console.log('   - Edad:', estudiante.edad);
+        console.log('   - Identidad de Género:', estudiante.identidadGenero);
+        console.log('   - Título:', estudiante.titulo);
+        console.log('   - Repitente:', estudiante.repitente);
+        console.log('   - Discapacidad:', estudiante.discapacidad);
+        console.log('   - Ruta de Transporte:', estudiante.rutaTransporte);
+        console.log('   - Valores originales problemáticos:');
+        console.log('     - row[6] (fecha):', `"${row[6]}" (tipo: ${typeof row[6]})`);
+        console.log('     - row[10] (repitente):', `"${row[10]}" (tipo: ${typeof row[10]})`);
+        console.log('     - row[12] (discapacidad):', `"${row[12]}" (tipo: ${typeof row[12]})`);
+        console.log('     - row[31] (ruta):', `"${row[31]}" (tipo: ${typeof row[31]})`);
+        console.log('   - Verificación de campos procesados:');
+        console.log('     - fechaNacimiento procesada:', `"${estudiante.fechaNacimiento}"`);
+        console.log('     - repitente procesado:', `"${estudiante.repitente}"`);
+        console.log('     - discapacidad procesada:', `"${estudiante.discapacidad}"`);
+        console.log('     - rutaTransporte procesada:', `"${estudiante.rutaTransporte}"`);
         console.log('   - Firma Encargada:', estudiante.firmaEncargada);
         console.log('   - Firma Encargado:', estudiante.firmaEncargado);
         console.log('   - Fecha:', estudiante.firmaEncargado);

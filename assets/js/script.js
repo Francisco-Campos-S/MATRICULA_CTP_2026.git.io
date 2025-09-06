@@ -91,6 +91,31 @@ function cargarDatosPrueba() {
 }
 
 // Función para llenar formulario con datos del estudiante (formato Google Sheets)
+// Función para convertir fecha de formato dd/MM/yyyy a yyyy-MM-dd
+function convertirFechaFormato(fechaString) {
+  try {
+    // Si ya está en formato yyyy-MM-dd, devolverlo tal como está
+    if (/^\d{4}-\d{2}-\d{2}$/.test(fechaString)) {
+      return fechaString;
+    }
+    
+    // Si está en formato dd/MM/yyyy o dd/M/yyyy, convertir
+    const partes = fechaString.split('/');
+    if (partes.length === 3) {
+      const dia = partes[0].padStart(2, '0');
+      const mes = partes[1].padStart(2, '0');
+      const año = partes[2];
+      return `${año}-${mes}-${dia}`;
+    }
+    
+    // Si no se puede convertir, devolver la fecha original
+    return fechaString;
+  } catch (error) {
+    console.log('Error convirtiendo fecha en frontend:', error);
+    return fechaString;
+  }
+}
+
 function llenarFormularioConEstudiante(estudiante) {
     console.log('Llenando formulario con datos del estudiante:', estudiante);
     
@@ -108,8 +133,14 @@ function llenarFormularioConEstudiante(estudiante) {
         'adecuacion': 'adecuacion',
         'rutaTransporte': 'rutaTransporte',
         'repitente': 'repitente',
+        'discapacidad': 'discapacidad',
         'enfermedad': 'enfermedad',
         'detalleEnfermedad': 'detalleEnfermedad',
+        'tipoIdentificacion': 'tipoIdentificacion',
+        'edad': 'edad',
+        'identidadGenero': 'identidadGenero',
+        'titulo': 'titulo',
+        'refugiado': 'refugiado',
         'nombreMadre': 'nombreMadre',
         'cedulaMadre': 'cedulaMadre',
         'telefonoMadre': 'telefonoMadre',
@@ -150,8 +181,32 @@ function llenarFormularioConEstudiante(estudiante) {
         }
         
         if (valor !== undefined && valor !== null && valor !== '') {
-            elemento.value = valor;
-            console.log(`✅ Campo "${campoFormulario}" llenado con: "${valor}"`);
+            // Manejo especial para fechas
+            if (campoFormulario === 'fechaNacimiento' && valor) {
+                // Convertir fecha de dd/MM/yyyy a yyyy-MM-dd
+                const fechaConvertida = convertirFechaFormato(valor);
+                elemento.value = fechaConvertida;
+                console.log(`✅ Campo "${campoFormulario}" llenado con fecha convertida: "${fechaConvertida}" (original: "${valor}")`);
+            } else if (elemento.tagName === 'SELECT') {
+                // Manejo especial para campos select (dropdowns)
+                const opciones = Array.from(elemento.options);
+                const opcionEncontrada = opciones.find(opcion => 
+                    opcion.value === valor || 
+                    opcion.textContent.trim() === valor ||
+                    opcion.textContent.trim().toLowerCase() === valor.toLowerCase()
+                );
+                
+                if (opcionEncontrada) {
+                    elemento.value = opcionEncontrada.value;
+                    console.log(`✅ Campo SELECT "${campoFormulario}" llenado con: "${valor}" (opción: "${opcionEncontrada.textContent}")`);
+                } else {
+                    console.log(`⚠️ No se encontró opción para "${valor}" en el campo SELECT "${campoFormulario}"`);
+                    console.log(`Opciones disponibles:`, opciones.map(op => op.textContent.trim()));
+                }
+            } else {
+                elemento.value = valor;
+                console.log(`✅ Campo "${campoFormulario}" llenado con: "${valor}"`);
+            }
             camposLlenados++;
             
             // Manejar campos especiales
