@@ -437,6 +437,8 @@ function limpiarFormularioCompleto() {
         nacionalidadGroup.style.flexDirection = 'column';
         nacionalidadGroup.style.gap = '4px';
         nacionalidadGroup.style.alignItems = 'stretch';
+        nacionalidadGroup.style.flexWrap = 'nowrap';
+        nacionalidadGroup.style.overflow = 'hidden';
     }
     
     console.log('✅ Formulario limpiado completamente');
@@ -1123,6 +1125,35 @@ function mostrarMensaje(mensaje, tipo = 'info') {
 
 
 
+// Función para copiar la cédula al campo de datos del estudiante
+function copiarCedulaACampoEstudiante(cedula, mostrarMensaje = false) {
+    const cedulaEstudianteField = document.getElementById('cedulaEstudiante');
+    if (cedulaEstudianteField) {
+        // Solo actualizar si el valor es diferente
+        if (cedulaEstudianteField.value !== cedula) {
+            cedulaEstudianteField.value = cedula;
+            console.log(`📋 Cédula copiada al campo de datos del estudiante: ${cedula}`);
+            
+            // Mostrar mensaje de confirmación solo si se solicita
+            if (mostrarMensaje) {
+                const mensajeElement = document.getElementById('mensajeConsulta');
+                if (mensajeElement) {
+                    mensajeElement.textContent = `📋 Cédula ${cedula} copiada al formulario`;
+                    mensajeElement.className = 'mensaje-consulta info';
+                    
+                    // Limpiar mensaje después de 3 segundos
+                    setTimeout(() => {
+                        mensajeElement.textContent = '';
+                        mensajeElement.className = 'mensaje-consulta';
+                    }, 3000);
+                }
+            }
+        }
+    } else {
+        console.log('❌ No se encontró el campo de cédula del estudiante');
+    }
+}
+
 // Función para consultar estudiante por cédula en Google Sheets
 async function consultarEstudiante() {
     const cedula = document.getElementById('cedulaConsulta').value.trim();
@@ -1189,10 +1220,14 @@ async function consultarEstudiante() {
             console.log('🎯 Estudiante encontrado, llenando formulario...');
             // Estudiante encontrado, llenar formulario
             llenarFormularioConEstudiante(data);
+            // También asegurar que la cédula esté en el campo (por si no está en los datos)
+            copiarCedulaACampoEstudiante(cedula, false);
             mostrarMensaje('✅ Estudiante encontrado, formulario llenado correctamente', 'success');
         } else {
             console.log('❌ No se encontraron datos del estudiante');
-            mostrarMensaje('❌ No se encontró estudiante con esa cédula', 'error');
+            // Aunque no se encuentre el estudiante, copiar la cédula al campo de datos
+            copiarCedulaACampoEstudiante(cedula, true);
+            mostrarMensaje('❌ No se encontró estudiante con esa cédula, pero se copió la cédula al formulario', 'warning');
         }
         
     } catch (error) {
@@ -1377,6 +1412,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar especialidades dinámicas
     inicializarEspecialidades();
     
+    // Inicializar sincronización de cédula y búsqueda con Enter
+    inicializarSincronizacionCedula();
+    
     // Detectar navegador y aplicar ajustes específicos
     detectarNavegadorYajustar();
     
@@ -1446,6 +1484,8 @@ function mostrarNacionalidadOtro() {
         nacionalidadGroup.style.flexDirection = 'row';
         nacionalidadGroup.style.gap = '8px';
         nacionalidadGroup.style.alignItems = 'start';
+        nacionalidadGroup.style.flexWrap = 'wrap';
+        nacionalidadGroup.style.overflow = 'hidden';
         console.log('🌍 Campo de nacionalidad personalizada mostrado al lado');
     } else {
         nacionalidadOtroGroup.style.display = 'none';
@@ -1455,6 +1495,8 @@ function mostrarNacionalidadOtro() {
         nacionalidadGroup.style.flexDirection = 'column';
         nacionalidadGroup.style.gap = '4px';
         nacionalidadGroup.style.alignItems = 'stretch';
+        nacionalidadGroup.style.flexWrap = 'nowrap';
+        nacionalidadGroup.style.overflow = 'hidden';
         console.log('🌍 Campo de nacionalidad personalizada ocultado');
     }
 }
@@ -1509,6 +1551,8 @@ function manejarNacionalidadEnFormulario(valor) {
         nacionalidadGroup.style.flexDirection = 'column';
         nacionalidadGroup.style.gap = '4px';
         nacionalidadGroup.style.alignItems = 'stretch';
+        nacionalidadGroup.style.flexWrap = 'nowrap';
+        nacionalidadGroup.style.overflow = 'hidden';
         console.log(`✅ Nacionalidad predefinida seleccionada: ${valor}`);
     } else {
         // Si no es predefinida, usar "Otro" y llenar el campo personalizado
@@ -1520,6 +1564,8 @@ function manejarNacionalidadEnFormulario(valor) {
         nacionalidadGroup.style.flexDirection = 'row';
         nacionalidadGroup.style.gap = '8px';
         nacionalidadGroup.style.alignItems = 'start';
+        nacionalidadGroup.style.flexWrap = 'wrap';
+        nacionalidadGroup.style.overflow = 'hidden';
         console.log(`✅ Nacionalidad personalizada configurada: ${valor}`);
     }
 }
@@ -1661,6 +1707,40 @@ function inicializarEspecialidades() {
     
     // Actualizar especialidades con el valor inicial (si hay uno)
     actualizarEspecialidades();
+}
+
+// Función para inicializar la sincronización de cédula y búsqueda con Enter
+function inicializarSincronizacionCedula() {
+    console.log('🚀 Inicializando sincronización de cédula y búsqueda con Enter...');
+    
+    const cedulaConsultaField = document.getElementById('cedulaConsulta');
+    if (cedulaConsultaField) {
+        // Agregar event listener para copiar cédula cuando se escriba
+        cedulaConsultaField.addEventListener('input', function() {
+            const cedula = this.value.trim();
+            if (cedula && cedula.length >= 7) { // Solo si tiene al menos 7 dígitos
+                copiarCedulaACampoEstudiante(cedula, false); // Sin mensaje para evitar spam
+            }
+        });
+        
+        // Agregar event listener para buscar cuando se presione Enter
+        cedulaConsultaField.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault(); // Prevenir comportamiento por defecto
+                const cedula = this.value.trim();
+                if (cedula) {
+                    console.log('🔍 Enter presionado, ejecutando búsqueda...');
+                    consultarEstudiante(); // Ejecutar búsqueda automáticamente
+                } else {
+                    mostrarMensaje('❌ Por favor ingrese un número de cédula', 'error');
+                }
+            }
+        });
+        
+        console.log('✅ Event listeners agregados para sincronización de cédula y búsqueda con Enter');
+    } else {
+        console.log('❌ No se encontró el campo de consulta de cédula');
+    }
 }
 
 // Función de prueba para verificar la consulta
