@@ -455,19 +455,36 @@ body {
     min-height: 60px;
     max-width: 100%;
     transition: all 0.3s ease;
+    overflow: hidden; /* Evitar que se extienda fuera del contenedor */
+}
+
+/* Cuando está en modo horizontal (con campo "Otro" visible) */
+#nacionalidadGroup[style*="flex-direction: row"] {
+    flex-direction: row !important;
+    gap: 8px !important;
+    align-items: start !important;
+    flex-wrap: wrap; /* Permitir que se envuelva si es necesario */
 }
 
 #nacionalidadGroup .horizontal-field:first-child {
-    border-right: 1px solid #d0d0d0;
-    padding-right: 6px;
-    margin-right: 4px;
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
     max-width: 100%;
     flex: 1;
+    min-width: 0; /* Permitir que se reduzca */
 }
 
 #nacionalidadGroup .horizontal-field:first-child select {
     width: 100%;
     max-width: 100%;
+}
+
+/* Campo "Otro" cuando está visible */
+#nacionalidadGroup .horizontal-field:last-child {
+    flex: 1;
+    min-width: 0; /* Permitir que se reduzca */
+    max-width: 50%; /* Limitar el ancho máximo */
 }
 
 #nacionalidadGroup .horizontal-field label {
@@ -502,6 +519,31 @@ body {
     box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.12);
     transform: translateY(-0.5px);
     background: #f8fff9;
+}
+
+/* Ajustes para pantallas pequeñas - evitar superposición */
+@media (max-width: 1200px) {
+    #nacionalidadGroup[style*="flex-direction: row"] {
+        flex-direction: column !important;
+        gap: 4px !important;
+    }
+    
+    #nacionalidadGroup .horizontal-field:last-child {
+        max-width: 100% !important;
+    }
+}
+
+/* Asegurar que no se superponga en ninguna resolución */
+#nacionalidadGroup .horizontal-field {
+    box-sizing: border-box;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+#nacionalidadGroup .horizontal-field input,
+#nacionalidadGroup .horizontal-field select {
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 /* Estilos para select de discapacidad */
