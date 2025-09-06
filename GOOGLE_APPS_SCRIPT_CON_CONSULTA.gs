@@ -482,23 +482,23 @@ function buscarEstudiantePorCedula(sheet, cedula) {
           seccion: '',                    // No se mapea - usuario debe seleccionar
           
           // Datos del estudiante
-          primerApellido: row[2] || '',   // Columna C (índice 2) - Primer apellido
-          segundoApellido: row[3] || '',  // Columna D (índice 3) - Segundo apellido
-          nombre: row[4] || '',           // Columna E (índice 4) - Nombre
+          primerApellido: row[3] || '',   // Columna D (índice 3) - Primer apellido
+          segundoApellido: row[4] || '',  // Columna E (índice 4) - Segundo apellido
+          nombre: row[5] || '',           // Columna F (índice 5) - Nombre
           cedula: row[1] || '',           // Columna B (índice 1) - Número de identificación
           tipoIdentificacion: row[2] || 'Cédula', // Columna C (índice 2) - Tipo de identificación
-          fechaNacimiento: row[5] || '',  // Columna F (índice 5) - Fecha de nacimiento
-          nacionalidad: row[8] || '',     // Columna I (índice 8) - Nacionalidad
-          telefono: row[16] || '',        // Columna Q (índice 16) - Celular estudiante
-          repitente: row[9] || '',        // Columna J (índice 9) - Repitente
-          refugiado: row[10] || '',       // Columna K (índice 10) - Refugiado
-          discapacidad: row[11] || '',    // Columna L (índice 11) - Discapacidad
+          fechaNacimiento: row[6] || '',  // Columna G (índice 6) - Fecha de nacimiento
+          nacionalidad: row[9] || '',     // Columna J (índice 9) - Nacionalidad
+          telefono: row[17] || '',        // Columna R (índice 17) - Celular estudiante
+          repitente: row[10] || '',       // Columna K (índice 10) - Repitente
+          refugiado: row[11] || '',       // Columna L (índice 11) - Refugiado
+          discapacidad: row[12] || '',    // Columna M (índice 12) - Discapacidad
           adecuacion: '',                 // No disponible en la base
           enfermedad: '',                 // No disponible en la base
           rutaTransporte: row[32] || '',  // Columna AG (índice 32) - Ruta
           
           // Datos de la madre
-          nombreMadre: row[17] || '',     // Columna R (índice 17) - Encargada
+          nombreMadre: row[18] || '',     // Columna S (índice 18) - Encargada
           cedulaMadre: row[19] || '',     // Columna T (índice 19) - Cédula
           telefonoMadre: row[20] || '',   // Columna U (índice 20) - Celular
           parentescoMadre: row[21] || '', // Columna V (índice 21) - Parentesco
@@ -521,6 +521,9 @@ function buscarEstudiantePorCedula(sheet, cedula) {
         
         console.log('📝 Datos del estudiante extraídos de la base:', estudiante);
         console.log('🔍 Campos críticos:');
+        console.log('   - Cédula:', estudiante.cedula);
+        console.log('   - Tipo de Identificación:', estudiante.tipoIdentificacion);
+        console.log('   - Nombre:', estudiante.nombre);
         console.log('   - Nivel:', estudiante.nivel);
         console.log('   - Especialidad:', estudiante.especialidad);
         console.log('   - Sección:', estudiante.seccion);
