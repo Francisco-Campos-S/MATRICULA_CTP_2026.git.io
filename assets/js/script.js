@@ -162,6 +162,12 @@ function llenarFormularioConDatosGuardados(estudiante) {
         actualizarEdad();
     }
     
+    // Sincronizar la cédula del estudiante al campo de consulta
+    const cedulaEstudiante = document.getElementById('cedulaEstudiante').value;
+    if (cedulaEstudiante) {
+        sincronizarCedulaAConsulta(cedulaEstudiante);
+    }
+    
     console.log('✅ Formulario llenado con datos guardados');
 }
 
@@ -254,6 +260,12 @@ function llenarFormularioConDatos(estudiante) {
     // Calcular edad si hay fecha de nacimiento
     if (estudiante.fechaNacimiento) {
         actualizarEdad();
+    }
+    
+    // Sincronizar la cédula del estudiante al campo de consulta
+    const cedulaEstudiante = document.getElementById('cedulaEstudiante').value;
+    if (cedulaEstudiante) {
+        sincronizarCedulaAConsulta(cedulaEstudiante);
     }
     
     console.log('✅ Formulario llenado con datos del estudiante');
@@ -815,6 +827,12 @@ function llenarFormularioConEstudiante(estudiante) {
         }
     });
     
+    // Sincronizar la cédula del estudiante al campo de consulta
+    const cedulaEstudiante = document.getElementById('cedulaEstudiante').value;
+    if (cedulaEstudiante) {
+        sincronizarCedulaAConsulta(cedulaEstudiante);
+    }
+    
     console.log(`✅ Formulario llenado exitosamente. Campos llenados: ${camposLlenadosArray.length}/${Object.keys(mapeoCampos).length}`);
     console.log('Campos llenados:', camposLlenadosArray);
 }
@@ -1127,12 +1145,19 @@ function mostrarMensaje(mensaje, tipo = 'info') {
 
 // Función para copiar la cédula al campo de datos del estudiante
 function copiarCedulaACampoEstudiante(cedula, mostrarMensaje = false) {
+    console.log('🔄 Ejecutando copiarCedulaACampoEstudiante con cédula:', cedula);
     const cedulaEstudianteField = document.getElementById('cedulaEstudiante');
+    console.log('🔍 Campo de cédula del estudiante encontrado:', !!cedulaEstudianteField);
+    
     if (cedulaEstudianteField) {
+        console.log('📊 Valor actual del campo:', cedulaEstudianteField.value);
+        console.log('📊 Valor a copiar:', cedula);
+        console.log('📊 ¿Son diferentes?', cedulaEstudianteField.value !== cedula);
+        
         // Solo actualizar si el valor es diferente
         if (cedulaEstudianteField.value !== cedula) {
             cedulaEstudianteField.value = cedula;
-            console.log(`📋 Cédula copiada al campo de datos del estudiante: ${cedula}`);
+            console.log(`✅ Cédula copiada al campo de datos del estudiante: ${cedula}`);
             
             // Mostrar mensaje de confirmación solo si se solicita
             if (mostrarMensaje) {
@@ -1148,6 +1173,8 @@ function copiarCedulaACampoEstudiante(cedula, mostrarMensaje = false) {
                     }, 3000);
                 }
             }
+        } else {
+            console.log('⚠️ La cédula ya es la misma, no se actualiza');
         }
     } else {
         console.log('❌ No se encontró el campo de cédula del estudiante');
@@ -1222,11 +1249,15 @@ async function consultarEstudiante() {
             llenarFormularioConEstudiante(data);
             // También asegurar que la cédula esté en el campo (por si no está en los datos)
             copiarCedulaACampoEstudiante(cedula, false);
+            // Sincronizar la cédula de vuelta al campo de consulta
+            sincronizarCedulaAConsulta(cedula);
             mostrarMensaje('✅ Estudiante encontrado, formulario llenado correctamente', 'success');
         } else {
             console.log('❌ No se encontraron datos del estudiante');
             // Aunque no se encuentre el estudiante, copiar la cédula al campo de datos
             copiarCedulaACampoEstudiante(cedula, true);
+            // Sincronizar la cédula de vuelta al campo de consulta
+            sincronizarCedulaAConsulta(cedula);
             mostrarMensaje('❌ No se encontró estudiante con esa cédula, pero se copió la cédula al formulario', 'warning');
         }
         
@@ -1714,11 +1745,18 @@ function inicializarSincronizacionCedula() {
     console.log('🚀 Inicializando sincronización de cédula y búsqueda con Enter...');
     
     const cedulaConsultaField = document.getElementById('cedulaConsulta');
+    const cedulaEstudianteField = document.getElementById('cedulaEstudiante');
+    
+    console.log('🔍 Campo de consulta encontrado:', !!cedulaConsultaField);
+    console.log('🔍 Campo de estudiante encontrado:', !!cedulaEstudianteField);
+    
     if (cedulaConsultaField) {
         // Agregar event listener para copiar cédula cuando se escriba
         cedulaConsultaField.addEventListener('input', function() {
             const cedula = this.value.trim();
+            console.log('📝 Escribiendo en campo de consulta:', cedula);
             if (cedula && cedula.length >= 7) { // Solo si tiene al menos 7 dígitos
+                console.log('📋 Copiando cédula al campo de estudiante:', cedula);
                 copiarCedulaACampoEstudiante(cedula, false); // Sin mensaje para evitar spam
             }
         });
@@ -1740,6 +1778,20 @@ function inicializarSincronizacionCedula() {
         console.log('✅ Event listeners agregados para sincronización de cédula y búsqueda con Enter');
     } else {
         console.log('❌ No se encontró el campo de consulta de cédula');
+    }
+}
+
+// Función para sincronizar la cédula del campo de datos del estudiante al campo de consulta
+function sincronizarCedulaAConsulta(cedula) {
+    const cedulaConsultaField = document.getElementById('cedulaConsulta');
+    if (cedulaConsultaField && cedula) {
+        // Solo actualizar si el valor es diferente
+        if (cedulaConsultaField.value !== cedula) {
+            cedulaConsultaField.value = cedula;
+            console.log(`📋 Cédula sincronizada al campo de consulta: ${cedula}`);
+        }
+    } else {
+        console.log('❌ No se encontró el campo de consulta de cédula o la cédula está vacía');
     }
 }
 
@@ -1776,6 +1828,61 @@ async function probarConsulta() {
     } catch (error) {
         console.error('❌ Error en prueba de consulta:', error);
         return null;
+    }
+}
+
+// Función de prueba para verificar la sincronización de cédula
+function probarSincronizacionCedula() {
+    console.log('🧪 Probando sincronización de cédula...');
+    
+    // Verificar que los campos existan
+    const cedulaConsultaField = document.getElementById('cedulaConsulta');
+    const cedulaEstudianteField = document.getElementById('cedulaEstudiante');
+    
+    console.log('🔍 Campo de consulta encontrado:', !!cedulaConsultaField);
+    console.log('🔍 Campo de estudiante encontrado:', !!cedulaEstudianteField);
+    
+    if (cedulaConsultaField && cedulaEstudianteField) {
+        // Probar copiar de consulta a estudiante
+        console.log('📝 Probando copia de consulta a estudiante...');
+        cedulaConsultaField.value = '123456789';
+        cedulaConsultaField.dispatchEvent(new Event('input'));
+        
+        setTimeout(() => {
+            console.log('📊 Valor en campo de consulta:', cedulaConsultaField.value);
+            console.log('📊 Valor en campo de estudiante:', cedulaEstudianteField.value);
+            console.log('✅ Prueba de sincronización completada');
+        }, 100);
+    } else {
+        console.log('❌ No se encontraron los campos necesarios para la prueba');
+    }
+}
+
+// Función para verificar el estado de la sincronización
+function verificarEstadoSincronizacion() {
+    console.log('🔍 Verificando estado de la sincronización...');
+    
+    const cedulaConsultaField = document.getElementById('cedulaConsulta');
+    const cedulaEstudianteField = document.getElementById('cedulaEstudiante');
+    
+    console.log('📊 Campo de consulta:', {
+        existe: !!cedulaConsultaField,
+        valor: cedulaConsultaField?.value || 'N/A',
+        id: cedulaConsultaField?.id || 'N/A'
+    });
+    
+    console.log('📊 Campo de estudiante:', {
+        existe: !!cedulaEstudianteField,
+        valor: cedulaEstudianteField?.value || 'N/A',
+        id: cedulaEstudianteField?.id || 'N/A'
+    });
+    
+    // Verificar si los event listeners están activos
+    if (cedulaConsultaField) {
+        console.log('📊 Event listeners en campo de consulta:', {
+            input: cedulaConsultaField.oninput !== null,
+            keypress: cedulaConsultaField.onkeypress !== null
+        });
     }
 }
 
