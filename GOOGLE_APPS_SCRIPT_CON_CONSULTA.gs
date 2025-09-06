@@ -579,7 +579,7 @@ function buscarEstudiantePorCedula(sheet, cedula) {
           cedulaPadre: row[25] ? row[25].toString().trim() : '',     // Columna Z (índice 25) - Cédula2
           telefonoPadre: row[26] ? row[26].toString().trim() : '',   // Columna AA (índice 26) - Celular2
           parentescoPadre: row[27] ? row[27].toString().trim() : '', // Columna AB (índice 27) - Parentezco2
-          viveConEstudiantePadre: row[28] ? row[28].toString().trim() : '', // Columna AC (índice 28) - Otro Cel
+          viveConEstudiantePadre: '', // No hay campo específico para el padre en la estructura
           direccionPadre: row[29] ? row[29].toString().trim() : '',  // Columna AD (índice 29) - Dirección2
           
           // Campos adicionales
@@ -596,6 +596,20 @@ function buscarEstudiantePorCedula(sheet, cedula) {
         console.log('   - Fecha de Nacimiento:', `"${estudiante.fechaNacimiento}" (longitud: ${estudiante.fechaNacimiento.length})`);
         console.log('   - Valor original en row[6]:', `"${row[6]}" (tipo: ${typeof row[6]})`);
         console.log('   - ✅ Cargando tipo exacto de la base de datos sin modificaciones');
+        
+        // Logging detallado para datos de encargados
+        console.log('👥 Datos de encargados extraídos:');
+        console.log('   - Nombre Madre (row[18]):', `"${row[18]}" (tipo: ${typeof row[18]})`);
+        console.log('   - Cédula Madre (row[19]):', `"${row[19]}" (tipo: ${typeof row[19]})`);
+        console.log('   - Teléfono Madre (row[20]):', `"${row[20]}" (tipo: ${typeof row[20]})`);
+        console.log('   - Parentesco Madre (row[21]):', `"${row[21]}" (tipo: ${typeof row[21]})`);
+        console.log('   - Vive con estudiante Madre (row[22]):', `"${row[22]}" (tipo: ${typeof row[22]})`);
+        console.log('   - Dirección Madre (row[23]):', `"${row[23]}" (tipo: ${typeof row[23]})`);
+        console.log('   - Nombre Padre (row[24]):', `"${row[24]}" (tipo: ${typeof row[24]})`);
+        console.log('   - Cédula Padre (row[25]):', `"${row[25]}" (tipo: ${typeof row[25]})`);
+        console.log('   - Teléfono Padre (row[26]):', `"${row[26]}" (tipo: ${typeof row[26]})`);
+        console.log('   - Parentesco Padre (row[27]):', `"${row[27]}" (tipo: ${typeof row[27]})`);
+        console.log('   - Dirección Padre (row[29]):', `"${row[29]}" (tipo: ${typeof row[29]})`);
         
         // Verificación adicional para cédulas YR
         if (estudiante.cedula && estudiante.cedula.startsWith('YR') && !estudiante.tipoIdentificacion) {
