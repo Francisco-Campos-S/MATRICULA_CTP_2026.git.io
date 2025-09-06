@@ -296,6 +296,17 @@ body {
     max-width: 100% !important;
 }
 
+/* Estilo específico para tipo de identificación - ocupa todo el ancho cuando solo hay un campo */
+#tipoIdentificacionGroup .horizontal-field:first-child {
+    max-width: 100% !important;
+    flex: 1 !important;
+}
+
+#tipoIdentificacionGroup .horizontal-field:first-child select {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
 .horizontal-field {
     display: flex;
     flex-direction: column;
