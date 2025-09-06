@@ -307,6 +307,16 @@ body {
     max-width: 100% !important;
 }
 
+/* Estilos para select de discapacidad */
+#discapacidad {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+}
+
 .horizontal-field {
     display: flex;
     flex-direction: column;

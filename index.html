@@ -162,19 +162,17 @@
                             <label for="nacionalidad">Nacionalidad:</label>
                             <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense" tabindex="13">
                         </div>
-                        <div class="form-group horizontal-group" id="discapacidadGroup">
-                            <div class="horizontal-field">
-                                <label for="discapacidad">¿Tiene alguna discapacidad?:</label>
-                                <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()" tabindex="20">
-                                    <option value="">Seleccione...</option>
-                                    <option value="Sí">Sí</option>
-                                    <option value="No">No</option>
-                                </select>
-                            </div>
-                            <div class="horizontal-field" id="tipoDiscapacidadGroup" style="display: none;">
-                                <label for="tipoDiscapacidad">Tipo de discapacidad:</label>
-                                <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad" tabindex="27">
-                            </div>
+                        <div class="form-group">
+                            <label for="discapacidad">Discapacidad:</label>
+                            <select id="discapacidad" name="discapacidad" tabindex="20">
+                                <option value="">Seleccione...</option>
+                                <option value="Sin discapacidad">Sin discapacidad</option>
+                                <option value="Baja Visión">Baja Visión</option>
+                                <option value="Ceguera">Ceguera</option>
+                                <option value="Discapacidad Intelectual (Retraso Mental)">Discapacidad Intelectual (Retraso Mental)</option>
+                                <option value="Discapacidad motora">Discapacidad motora</option>
+                                <option value="Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)">Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-column">

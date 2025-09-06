@@ -299,10 +299,7 @@ function recolectarDatosFormulario() {
         refugiado: '',
         
         // 12. Discapacidad
-        discapacidad: document.getElementById('discapacidad').value,
-        
-        // 13. Tipo de Discapacidad
-        tipoDiscapacidad: document.getElementById('tipoDiscapacidad') ? document.getElementById('tipoDiscapacidad').value : '',
+        discapacidad: obtenerDiscapacidadSeleccionada(),
         
         // 14. Adecuación
         adecuacion: document.getElementById('adecuacion').value,
@@ -384,11 +381,7 @@ function recolectarDatosFormulario() {
     };
     
     // LÓGICA ESPECIAL PARA CAMPOS CONDICIONALES
-    // Si discapacidad es "No", limpiar tipo de discapacidad
-    if (formData.discapacidad === 'No') {
-        formData.tipoDiscapacidad = '';
-        console.log('🧹 Discapacidad es "No", tipo de discapacidad limpiado');
-    }
+    // Ya no es necesaria lógica especial para discapacidad
     
     // Si adecuación es "No", limpiar tipo de adecuación
     if (formData.adecuacion === 'No') {
@@ -660,36 +653,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar campos condicionales
     setTimeout(function() {
-        mostrarTipoDiscapacidad();
         mostrarTipoAdecuacion();
         mostrarDetalleEnfermedad();
     }, 200);
 });
 
 // Función para mostrar/ocultar campo de tipo de discapacidad
-function mostrarTipoDiscapacidad() {
-    const discapacidad = document.getElementById('discapacidad').value;
-    const tipoDiscapacidadGroup = document.getElementById('tipoDiscapacidadGroup');
-    const tipoDiscapacidadInput = document.getElementById('tipoDiscapacidad');
-    const discapacidadGroup = document.getElementById('discapacidadGroup');
-    
-    if (discapacidad === 'Sí') {
-        // Mostrar ambos campos (horizontal) - con estilos especiales
-        tipoDiscapacidadGroup.style.display = 'flex';
-        tipoDiscapacidadInput.required = true;
-        discapacidadGroup.style.flexDirection = 'row';
-        discapacidadGroup.classList.remove('solo-campo');
-        console.log('✅ Campo de tipo de discapacidad mostrado - Layout horizontal');
-    } else {
-        // Mostrar solo el campo principal (vertical) - ocupa todo el ancho
-        tipoDiscapacidadGroup.style.display = 'none';
-        tipoDiscapacidadInput.required = false;
-        tipoDiscapacidadInput.value = '';
-        discapacidadGroup.style.flexDirection = 'column';
-        discapacidadGroup.style.width = '100%';
-        discapacidadGroup.classList.add('solo-campo');
-        console.log('🧹 Campo de tipo de discapacidad ocultado - Layout vertical (valor:', discapacidad, ')');
-    }
+// Función para obtener la discapacidad seleccionada
+function obtenerDiscapacidadSeleccionada() {
+    const discapacidadSelect = document.getElementById('discapacidad');
+    return discapacidadSelect ? discapacidadSelect.value : '';
 }
 
 // Función para mostrar/ocultar campo de tipo de adecuación
