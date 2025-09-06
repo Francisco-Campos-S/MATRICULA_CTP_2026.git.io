@@ -70,8 +70,8 @@
                         </div>
                         <div class="consulta-form">
                             <div class="input-button-container">
-                                <input type="text" id="cedulaConsulta" placeholder="Número de cédula" required>
-                                <button type="button" class="btn-consulta" onclick="consultarEstudiante()">
+                                <input type="text" id="cedulaConsulta" placeholder="Número de cédula" required tabindex="1">
+                                <button type="button" class="btn-consulta" onclick="consultarEstudiante()" tabindex="2">
                                     🔍 Buscar
                                 </button>
                             </div>
@@ -87,14 +87,14 @@
                         <div class="tipo-matricula-subtitle">Seleccione el tipo de matrícula</div>
                         <div class="tipo-matricula-options">
                             <div class="tipo-option">
-                                <input type="radio" id="regular" name="tipoMatricula" value="regular" required>
+                                <input type="radio" id="regular" name="tipoMatricula" value="regular" required tabindex="3">
                                 <label for="regular" class="tipo-label">
                                     <span class="tipo-icon">🏫</span>
                                     <span class="tipo-text">Regular CTP 2026</span>
                                 </label>
                             </div>
                             <div class="tipo-option">
-                                <input type="radio" id="planNacional" name="tipoMatricula" value="planNacional" required>
+                                <input type="radio" id="planNacional" name="tipoMatricula" value="planNacional" required tabindex="4">
                                 <label for="planNacional" class="tipo-label">
                                     <span class="tipo-icon">🇨🇷</span>
                                     <span class="tipo-text">Plan Nacional 2026</span>
@@ -112,7 +112,7 @@
                         <div class="nivel-especialidad-fields">
                             <div class="form-group">
                                 <label for="nivel">Nivel:</label>
-                                <select id="nivel" name="nivel" required>
+                                <select id="nivel" name="nivel" required tabindex="5">
                                     <option value="">Seleccione un nivel</option>
                                     <option value="Sétimo">Sétimo</option>
                                     <option value="Octavo">Octavo</option>
@@ -124,7 +124,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="especialidad">Especialidad:</label>
-                                <select id="especialidad" name="especialidad" required>
+                                <select id="especialidad" name="especialidad" required tabindex="6">
                                     <option value="">Seleccione una especialidad</option>
                                     <option value="Agropecuaria">Agropecuaria</option>
                                     <option value="Informática">Informática</option>
@@ -136,7 +136,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="seccion">Sección:</label>
-                                <input type="text" id="seccion" name="seccion" placeholder="Ej: 7-1, 8-2" required>
+                                <input type="text" id="seccion" name="seccion" placeholder="Ej: 7-1, 8-2" required tabindex="7">
                             </div>
                         </div>
                     </div>
@@ -156,16 +156,16 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="primerApellido">Primer apellido:</label>
-                            <input type="text" id="primerApellido" name="primerApellido" required>
+                            <input type="text" id="primerApellido" name="primerApellido" required tabindex="8">
                         </div>
                         <div class="form-group">
                             <label for="nacionalidad">Nacionalidad:</label>
-                            <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense">
+                            <input type="text" id="nacionalidad" name="nacionalidad" value="Costarricense" tabindex="13">
                         </div>
                         <div class="form-group horizontal-group" id="discapacidadGroup">
                             <div class="horizontal-field">
                                 <label for="discapacidad">¿Tiene alguna discapacidad?:</label>
-                                <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()">
+                                <select id="discapacidad" name="discapacidad" onchange="mostrarTipoDiscapacidad()" tabindex="19">
                                     <option value="">Seleccione...</option>
                                     <option value="Sí">Sí</option>
                                     <option value="No">No</option>
@@ -173,19 +173,19 @@
                             </div>
                             <div class="horizontal-field" id="tipoDiscapacidadGroup" style="display: none;">
                                 <label for="tipoDiscapacidad">Tipo de discapacidad:</label>
-                                <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad">
+                                <input type="text" id="tipoDiscapacidad" name="tipoDiscapacidad" placeholder="Especifique el tipo de discapacidad" tabindex="20">
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="segundoApellido">Segundo apellido:</label>
-                            <input type="text" id="segundoApellido" name="segundoApellido">
+                            <input type="text" id="segundoApellido" name="segundoApellido" tabindex="9">
                         </div>
                         <div class="form-group horizontal-group" id="adecuacionGroup">
                             <div class="horizontal-field">
                                 <label for="adecuacion">Posee adecuación:</label>
-                                <select id="adecuacion" name="adecuacion" onchange="mostrarTipoAdecuacion()">
+                                <select id="adecuacion" name="adecuacion" onchange="mostrarTipoAdecuacion()" tabindex="14">
                                     <option value="">Seleccione...</option>
                                     <option value="Sí">Sí</option>
                                     <option value="No">No</option>
@@ -193,7 +193,7 @@
                             </div>
                             <div class="horizontal-field" id="tipoAdecuacionGroup" style="display: none;">
                                 <label for="tipoAdecuacion">Tipo de adecuación:</label>
-                                <input type="text" id="tipoAdecuacion" name="tipoAdecuacion" placeholder="Especifique el tipo de adecuación">
+                                <input type="text" id="tipoAdecuacion" name="tipoAdecuacion" placeholder="Especifique el tipo de adecuación" tabindex="15">
                             </div>
                         </div>
 
@@ -201,27 +201,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreEstudiante">Nombre:</label>
-                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required>
+                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="10">
                         </div>
                         <div class="form-group">
                             <label for="cedulaEstudiante">N° cédula:</label>
-                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required>
+                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="16">
                         </div>
 
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="fechaNacimiento">Fecha nacimiento:</label>
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" required tabindex="11">
                         </div>
                         <div class="form-group">
                             <label for="telefonoEstudiante">Nº teléfono:</label>
-                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante">
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="17">
                         </div>
                         <div class="form-group horizontal-group" id="enfermedadGroup">
                             <div class="horizontal-field">
                                 <label for="enfermedad">Padece alguna enfermedad:</label>
-                                <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()">
+                                <select id="enfermedad" name="enfermedad" onchange="mostrarDetalleEnfermedad()" tabindex="21">
                                     <option value="">Seleccione...</option>
                                     <option value="Sí">Sí</option>
                                     <option value="No">No</option>
@@ -229,14 +229,14 @@
                             </div>
                             <div class="horizontal-field" id="detalleEnfermedadGroup" style="display: none;">
                                 <label for="detalleEnfermedad">Detalle de la enfermedad:</label>
-                                <input type="text" id="detalleEnfermedad" name="detalleEnfermedad" placeholder="Describa la enfermedad o condición médica">
+                                <input type="text" id="detalleEnfermedad" name="detalleEnfermedad" placeholder="Describa la enfermedad o condición médica" tabindex="22">
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="repitente">¿Es repitente?</label>
-                            <select id="repitente" name="repitente">
+                            <select id="repitente" name="repitente" tabindex="12">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -244,7 +244,7 @@
                         </div>
                         <div class="form-group">
                             <label for="rutaTransporte">Ruta de transporte:</label>
-                            <input type="text" id="rutaTransporte" name="rutaTransporte" placeholder="Especifique la ruta de transporte">
+                            <input type="text" id="rutaTransporte" name="rutaTransporte" placeholder="Especifique la ruta de transporte" tabindex="18">
                         </div>
 
                     </div>
@@ -264,27 +264,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreMadre">Nombre:</label>
-                            <input type="text" id="nombreMadre" name="nombreMadre" required>
+                            <input type="text" id="nombreMadre" name="nombreMadre" required tabindex="23">
                         </div>
                         <div class="form-group">
                             <label for="cedulaMadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaMadre" name="cedulaMadre" required>
+                            <input type="text" id="cedulaMadre" name="cedulaMadre" required tabindex="26">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoMadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required>
+                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required tabindex="24">
                         </div>
                         <div class="form-group">
                             <label for="parentescoMadre">Parentesco:</label>
-                            <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre">
+                            <input type="text" id="parentescoMadre" name="parentescoMadre" value="Madre" tabindex="27">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudianteMadre">Vive con estudiante:</label>
-                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre">
+                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="25">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -292,7 +292,7 @@
                         </div>
                         <div class="form-group">
                             <label for="direccionMadre">Dirección exacta:</label>
-                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required></textarea>
+                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required tabindex="28"></textarea>
                         </div>
                     </div>
                 </div>
@@ -311,27 +311,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombrePadre">Nombre:</label>
-                            <input type="text" id="nombrePadre" name="nombrePadre">
+                            <input type="text" id="nombrePadre" name="nombrePadre" tabindex="29">
                         </div>
                         <div class="form-group">
                             <label for="cedulaPadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaPadre" name="cedulaPadre">
+                            <input type="text" id="cedulaPadre" name="cedulaPadre" tabindex="32">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoPadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoPadre" name="telefonoPadre">
+                            <input type="tel" id="telefonoPadre" name="telefonoPadre" tabindex="30">
                         </div>
                         <div class="form-group">
                             <label for="parentescoPadre">Parentesco:</label>
-                            <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre">
+                            <input type="text" id="parentescoPadre" name="parentescoPadre" value="Padre" tabindex="33">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="viveConEstudiantePadre">Vive con estudiante:</label>
-                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre">
+                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="31">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -339,7 +339,7 @@
                         </div>
                         <div class="form-group">
                             <label for="direccionPadre">Dirección:</label>
-                            <textarea id="direccionPadre" name="direccionPadre" rows="1"></textarea>
+                            <textarea id="direccionPadre" name="direccionPadre" rows="1" tabindex="34"></textarea>
                         </div>
                     </div>
                 </div>
@@ -361,27 +361,27 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="firmaEncargada">Firma de la Encargada:</label>
-                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada">
+                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada" tabindex="35">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-column">
                             <div class="form-group">
                                 <label for="firmaEncargado">Firma del Encargado:</label>
-                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado">
+                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado" tabindex="36">
                             </div>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="fecha">Fecha de Matrícula:</label>
-                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required>
+                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="37">
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones Adicionales:</label>
-                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula"></textarea>
+                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="38"></textarea>
                 </div>
             </div>
             
@@ -395,22 +395,22 @@
 
             <!-- Botones de Acción -->
             <div class="form-actions">
-                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()">
+                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="39">
                     <span class="btn-icon">🧪</span>
                     <span class="btn-text">Cargar Datos de Prueba</span>
                 </button>
                 
-                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()">
+                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="40">
                     <span class="btn-icon">📤</span>
                     <span class="btn-text">Enviar Formulario</span>
                 </button>
                 
-                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()">
+                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="41">
                     <span class="btn-icon">🧹</span>
                     <span class="btn-text">Limpiar Formulario</span>
                 </button>
                 
-                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()">
+                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()" tabindex="42">
                     <span class="btn-icon">🖨️</span>
                     <span class="btn-text">Imprimir</span>
                 </button>
@@ -438,71 +438,6 @@
 
     </div>
 
-    <!-- CSS NUCLEAR para forzar footer visible al imprimir -->
-    <style>
-        /* Footer oculto en pantalla */
-        .print-footer {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-            position: absolute !important;
-            left: -9999px !important;
-            top: -9999px !important;
-        }
-        
-        /* REGLAS NUCLEARES para mostrar footer al imprimir */
-        @media print {
-            /* RESET NUCLEAR para footer */
-            .print-footer {
-                all: unset !important;
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                position: fixed !important;
-                bottom: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                top: auto !important;
-                z-index: 9999 !important;
-                background: white !important;
-                border-top: 1px solid #666 !important;
-                padding: 15px !important;
-                text-align: left !important;
-                color: #000 !important;
-                font-size: 11pt !important;
-                margin: 0 !important;
-                width: 100% !important;
-                box-sizing: border-box !important;
-                font-family: 'Times New Roman', serif !important;
-            }
-            
-            .print-footer p {
-                all: unset !important;
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                margin: 5px 0 !important;
-                line-height: 1.3 !important;
-                text-align: left !important;
-                font-weight: bold !important;
-                color: #000 !important;
-                font-size: 11pt !important;
-                background: white !important;
-                font-family: 'Times New Roman', serif !important;
-            }
-            
-            /* OCULTAR footer automático del navegador */
-            @page {
-                margin-bottom: 0 !important;
-            }
-            
-            /* Ocultar URLs y títulos automáticos del navegador */
-            body::after {
-                display: none !important;
-                content: none !important;
-            }
-        }
-    </style>
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>

@@ -25,6 +25,9 @@ exclude:
   - package-lock.json
   - Boleta de matrícula 2026.docx
   - DATOS ESTUDIANTES 2025 (10).xlsx
+  - templates/
+  - docs/
+  - GOOGLE_APPS_SCRIPT_CON_CONSULTA.gs
 
 # Include in processing
 include:
