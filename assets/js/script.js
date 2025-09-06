@@ -1,6 +1,37 @@
 // Variable para controlar si se está editando un estudiante
 let editandoEstudiante = false;
 
+// Mapeo de especialidades por nivel
+const especialidadesPorNivel = {
+    'Sétimo': [
+        { value: 'Sin especialidad', text: 'Sin especialidad' }
+    ],
+    'Octavo': [
+        { value: 'Sin especialidad', text: 'Sin especialidad' }
+    ],
+    'Noveno': [
+        { value: 'Sin especialidad', text: 'Sin especialidad' }
+    ],
+    'Décimo': [
+        { value: 'Contabilidad', text: 'Contabilidad' },
+        { value: 'Organización de empresas de Turismo Rural', text: 'Organización de empresas de Turismo Rural' },
+        { value: 'Procesos productivos e inspección en la Industria Alimentaria', text: 'Procesos productivos e inspección en la Industria Alimentaria' },
+        { value: 'Producción Agrícola y Pecuaria', text: 'Producción Agrícola y Pecuaria' }
+    ],
+    'Undécimo': [
+        { value: 'Contabilidad y Finanzas', text: 'Contabilidad y Finanzas' },
+        { value: 'Turismo Rural', text: 'Turismo Rural' },
+        { value: 'Procesos productivos e inspección en la Industria Alimentaria', text: 'Procesos productivos e inspección en la Industria Alimentaria' },
+        { value: 'Producción Agrícola y Pecuaria', text: 'Producción Agrícola y Pecuaria' }
+    ],
+    'Duodécimo': [
+        { value: 'Contabilidad', text: 'Contabilidad' },
+        { value: 'Turismo Rural', text: 'Turismo Rural' },
+        { value: 'Agroindustria Alimentaria con Tecnología Agrícola', text: 'Agroindustria Alimentaria con Tecnología Agrícola' },
+        { value: 'Producción Agrícola y Pecuaria', text: 'Producción Agrícola y Pecuaria' }
+    ]
+};
+
 // Claves para localStorage
 const STORAGE_KEYS = {
     EDITANDO: 'editandoEstudiante',
@@ -379,6 +410,9 @@ function limpiarFormularioCompleto() {
         edadCampo.value = '';
     }
     
+    // Actualizar especialidades después de limpiar
+    actualizarEspecialidades();
+    
     console.log('✅ Formulario limpiado completamente');
 }
 
@@ -449,6 +483,9 @@ function limpiarFormulario(forzarLimpieza = false) {
         edadCampo.value = '';
     }
     
+    // Actualizar especialidades después de limpiar
+    actualizarEspecialidades();
+    
     console.log('✅ Formulario limpiado correctamente');
 }
 
@@ -461,7 +498,7 @@ function cargarDatosPrueba() {
         const datosPrueba = {
             // Información básica
             nivel: 'Décimo',
-            especialidad: 'CONTABILIDAD',
+            especialidad: 'Contabilidad',
             seccion: 'A',
             
             // Datos del estudiante
@@ -511,6 +548,21 @@ function cargarDatosPrueba() {
                 elemento.value = datosPrueba[key];
                 camposCargados++;
                 console.log(`✅ Campo cargado: ${key} = ${datosPrueba[key]}`);
+                
+                // Si es el campo de nivel, actualizar especialidades
+                if (key === 'nivel') {
+                    setTimeout(() => {
+                        actualizarEspecialidades();
+                        // Después de actualizar especialidades, cargar la especialidad de prueba
+                        setTimeout(() => {
+                            const especialidadElement = document.getElementById('especialidad');
+                            if (especialidadElement) {
+                                especialidadElement.value = datosPrueba.especialidad;
+                                console.log(`✅ Especialidad cargada: ${datosPrueba.especialidad}`);
+                            }
+                        }, 100);
+                    }, 100);
+                }
             } else {
                 camposNoEncontrados.push(key);
                 console.warn(`⚠️ Campo no encontrado: ${key}`);
@@ -1157,6 +1209,108 @@ function mostrarTipoMatriculaSeleccionado() {
     }
 }
 
+// Función para detectar el navegador y aplicar ajustes específicos
+function detectarNavegadorYajustar() {
+    const userAgent = navigator.userAgent;
+    const isChrome = /Chrome/.test(userAgent) && /Google Inc/.test(navigator.vendor);
+    const isFirefox = /Firefox/.test(userAgent);
+    const isSafari = /Safari/.test(userAgent) && /Apple Computer/.test(navigator.vendor);
+    const isEdge = /Edg/.test(userAgent);
+    
+    console.log('🌐 Navegador detectado:', {
+        userAgent: userAgent,
+        isChrome: isChrome,
+        isFirefox: isFirefox,
+        isSafari: isSafari,
+        isEdge: isEdge
+    });
+    
+    // Aplicar ajustes específicos según el navegador
+    if (isFirefox) {
+        console.log('🦊 Aplicando ajustes específicos para Firefox');
+        document.body.style.height = 'calc(100vh - 4px)';
+        document.body.style.minHeight = 'calc(100vh - 4px)';
+        const container = document.querySelector('.container');
+        if (container) {
+            container.style.height = 'calc(100vh - 4px)';
+            container.style.minHeight = 'calc(100vh - 4px)';
+        }
+        const form = document.querySelector('.matricula-form');
+        if (form) {
+            form.style.maxHeight = 'calc(100vh - 120px)';
+            form.style.overflowY = 'auto';
+        }
+    } else if (isSafari) {
+        console.log('🦁 Aplicando ajustes específicos para Safari');
+        document.body.style.height = '-webkit-fill-available';
+        document.querySelector('.container').style.height = '-webkit-fill-available';
+    } else if (isChrome || isEdge) {
+        console.log('🌐 Aplicando ajustes específicos para Chrome/Edge');
+        // Chrome y Edge manejan mejor 100vh
+        document.body.style.height = '100vh';
+        document.querySelector('.container').style.height = '100vh';
+    }
+    
+    // Ajustar según la altura de la ventana
+    const alturaVentana = window.innerHeight;
+    console.log('📏 Altura de ventana detectada:', alturaVentana);
+    
+    if (alturaVentana < 600) {
+        console.log('📱 Pantalla pequeña detectada, aplicando ajustes');
+        document.body.style.fontSize = '18px';
+        // Reducir padding y márgenes para pantallas pequeñas
+        const formGroups = document.querySelectorAll('.form-group');
+        formGroups.forEach(group => {
+            const input = group.querySelector('input, select, textarea');
+            if (input) {
+                input.style.fontSize = '14px';
+                input.style.padding = '4px 6px';
+                input.style.minHeight = '16px';
+            }
+            const label = group.querySelector('label');
+            if (label) {
+                label.style.fontSize = '14px';
+            }
+        });
+    }
+}
+
+// Función para ajustar el layout cuando cambia el tamaño de la ventana
+function ajustarLayout() {
+    const alturaVentana = window.innerHeight;
+    const anchoVentana = window.innerWidth;
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    
+    console.log('📐 Ajustando layout - Altura:', alturaVentana, 'Ancho:', anchoVentana, 'Firefox:', isFirefox);
+    
+    // Ajustar altura del contenedor
+    const container = document.querySelector('.container');
+    if (container) {
+        if (isFirefox) {
+            // Firefox necesita un ajuste especial
+            container.style.height = `calc(${alturaVentana}px - 4px)`;
+            container.style.minHeight = `calc(${alturaVentana}px - 4px)`;
+        } else {
+            container.style.height = `${alturaVentana}px`;
+        }
+    }
+    
+    // Ajustar altura del body
+    if (isFirefox) {
+        document.body.style.height = `calc(${alturaVentana}px - 4px)`;
+        document.body.style.minHeight = `calc(${alturaVentana}px - 4px)`;
+        
+        // Ajustar el formulario para que quepa en Firefox
+        const form = document.querySelector('.matricula-form');
+        if (form) {
+            form.style.maxHeight = `calc(${alturaVentana}px - 120px)`;
+            form.style.overflowY = 'auto';
+        }
+    } else {
+        document.body.style.height = `${alturaVentana}px`;
+    }
+}
+
 // Agregar event listeners cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     // Event listeners para los tipos de matrícula
@@ -1189,6 +1343,38 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Agregar event listeners para actualizar datos durante la edición
     agregarEventListenersEdicion();
+    
+    // Inicializar especialidades dinámicas
+    inicializarEspecialidades();
+    
+    // Detectar navegador y aplicar ajustes específicos
+    detectarNavegadorYajustar();
+    
+    // Ajustar layout inicial
+    ajustarLayout();
+    
+    // Ajuste adicional para Firefox después de un pequeño delay
+    if (/Firefox/.test(navigator.userAgent)) {
+        setTimeout(() => {
+            console.log('🦊 Aplicando ajuste adicional para Firefox');
+            ajustarLayout();
+            
+            // Forzar recálculo del layout
+            const form = document.querySelector('.matricula-form');
+            if (form) {
+                form.style.height = 'auto';
+                form.offsetHeight; // Trigger reflow
+                form.style.maxHeight = `calc(${window.innerHeight}px - 100px)`;
+            }
+        }, 200);
+    }
+    
+    // Ajustar layout cuando cambia el tamaño de la ventana
+    window.addEventListener('resize', ajustarLayout);
+    window.addEventListener('orientationchange', function() {
+        // Pequeño delay para que el navegador termine de rotar
+        setTimeout(ajustarLayout, 100);
+    });
 });
 
 // Función para mostrar/ocultar campo de tipo de discapacidad
@@ -1305,6 +1491,68 @@ function actualizarEdad() {
     }
     
     return edad;
+}
+
+// Función para actualizar las especialidades según el nivel seleccionado
+function actualizarEspecialidades() {
+    const nivelSelect = document.getElementById('nivel');
+    const especialidadSelect = document.getElementById('especialidad');
+    
+    if (!nivelSelect || !especialidadSelect) {
+        console.log('❌ No se encontraron los elementos de nivel o especialidad');
+        return;
+    }
+    
+    const nivelSeleccionado = nivelSelect.value;
+    console.log('📚 Nivel seleccionado:', nivelSeleccionado);
+    
+    // Limpiar opciones actuales (excepto la primera)
+    especialidadSelect.innerHTML = '<option value="">Seleccione una especialidad</option>';
+    
+    // Obtener especialidades para el nivel seleccionado
+    const especialidades = especialidadesPorNivel[nivelSeleccionado];
+    
+    if (especialidades) {
+        console.log('🎯 Especialidades disponibles para', nivelSeleccionado, ':', especialidades);
+        
+        // Agregar opciones de especialidades
+        especialidades.forEach(especialidad => {
+            const option = document.createElement('option');
+            option.value = especialidad.value;
+            option.textContent = especialidad.text;
+            especialidadSelect.appendChild(option);
+        });
+        
+        // Si solo hay una opción (Sin especialidad), seleccionarla automáticamente
+        if (especialidades.length === 1 && especialidades[0].value === 'Sin especialidad') {
+            especialidadSelect.value = 'Sin especialidad';
+            console.log('✅ Especialidad "Sin especialidad" seleccionada automáticamente para', nivelSeleccionado);
+        }
+        
+        console.log(`✅ ${especialidades.length} especialidades cargadas para ${nivelSeleccionado}`);
+    } else {
+        console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
+    }
+}
+
+// Función para inicializar las especialidades al cargar la página
+function inicializarEspecialidades() {
+    console.log('🚀 Inicializando especialidades...');
+    
+    // Agregar event listener al campo de nivel
+    const nivelSelect = document.getElementById('nivel');
+    if (nivelSelect) {
+        nivelSelect.addEventListener('change', function() {
+            console.log('🔄 Nivel cambió, actualizando especialidades...');
+            actualizarEspecialidades();
+        });
+        console.log('✅ Event listener agregado al campo de nivel');
+    } else {
+        console.log('❌ No se encontró el campo de nivel');
+    }
+    
+    // Actualizar especialidades con el valor inicial (si hay uno)
+    actualizarEspecialidades();
 }
 
 // Función de prueba para verificar la consulta
