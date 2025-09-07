@@ -434,6 +434,9 @@ function limpiarFormularioCompleto() {
     // Actualizar especialidades después de limpiar
     actualizarEspecialidades();
     
+    // Establecer valores por defecto después de limpiar
+    establecerValoresPorDefecto();
+    
     // Ocultar campo de nacionalidad personalizada y resetear layout
     const nacionalidadOtroGroup = document.getElementById('nacionalidadOtroGroup');
     const nacionalidadOtro = document.getElementById('nacionalidadOtro');
@@ -525,6 +528,9 @@ function limpiarFormulario(forzarLimpieza = false) {
     
     // Actualizar especialidades después de limpiar
     actualizarEspecialidades();
+    
+    // Establecer valores por defecto después de limpiar
+    establecerValoresPorDefecto();
     
     console.log('✅ Formulario limpiado correctamente');
 }
@@ -1303,6 +1309,10 @@ function mostrarTipoMatriculaSeleccionado() {
         tipoSeleccionadoDiv.style.borderColor = '#ff9800';
         tipoSeleccionadoDiv.style.color = '#e65100';
     }
+    
+    // Actualizar secciones cuando cambie el tipo de matrícula
+    console.log('🔄 Tipo de matrícula cambió, actualizando secciones...');
+    actualizarSecciones();
 }
 
 // Función para detectar el navegador y aplicar ajustes específicos
@@ -1432,6 +1442,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Limpiar formulario al cargar la página (siempre vacío al inicio)
     setTimeout(() => {
         limpiarFormulario(true); // Forzar limpieza sin confirmación
+        // Establecer valores por defecto para adecuación y discapacidad
+        establecerValoresPorDefecto();
     }, 100);
     
     // Inicializar botón de reset
@@ -1442,6 +1454,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar especialidades dinámicas
     inicializarEspecialidades();
+    
+    // Inicializar secciones dinámicas
+    inicializarSecciones();
     
     // Inicializar sincronización de cédula y búsqueda con Enter (con delay)
     setTimeout(() => {
@@ -1721,6 +1736,118 @@ function actualizarEspecialidades() {
     } else {
         console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
     }
+    
+    // Actualizar secciones después de actualizar especialidades
+    actualizarSecciones();
+}
+
+// Función para generar secciones según el tipo de matrícula y nivel
+function generarSecciones(tipoMatricula, nivel) {
+    const secciones = [];
+    
+    if (!nivel) {
+        console.log('⚠️ No se especificó nivel para generar secciones');
+        return secciones;
+    }
+    
+    // Mapear el nivel a su número correspondiente
+    const mapeoNiveles = {
+        'Sétimo': '7',
+        'Octavo': '8', 
+        'Noveno': '9',
+        'Décimo': '10',
+        'Undécimo': '11',
+        'Duodécimo': '12'
+    };
+    
+    const numeroNivel = mapeoNiveles[nivel];
+    
+    if (!numeroNivel) {
+        console.log('❌ Nivel no reconocido:', nivel);
+        return secciones;
+    }
+    
+    console.log(`🔍 Nivel: ${nivel} -> Número: ${numeroNivel}`);
+    
+    if (tipoMatricula === 'regular') {
+        // Para matrícula regular: 7-1, 7-2, 7-3, 7-4, 7-5, 7-6, 7-7, 7-8
+        for (let i = 1; i <= 8; i++) {
+            const valor = `${numeroNivel}-${i}`;
+            secciones.push({
+                value: valor,
+                text: valor  // El texto visible será igual al valor
+            });
+        }
+        console.log(`📚 Generadas ${secciones.length} secciones para Regular ${nivel}:`, secciones.map(s => s.value));
+    } else if (tipoMatricula === 'planNacional') {
+        // Para plan nacional: 7 PN, 8 PN, 9 PN, 10 PN, 11 PN, 12 PN
+        const valor = `${numeroNivel} PN`;
+        secciones.push({
+            value: valor,
+            text: valor  // El texto visible será igual al valor
+        });
+        console.log(`📚 Generada 1 sección para Plan Nacional ${nivel}:`, secciones[0].value);
+    }
+    
+    return secciones;
+}
+
+// Función para actualizar las secciones según el tipo de matrícula y nivel
+function actualizarSecciones() {
+    const tipoMatricula = obtenerTipoMatriculaSeleccionado();
+    const nivelSelect = document.getElementById('nivel');
+    const seccionSelect = document.getElementById('seccion');
+    
+    if (!nivelSelect || !seccionSelect) {
+        console.log('❌ No se encontraron los elementos de nivel o sección');
+        return;
+    }
+    
+    const nivelSeleccionado = nivelSelect.value;
+    console.log('📚 Actualizando secciones para:', { tipoMatricula, nivel: nivelSeleccionado });
+    
+    // Limpiar opciones actuales (excepto la primera)
+    seccionSelect.innerHTML = '<option value="">Seleccione una sección</option>';
+    
+    if (nivelSeleccionado && tipoMatricula) {
+        const secciones = generarSecciones(tipoMatricula, nivelSeleccionado);
+        
+        if (secciones.length > 0) {
+            // Agregar opciones de secciones
+            secciones.forEach(seccion => {
+                const option = document.createElement('option');
+                option.value = seccion.value;
+                option.textContent = seccion.text;
+                seccionSelect.appendChild(option);
+            });
+            
+            // Si solo hay una opción, seleccionarla automáticamente
+            if (secciones.length === 1) {
+                seccionSelect.value = secciones[0].value;
+                console.log('✅ Sección seleccionada automáticamente:', secciones[0].value);
+            }
+            
+            console.log(`✅ ${secciones.length} secciones cargadas para ${nivelSeleccionado} (${tipoMatricula})`);
+        } else {
+            console.log('❌ No se generaron secciones para:', { tipoMatricula, nivel: nivelSeleccionado });
+        }
+    } else {
+        console.log('⚠️ Faltan datos para generar secciones:', { nivel: nivelSeleccionado, tipo: tipoMatricula });
+    }
+}
+
+// Función para obtener el tipo de matrícula seleccionado
+function obtenerTipoMatriculaSeleccionado() {
+    const tipoRegular = document.getElementById('regular');
+    const tipoPlanNacional = document.getElementById('planNacional');
+    
+    if (tipoRegular && tipoRegular.checked) {
+        return 'regular';
+    } else if (tipoPlanNacional && tipoPlanNacional.checked) {
+        return 'planNacional';
+    }
+    
+    return null;
 }
 
 // Función para inicializar las especialidades al cargar la página
@@ -1741,6 +1868,46 @@ function inicializarEspecialidades() {
     
     // Actualizar especialidades con el valor inicial (si hay uno)
     actualizarEspecialidades();
+}
+
+// Función para inicializar las secciones al cargar la página
+function inicializarSecciones() {
+    console.log('🚀 Inicializando secciones...');
+    
+    // Agregar event listener al campo de nivel
+    const nivelSelect = document.getElementById('nivel');
+    if (nivelSelect) {
+        nivelSelect.addEventListener('change', function() {
+            console.log('🔄 Nivel cambió, actualizando secciones...');
+            actualizarSecciones();
+        });
+        console.log('✅ Event listener agregado al campo de nivel para secciones');
+    } else {
+        console.log('❌ No se encontró el campo de nivel para secciones');
+    }
+    
+    // Agregar event listeners a los tipos de matrícula
+    const tipoRegular = document.getElementById('regular');
+    const tipoPlanNacional = document.getElementById('planNacional');
+    
+    if (tipoRegular) {
+        tipoRegular.addEventListener('change', function() {
+            console.log('🔄 Tipo de matrícula cambió a Regular, actualizando secciones...');
+            actualizarSecciones();
+        });
+        console.log('✅ Event listener agregado al tipo Regular');
+    }
+    
+    if (tipoPlanNacional) {
+        tipoPlanNacional.addEventListener('change', function() {
+            console.log('🔄 Tipo de matrícula cambió a Plan Nacional, actualizando secciones...');
+            actualizarSecciones();
+        });
+        console.log('✅ Event listener agregado al tipo Plan Nacional');
+    }
+    
+    // Actualizar secciones con los valores iniciales (si hay alguno)
+    actualizarSecciones();
 }
 
 // Función para inicializar la sincronización de cédula y búsqueda con Enter
@@ -1953,5 +2120,55 @@ function forzarSincronizacion() {
 function reinicializarSincronizacion() {
     console.log('🔄 Reinicializando sincronización...');
     inicializarSincronizacionCedula();
+}
+
+// Función para establecer valores por defecto en campos específicos
+function establecerValoresPorDefecto() {
+    console.log('🔧 Estableciendo valores por defecto...');
+    
+    // Establecer "Sin adecuación" por defecto
+    const adecuacionSelect = document.getElementById('adecuacion');
+    if (adecuacionSelect) {
+        adecuacionSelect.value = 'Sin adecuación';
+        console.log('✅ Adecuación establecida a "Sin adecuación" por defecto');
+    } else {
+        console.log('❌ No se encontró el campo de adecuación');
+    }
+    
+    // Establecer "Sin discapacidad" por defecto
+    const discapacidadSelect = document.getElementById('discapacidad');
+    if (discapacidadSelect) {
+        discapacidadSelect.value = 'Sin discapacidad';
+        console.log('✅ Discapacidad establecida a "Sin discapacidad" por defecto');
+    } else {
+        console.log('❌ No se encontró el campo de discapacidad');
+    }
+}
+
+// Función para probar la generación de secciones
+function probarGeneracionSecciones() {
+    console.log('🧪 Probando generación de secciones...');
+    
+    // Probar Regular
+    console.log('📚 Probando Regular Sétimo:');
+    const seccionesRegular = generarSecciones('regular', 'Sétimo');
+    console.log('Resultado:', seccionesRegular);
+    
+    // Probar Plan Nacional
+    console.log('📚 Probando Plan Nacional Décimo:');
+    const seccionesPN = generarSecciones('planNacional', 'Décimo');
+    console.log('Resultado:', seccionesPN);
+    
+    // Probar con nivel actual del formulario
+    const nivelActual = document.getElementById('nivel').value;
+    const tipoActual = obtenerTipoMatriculaSeleccionado();
+    
+    if (nivelActual && tipoActual) {
+        console.log(`📚 Probando con datos actuales - Tipo: ${tipoActual}, Nivel: ${nivelActual}`);
+        const seccionesActuales = generarSecciones(tipoActual, nivelActual);
+        console.log('Resultado actual:', seccionesActuales);
+    } else {
+        console.log('⚠️ No hay nivel o tipo seleccionado en el formulario');
+    }
 }
 
