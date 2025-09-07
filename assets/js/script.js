@@ -812,15 +812,17 @@ function llenarFormularioConEstudiante(estudiante) {
     console.log(`📊 Resumen de llenado: ${camposLlenados} campos llenados, ${camposVacios} vacíos, ${camposNoEncontrados} no encontrados`);
     console.log(`🧹 Campos de Nivel/Especialidad/Sección limpiados para selección manual`);
     
-    // Establecer fecha actual
+    // Establecer fecha actual (siempre se actualiza al cargar un estudiante)
     const fechaInput = document.getElementById('fecha');
     if (fechaInput) {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const year = today.getFullYear();
-        fechaInput.value = `${day}/${month}/${year}`;
-        console.log(`✅ Fecha actual establecida: ${day}/${month}/${year}`);
+        const fechaActual = `${day}/${month}/${year}`;
+        
+        fechaInput.value = fechaActual;
+        console.log(`✅ Fecha de matrícula actualizada a la fecha actual: ${fechaActual}`);
     }
     
     // Verificar campos que se llenaron
@@ -1257,6 +1259,8 @@ async function consultarEstudiante() {
             copiarCedulaACampoEstudiante(cedula, false);
             // Sincronizar la cédula de vuelta al campo de consulta
             sincronizarCedulaAConsulta(cedula);
+            // Actualizar fecha de matrícula a la fecha actual
+            actualizarFechaMatricula();
             mostrarMensaje('✅ Estudiante encontrado, formulario llenado correctamente', 'success');
         } else {
             console.log('❌ No se encontraron datos del estudiante');
@@ -1264,6 +1268,8 @@ async function consultarEstudiante() {
             copiarCedulaACampoEstudiante(cedula, true);
             // Sincronizar la cédula de vuelta al campo de consulta
             sincronizarCedulaAConsulta(cedula);
+            // Actualizar fecha de matrícula a la fecha actual
+            actualizarFechaMatricula();
             mostrarMensaje('❌ No se encontró estudiante con esa cédula, pero se copió la cédula al formulario', 'warning');
         }
         
@@ -2122,6 +2128,23 @@ function reinicializarSincronizacion() {
     inicializarSincronizacionCedula();
 }
 
+// Función para actualizar la fecha de matrícula a la fecha actual
+function actualizarFechaMatricula() {
+    const fechaInput = document.getElementById('fecha');
+    if (fechaInput) {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const year = today.getFullYear();
+        const fechaActual = `${day}/${month}/${year}`;
+        
+        fechaInput.value = fechaActual;
+        console.log(`📅 Fecha de matrícula actualizada a: ${fechaActual}`);
+    } else {
+        console.log('❌ No se encontró el campo de fecha de matrícula');
+    }
+}
+
 // Función para establecer valores por defecto en campos específicos
 function establecerValoresPorDefecto() {
     console.log('🔧 Estableciendo valores por defecto...');
@@ -2143,6 +2166,18 @@ function establecerValoresPorDefecto() {
     } else {
         console.log('❌ No se encontró el campo de discapacidad');
     }
+    
+    // Establecer "Cédula" por defecto en tipo de identificación
+    const tipoIdentificacionSelect = document.getElementById('tipoIdentificacion');
+    if (tipoIdentificacionSelect) {
+        tipoIdentificacionSelect.value = 'Cédula';
+        console.log('✅ Tipo de identificación establecido a "Cédula" por defecto');
+    } else {
+        console.log('❌ No se encontró el campo de tipo de identificación');
+    }
+    
+    // Establecer fecha actual en el campo de fecha de matrícula
+    actualizarFechaMatricula();
 }
 
 // Función para probar la generación de secciones
