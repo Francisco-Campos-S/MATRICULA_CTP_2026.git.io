@@ -853,7 +853,7 @@ async function enviarFormulario() {
     const camposRequeridos = [
         'nivel', 'especialidad', 'seccion', 'primerApellido', 
         'segundoApellido', 'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento',
-        'nacionalidad', 'tipoIdentificacion', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
+        'nacionalidad', 'tipoIdentificacion', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'direccionMadre', 'fecha'
     ];
     
@@ -966,74 +966,76 @@ function recolectarDatosFormulario() {
         // 14. Adecuación
         adecuacion: document.getElementById('adecuacion').value,
         
-        
         // 15. Enfermedad
         enfermedad: document.getElementById('enfermedad').value,
         
-        // 18. Especialidad
+        // 16. Especialidad
         especialidad: document.getElementById('especialidad').value,
         
-        // 19. Nivel
+        // 17. Nivel
         nivel: document.getElementById('nivel').value,
         
-        // 20. Sección
+        // 18. Sección
         seccion: document.getElementById('seccion').value,
         
-        // 21. Título
+        // 19. Ruta de transporte (solo el código para Google Sheets)
+        rutaTransporte: document.getElementById('rutaTransporte').value,
+        
+        // 20. Título
         titulo: '',
         
-        // 22. Celular estudiante
+        // 21. Celular estudiante
         celularEstudiante: document.getElementById('telefonoEstudiante').value,
         
-        // 23. Encargada
+        // 22. Encargada
         encargada: document.getElementById('nombreMadre').value,
         
-        // 24. Cédula
+        // 23. Cédula
         cedula: document.getElementById('cedulaMadre').value,
         
-        // 25. Celular
+        // 24. Celular
         celular: document.getElementById('telefonoMadre').value,
         
-        // 26. Parentesco
+        // 25. Parentesco
         parentesco: document.getElementById('parentescoMadre').value,
         
-        // 27. Vive con estud
+        // 26. Vive con estud
         viveConEstudiante: document.getElementById('viveConEstudianteMadre').value,
         
-        // 28. Dirección exacta
+        // 27. Dirección exacta
         direccionExacta: document.getElementById('direccionMadre').value,
         
-        // 29. Encargado
+        // 28. Encargado
         encargado: document.getElementById('nombrePadre').value,
         
-        // 30. Cédula2
+        // 29. Cédula2
         cedula2: document.getElementById('cedulaPadre').value,
         
-        // 31. Celular2
+        // 30. Celular2
         celular2: document.getElementById('telefonoPadre').value,
         
-        // 32. Parentezco2
+        // 31. Parentezco2
         parentezco2: document.getElementById('parentescoPadre').value,
         
-        // 33. Otro Cel
+        // 32. Otro Cel
         otroCel: document.getElementById('telefonoOtroEncargado') ? document.getElementById('telefonoOtroEncargado').value : '',
         
-        // 34. Dirección2
+        // 33. Dirección2
         direccion2: document.getElementById('direccionOtroEncargado') ? document.getElementById('direccionOtroEncargado').value : '',
         
-        // 35. MOVIMIENTO
+        // 34. MOVIMIENTO
         movimiento: 'NUEVA MATRÍCULA 2026',
         
-        // 36. Columna1
+        // 35. Columna1
         columna1: '',
         
-        // 37. Columna2
+        // 36. Columna2
         columna2: '',
         
-        // 38. Columna3
+        // 37. Columna3
         columna3: '',
         
-        // 39. Columna4
+        // 38. Columna4
         columna4: ''
     };
     
@@ -1463,6 +1465,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar secciones dinámicas
     inicializarSecciones();
+    
+    // Inicializar rutas de transporte
+    inicializarRutas();
     
     // Inicializar sincronización de cédula y búsqueda con Enter (con delay)
     setTimeout(() => {
@@ -2128,6 +2133,65 @@ function reinicializarSincronizacion() {
     inicializarSincronizacionCedula();
 }
 
+// Datos de las rutas de transporte
+const datosRutas = {
+    '421601': {
+        codigo: '421601',
+        diminutivo: 'San Antonio - CTP Sabalito',
+        recorridoCompleto: 'San Antonio-Santa Rosa-CTP Sabalito'
+    },
+    '421602': {
+        codigo: '421602',
+        diminutivo: 'San Vito - CTP Sabalito',
+        recorridoCompleto: 'San Vito-La Isla-San Joaquin-Lourdes-Barrio Mercedes-CTP Sabalito'
+    },
+    '421603': {
+        codigo: '421603',
+        diminutivo: 'La Bruja - CTP Sabalito',
+        recorridoCompleto: 'La Bruja, Unión, Chanchera, entrada China, Barrio Chavarria, CTP Sabalito'
+    },
+    '421604': {
+        codigo: '421604',
+        diminutivo: 'San Ramón Deportes - CTP Sabalito',
+        recorridoCompleto: 'Plaza de deportes San Ramón-San Ramon-entrada Miraflores-Escuela Miraflores-entrada Miraflores-CTP Sabalito'
+    },
+    '421605': {
+        codigo: '421605',
+        diminutivo: 'Pueblo Nuevo - CTP Sabalito',
+        recorridoCompleto: 'Pueblo Nuevo-San Ramón-Valle Hermoso-La Ceiba-Barrio La Paz-Cinco Esquinas-CTP Sabalito'
+    },
+    '6512': {
+        codigo: '6512',
+        diminutivo: 'Los Pilares - CTP Sabalito',
+        recorridoCompleto: 'Los Pilares, Canas Gordas, San Martin, Coopa Buena, Agua Buena, San Francisco, Valle Azul, San Antonio, San Bosco, CTP Sabalito'
+    },
+    '6513': {
+        codigo: '6513',
+        diminutivo: 'Las Mellizas - CTP Sabalito',
+        recorridoCompleto: 'Las Mellizas-La Aurora-La Lucha-La Esmeralda-Rio Negro-La Flor del Roble-Alpha-Cotón-San Luis-San Miguel-El Gallo-C.T.P.Sabalito'
+    },
+    '6541': {
+        codigo: '6541',
+        diminutivo: 'Santa Teresa - CTP Sabalito',
+        recorridoCompleto: 'Entrada Santa Teresa en Lourdes-Escuela Santa Teresita-Ba San José-Plaza Deportes-El INVU-Barrio Los Pinos-CTP de Sabalito'
+    },
+    '6542': {
+        codigo: '6542',
+        diminutivo: 'Rio Sereno - CTP Sabalito',
+        recorridoCompleto: 'Rio Sereno-San Marcos-Beneficio de Café(Lomas)-San Marcos-Plaza Brasilia-Escuela Brasilia-CTP Sabalito'
+    },
+    '6565': {
+        codigo: '6565',
+        diminutivo: 'Copal - CTP Sabalito',
+        recorridoCompleto: 'Copal-Los Angeles Centro-Barrio El Tajo-San Bosco-CTP Sabalito'
+    },
+    '110713': {
+        codigo: '110713',
+        diminutivo: 'Transporte Discapacidad',
+        recorridoCompleto: 'TRANSPORTE POR DISCAPACIDAD'
+    }
+};
+
 // Función para actualizar la fecha de matrícula a la fecha actual
 function actualizarFechaMatricula() {
     const fechaInput = document.getElementById('fecha');
@@ -2143,6 +2207,71 @@ function actualizarFechaMatricula() {
     } else {
         console.log('❌ No se encontró el campo de fecha de matrícula');
     }
+}
+
+// Función para inicializar las opciones de rutas
+function inicializarRutas() {
+    console.log('🚌 Inicializando opciones de rutas...');
+    const rutaSelect = document.getElementById('rutaTransporte');
+    if (!rutaSelect) {
+        console.log('❌ No se encontró el campo de ruta de transporte');
+        return;
+    }
+    
+    // Limpiar opciones existentes (excepto la primera)
+    rutaSelect.innerHTML = '<option value="">Seleccione una ruta</option>';
+    
+    // Agregar opciones de rutas
+    Object.keys(datosRutas).forEach(codigo => {
+        const ruta = datosRutas[codigo];
+        const option = document.createElement('option');
+        option.value = codigo;
+        option.textContent = `${codigo} - ${ruta.diminutivo}`;
+        rutaSelect.appendChild(option);
+    });
+    
+    console.log(`✅ ${Object.keys(datosRutas).length} rutas cargadas en el select`);
+}
+
+// Función para mostrar el diminutivo de la ruta seleccionada
+function mostrarDiminutivoRuta() {
+    const rutaSelect = document.getElementById('rutaTransporte');
+    const diminutivoDiv = document.getElementById('diminutivoRuta');
+    const codigoRuta = document.getElementById('codigoRuta');
+    const textoDiminutivo = document.getElementById('textoDiminutivoRuta');
+    
+    if (!rutaSelect || !diminutivoDiv || !codigoRuta || !textoDiminutivo) {
+        console.log('❌ No se encontraron los elementos de ruta');
+        return;
+    }
+    
+    const codigoSeleccionado = rutaSelect.value;
+    
+    if (codigoSeleccionado && datosRutas[codigoSeleccionado]) {
+        const ruta = datosRutas[codigoSeleccionado];
+        codigoRuta.textContent = ruta.codigo;
+        textoDiminutivo.textContent = ruta.diminutivo;
+        diminutivoDiv.style.display = 'block';
+        console.log(`🚌 Ruta seleccionada: ${ruta.codigo} - ${ruta.diminutivo}`);
+    } else {
+        diminutivoDiv.style.display = 'none';
+        console.log('🚌 No hay ruta seleccionada');
+    }
+}
+
+// Función para obtener el recorrido completo de la ruta seleccionada
+function obtenerRecorridoCompletoRuta() {
+    const rutaSelect = document.getElementById('rutaTransporte');
+    if (!rutaSelect || !rutaSelect.value) {
+        return '';
+    }
+    
+    const codigoSeleccionado = rutaSelect.value;
+    if (datosRutas[codigoSeleccionado]) {
+        return datosRutas[codigoSeleccionado].recorridoCompleto;
+    }
+    
+    return '';
 }
 
 // Función para establecer valores por defecto en campos específicos
@@ -2178,6 +2307,37 @@ function establecerValoresPorDefecto() {
     
     // Establecer fecha actual en el campo de fecha de matrícula
     actualizarFechaMatricula();
+}
+
+// Función para probar las rutas de transporte
+function probarRutasTransporte() {
+    console.log('🚌 Probando rutas de transporte...');
+    
+    // Probar inicialización
+    inicializarRutas();
+    
+    // Probar selección de ruta
+    const rutaSelect = document.getElementById('rutaTransporte');
+    if (rutaSelect) {
+        // Seleccionar primera ruta
+        rutaSelect.value = '421601';
+        mostrarDiminutivoRuta();
+        
+        const recorridoCompleto = obtenerRecorridoCompletoRuta();
+        console.log('✅ Recorrido completo obtenido:', recorridoCompleto);
+        
+        // Probar todas las rutas
+        Object.keys(datosRutas).forEach(codigo => {
+            rutaSelect.value = codigo;
+            mostrarDiminutivoRuta();
+            const recorrido = obtenerRecorridoCompletoRuta();
+            console.log(`🚌 ${codigo}: ${datosRutas[codigo].diminutivo} -> ${recorrido}`);
+        });
+        
+        console.log('✅ Prueba de rutas completada');
+    } else {
+        console.log('❌ No se encontró el campo de ruta de transporte');
+    }
 }
 
 // Función para probar la generación de secciones
