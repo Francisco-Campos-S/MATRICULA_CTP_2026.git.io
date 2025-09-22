@@ -2137,52 +2137,52 @@ function reinicializarSincronizacion() {
 const datosRutas = {
     '421601': {
         codigo: '421601',
-        diminutivo: 'San Antonio - CTP Sabalito',
+        diminutivo: 'San Antonio',
         recorridoCompleto: 'San Antonio-Santa Rosa-CTP Sabalito'
     },
     '421602': {
         codigo: '421602',
-        diminutivo: 'San Vito - CTP Sabalito',
+        diminutivo: 'San Vito',
         recorridoCompleto: 'San Vito-La Isla-San Joaquin-Lourdes-Barrio Mercedes-CTP Sabalito'
     },
     '421603': {
         codigo: '421603',
-        diminutivo: 'La Bruja - CTP Sabalito',
+        diminutivo: 'La Bruja',
         recorridoCompleto: 'La Bruja, Unión, Chanchera, entrada China, Barrio Chavarria, CTP Sabalito'
     },
     '421604': {
         codigo: '421604',
-        diminutivo: 'San Ramón Deportes - CTP Sabalito',
+        diminutivo: 'San Ramón Deportes',
         recorridoCompleto: 'Plaza de deportes San Ramón-San Ramon-entrada Miraflores-Escuela Miraflores-entrada Miraflores-CTP Sabalito'
     },
     '421605': {
         codigo: '421605',
-        diminutivo: 'Pueblo Nuevo - CTP Sabalito',
+        diminutivo: 'Pueblo Nuevo',
         recorridoCompleto: 'Pueblo Nuevo-San Ramón-Valle Hermoso-La Ceiba-Barrio La Paz-Cinco Esquinas-CTP Sabalito'
     },
     '6512': {
         codigo: '6512',
-        diminutivo: 'Los Pilares - CTP Sabalito',
+        diminutivo: 'Los Pilares',
         recorridoCompleto: 'Los Pilares, Canas Gordas, San Martin, Coopa Buena, Agua Buena, San Francisco, Valle Azul, San Antonio, San Bosco, CTP Sabalito'
     },
     '6513': {
         codigo: '6513',
-        diminutivo: 'Las Mellizas - CTP Sabalito',
+        diminutivo: 'Las Mellizas',
         recorridoCompleto: 'Las Mellizas-La Aurora-La Lucha-La Esmeralda-Rio Negro-La Flor del Roble-Alpha-Cotón-San Luis-San Miguel-El Gallo-C.T.P.Sabalito'
     },
     '6541': {
         codigo: '6541',
-        diminutivo: 'Santa Teresa - CTP Sabalito',
+        diminutivo: 'Santa Teresa',
         recorridoCompleto: 'Entrada Santa Teresa en Lourdes-Escuela Santa Teresita-Ba San José-Plaza Deportes-El INVU-Barrio Los Pinos-CTP de Sabalito'
     },
     '6542': {
         codigo: '6542',
-        diminutivo: 'Rio Sereno - CTP Sabalito',
+        diminutivo: 'Rio Sereno',
         recorridoCompleto: 'Rio Sereno-San Marcos-Beneficio de Café(Lomas)-San Marcos-Plaza Brasilia-Escuela Brasilia-CTP Sabalito'
     },
     '6565': {
         codigo: '6565',
-        diminutivo: 'Copal - CTP Sabalito',
+        diminutivo: 'Copal',
         recorridoCompleto: 'Copal-Los Angeles Centro-Barrio El Tajo-San Bosco-CTP Sabalito'
     },
     '110713': {
