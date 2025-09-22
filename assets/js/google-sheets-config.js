@@ -10,12 +10,12 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (URL desplegada actualizada)
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbyMqp041MdxsJ4HO654NMCWfA-mkYfBo6ZIYW3vgamMKvz9x3czktj2PtoaXqbU4Nmcrw/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzYJjsWwLewv--KUjas7EfyK89TErrl-Qn8LJraMCvWQoOnE6-Dix5Uh8sFhj8OwjG15A/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
     
-    // Configuración de campos para la hoja de cálculo (39 columnas para envío de matrícula)
+    // Configuración de campos para la hoja de cálculo (40 columnas para envío de matrícula)
     // ⚠️ IMPORTANTE: Estos nombres deben coincidir EXACTAMENTE con las columnas de tu Google Sheet
     SHEET_COLUMNS: [
         'Timestamp',                   // Columna A (0) - Timestamp
@@ -40,21 +40,22 @@ const GOOGLE_SHEETS_CONFIG = {
         'Especialidad',                // Columna T (19) - Especialidad
         'Nivel',                       // Columna U (20) - Nivel
         'Sección',                     // Columna V (21) - Sección
-        'Título',                      // Columna W (22) - Título
-        'Celular estudiante',          // Columna X (23) - Celular estudiante
-        'Encargada',                   // Columna Y (24) - Encargada
-        'Cédula',                      // Columna Z (25) - Cédula de la madre
-        'Celular',                     // Columna AA (26) - Celular de la madre
-        'Parentesco',                  // Columna AB (27) - Parentesco
-        'Vive con estud',              // Columna AC (28) - Vive con estudiante
-        'Dirección exacta',            // Columna AD (29) - Dirección exacta
-        'Encargado',                   // Columna AE (30) - Encargado
-        'Cédula2',                     // Columna AF (31) - Cédula del padre
-        'Celular2',                    // Columna AG (32) - Celular del padre
-        'Parentezco2',                 // Columna AH (33) - Parentesco del padre
-        'Otro Cel',                    // Columna AI (34) - Otro celular
-        'Dirección2',                  // Columna AJ (35) - Dirección del padre
-        'MOVIMIENTO'                   // Columna AK (36) - Movimiento
+        'Ruta de transporte',          // Columna W (22) - Ruta de transporte
+        'Título',                      // Columna X (23) - Título
+        'Celular estudiante',          // Columna Y (24) - Celular estudiante
+        'Encargada',                   // Columna Z (25) - Encargada
+        'Cédula',                      // Columna AA (26) - Cédula de la madre
+        'Celular',                     // Columna AB (27) - Celular de la madre
+        'Parentesco',                  // Columna AC (28) - Parentesco
+        'Vive con estud',              // Columna AD (29) - Vive con estudiante
+        'Dirección exacta',            // Columna AE (30) - Dirección exacta
+        'Encargado',                   // Columna AF (31) - Encargado
+        'Cédula2',                     // Columna AG (32) - Cédula del padre
+        'Celular2',                    // Columna AH (33) - Celular del padre
+        'Parentezco2',                 // Columna AI (34) - Parentesco del padre
+        'Otro Cel',                    // Columna AJ (35) - Otro celular
+        'Dirección2',                  // Columna AK (36) - Dirección del padre
+        'MOVIMIENTO'                   // Columna AL (37) - Movimiento
     ],
     
     // Configuración de validación
@@ -65,6 +66,7 @@ const GOOGLE_SHEETS_CONFIG = {
             'nivel',
             'especialidad',
             'seccion',
+            'rutaTransporte',
             'primerApellido',
             'nombreEstudiante',
             'cedulaEstudiante',

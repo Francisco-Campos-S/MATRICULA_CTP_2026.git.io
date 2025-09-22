@@ -160,7 +160,7 @@ function doPost(e) {
         console.log(`✅ Hoja "${nombreHoja}" ya existe`);
       }
       
-      // ESTRUCTURA DE COLUMNAS PARA ENVÍO DE MATRÍCULA (39 columnas)
+      // ESTRUCTURA DE COLUMNAS PARA ENVÍO DE MATRÍCULA (40 columnas)
       const headers = [
         'Timestamp',                   // Columna A (0) - Timestamp
         'Número Secuencial',           // Columna B (1) - Número secuencial
@@ -184,21 +184,22 @@ function doPost(e) {
         'Especialidad',                // Columna T (19) - Especialidad
         'Nivel',                       // Columna U (20) - Nivel
         'Sección',                     // Columna V (21) - Sección
-        'Título',                      // Columna W (22) - Título
-        'Celular estudiante',          // Columna X (23) - Celular estudiante
-        'Encargada',                   // Columna Y (24) - Encargada
-        'Cédula',                      // Columna Z (25) - Cédula de la madre
-        'Celular',                     // Columna AA (26) - Celular de la madre
-        'Parentesco',                  // Columna AB (27) - Parentesco
-        'Vive con estud',              // Columna AC (28) - Vive con estudiante
-        'Dirección exacta',            // Columna AD (29) - Dirección exacta
-        'Encargado',                   // Columna AE (30) - Encargado
-        'Cédula2',                     // Columna AF (31) - Cédula del padre
-        'Celular2',                    // Columna AG (32) - Celular del padre
-        'Parentezco2',                 // Columna AH (33) - Parentesco del padre
-        'Otro Cel',                    // Columna AI (34) - Otro celular
-        'Dirección2',                  // Columna AJ (35) - Dirección del padre
-        'MOVIMIENTO'                   // Columna AK (36) - Movimiento
+        'Ruta de transporte',          // Columna W (22) - Ruta de transporte
+        'Título',                      // Columna X (23) - Título
+        'Celular estudiante',          // Columna Y (24) - Celular estudiante
+        'Encargada',                   // Columna Z (25) - Encargada
+        'Cédula',                      // Columna AA (26) - Cédula de la madre
+        'Celular',                     // Columna AB (27) - Celular de la madre
+        'Parentesco',                  // Columna AC (28) - Parentesco
+        'Vive con estud',              // Columna AD (29) - Vive con estudiante
+        'Dirección exacta',            // Columna AE (30) - Dirección exacta
+        'Encargado',                   // Columna AF (31) - Encargado
+        'Cédula2',                     // Columna AG (32) - Cédula del padre
+        'Celular2',                    // Columna AH (33) - Celular del padre
+        'Parentezco2',                 // Columna AI (34) - Parentesco del padre
+        'Otro Cel',                    // Columna AJ (35) - Otro celular
+        'Dirección2',                  // Columna AK (36) - Dirección del padre
+        'MOVIMIENTO'                   // Columna AL (37) - Movimiento
       ];
       
       // VERIFICAR Y ACTUALIZAR HEADERS SIN ELIMINAR DATOS EXISTENTES
@@ -209,9 +210,10 @@ function doPost(e) {
       console.log(`🔍 ¿Es una hoja nueva? ${isHojaNueva ? 'SÍ' : 'NO'}`);
       
       if (isHojaNueva) {
-        console.log(`📝 Hoja nueva detectada, insertando headers...`);
+        console.log(`📝 Hoja nueva detectada, insertando headers con 40 columnas...`);
         hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
         console.log(`✅ Headers insertados en hoja nueva "${nombreHoja}" con ${headers.length} columnas`);
+        console.log(`🔍 Verificando que la columna W sea "Ruta de transporte":`, headers[22]);
       } else {
         // Obtener headers actuales
         const headersActuales = hojaDestino.getRange(1, 1, 1, hojaDestino.getLastColumn()).getValues()[0];
@@ -228,11 +230,19 @@ function doPost(e) {
           // Solo actualizar la primera fila (headers) sin tocar los datos
           hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
           console.log(`✅ Headers actualizados en hoja "${nombreHoja}" con ${headers.length} columnas`);
+          console.log(`🔍 Verificando que la columna W sea "Ruta de transporte":`, headers[22]);
         } else {
           console.log(`✅ Headers ya son correctos en hoja "${nombreHoja}" con ${headers.length} columnas`);
         }
         
-        // FORZAR ACTUALIZACIÓN: Si la hoja tiene más de 39 columnas, eliminar las columnas extra
+        // VERIFICACIÓN ADICIONAL: Si la hoja no tiene la columna "Ruta de transporte", forzar actualización
+        if (headersActuales.length < 23 || headersActuales[22] !== 'Ruta de transporte') {
+          console.log(`⚠️ Columna "Ruta de transporte" no encontrada, forzando actualización...`);
+          hojaDestino.getRange(1, 1, 1, headers.length).setValues([headers]);
+          console.log(`✅ Headers forzados a actualización en hoja "${nombreHoja}"`);
+        }
+        
+        // FORZAR ACTUALIZACIÓN: Si la hoja tiene más de 40 columnas, eliminar las columnas extra
         const columnasActuales = hojaDestino.getLastColumn();
         if (columnasActuales > headers.length) {
           console.log(`⚠️ Hoja tiene ${columnasActuales} columnas, eliminando columnas extra...`);
@@ -337,21 +347,22 @@ function doPost(e) {
       formData.especialidad || '',                  // 19. Especialidad
       formData.nivel || '',                         // 20. Nivel
       formData.seccion || '',                       // 21. Sección
-      '',                                          // 22. Título (vacío)
-      formData.celularEstudiante || '',             // 23. Celular estudiante
-      formData.encargada || '',                     // 24. Encargada
-      formData.cedula || '',                        // 25. Cédula
-      formData.celular || '',                       // 26. Celular
-      formData.parentesco || '',                    // 27. Parentesco
-      formData.viveConEstudiante || '',             // 28. Vive con estud
-      formData.direccionExacta || '',               // 29. Dirección exacta
-      formData.encargado || '',                     // 30. Encargado
-      formData.cedula2 || '',                       // 31. Cédula2
-      formData.celular2 || '',                      // 32. Celular2
-      formData.parentezco2 || '',                   // 33. Parentezco2
-      formData.otroCel || '',                       // 34. Otro Cel
-      formData.direccion2 || '',                    // 35. Dirección2
-      'NUEVA MATRÍCULA 2026'                       // 36. MOVIMIENTO
+      formData.rutaTransporte || '',                // 22. Ruta de transporte
+      '',                                          // 23. Título (vacío)
+      formData.celularEstudiante || '',             // 24. Celular estudiante
+      formData.encargada || '',                     // 25. Encargada
+      formData.cedula || '',                        // 26. Cédula
+      formData.celular || '',                       // 27. Celular
+      formData.parentesco || '',                    // 28. Parentesco
+      formData.viveConEstudiante || '',             // 29. Vive con estud
+      formData.direccionExacta || '',               // 30. Dirección exacta
+      formData.encargado || '',                     // 31. Encargado
+      formData.cedula2 || '',                       // 32. Cédula2
+      formData.celular2 || '',                      // 33. Celular2
+      formData.parentezco2 || '',                   // 34. Parentezco2
+      formData.otroCel || '',                       // 35. Otro Cel
+      formData.direccion2 || '',                    // 36. Dirección2
+      'NUEVA MATRÍCULA 2026'                       // 37. MOVIMIENTO
     ];
     
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);
@@ -731,7 +742,7 @@ function limpiarHeadersHojas() {
     const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
     const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
     
-    // Headers correctos para envío de matrícula (39 columnas)
+    // Headers correctos para envío de matrícula (40 columnas)
     const headersCorrectos = [
       'Timestamp',                   // Columna A (0) - Timestamp
       'Número Secuencial',           // Columna B (1) - Número secuencial
@@ -755,21 +766,22 @@ function limpiarHeadersHojas() {
       'Especialidad',                // Columna T (19) - Especialidad
       'Nivel',                       // Columna U (20) - Nivel
       'Sección',                     // Columna V (21) - Sección
-      'Título',                      // Columna W (22) - Título
-      'Celular estudiante',          // Columna X (23) - Celular estudiante
-      'Encargada',                   // Columna Y (24) - Encargada
-      'Cédula',                      // Columna Z (25) - Cédula de la madre
-      'Celular',                     // Columna AA (26) - Celular de la madre
-      'Parentesco',                  // Columna AB (27) - Parentesco
-      'Vive con estud',              // Columna AC (28) - Vive con estudiante
-      'Dirección exacta',            // Columna AD (29) - Dirección exacta
-      'Encargado',                   // Columna AE (30) - Encargado
-      'Cédula2',                     // Columna AF (31) - Cédula del padre
-      'Celular2',                    // Columna AG (32) - Celular del padre
-      'Parentezco2',                 // Columna AH (33) - Parentesco del padre
-      'Otro Cel',                    // Columna AI (34) - Otro celular
-      'Dirección2',                  // Columna AJ (35) - Dirección del padre
-      'MOVIMIENTO'                   // Columna AK (36) - Movimiento
+      'Ruta de transporte',          // Columna W (22) - Ruta de transporte
+      'Título',                      // Columna X (23) - Título
+      'Celular estudiante',          // Columna Y (24) - Celular estudiante
+      'Encargada',                   // Columna Z (25) - Encargada
+      'Cédula',                      // Columna AA (26) - Cédula de la madre
+      'Celular',                     // Columna AB (27) - Celular de la madre
+      'Parentesco',                  // Columna AC (28) - Parentesco
+      'Vive con estud',              // Columna AD (29) - Vive con estudiante
+      'Dirección exacta',            // Columna AE (30) - Dirección exacta
+      'Encargado',                   // Columna AF (31) - Encargado
+      'Cédula2',                     // Columna AG (32) - Cédula del padre
+      'Celular2',                    // Columna AH (33) - Celular del padre
+      'Parentezco2',                 // Columna AI (34) - Parentesco del padre
+      'Otro Cel',                    // Columna AJ (35) - Otro celular
+      'Dirección2',                  // Columna AK (36) - Dirección del padre
+      'MOVIMIENTO'                   // Columna AL (37) - Movimiento
     ];
     
     const nombresHojas = ['REGULAR CTP 2026', 'PLAN NACIONAL 2026'];
@@ -803,7 +815,7 @@ function limpiarHeadersHojas() {
       }
     });
     
-    return 'Limpieza completada. Todas las hojas actualizadas a 34 columnas.';
+    return 'Limpieza completada. Todas las hojas actualizadas a 40 columnas.';
   } catch (error) {
     console.error('❌ Error limpiando headers:', error);
     return 'Error: ' + error.toString();
