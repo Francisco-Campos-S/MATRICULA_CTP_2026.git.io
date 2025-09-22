@@ -570,7 +570,7 @@ function buscarEstudiantePorCedula(sheet, cedula) {
           discapacidad: row[12] ? mapearDiscapacidad(row[12].toString().trim()) : '',    // Columna M (índice 12) - Discapacidad
           adecuacion: '',                 // No disponible en la base
           enfermedad: '',                 // No disponible en la base
-          rutaTransporte: row[31] ? row[31].toString().trim() : '',  // Columna AF (índice 31) - Ruta
+          rutaTransporte: row[31] ? row[31].toString().trim() : '',  // Columna 32 (índice 31) - Ruta
           
           // Campos adicionales disponibles en la base
           edad: row[7] ? row[7].toString().trim() : '',           // Columna H (índice 7) - Edad

@@ -145,6 +145,9 @@ function llenarFormularioConDatosGuardados(estudiante) {
                 } else if (campoFrontend === 'nacionalidad') {
                     // Manejo especial para nacionalidad
                     manejarNacionalidadEnFormulario(valor);
+                } else if (campoFrontend === 'rutaTransporte') {
+                    // Manejo especial para ruta de transporte
+                    manejarRutaTransporteEnFormulario(valor);
                 } else {
                     elemento.value = valor;
                     console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
@@ -245,6 +248,9 @@ function llenarFormularioConDatos(estudiante) {
                 } else if (campoFrontend === 'nacionalidad') {
                     // Manejo especial para nacionalidad
                     manejarNacionalidadEnFormulario(valor);
+                } else if (campoFrontend === 'rutaTransporte') {
+                    // Manejo especial para ruta de transporte
+                    manejarRutaTransporteEnFormulario(valor);
                 } else {
                     elemento.value = valor;
                     console.log(`✅ Campo ${campoFrontend} configurado a: "${valor}"`);
@@ -2307,6 +2313,59 @@ function establecerValoresPorDefecto() {
     
     // Establecer fecha actual en el campo de fecha de matrícula
     actualizarFechaMatricula();
+}
+
+// Función para manejar la ruta de transporte en el formulario
+function manejarRutaTransporteEnFormulario(valor) {
+    console.log(`🚌 Configurando ruta de transporte: "${valor}"`);
+    console.log(`🔍 Tipo de valor: ${typeof valor}, Longitud: ${valor ? valor.length : 0}`);
+    
+    // Asegurar que las rutas estén inicializadas
+    inicializarRutas();
+    
+    // Limpiar el valor de espacios y caracteres extraños
+    const valorLimpio = valor ? valor.toString().trim() : '';
+    console.log(`🧹 Valor limpio: "${valorLimpio}"`);
+    
+    if (!valorLimpio) {
+        console.log('⚠️ Valor de ruta vacío, no se configura');
+        return;
+    }
+    
+    // Buscar la ruta por código exacto
+    const rutaEncontrada = Object.keys(datosRutas).find(codigo => codigo === valorLimpio);
+    console.log(`🔍 Ruta encontrada por código: ${rutaEncontrada}`);
+    
+    if (rutaEncontrada) {
+        const rutaSelect = document.getElementById('rutaTransporte');
+        if (rutaSelect) {
+            rutaSelect.value = valorLimpio;
+            console.log(`✅ Ruta de transporte configurada a: "${valorLimpio}"`);
+        } else {
+            console.log('❌ No se encontró el campo de ruta de transporte');
+        }
+    } else {
+        console.log(`⚠️ No se encontró la ruta con código: "${valorLimpio}"`);
+        console.log(`🔍 Códigos disponibles:`, Object.keys(datosRutas));
+        
+        // Si no se encuentra por código, intentar buscar por nombre
+        const rutaPorNombre = Object.keys(datosRutas).find(codigo => 
+            datosRutas[codigo].diminutivo === valorLimpio || 
+            datosRutas[codigo].recorridoCompleto.includes(valorLimpio)
+        );
+        
+        console.log(`🔍 Ruta encontrada por nombre: ${rutaPorNombre}`);
+        
+        if (rutaPorNombre) {
+            const rutaSelect = document.getElementById('rutaTransporte');
+            if (rutaSelect) {
+                rutaSelect.value = rutaPorNombre;
+                console.log(`✅ Ruta de transporte configurada por nombre a: "${rutaPorNombre}"`);
+            }
+        } else {
+            console.log(`❌ No se pudo encontrar la ruta: "${valorLimpio}"`);
+        }
+    }
 }
 
 // Función para probar las rutas de transporte
