@@ -1142,9 +1142,8 @@ function imprimirFormulario() {
     console.log('🔍 Función imprimirFormulario ejecutada correctamente');
     
     // Mostrar todos los footers antes de imprimir
-    const footers = document.querySelectorAll('.simple-print-footer, .footer-dentro-form, .print-footer-integrado');
+    const footers = document.querySelectorAll('.print-footer, .print-footer-integrado, .footer-dentro-form, .footer-img');
     console.log('📊 Footers encontrados:', footers.length);
-    console.log('📋 Footers:', footers);
     
     footers.forEach((footer, index) => {
         if (footer) {

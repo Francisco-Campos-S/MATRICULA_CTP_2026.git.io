@@ -404,23 +404,26 @@
                     </div>
                 </div>
                 
-                <!-- Footer para impresión -->
-                <div class="print-footer-integrado" style="display: none;">
-                    <div class="footer-linea"></div>
-                    <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                    <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
-                </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones Adicionales:</label>
                     <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="44"></textarea>
                 </div>
                 
+                <!-- Footer para impresión -->
+                <div class="print-footer-integrado" style="display: none;">
+                    <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0; width: 100%;">
+                    <p style="font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                    <p style="font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+                </div>
+                
                 <!-- Footer dentro del formulario para impresión -->
                 <div class="footer-dentro-form" style="display: none;">
-                    <hr style="border: none; border-top: 1px solid black; margin: 20px 0 10px 0;">
-                    <p style="margin: 2px 0; font-size: 10px; text-align: center;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                    <p style="margin: 2px 0; font-size: 10px; text-align: center;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+                    <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0;">
+                    <p style="margin: 2px 0; font-size: 10px; text-align: center; font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                    <p style="margin: 2px 0; font-size: 10px; text-align: center; font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
                 </div>
+                
+                <img src="footer.png" alt="Footer CTP Sabalito" class="footer-img" style="display: none;">
             </div>
 
             <!-- Botones de Acción -->
@@ -452,11 +455,45 @@
                 <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nivel_Seccion_2026.pdf</p>
             </div>
             <!-- Print Footer (solo visible al imprimir) -->
-            <div class="print-footer">
-                <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+            <div class="print-footer" style="display: none;">
+                <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0; width: 100%;">
+                <p style="margin: 2px 0; font-size: 10px; text-align: center; line-height: 1.2; font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                <p style="margin: 2px 0; font-size: 10px; text-align: center; line-height: 1.2; font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
             </div>
         </form>
+
+        <!-- Footer fijo para impresión -->
+        <style>
+            @media print {
+                #fixed-print-footer {
+                    display: block !important;
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                    text-align: center;
+                    padding-top: 5px;
+                    background-color: white;
+                }
+                #fixed-print-footer hr {
+                    border: none;
+                    border-top: 2px solid black;
+                    margin: 0 0 5px 0;
+                    width: 100%;
+                }
+                #fixed-print-footer p {
+                    margin: 2px 0;
+                    font-size: 10px;
+                    line-height: 1.2;
+                    font-weight: bold;
+                    color: black;
+                }
+            }
+        </style>
+        <div id="fixed-print-footer" style="display: none;">
+            <hr>
+            <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+            <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+        </div>
 
         <!-- Success Message -->
         <div id="successMessage" class="success-message" style="display: none;">
@@ -473,12 +510,7 @@
 
     </div>
 
-    <!-- Footer específico para impresión -->
-    <footer class="simple-print-footer">
-        <hr>
-        <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-        <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
-    </footer>
+
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>

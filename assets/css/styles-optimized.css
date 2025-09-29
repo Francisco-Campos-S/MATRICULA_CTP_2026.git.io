@@ -938,14 +938,25 @@ body {
     display: block !important;
 }
 
-/* Ocultar elementos de impresión en pantalla */
+/* Ocultar elementos de impresión en pantalla - FORZADO */
 .print-header,
 .print-section-title,
 .print-footer,
+.print-footer .footer-img,
 .print-info,
 .print-only-footer,
-.simple-print-footer {
-    display: none;
+.simple-print-footer,
+.footer-dentro-form,
+.footer-imagen-form,
+.print-footer-integrado,
+.print-firmas {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    position: absolute !important;
+    left: -9999px !important;
 }
 
 /* Optimización adicional para pantalla completa */
@@ -1186,33 +1197,51 @@ body {
         print-color-adjust: exact !important;
     }
     
-    /* Mostrar footer en impresión */
+    /* Mostrar elementos SOLO en impresión física */
+    .print-header,
+    .print-section-title,
+    .print-footer,
+    .print-footer .footer-img,
+    .footer-imagen-form,
     .print-footer-integrado,
-    .print-only-footer {
+    .footer-dentro-form,
+    .footer-img,
+    .print-firmas {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        left: auto !important;
     }
     
     /* Estilos específicos para el footer de impresión */
     .print-only-footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        font-size: 10px;
+        position: static !important;
+        bottom: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        text-align: center !important;
+        font-size: 10px !important;
         color: #000 !important;
-        padding: 10px 0;
+        padding: 10px 0 !important;
+        margin-top: 20px !important;
+        page-break-inside: avoid !important;
     }
     
     .print-only-footer hr {
-        border: none;
-        border-top: 1px solid #000;
-        margin-bottom: 10px;
+        border: none !important;
+        border-top: 1px solid #000 !important;
+        margin-bottom: 10px !important;
+        display: block !important;
     }
     
     .print-only-footer p {
-        margin: 3px 0;
-        line-height: 1.2;
+        margin: 3px 0 !important;
+        line-height: 1.2 !important;
+        color: #000 !important;
+        display: block !important;
     }
     
     body {
@@ -1385,27 +1414,45 @@ body {
         color: #000 !important;
     }
     
-    /* Footer de impresión */
+    /* Footer de impresión con imagen */
     .print-footer {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        margin-top: 20px;
-        padding: 10px 0;
-        border-top: 1px solid #000;
-        text-align: center;
-        font-size: 10px;
-        color: #000 !important;
-        page-break-inside: avoid;
-        position: relative;
-        z-index: 999;
+        margin-top: 20px !important;
+        padding: 0 !important;
+        text-align: center !important;
+        page-break-inside: avoid !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        left: auto !important;
     }
     
-    .print-footer p {
-        margin: 3px 0;
-        line-height: 1.2;
-        color: #000 !important;
+    .print-footer .footer-img {
         display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+        object-fit: contain !important;
+        position: static !important;
+        left: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Forzar visibilidad específica para la imagen */
+    .print-footer img,
+    img.footer-img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
     }
     
     /* Evitar saltos de página */
@@ -1459,36 +1506,7 @@ body {
         margin-bottom: 2cm; /* Espacio para el footer */
     }
     
-    /* Mostrar footer en impresión */
-    .simple-print-footer,
-    .footer-dentro-form,
-    .print-footer-integrado {
-        display: block !important;
-        visibility: visible !important;
-        width: 100% !important;
-        text-align: center !important;
-        margin-top: 30px !important;
-        page-break-inside: avoid !important;
-    }
-    
-    .simple-print-footer hr,
-    .footer-dentro-form hr,
-    .footer-linea {
-        display: block !important;
-        border: none !important;
-        border-top: 1px solid black !important;
-        margin-bottom: 10px !important;
-    }
-    
-    .simple-print-footer p,
-    .footer-dentro-form p,
-    .print-footer-integrado p {
-        display: block !important;
-        margin: 2px 0 !important;
-        font-size: 10px !important;
-        line-height: 1.2 !important;
-        color: black !important;
-    }
+
     
     /* Líneas de firma para impresión */
     .print-firmas {
@@ -1583,36 +1601,45 @@ body {
         border-bottom: 1px solid #000;
     }
     
-    /* Footer integrado en la sección de impresión */
-    .print-footer-integrado {
-        display: block !important;
-        visibility: visible !important;
-        margin-top: 20px !important;
-        padding: 10px 0 !important;
-        text-align: center !important;
-        font-size: 10px !important;
-        color: #000 !important;
-    }
-    
-    .footer-linea {
-        display: block !important;
-        width: 100% !important;
-        height: 1px !important;
-        background: #000 !important;
-        margin-bottom: 10px !important;
-    }
-    
-    .print-footer-integrado p {
-        display: block !important;
-        margin: 3px 0 !important;
-        line-height: 1.2 !important;
-        color: #000 !important;
+    /* Asegurar que todo quepa en una página */
+    @page {
+        size: A4;
+        margin: 1cm;
+        margin-bottom: 2cm; /* Espacio para el footer */
     }
     
     /* Forzar una sola página */
     .matricula-form {
         height: auto !important;
         max-height: none !important;
+    }
+    
+    /* REGLA ADICIONAL ESPECÍFICA PARA EL FOOTER */
+    div.print-footer {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: static !important;
+        margin: 20px 0 10px 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        left: auto !important;
+    }
+    
+    div.print-footer img {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+        object-fit: contain !important;
+        position: static !important;
+        left: auto !important;
     }
 }
 
