@@ -1138,8 +1138,38 @@ function limpiarFormulario() {
 
 // Función para imprimir el formulario
 function imprimirFormulario() {
-    console.log('Imprimiendo formulario...');
-    window.print();
+    console.log('🖨️ Imprimiendo formulario...');
+    console.log('🔍 Función imprimirFormulario ejecutada correctamente');
+    
+    // Mostrar todos los footers antes de imprimir
+    const footers = document.querySelectorAll('.simple-print-footer, .footer-dentro-form, .print-footer-integrado');
+    console.log('📊 Footers encontrados:', footers.length);
+    console.log('📋 Footers:', footers);
+    
+    footers.forEach((footer, index) => {
+        if (footer) {
+            footer.style.display = 'block';
+            footer.style.visibility = 'visible';
+            footer.style.opacity = '1';
+            console.log(`✅ Footer ${index + 1} mostrado:`, footer.className);
+        }
+    });
+    
+    // Imprimir
+    setTimeout(() => {
+        window.print();
+        
+        // Ocultar los footers después de imprimir
+        setTimeout(() => {
+            footers.forEach((footer, index) => {
+                if (footer) {
+                    footer.style.display = 'none';
+                    footer.style.visibility = 'hidden';
+                    console.log(`❌ Footer ${index + 1} ocultado`);
+                }
+            });
+        }, 500);
+    }, 100);
 }
 
 // Función para mostrar mensajes
@@ -2143,7 +2173,7 @@ function reinicializarSincronizacion() {
 const datosRutas = {
     '421601': {
         codigo: '421601',
-        diminutivo: 'San Antonio',
+        diminutivo: 'San Rosa',
         recorridoCompleto: 'San Antonio-Santa Rosa-CTP Sabalito'
     },
     '421602': {
@@ -2168,7 +2198,7 @@ const datosRutas = {
     },
     '6512': {
         codigo: '6512',
-        diminutivo: 'Los Pilares',
+        diminutivo: 'Coopa Buena',
         recorridoCompleto: 'Los Pilares, Canas Gordas, San Martin, Coopa Buena, Agua Buena, San Francisco, Valle Azul, San Antonio, San Bosco, CTP Sabalito'
     },
     '6513': {

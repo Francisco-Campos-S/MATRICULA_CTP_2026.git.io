@@ -942,7 +942,9 @@ body {
 .print-header,
 .print-section-title,
 .print-footer,
-.print-info {
+.print-info,
+.print-only-footer,
+.simple-print-footer {
     display: none;
 }
 
@@ -1177,27 +1179,440 @@ body {
     }
 }
 
-/* Print Styles */
+/* Print Styles - Optimizado para una sola página */
 @media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Mostrar footer en impresión */
+    .print-footer-integrado,
+    .print-only-footer {
+        display: block !important;
+    }
+    
+    /* Estilos específicos para el footer de impresión */
+    .print-only-footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 10px;
+        color: #000 !important;
+        padding: 10px 0;
+    }
+    
+    .print-only-footer hr {
+        border: none;
+        border-top: 1px solid #000;
+        margin-bottom: 10px;
+    }
+    
+    .print-only-footer p {
+        margin: 3px 0;
+        line-height: 1.2;
+    }
+    
     body {
-        overflow: visible;
-        height: auto;
+        overflow: visible !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        font-size: 12px !important;
+        line-height: 1.2 !important;
+        background: white !important;
     }
     
     .container {
-        height: auto;
-        padding: 20px;
+        height: auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+    
+    /* Ocultar elementos no necesarios para impresión */
+    .header,
+    .form-actions,
+    .btn,
+    .consulta-section,
+    .tipo-matricula-section,
+    .nivel-especialidad-section,
+    .section-header,
+    .mensaje-consulta,
+    .print-info {
+        display: none !important;
+    }
+    
+    /* Mostrar líneas de firma en impresión */
+    .print-firmas {
+        display: block !important;
     }
     
     .matricula-form {
-        overflow: visible;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: white !important;
     }
     
-    .print-header,
-    .print-section-title,
-    .print-footer,
-    .print-info {
+    /* Header de impresión */
+    .print-header {
         display: block !important;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 10px 0;
+        border-bottom: 2px solid #000;
+    }
+    
+    .header-image {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    
+    .encabezado-img {
+        max-width: 100%;
+        height: auto;
+        max-height: 80px;
+        object-fit: contain;
+    }
+    
+    .main-title {
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin-top: 10px;
+        padding: 5px 0;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+    
+    /* Títulos de sección para impresión */
+    .print-section-title {
+        display: block !important;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 15px 0 8px 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #000;
+        background: #f0f0f0;
+        text-align: center;
+    }
+    
+    /* Formulario compacto para impresión */
+    .form-section {
+        margin-bottom: 8px !important;
+        padding: 5px !important;
+        background: white !important;
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+    
+    .form-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr !important;
+        gap: 8px !important;
+        margin-bottom: 5px !important;
+        page-break-inside: avoid;
+    }
+    
+    .form-row.three-columns {
+        grid-template-columns: 1fr 1fr 1fr !important;
+    }
+    
+    .form-column {
+        padding: 2px !important;
+        margin: 0 !important;
+        background: white !important;
+        border: none !important;
+        border-radius: 0 !important;
+    }
+    
+    .form-group {
+        margin-bottom: 3px !important;
+        padding: 0 !important;
+        background: white !important;
+        border: none !important;
+    }
+    
+    .form-group label {
+        font-size: 10px !important;
+        font-weight: bold !important;
+        margin-bottom: 1px !important;
+        color: #000 !important;
+        text-transform: uppercase;
+        display: block;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        padding: 2px 4px !important;
+        border: 1px solid #000 !important;
+        border-radius: 0 !important;
+        font-size: 11px !important;
+        background: white !important;
+        min-height: 16px !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+    
+    .form-group textarea {
+        min-height: 20px !important;
+        resize: none !important;
+    }
+    
+    /* Declaración */
+    .declaration {
+        margin: 10px 0 !important;
+        padding: 5px !important;
+        text-align: center !important;
+        border: 1px solid #000 !important;
+        background: #f9f9f9 !important;
+    }
+    
+    .declaration p {
+        font-size: 12px !important;
+        font-weight: bold !important;
+        margin: 0 !important;
+        color: #000 !important;
+    }
+    
+    /* Footer de impresión */
+    .print-footer {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        margin-top: 20px;
+        padding: 10px 0;
+        border-top: 1px solid #000;
+        text-align: center;
+        font-size: 10px;
+        color: #000 !important;
+        page-break-inside: avoid;
+        position: relative;
+        z-index: 999;
+    }
+    
+    .print-footer p {
+        margin: 3px 0;
+        line-height: 1.2;
+        color: #000 !important;
+        display: block !important;
+    }
+    
+    /* Evitar saltos de página */
+    .form-section,
+    .form-row,
+    .declaration {
+        page-break-inside: avoid;
+    }
+    
+    /* Ajustes específicos para campos horizontales */
+    .horizontal-group {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 8px !important;
+        align-items: center !important;
+        padding: 2px !important;
+        border: 1px solid #000 !important;
+        background: white !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .horizontal-field {
+        flex: 1 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+    }
+    
+    .horizontal-field label {
+        font-size: 9px !important;
+        font-weight: bold !important;
+        margin-bottom: 1px !important;
+        color: #000 !important;
+        text-transform: uppercase;
+    }
+    
+    .horizontal-field input,
+    .horizontal-field select {
+        width: 100% !important;
+        padding: 1px 2px !important;
+        border: 1px solid #000 !important;
+        font-size: 10px !important;
+        background: white !important;
+        min-height: 14px !important;
+    }
+    
+    /* Asegurar que todo quepa en una página */
+    @page {
+        size: A4;
+        margin: 1cm;
+        margin-bottom: 2cm; /* Espacio para el footer */
+    }
+    
+    /* Mostrar footer en impresión */
+    .simple-print-footer,
+    .footer-dentro-form,
+    .print-footer-integrado {
+        display: block !important;
+        visibility: visible !important;
+        width: 100% !important;
+        text-align: center !important;
+        margin-top: 30px !important;
+        page-break-inside: avoid !important;
+    }
+    
+    .simple-print-footer hr,
+    .footer-dentro-form hr,
+    .footer-linea {
+        display: block !important;
+        border: none !important;
+        border-top: 1px solid black !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .simple-print-footer p,
+    .footer-dentro-form p,
+    .print-footer-integrado p {
+        display: block !important;
+        margin: 2px 0 !important;
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        color: black !important;
+    }
+    
+    /* Líneas de firma para impresión */
+    .print-firmas {
+        margin: 15px 0 !important;
+        padding: 10px 0 !important;
+    }
+    
+    .firma-lineas {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+    
+    .firma-linea {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .firma-label {
+        font-size: 11px !important;
+        font-weight: bold !important;
+        margin-bottom: 5px !important;
+        color: #000 !important;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+    
+    .firma-linea-blanca {
+        width: 100%;
+        height: 20px;
+        border-bottom: 1px solid #000;
+        margin-bottom: 10px;
+    }
+    
+    .fecha-linea {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        gap: 10px;
+    }
+    
+    .fecha-label {
+        font-size: 11px !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    
+    .fecha-campos {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .fecha-campo {
+        width: 30px;
+        height: 20px;
+        border-bottom: 1px solid #000;
+    }
+    
+    .fecha-ano {
+        width: 50px;
+    }
+    
+    .fecha-separador {
+        font-size: 11px;
+        font-weight: bold;
+        color: #000;
+    }
+    
+    .observaciones-linea {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .observaciones-label {
+        font-size: 11px !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+    
+    .observaciones-linea-blanca {
+        flex: 1;
+        height: 20px;
+        border-bottom: 1px solid #000;
+    }
+    
+    /* Footer integrado en la sección de impresión */
+    .print-footer-integrado {
+        display: block !important;
+        visibility: visible !important;
+        margin-top: 20px !important;
+        padding: 10px 0 !important;
+        text-align: center !important;
+        font-size: 10px !important;
+        color: #000 !important;
+    }
+    
+    .footer-linea {
+        display: block !important;
+        width: 100% !important;
+        height: 1px !important;
+        background: #000 !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .print-footer-integrado p {
+        display: block !important;
+        margin: 3px 0 !important;
+        line-height: 1.2 !important;
+        color: #000 !important;
+    }
+    
+    /* Forzar una sola página */
+    .matricula-form {
+        height: auto !important;
+        max-height: none !important;
     }
 }
 

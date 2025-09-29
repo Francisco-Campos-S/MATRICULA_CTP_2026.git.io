@@ -35,16 +35,8 @@
         <form id="matriculaForm" class="matricula-form" action="#" method="post">
             <!-- Print Header (solo visible al imprimir) -->
             <div class="print-header" style="display: none;">
-                <div class="mep-logos">
-                    <div class="left-logos">
-                        <h3>MINISTERIO DE EDUCACIÓN PÚBLICA</h3>
-                        <p>GOBIERNO DE COSTA RICA</p>
-                    </div>
-                    <div class="right-logos">
-                        <h4>Dirección Regional de Educación de Coto</h4>
-                        <p>Supervisión de Centros Educativos, Circuito 06</p>
-                        <h4>Colegio Técnico Profesional Agropecuario de Sabalito</h4>
-                    </div>
+                <div class="header-image">
+                    <img src="encabezado.png" alt="Encabezado MEP" class="encabezado-img">
                 </div>
                 <div class="main-title">BOLETA MATRÍCULA 2026</div>
             </div>
@@ -375,40 +367,60 @@
                 <div class="declaration">
                     <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
                 </div>
-                <div class="form-row three-columns">
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label for="firmaEncargada">Firma de la Encargada:</label>
-                            <input type="text" id="firmaEncargada" name="firmaEncargada" placeholder="Nombre completo de la encargada" tabindex="41">
-                        </div>
-                    </div>
-                    <div class="form-column">
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="firmaEncargado">Firma del Encargado:</label>
-                                <input type="text" id="firmaEncargado" name="firmaEncargado" placeholder="Nombre completo del encargado" tabindex="42">
-                            </div>
-                        </div>
-                    </div>
+                <div class="form-row">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="fecha">Fecha de Matrícula:</label>
-                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="43">
+                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="41">
                         </div>
                     </div>
+                </div>
+                
+                <!-- Líneas de firma para impresión -->
+                <div class="print-firmas" style="display: none;">
+                    <div class="firma-lineas">
+                        <div class="firma-linea">
+                            <span class="firma-label">Firma de la Encargada:</span>
+                            <div class="firma-linea-blanca"></div>
+                        </div>
+                        <div class="firma-linea">
+                            <span class="firma-label">Firma del Encargado:</span>
+                            <div class="firma-linea-blanca"></div>
+                        </div>
+                    </div>
+                    <div class="fecha-linea">
+                        <span class="fecha-label">Fecha:</span>
+                        <div class="fecha-campos">
+                            <div class="fecha-campo"></div>
+                            <span class="fecha-separador">/</span>
+                            <div class="fecha-campo"></div>
+                            <span class="fecha-separador">/</span>
+                            <div class="fecha-campo fecha-ano"></div>
+                        </div>
+                    </div>
+                    <div class="observaciones-linea">
+                        <span class="observaciones-label">Observaciones:</span>
+                        <div class="observaciones-linea-blanca"></div>
+                    </div>
+                </div>
+                
+                <!-- Footer para impresión -->
+                <div class="print-footer-integrado" style="display: none;">
+                    <div class="footer-linea"></div>
+                    <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                    <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones Adicionales:</label>
                     <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="44"></textarea>
                 </div>
-            </div>
-            
-
-
-            <!-- Print Footer (solo visible al imprimir) -->
-            <div class="print-footer" style="display: none;">
-                <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                <p>Teléfono (506) 2784-0616/WhatsApp 89914536. Email: Clp.desabalito@mep.go.cr</p>
+                
+                <!-- Footer dentro del formulario para impresión -->
+                <div class="footer-dentro-form" style="display: none;">
+                    <hr style="border: none; border-top: 1px solid black; margin: 20px 0 10px 0;">
+                    <p style="margin: 2px 0; font-size: 10px; text-align: center;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                    <p style="margin: 2px 0; font-size: 10px; text-align: center;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+                </div>
             </div>
 
             <!-- Botones de Acción -->
@@ -439,6 +451,11 @@
                 <p><strong>💡 Nota:</strong> Al imprimir, el archivo se guardará automáticamente con el nombre del estudiante, nivel, sección y año.</p>
                 <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nivel_Seccion_2026.pdf</p>
             </div>
+            <!-- Print Footer (solo visible al imprimir) -->
+            <div class="print-footer">
+                <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+            </div>
         </form>
 
         <!-- Success Message -->
@@ -456,9 +473,16 @@
 
     </div>
 
+    <!-- Footer específico para impresión -->
+    <footer class="simple-print-footer">
+        <hr>
+        <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+        <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+    </footer>
 
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
     <script src="assets/js/google-sheets-config.js"></script>
 </body>
 </html>
+
