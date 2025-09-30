@@ -1248,9 +1248,11 @@ body {
 
 /* Footer oculto en pantalla, visible en impresión */
 .footer-permanent {
-    display: none;
-    visibility: hidden;
-    opacity: 0;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    left: -9999px !important;
 }
 
 @media print {
@@ -1258,10 +1260,24 @@ body {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
-        margin-top: 10px !important;
-        padding: 5px 0 !important;
+        position: static !important;
+        left: auto !important;
+        margin-top: 20px !important;
+        padding: 10px 0 !important;
         border-top: 1px solid #000 !important;
         page-break-inside: avoid !important;
+        text-align: center !important;
+        width: 100% !important;
+        background-color: white !important;
+    }
+    
+    .footer-permanent p {
+        font-size: 10px !important;
+        margin: 3px 0 !important;
+        line-height: 1.2 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        font-family: Arial, sans-serif !important;
     }
 }
 
@@ -1296,7 +1312,14 @@ body {
     /* Configuración de página */
     @page {
         size: A4 portrait;
-        margin: 1cm 1cm 1.5cm 1cm; /* top right bottom left */
+        margin: 0.5cm 0.5cm 0.5cm 0.5cm; /* top right bottom left - márgenes mínimos */
+        /* Ocultar títulos del navegador */
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
     }
     
     /* Ajustes específicos para la cuarta columna en datos del estudiante */
@@ -1319,14 +1342,14 @@ body {
     
     /* Asegurar que las filas tengan altura suficiente */
     .form-row {
-        min-height: 20px !important;
-        margin-bottom: 4px !important;
+        min-height: 15px !important;
+        margin-bottom: 2px !important;
     }
     
     /* Ajustes para reducir espacios entre secciones */
     .form-section {
-        margin-bottom: 8px !important;
-        padding: 4px !important;
+        margin-bottom: 3px !important;
+        padding: 2px !important;
         border: none !important;
         background: transparent !important;
         box-shadow: none !important;
@@ -1334,7 +1357,7 @@ body {
     
     /* Ajustes para espaciado entre grupos */
     .form-group {
-        margin-bottom: 3px !important;
+        margin-bottom: 1px !important;
         margin-right: 0 !important;
         padding-bottom: 0 !important;
         position: relative !important;
@@ -1361,9 +1384,9 @@ body {
     .form-group input,
     .form-group select,
     .form-group textarea {
-        font-size: 10px !important;
-        padding: 1px 3px !important;
-        min-height: 16px !important;
+        font-size: 9px !important;
+        padding: 0px 2px !important;
+        min-height: 12px !important;
         height: auto !important;
         color: #000000 !important;
         font-weight: normal !important;
@@ -1376,7 +1399,7 @@ body {
         display: block !important;
         width: 100% !important;
         overflow: visible !important;
-        line-height: 1.1 !important;
+        line-height: 1.0 !important;
     }
     
     /* Ocultar placeholders en impresión */
@@ -1389,19 +1412,43 @@ body {
     
     /* Ajustes para las etiquetas en impresión */
     .form-group label {
-        font-size: 9px !important;
+        font-size: 8px !important;
         margin-bottom: 0px !important;
         margin-top: 0 !important;
         color: #000000 !important;
         font-weight: bold !important;
         text-transform: uppercase !important;
-        line-height: 1.0 !important;
-        letter-spacing: 0.3px !important;
+        line-height: 0.9 !important;
+        letter-spacing: 0.2px !important;
     }
     
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+    
+    /* Ocultar elementos del navegador en impresión */
+    body::before,
+    body::after,
+    html::before,
+    html::after {
+        display: none !important;
+        content: none !important;
+    }
+    
+    /* Ocultar títulos y URLs del navegador */
+    title {
+        display: none !important;
+    }
+    
+    /* Asegurar que no aparezcan elementos del navegador */
+    @page {
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
     }
     
     /* Estilos para observaciones y fecha en el formulario normal */
@@ -1481,12 +1528,27 @@ body {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
+        position: static !important;
+        left: auto !important;
         margin-top: 10px !important;
         padding: 5px 0 !important;
         border-top: 1px solid #000 !important;
         page-break-inside: avoid !important;
+        page-break-before: avoid !important;
         background-color: white !important;
         text-align: center !important;
+        width: 100% !important;
+        clear: both !important;
+    }
+    
+    .footer-permanent p {
+        font-size: 8px !important;
+        margin: 1px 0 !important;
+        line-height: 1.1 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        font-family: Arial, sans-serif !important;
+        display: block !important;
     }
     
     .print-footer-simple p {
@@ -1571,6 +1633,20 @@ body {
         color: #000000 !important;
     }
     
+    /* Ocultar elementos del navegador que pueden aparecer en impresión */
+    body::before,
+    body::after {
+        display: none !important;
+        content: none !important;
+    }
+    
+    /* Ocultar cualquier elemento que pueda mostrar la URL o título */
+    [data-print-hide],
+    .print-hide,
+    .no-print {
+        display: none !important;
+    }
+    
     .container {
         height: auto !important;
         padding: 0 !important;
@@ -1607,14 +1683,14 @@ body {
         box-shadow: none !important;
         border: none !important;
         background: white !important;
-        font-size: 10px !important;
+        font-size: 9px !important;
         font-family: Arial, sans-serif !important;
-        transform: scale(0.90) !important;
+        transform: scale(0.85) !important;
         transform-origin: top center !important;
         max-height: 100% !important;
-        page-break-after: avoid !important;
+        page-break-after: auto !important;
         page-break-before: avoid !important;
-        page-break-inside: avoid !important;
+        page-break-inside: auto !important;
         width: 100% !important;
         max-width: 21cm !important;
         display: block !important;
@@ -1876,12 +1952,12 @@ body {
     
     /* Ajustar espaciado entre secciones */
     .form-section {
-        margin-bottom: 0.25cm !important;
-        padding-bottom: 0.05cm !important;
+        margin-bottom: 0.1cm !important;
+        padding-bottom: 0.02cm !important;
     }
     
     .form-row {
-        margin-bottom: 0.15cm !important;
+        margin-bottom: 0.05cm !important;
         padding-bottom: 0 !important;
     }
     
@@ -1932,8 +2008,8 @@ body {
     /* Asegurar que todo quepa en una página */
     @page {
         size: A4;
-        margin: 1cm;
-        margin-bottom: 1.5cm; /* Espacio para el footer */
+        margin: 0.5cm;
+        margin-bottom: 0.5cm; /* Espacio mínimo para el footer */
     }
     
 
@@ -2034,8 +2110,8 @@ body {
     /* Asegurar que todo quepa en una página */
     @page {
         size: A4;
-        margin: 1cm;
-        margin-bottom: 1.5cm; /* Espacio para el footer */
+        margin: 0.5cm;
+        margin-bottom: 0.5cm; /* Espacio mínimo para el footer */
     }
     
     /* Forzar una sola página */
@@ -2070,6 +2146,39 @@ body {
         object-fit: contain !important;
         position: static !important;
         left: auto !important;
+    }
+    
+    /* REGLA ESPECÍFICA PARA FOOTER PERMANENTE */
+    div.footer-permanent {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: static !important;
+        left: auto !important;
+        margin: 10px 0 5px 0 !important;
+        padding: 5px 0 !important;
+        text-align: center !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        border-top: 1px solid #000 !important;
+        page-break-inside: avoid !important;
+        page-break-before: avoid !important;
+        background-color: white !important;
+        clear: both !important;
+    }
+    
+    div.footer-permanent p {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        font-size: 8px !important;
+        margin: 1px 0 !important;
+        line-height: 1.1 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        font-family: Arial, sans-serif !important;
+        text-align: center !important;
     }
 }
 
