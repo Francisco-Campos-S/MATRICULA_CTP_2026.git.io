@@ -899,10 +899,27 @@ async function enviarFormulario() {
             mostrarMensaje(`✅ Formulario enviado exitosamente a la hoja: ${hojaDestino}`, 'success');
             console.log(`Formulario enviado exitosamente a Google Sheets - Hoja: ${hojaDestino}`);
             
-            // Limpiar formulario después del envío exitoso
-            setTimeout(() => {
-                limpiarFormulario();
-            }, 2000);
+            // Efecto de desvanecimiento al enviar exitosamente
+            const formulario = document.getElementById('matriculaForm');
+            if (formulario) {
+                // Desvanecer
+                formulario.classList.add('fade-out');
+                formulario.classList.remove('fade-in');
+                
+                // Limpiar formulario y reaparecer después del efecto
+                setTimeout(() => {
+                    limpiarFormulario();
+                    
+                    // Reaparecer
+                    formulario.classList.remove('fade-out');
+                    formulario.classList.add('fade-in');
+                }, 500);
+            } else {
+                // Fallback si no se encuentra el formulario
+                setTimeout(() => {
+                    limpiarFormulario();
+                }, 2000);
+            }
         } else {
             throw new Error(resultado.error || 'Error desconocido al enviar');
         }
@@ -2032,29 +2049,45 @@ function actualizarEspecialidades() {
     // Limpiar opciones actuales (excepto la primera)
     especialidadSelect.innerHTML = '<option value="">Seleccione una especialidad</option>';
     
-    // Obtener especialidades para el nivel seleccionado
-    const especialidades = especialidadesPorNivel[nivelSeleccionado];
+    // Verificar si se seleccionó Plan Nacional
+    const tipoPlanNacional = document.getElementById('planNacional');
+    const esPlanNacional = tipoPlanNacional && tipoPlanNacional.checked;
     
-    if (especialidades) {
-        console.log('🎯 Especialidades disponibles para', nivelSeleccionado, ':', especialidades);
+    if (esPlanNacional) {
+        // Para Plan Nacional: solo "Formación Vocacional" en todos los niveles
+        console.log('🎯 Plan Nacional seleccionado - mostrando solo Formación Vocacional');
+        const option = document.createElement('option');
+        option.value = 'Formación Vocacional';
+        option.textContent = 'Formación Vocacional';
+        especialidadSelect.appendChild(option);
         
-        // Agregar opciones de especialidades
-        especialidades.forEach(especialidad => {
-            const option = document.createElement('option');
-            option.value = especialidad.value;
-            option.textContent = especialidad.text;
-            especialidadSelect.appendChild(option);
-        });
-        
-        // Si solo hay una opción (Sin especialidad), seleccionarla automáticamente
-        if (especialidades.length === 1 && especialidades[0].value === 'Sin especialidad') {
-            especialidadSelect.value = 'Sin especialidad';
-            console.log('✅ Especialidad "Sin especialidad" seleccionada automáticamente para', nivelSeleccionado);
-        }
-        
-        console.log(`✅ ${especialidades.length} especialidades cargadas para ${nivelSeleccionado}`);
+        // Seleccionar automáticamente
+        especialidadSelect.value = 'Formación Vocacional';
     } else {
-        console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
+        // Para Regular: usar las especialidades normales por nivel
+        const especialidades = especialidadesPorNivel[nivelSeleccionado];
+        
+        if (especialidades) {
+            console.log('🎯 Especialidades disponibles para', nivelSeleccionado, ':', especialidades);
+            
+            // Agregar opciones de especialidades
+            especialidades.forEach(especialidad => {
+                const option = document.createElement('option');
+                option.value = especialidad.value;
+                option.textContent = especialidad.text;
+                especialidadSelect.appendChild(option);
+            });
+            
+            // Si solo hay una opción (Sin especialidad), seleccionarla automáticamente
+            if (especialidades.length === 1 && especialidades[0].value === 'Sin especialidad') {
+                especialidadSelect.value = 'Sin especialidad';
+                console.log('✅ Especialidad "Sin especialidad" seleccionada automáticamente para', nivelSeleccionado);
+            }
+            
+            console.log(`✅ ${especialidades.length} especialidades cargadas para ${nivelSeleccionado}`);
+        } else {
+            console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
+        }
     }
     
     // Actualizar secciones después de actualizar especialidades
@@ -2212,16 +2245,18 @@ function inicializarSecciones() {
     
     if (tipoRegular) {
         tipoRegular.addEventListener('change', function() {
-            console.log('🔄 Tipo de matrícula cambió a Regular, actualizando secciones...');
+            console.log('🔄 Tipo de matrícula cambió a Regular, actualizando secciones y especialidades...');
             actualizarSecciones();
+            actualizarEspecialidades();
         });
         console.log('✅ Event listener agregado al tipo Regular');
     }
     
     if (tipoPlanNacional) {
         tipoPlanNacional.addEventListener('change', function() {
-            console.log('🔄 Tipo de matrícula cambió a Plan Nacional, actualizando secciones...');
+            console.log('🔄 Tipo de matrícula cambió a Plan Nacional, actualizando secciones y especialidades...');
             actualizarSecciones();
+            actualizarEspecialidades();
         });
         console.log('✅ Event listener agregado al tipo Plan Nacional');
     }

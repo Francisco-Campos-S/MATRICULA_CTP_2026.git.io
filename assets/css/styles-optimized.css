@@ -119,6 +119,18 @@ body {
     flex-direction: column;
     gap: 0px;
     min-height: 0;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* Efecto de desvanecimiento para el formulario */
+.matricula-form.fade-out {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.matricula-form.fade-in {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .form-section {
