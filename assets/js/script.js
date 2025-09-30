@@ -586,7 +586,7 @@ function cargarDatosPrueba() {
             // Declaración y firmas
             firmaEncargada: 'MARÍA GONZÁLEZ LÓPEZ',
             firmaEncargado: 'JUAN RODRÍGUEZ MARTÍNEZ',
-            fecha: '15/01/2026',
+            'fecha-matricula': '2026-01-15',
             observaciones: 'Estudiante nuevo ingreso'
         };
         
@@ -1148,13 +1148,56 @@ function imprimirFormulario() {
         elemento.style.visibility = 'hidden';
     });
     
-    // Asegurar que el footer esté visible
-    const footerSimple = document.querySelector('.print-footer-simple');
-    if (footerSimple) {
-        footerSimple.style.display = 'block';
-        footerSimple.style.visibility = 'visible';
-        footerSimple.style.position = 'relative';
-        console.log('👣 Footer preparado para impresión');
+    // Ocultar todos los placeholders antes de imprimir
+    const todosLosInputs = document.querySelectorAll('input, select, textarea');
+    todosLosInputs.forEach(input => {
+        if (input.value.trim() === '') {
+            input.setAttribute('data-original-placeholder', input.getAttribute('placeholder') || '');
+            input.setAttribute('placeholder', '');
+        }
+    });
+    
+    // Sincronizar información general para impresión
+    const tipoMatricula = document.querySelector('input[name="tipoMatricula"]:checked');
+    const nivel = document.getElementById('nivel');
+    const especialidad = document.getElementById('especialidad');
+    const seccion = document.getElementById('seccion');
+    const rutaTransporte = document.getElementById('rutaTransporte');
+    
+    // Actualizar valores para impresión
+    if (tipoMatricula) {
+        const printTipo = document.getElementById('print-tipo-matricula');
+        if (printTipo) {
+            printTipo.textContent = tipoMatricula.value === 'regular' ? 'Regular CTP 2026' : 'Plan Nacional 2026';
+        }
+    }
+    
+    if (nivel) {
+        const printNivel = document.getElementById('print-nivel');
+        if (printNivel) {
+            printNivel.textContent = nivel.value || 'No seleccionado';
+        }
+    }
+    
+    if (especialidad) {
+        const printEspecialidad = document.getElementById('print-especialidad');
+        if (printEspecialidad) {
+            printEspecialidad.textContent = especialidad.value || 'No seleccionado';
+        }
+    }
+    
+    if (seccion) {
+        const printSeccion = document.getElementById('print-seccion');
+        if (printSeccion) {
+            printSeccion.textContent = seccion.value || 'No seleccionado';
+        }
+    }
+    
+    if (rutaTransporte) {
+        const printRuta = document.getElementById('print-ruta-transporte');
+        if (printRuta) {
+            printRuta.textContent = rutaTransporte.value || 'No seleccionado';
+        }
     }
     
     // Sincronizar las observaciones con la versión de impresión
@@ -1169,6 +1212,7 @@ function imprimirFormulario() {
             if (!observacionesTexto) {
                 observacionesTexto = document.createElement('span');
                 observacionesTexto.className = 'print-observaciones-texto';
+                observacionesTexto.style.cssText = 'font-size: 10px; color: #000; font-weight: normal; display: block; margin-top: 5px;';
                 printObservacionesLinea.parentNode.insertBefore(observacionesTexto, printObservacionesLinea.nextSibling);
             }
             observacionesTexto.textContent = observacionesInput.value;
@@ -1202,8 +1246,25 @@ function imprimirFormulario() {
         }
     }
     
+    // El footer ahora se maneja completamente con CSS @media print
+    console.log('📄 Footer será manejado por CSS @media print');
+    
     // Imprimir
     window.print();
+    
+    // Restaurar placeholders después de imprimir
+    setTimeout(() => {
+        todosLosInputs.forEach(input => {
+            const originalPlaceholder = input.getAttribute('data-original-placeholder');
+            if (originalPlaceholder) {
+                input.setAttribute('placeholder', originalPlaceholder);
+                input.removeAttribute('data-original-placeholder');
+            }
+        });
+        
+        // El footer se oculta automáticamente con CSS al salir del modo impresión
+        console.log('📄 Footer se ocultará automáticamente con CSS');
+    }, 1000);
 }
 
 // Función para mostrar mensajes
