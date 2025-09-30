@@ -586,7 +586,7 @@ function cargarDatosPrueba() {
             // Declaración y firmas
             firmaEncargada: 'MARÍA GONZÁLEZ LÓPEZ',
             firmaEncargado: 'JUAN RODRÍGUEZ MARTÍNEZ',
-            fecha: '15/01/2026',
+            'fecha-matricula': '2026-01-15',
             observaciones: 'Estudiante nuevo ingreso'
         };
         
@@ -1138,8 +1138,133 @@ function limpiarFormulario() {
 
 // Función para imprimir el formulario
 function imprimirFormulario() {
-    console.log('Imprimiendo formulario...');
+    console.log('🖨️ Imprimiendo formulario...');
+    console.log('🔍 Función imprimirFormulario ejecutada correctamente');
+    
+    // Ocultar elementos duplicados antes de imprimir
+    const elementosDuplicados = document.querySelectorAll('.observaciones-adicionales-duplicado');
+    elementosDuplicados.forEach(elemento => {
+        elemento.style.display = 'none';
+        elemento.style.visibility = 'hidden';
+    });
+    
+    // Ocultar todos los placeholders antes de imprimir
+    const todosLosInputs = document.querySelectorAll('input, select, textarea');
+    todosLosInputs.forEach(input => {
+        if (input.value.trim() === '') {
+            input.setAttribute('data-original-placeholder', input.getAttribute('placeholder') || '');
+            input.setAttribute('placeholder', '');
+        }
+    });
+    
+    // Sincronizar información general para impresión
+    const tipoMatricula = document.querySelector('input[name="tipoMatricula"]:checked');
+    const nivel = document.getElementById('nivel');
+    const especialidad = document.getElementById('especialidad');
+    const seccion = document.getElementById('seccion');
+    const rutaTransporte = document.getElementById('rutaTransporte');
+    
+    // Actualizar valores para impresión
+    if (tipoMatricula) {
+        const printTipo = document.getElementById('print-tipo-matricula');
+        if (printTipo) {
+            printTipo.textContent = tipoMatricula.value === 'regular' ? 'Regular CTP 2026' : 'Plan Nacional 2026';
+        }
+    }
+    
+    if (nivel) {
+        const printNivel = document.getElementById('print-nivel');
+        if (printNivel) {
+            printNivel.textContent = nivel.value || 'No seleccionado';
+        }
+    }
+    
+    if (especialidad) {
+        const printEspecialidad = document.getElementById('print-especialidad');
+        if (printEspecialidad) {
+            printEspecialidad.textContent = especialidad.value || 'No seleccionado';
+        }
+    }
+    
+    if (seccion) {
+        const printSeccion = document.getElementById('print-seccion');
+        if (printSeccion) {
+            printSeccion.textContent = seccion.value || 'No seleccionado';
+        }
+    }
+    
+    if (rutaTransporte) {
+        const printRuta = document.getElementById('print-ruta-transporte');
+        if (printRuta) {
+            printRuta.textContent = rutaTransporte.value || 'No seleccionado';
+        }
+    }
+    
+    // Sincronizar las observaciones con la versión de impresión
+    const observacionesInput = document.getElementById('observaciones');
+    const printObservacionesLinea = document.querySelector('.print-observaciones-linea');
+    
+    if (observacionesInput && printObservacionesLinea) {
+        // Si hay observaciones, las mostramos en la versión imprimible
+        if (observacionesInput.value.trim() !== '') {
+            // Crear un span para mostrar las observaciones
+            let observacionesTexto = document.querySelector('.print-observaciones-texto');
+            if (!observacionesTexto) {
+                observacionesTexto = document.createElement('span');
+                observacionesTexto.className = 'print-observaciones-texto';
+                observacionesTexto.style.cssText = 'font-size: 10px; color: #000; font-weight: normal; display: block; margin-top: 5px;';
+                printObservacionesLinea.parentNode.insertBefore(observacionesTexto, printObservacionesLinea.nextSibling);
+            }
+            observacionesTexto.textContent = observacionesInput.value;
+            printObservacionesLinea.style.display = 'none';
+            console.log('📝 Observaciones encontradas para impresión:', observacionesInput.value);
+        } else {
+            // Si no hay observaciones, mostramos solo la línea
+            const observacionesTexto = document.querySelector('.print-observaciones-texto');
+            if (observacionesTexto) {
+                observacionesTexto.remove();
+            }
+            printObservacionesLinea.style.display = 'block';
+            console.log('📝 No hay observaciones para mostrar en la impresión');
+        }
+    }
+    
+    // Formatear la fecha para la impresión
+    const fechaMatriculaInput = document.getElementById('fecha-matricula');
+    if (fechaMatriculaInput && fechaMatriculaInput.value) {
+        const fechaSeleccionada = new Date(fechaMatriculaInput.value);
+        const dia = String(fechaSeleccionada.getDate()).padStart(2, '0');
+        const mes = String(fechaSeleccionada.getMonth() + 1).padStart(2, '0');
+        const año = fechaSeleccionada.getFullYear();
+        const fechaFormateada = `${dia}/${mes}/${año}`;
+        
+        // Actualizar el valor en la versión imprimible
+        const printFechaValor = document.getElementById('print-fecha-valor');
+        if (printFechaValor) {
+            printFechaValor.textContent = fechaFormateada;
+            console.log('📅 Fecha formateada para impresión:', fechaFormateada);
+        }
+    }
+    
+    // El footer ahora se maneja completamente con CSS @media print
+    console.log('📄 Footer será manejado por CSS @media print');
+    
+    // Imprimir
     window.print();
+    
+    // Restaurar placeholders después de imprimir
+    setTimeout(() => {
+        todosLosInputs.forEach(input => {
+            const originalPlaceholder = input.getAttribute('data-original-placeholder');
+            if (originalPlaceholder) {
+                input.setAttribute('placeholder', originalPlaceholder);
+                input.removeAttribute('data-original-placeholder');
+            }
+        });
+        
+        // El footer se oculta automáticamente con CSS al salir del modo impresión
+        console.log('📄 Footer se ocultará automáticamente con CSS');
+    }, 1000);
 }
 
 // Función para mostrar mensajes
@@ -1431,8 +1556,41 @@ function ajustarLayout() {
     }
 }
 
+// Función para establecer la fecha actual en el campo de fecha de matrícula
+function establecerFechaActual() {
+    const fechaActual = new Date();
+    const año = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Enero es 0
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const fechaFormateada = `${año}-${mes}-${dia}`; // Formato YYYY-MM-DD para input type="date"
+    const fechaFormateadaVisual = `${dia}/${mes}/${año}`; // Formato DD/MM/YYYY para mostrar
+    
+    console.log('🔄 Ejecutando establecerFechaActual()...');
+    
+    // Actualizar el valor en el formulario
+    const fechaMatriculaInput = document.getElementById('fecha-matricula');
+    if (fechaMatriculaInput) {
+        fechaMatriculaInput.value = fechaFormateada;
+        console.log('📅 Fecha actual establecida en formulario:', fechaFormateada);
+    } else {
+        console.warn('⚠️ No se encontró el elemento fecha-matricula');
+    }
+    
+    // Actualizar el valor en la versión imprimible
+    const printFechaValor = document.getElementById('print-fecha-valor');
+    if (printFechaValor) {
+        printFechaValor.textContent = fechaFormateadaVisual;
+        console.log('📅 Fecha actual establecida en impresión:', fechaFormateadaVisual);
+    }
+    
+    // Agregar evento para mantener la fecha actualizada si el usuario permanece mucho tiempo en la página
+    setTimeout(establecerFechaActual, 60000); // Actualizar cada minuto
+}
+
 // Agregar event listeners cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 DOMContentLoaded - Inicializando formulario...');
+    
     // Event listeners para los tipos de matrícula
     const tipoRegular = document.getElementById('regular');
     const tipoPlanNacional = document.getElementById('planNacional');
@@ -1444,6 +1602,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tipoPlanNacional) {
         tipoPlanNacional.addEventListener('change', mostrarTipoMatriculaSeleccionado);
     }
+    
+    // Ocultar elementos duplicados
+    const elementosDuplicados = document.querySelectorAll('.observaciones-adicionales-duplicado');
+    elementosDuplicados.forEach(elemento => {
+        elemento.style.display = 'none';
+        elemento.style.visibility = 'hidden';
+        console.log('🚫 Ocultando elemento duplicado:', elemento);
+    });
+    
+    // Establecer fecha actual inmediatamente
+    console.log('⏱️ Llamando a establecerFechaActual() desde DOMContentLoaded');
+    establecerFechaActual();
+    
+    // Intentar de nuevo después de un breve retraso para asegurar que se establezca
+    setTimeout(function() {
+        console.log('⏱️ Llamando a establecerFechaActual() después de retraso');
+        establecerFechaActual();
+    }, 200);
     
     // Mostrar estado inicial
     setTimeout(mostrarTipoMatriculaSeleccionado, 100);
@@ -2143,7 +2319,7 @@ function reinicializarSincronizacion() {
 const datosRutas = {
     '421601': {
         codigo: '421601',
-        diminutivo: 'San Antonio',
+        diminutivo: 'San Rosa',
         recorridoCompleto: 'San Antonio-Santa Rosa-CTP Sabalito'
     },
     '421602': {
@@ -2168,7 +2344,7 @@ const datosRutas = {
     },
     '6512': {
         codigo: '6512',
-        diminutivo: 'Los Pilares',
+        diminutivo: 'Coopa Buena',
         recorridoCompleto: 'Los Pilares, Canas Gordas, San Martin, Coopa Buena, Agua Buena, San Francisco, Valle Azul, San Antonio, San Bosco, CTP Sabalito'
     },
     '6513': {
