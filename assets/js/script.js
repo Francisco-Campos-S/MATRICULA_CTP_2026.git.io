@@ -1141,34 +1141,69 @@ function imprimirFormulario() {
     console.log('🖨️ Imprimiendo formulario...');
     console.log('🔍 Función imprimirFormulario ejecutada correctamente');
     
-    // Mostrar todos los footers antes de imprimir
-    const footers = document.querySelectorAll('.print-footer, .print-footer-integrado, .footer-dentro-form, .footer-img');
-    console.log('📊 Footers encontrados:', footers.length);
-    
-    footers.forEach((footer, index) => {
-        if (footer) {
-            footer.style.display = 'block';
-            footer.style.visibility = 'visible';
-            footer.style.opacity = '1';
-            console.log(`✅ Footer ${index + 1} mostrado:`, footer.className);
-        }
+    // Ocultar elementos duplicados antes de imprimir
+    const elementosDuplicados = document.querySelectorAll('.observaciones-adicionales-duplicado');
+    elementosDuplicados.forEach(elemento => {
+        elemento.style.display = 'none';
+        elemento.style.visibility = 'hidden';
     });
     
-    // Imprimir
-    setTimeout(() => {
-        window.print();
+    // Asegurar que el footer esté visible
+    const footerSimple = document.querySelector('.print-footer-simple');
+    if (footerSimple) {
+        footerSimple.style.display = 'block';
+        footerSimple.style.visibility = 'visible';
+        footerSimple.style.position = 'relative';
+        console.log('👣 Footer preparado para impresión');
+    }
+    
+    // Sincronizar las observaciones con la versión de impresión
+    const observacionesInput = document.getElementById('observaciones');
+    const printObservacionesLinea = document.querySelector('.print-observaciones-linea');
+    
+    if (observacionesInput && printObservacionesLinea) {
+        // Si hay observaciones, las mostramos en la versión imprimible
+        if (observacionesInput.value.trim() !== '') {
+            // Crear un span para mostrar las observaciones
+            let observacionesTexto = document.querySelector('.print-observaciones-texto');
+            if (!observacionesTexto) {
+                observacionesTexto = document.createElement('span');
+                observacionesTexto.className = 'print-observaciones-texto';
+                printObservacionesLinea.parentNode.insertBefore(observacionesTexto, printObservacionesLinea.nextSibling);
+            }
+            observacionesTexto.textContent = observacionesInput.value;
+            printObservacionesLinea.style.display = 'none';
+            console.log('📝 Observaciones encontradas para impresión:', observacionesInput.value);
+        } else {
+            // Si no hay observaciones, mostramos solo la línea
+            const observacionesTexto = document.querySelector('.print-observaciones-texto');
+            if (observacionesTexto) {
+                observacionesTexto.remove();
+            }
+            printObservacionesLinea.style.display = 'block';
+            console.log('📝 No hay observaciones para mostrar en la impresión');
+        }
+    }
+    
+    // Formatear la fecha para la impresión
+    const fechaMatriculaInput = document.getElementById('fecha-matricula');
+    if (fechaMatriculaInput && fechaMatriculaInput.value) {
+        const fechaSeleccionada = new Date(fechaMatriculaInput.value);
+        const dia = String(fechaSeleccionada.getDate()).padStart(2, '0');
+        const mes = String(fechaSeleccionada.getMonth() + 1).padStart(2, '0');
+        const año = fechaSeleccionada.getFullYear();
+        const fechaFormateada = `${dia}/${mes}/${año}`;
         
-        // Ocultar los footers después de imprimir
-        setTimeout(() => {
-            footers.forEach((footer, index) => {
-                if (footer) {
-                    footer.style.display = 'none';
-                    footer.style.visibility = 'hidden';
-                    console.log(`❌ Footer ${index + 1} ocultado`);
-                }
-            });
-        }, 500);
-    }, 100);
+        // Actualizar el valor en la versión imprimible
+        const printFechaValor = document.getElementById('print-fecha-valor');
+        if (printFechaValor) {
+            printFechaValor.textContent = fechaFormateada;
+            console.log('📅 Fecha formateada para impresión:', fechaFormateada);
+        }
+    }
+    
+    // Imprimir
+    window.print();
 }
 
 // Función para mostrar mensajes
@@ -1460,8 +1495,41 @@ function ajustarLayout() {
     }
 }
 
+// Función para establecer la fecha actual en el campo de fecha de matrícula
+function establecerFechaActual() {
+    const fechaActual = new Date();
+    const año = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0'); // Enero es 0
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const fechaFormateada = `${año}-${mes}-${dia}`; // Formato YYYY-MM-DD para input type="date"
+    const fechaFormateadaVisual = `${dia}/${mes}/${año}`; // Formato DD/MM/YYYY para mostrar
+    
+    console.log('🔄 Ejecutando establecerFechaActual()...');
+    
+    // Actualizar el valor en el formulario
+    const fechaMatriculaInput = document.getElementById('fecha-matricula');
+    if (fechaMatriculaInput) {
+        fechaMatriculaInput.value = fechaFormateada;
+        console.log('📅 Fecha actual establecida en formulario:', fechaFormateada);
+    } else {
+        console.warn('⚠️ No se encontró el elemento fecha-matricula');
+    }
+    
+    // Actualizar el valor en la versión imprimible
+    const printFechaValor = document.getElementById('print-fecha-valor');
+    if (printFechaValor) {
+        printFechaValor.textContent = fechaFormateadaVisual;
+        console.log('📅 Fecha actual establecida en impresión:', fechaFormateadaVisual);
+    }
+    
+    // Agregar evento para mantener la fecha actualizada si el usuario permanece mucho tiempo en la página
+    setTimeout(establecerFechaActual, 60000); // Actualizar cada minuto
+}
+
 // Agregar event listeners cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 DOMContentLoaded - Inicializando formulario...');
+    
     // Event listeners para los tipos de matrícula
     const tipoRegular = document.getElementById('regular');
     const tipoPlanNacional = document.getElementById('planNacional');
@@ -1473,6 +1541,24 @@ document.addEventListener('DOMContentLoaded', function() {
     if (tipoPlanNacional) {
         tipoPlanNacional.addEventListener('change', mostrarTipoMatriculaSeleccionado);
     }
+    
+    // Ocultar elementos duplicados
+    const elementosDuplicados = document.querySelectorAll('.observaciones-adicionales-duplicado');
+    elementosDuplicados.forEach(elemento => {
+        elemento.style.display = 'none';
+        elemento.style.visibility = 'hidden';
+        console.log('🚫 Ocultando elemento duplicado:', elemento);
+    });
+    
+    // Establecer fecha actual inmediatamente
+    console.log('⏱️ Llamando a establecerFechaActual() desde DOMContentLoaded');
+    establecerFechaActual();
+    
+    // Intentar de nuevo después de un breve retraso para asegurar que se establezca
+    setTimeout(function() {
+        console.log('⏱️ Llamando a establecerFechaActual() después de retraso');
+        establecerFechaActual();
+    }, 200);
     
     // Mostrar estado inicial
     setTimeout(mostrarTipoMatriculaSeleccionado, 100);

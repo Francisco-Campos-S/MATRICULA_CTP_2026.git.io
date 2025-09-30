@@ -34,15 +34,15 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.1;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.2;
     color: var(--text-primary);
     background: var(--bg-primary);
     height: 100vh;
     height: 100dvh; /* Altura dinámica del viewport - mejor compatibilidad */
     min-height: 100vh;
     overflow: hidden;
-    font-size: 20px;
+    font-size: 14px;
     margin: 0;
     padding: 0;
     /* Asegurar que el body ocupe toda la pantalla */
@@ -266,6 +266,12 @@ body {
 }
 
 .form-row.four-columns {
+        grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    max-width: 100%;
+}
+
+.form-row.five-columns {
     grid-template-columns: repeat(5, 1fr);
     gap: 6px;
     max-width: 100%;
@@ -947,7 +953,6 @@ body {
 .print-only-footer,
 .simple-print-footer,
 .footer-dentro-form,
-.footer-imagen-form,
 .print-footer-integrado,
 .print-firmas {
     display: none !important;
@@ -1155,6 +1160,10 @@ body {
     .form-row.four-columns {
         grid-template-columns: 1fr 1fr;
     }
+    
+    .form-row.five-columns {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1165,7 +1174,8 @@ body {
     
     .form-row.two-columns,
     .form-row.three-columns,
-    .form-row.four-columns {
+    .form-row.four-columns,
+    .form-row.five-columns {
         grid-template-columns: 1fr;
     }
     
@@ -1191,22 +1201,265 @@ body {
 }
 
 /* Print Styles - Optimizado para una sola página */
+/* Estilos para observaciones y fecha en el formulario normal */
+.observaciones-fecha-container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    gap: 10px;
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 10;
+}
+
+.observaciones-grupo {
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+.fecha-grupo {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilos adicionales para el campo de fecha */
+#fecha-matricula {
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    position: relative;
+    z-index: 10;
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el textarea de observaciones */
+#observaciones {
+    resize: vertical;
+    min-height: 80px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    width: 100%;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Estilos para las firmas en impresión */
+.firma-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.firma-lado-izquierdo,
+.firma-lado-derecho {
+    width: 45%;
+}
+
+.firma-linea {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ocultar footer en pantalla, solo mostrar en impresión */
+.print-footer-simple {
+    display: none;
+}
+
+    .firma-label {
+        font-weight: bold;
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-family: Arial, sans-serif;
+    }
+
+.firma-linea-blanca {
+    border-bottom: 1px solid black;
+    height: 1px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+#observaciones:focus {
+    border-color: #4CAF50;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 5px rgba(76, 175, 80, 0.3);
+    outline: none;
+}
+
+.observaciones-info {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    line-height: 1.3;
+}
+
 @media print {
+    /* Configuración de página */
+    @page {
+        size: A4 portrait;
+        margin: 0.7cm 0.7cm 1.0cm 0.7cm; /* top right bottom left */
+    }
+    
+    /* Ajustes específicos para la cuarta columna en datos del estudiante */
+    .form-row.four-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Ajustes específicos para cinco columnas en datos del estudiante */
+    .form-row.five-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 6px;
+        width: 100%;
+        margin-bottom: 8px !important;
+    }
+    
+    /* Asegurar que las filas tengan altura suficiente */
+    .form-row {
+        min-height: 30px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    /* Ajustes para reducir espacios entre secciones */
+    .form-section {
+        margin-bottom: 5px !important;
+        padding: 3px !important;
+    }
+    
+    /* Ajustes para espaciado entre grupos */
+    .form-group {
+        margin-bottom: 6px !important;
+        margin-right: 5px !important;
+        padding-bottom: 2px !important;
+        position: relative !important;
+        display: block !important;
+        width: 100% !important;
+    }
+    
+    /* Ajustes específicos para los datos del estudiante */
+    #datosEstudianteSection .form-group {
+        margin-right: 0 !important;
+        padding-right: 0 !important;
+    }
+    
+    /* Ajustes para mejorar la legibilidad de los campos de selección */
+    select {
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+        background-color: white !important;
+        border: 1px solid black !important;
+    }
+    
+    /* Ajustes para los campos de texto en impresión */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 12px !important;
+        padding: 2px 4px !important;
+        min-height: 24px !important;
+        height: auto !important;
+        color: #000000 !important;
+        font-weight: normal !important;
+        background-color: #ffffff !important;
+        border: 1px solid #000000 !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        display: block !important;
+        width: 100% !important;
+        overflow: visible !important;
+    }
+    
+    /* Ajustes para las etiquetas en impresión */
+    .form-group label {
+        font-size: 11px !important;
+        margin-bottom: 2px !important;
+        margin-top: 0 !important;
+        color: #000000 !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+        line-height: 1.2 !important;
+    }
+    
     * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
     }
     
+    /* Estilos para observaciones y fecha en el formulario normal */
+    .observaciones-fecha-container {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        gap: 10px;
+        width: 100%;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 10;
+    }
+    
+    
+    .observaciones-grupo {
+        width: 100%;
+        position: relative;
+        z-index: 10;
+    }
+    
+    .fecha-grupo {
+        width: 100%;
+        text-align: right;
+        position: relative;
+        z-index: 10;
+    }
+    
+    /* Estilos adicionales para el campo de fecha */
+    #fecha-matricula {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        position: relative;
+        z-index: 10;
+    }
+    
+    /* Ocultar elementos duplicados */
+    .observaciones-adicionales-duplicado {
+        display: none !important;
+        visibility: hidden !important;
+        position: absolute !important;
+        left: -9999px !important;
+    }
+    
     /* Mostrar elementos SOLO en impresión física */
     .print-header,
-    .print-section-title,
-    .print-footer,
-    .print-footer .footer-img,
-    .footer-imagen-form,
-    .print-footer-integrado,
-    .footer-dentro-form,
-    .footer-img,
-    .print-firmas {
+    .print-section-title {
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
@@ -1214,19 +1467,83 @@ body {
         overflow: visible !important;
         position: static !important;
         left: auto !important;
+        width: 100% !important;
+        background-color: #e0e0e0 !important;
+        padding: 3px 0 !important;
+        margin: 6px 0 !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        border-bottom: 1px solid #000 !important;
+        border-top: 1px solid #000 !important;
+        letter-spacing: 0.02em !important;
+    }
+    
+    /* Footer en impresión */
+    .print-footer-simple,
+    .print-footer,
+    .print-footer .footer-img,
+    .footer-dentro-form,
+    .print-footer-integrado,
+    .footer-imagen-form {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        background-color: white !important;
+        padding: 0 !important;
+        z-index: 9999 !important;
+        font-size: 10px !important;
+    }
+    
+    .print-footer-simple p {
+        font-size: 10px !important;
+        margin: 2px 0 !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Firmas en impresión */
+    .print-firmas,
+    .print-only-firmas {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        height: auto !important;
+        overflow: visible !important;
+        position: static !important;
+        left: auto !important;
+        width: 100% !important;
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
+    }
+    
+    /* Ajustes para las firmas */
+    .firma-label {
+        font-size: 11px !important;
+        font-weight: bold !important;
+    }
+    
+    .firma-linea-blanca {
+        margin-top: 20px !important;
     }
     
     /* Estilos específicos para el footer de impresión */
     .print-only-footer {
-        position: static !important;
-        bottom: auto !important;
-        left: auto !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
         width: 100% !important;
         text-align: center !important;
         font-size: 10px !important;
         color: #000 !important;
         padding: 10px 0 !important;
-        margin-top: 20px !important;
+        margin: 0 !important;
         page-break-inside: avoid !important;
     }
     
@@ -1250,8 +1567,16 @@ body {
         margin: 0 !important;
         padding: 0 !important;
         font-size: 12px !important;
-        line-height: 1.2 !important;
+        line-height: 1.4 !important;
+        font-family: Arial, sans-serif !important;
         background: white !important;
+        max-height: 100% !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        letter-spacing: 0.02em !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        color: #000000 !important;
     }
     
     .container {
@@ -1259,6 +1584,10 @@ body {
         padding: 0 !important;
         margin: 0 !important;
         max-width: 100% !important;
+        max-height: 100% !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        page-break-inside: avoid !important;
     }
     
     /* Ocultar elementos no necesarios para impresión */
@@ -1282,10 +1611,21 @@ body {
     .matricula-form {
         overflow: visible !important;
         padding: 0 !important;
-        margin: 0 !important;
+        margin: 0 auto !important;
         box-shadow: none !important;
         border: none !important;
         background: white !important;
+        font-size: 12px !important;
+        font-family: Arial, sans-serif !important;
+        transform: scale(0.92) !important;
+        transform-origin: top center !important;
+        max-height: 100% !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+        page-break-inside: avoid !important;
+        width: 100% !important;
+        max-width: 21cm !important;
+        display: block !important;
     }
     
     /* Header de impresión */
@@ -1297,15 +1637,28 @@ body {
         border-bottom: 2px solid #000;
     }
     
+    /* Título principal del formulario */
+    .main-title {
+        font-size: 12px !important;
+        font-weight: bold !important;
+        text-align: center !important;
+        margin: 4px 0 !important;
+        font-family: Arial, sans-serif !important;
+        text-transform: uppercase !important;
+        border-bottom: 1px solid #000 !important;
+        padding-bottom: 2px !important;
+    }
+    
     .header-image {
         text-align: center;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
+        margin-top: 5px;
     }
     
     .encabezado-img {
         max-width: 100%;
         height: auto;
-        max-height: 80px;
+        max-height: 100px;
         object-fit: contain;
     }
     
@@ -1364,31 +1717,33 @@ body {
     }
     
     .form-group {
-        margin-bottom: 3px !important;
+        margin-bottom: 4px !important;
         padding: 0 !important;
         background: white !important;
         border: none !important;
     }
     
     .form-group label {
-        font-size: 10px !important;
+        font-size: 14px !important;
         font-weight: bold !important;
         margin-bottom: 1px !important;
         color: #000 !important;
         text-transform: uppercase;
         display: block;
+        font-family: Arial, sans-serif !important;
     }
     
     .form-group input,
     .form-group select,
     .form-group textarea {
         width: 100% !important;
-        padding: 2px 4px !important;
+        padding: 2px 3px !important;
         border: 1px solid #000 !important;
         border-radius: 0 !important;
-        font-size: 11px !important;
+        font-size: 14px !important;
+        font-family: Arial, sans-serif !important;
         background: white !important;
-        min-height: 16px !important;
+        min-height: 14px !important;
         box-shadow: none !important;
         margin: 0 !important;
     }
@@ -1396,6 +1751,7 @@ body {
     .form-group textarea {
         min-height: 20px !important;
         resize: none !important;
+        height: 20px !important;
     }
     
     /* Declaración */
@@ -1426,8 +1782,9 @@ body {
         width: 100% !important;
         height: auto !important;
         overflow: visible !important;
-        position: static !important;
-        left: auto !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
     }
     
     .print-footer .footer-img {
@@ -1453,6 +1810,17 @@ body {
         width: 100% !important;
         height: auto !important;
         margin: 0 auto !important;
+    }
+    
+    /* Ajustar espaciado entre secciones */
+    .form-section {
+        margin-bottom: 0.25cm !important;
+        padding-bottom: 0.05cm !important;
+    }
+    
+    .form-row {
+        margin-bottom: 0.15cm !important;
+        padding-bottom: 0 !important;
     }
     
     /* Evitar saltos de página */

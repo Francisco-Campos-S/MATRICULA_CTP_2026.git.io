@@ -10,7 +10,25 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles-optimized.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- JS -->
+    <script>
+        // Establecer la fecha actual inmediatamente cuando se carga el script
+        window.onload = function() {
+            console.log('🚀 Window loaded - estableciendo fecha...');
+            if (typeof establecerFechaActual === 'function') {
+                establecerFechaActual();
+            } else {
+                console.warn('⚠️ La función establecerFechaActual no está disponible todavía');
+                // Intentar de nuevo después de un breve retraso
+                setTimeout(function() {
+                    if (typeof establecerFechaActual === 'function') {
+                        establecerFechaActual();
+                    }
+                }, 500);
+            }
+        };
+    </script>
 </head>
 <body>
     <div class="container">
@@ -142,28 +160,22 @@
                 <!-- Título de sección para impresión -->
                 <div class="print-section-title" style="display: none;">DATOS DEL ESTUDIANTE</div>
                 
-                <div class="form-row four-columns">
+                <div class="form-row five-columns">
                     <div class="form-column">
                         <div class="form-group">
                             <label for="primerApellido">Primer apellido:</label>
                             <input type="text" id="primerApellido" name="primerApellido" required tabindex="8">
                         </div>
-                        <div class="form-group horizontal-group" id="nacionalidadGroup">
-                            <div class="horizontal-field">
-                                <label for="nacionalidad">Nacionalidad:</label>
-                                <select id="nacionalidad" name="nacionalidad" onchange="mostrarNacionalidadOtro()" tabindex="13">
-                                    <option value="">Seleccione una nacionalidad</option>
-                                    <option value="Costarricense">Costarricense</option>
-                                    <option value="Panameña">Panameña</option>
-                                    <option value="Nicaragüense">Nicaragüense</option>
-                                    <option value="Venezolana">Venezolana</option>
-                                    <option value="Otro">Otro</option>
-                                </select>
-                            </div>
-                            <div class="horizontal-field" id="nacionalidadOtroGroup" style="display: none;">
-                                <label for="nacionalidadOtro">Especifique la nacionalidad:</label>
-                                <input type="text" id="nacionalidadOtro" name="nacionalidadOtro" placeholder="Escriba la nacionalidad" tabindex="14">
-                            </div>
+                        <div class="form-group">
+                            <label for="nacionalidad">NACIONALIDAD:</label>
+                            <select id="nacionalidad" name="nacionalidad" onchange="mostrarNacionalidadOtro()" tabindex="13">
+                                <option value="">Seleccione una nacionalidad</option>
+                                <option value="Costarricense">Costarricense</option>
+                                <option value="Panameña">Panameña</option>
+                                <option value="Nicaragüense">Nicaragüense</option>
+                                <option value="Venezolana">Venezolana</option>
+                                <option value="Otro">Otro</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="discapacidad">Discapacidad:</label>
@@ -197,34 +209,26 @@
                             <label for="enfermedad">Enfermedad:</label>
                             <input type="text" id="enfermedad" name="enfermedad" placeholder="Describa la enfermedad o condición médica (dejar vacío si no aplica)" tabindex="20">
                         </div>
-
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreEstudiante">Nombre:</label>
                             <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="10">
                         </div>
-                        <div class="form-group horizontal-group" id="tipoIdentificacionGroup">
-                            <div class="horizontal-field">
-                                <label for="tipoIdentificacion">Tipo de identificación:</label>
-                                <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="16">
-                                    <option value="">Seleccione...</option>
-                                    <option value="Cédula">Cédula</option>
-                                    <option value="YR">YR</option>
-                                    <option value="DIMEX">DIMEX</option>
-                                    <option value="Otro">Otro</option>
-                                </select>
-                            </div>
-                            <div class="horizontal-field" id="tipoIdentificacionOtroGroup" style="display: none;">
-                                <label for="tipoIdentificacionOtro">Especifique el tipo:</label>
-                                <input type="text" id="tipoIdentificacionOtro" name="tipoIdentificacionOtro" placeholder="Especifique el tipo de identificación" tabindex="21">
-                            </div>
+                        <div class="form-group">
+                            <label for="tipoIdentificacion">TIPO DE IDENTIFICACIÓN:</label>
+                            <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="16">
+                                <option value="">Seleccione...</option>
+                                <option value="Cédula">Cédula</option>
+                                <option value="YR">YR</option>
+                                <option value="DIMEX">DIMEX</option>
+                                <option value="Otro">Otro</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="cedulaEstudiante">N° cédula:</label>
                             <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="21">
                         </div>
-
                     </div>
                     <div class="form-column">
                         <div class="form-group">
@@ -256,7 +260,6 @@
                                 <!-- Las opciones se generarán dinámicamente con JavaScript -->
                             </select>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -367,63 +370,40 @@
                 <div class="declaration">
                     <p><strong>Declaro que la información proporcionada es verídica y completa.</strong></p>
                 </div>
-                <div class="form-row">
-                    <div class="form-column">
-                        <div class="form-group">
-                            <label for="fecha">Fecha de Matrícula:</label>
-                            <input type="text" id="fecha" name="fecha" placeholder="DD/MM/AAAA" required tabindex="41">
-                        </div>
-                    </div>
-                </div>
+                
+                <!-- Espacio vacío donde estaba el contenedor anterior -->
+                <div style="display: none;"></div>
                 
                 <!-- Líneas de firma para impresión -->
                 <div class="print-firmas" style="display: none;">
-                    <div class="firma-lineas">
-                        <div class="firma-linea">
-                            <span class="firma-label">Firma de la Encargada:</span>
-                            <div class="firma-linea-blanca"></div>
+                    <div class="firma-container">
+                        <div class="firma-lado-izquierdo">
+                            <div class="firma-linea">
+                                <span class="firma-label">FIRMA DE LA ENCARGADA:</span>
+                                <div class="firma-linea-blanca"></div>
+                            </div>
                         </div>
-                        <div class="firma-linea">
-                            <span class="firma-label">Firma del Encargado:</span>
-                            <div class="firma-linea-blanca"></div>
-                        </div>
-                    </div>
-                    <div class="fecha-linea">
-                        <span class="fecha-label">Fecha:</span>
-                        <div class="fecha-campos">
-                            <div class="fecha-campo"></div>
-                            <span class="fecha-separador">/</span>
-                            <div class="fecha-campo"></div>
-                            <span class="fecha-separador">/</span>
-                            <div class="fecha-campo fecha-ano"></div>
+                        <div class="firma-lado-derecho">
+                            <div class="firma-linea">
+                                <span class="firma-label">FIRMA DEL ENCARGADO:</span>
+                                <div class="firma-linea-blanca"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="observaciones-linea">
-                        <span class="observaciones-label">Observaciones:</span>
-                        <div class="observaciones-linea-blanca"></div>
+                </div>
+                
+                <!-- Observaciones y fecha en el formulario -->
+                <div class="observaciones-fecha-container" style="margin-bottom: 30px; margin-top: 30px;">
+                    <div class="observaciones-grupo">
+                        <label for="observaciones">Observaciones Adicionales:</label>
+                        <textarea id="observaciones" name="observaciones" rows="3" placeholder="Información adicional, comentarios o notas importantes sobre la matrícula del estudiante" tabindex="44" style="min-height: 80px;"></textarea>
+                    </div>
+                    <div class="fecha-grupo">
+                        <label for="fecha-matricula" style="text-align: center; display: block;">Fecha de Matrícula:</label>
+                        <input type="date" id="fecha-matricula" name="fecha-matricula" tabindex="45" style="margin: 0 auto; display: block; width: 80%;">
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="observaciones">Observaciones Adicionales:</label>
-                    <textarea id="observaciones" name="observaciones" rows="1" placeholder="Información adicional o comentarios sobre la matrícula" tabindex="44"></textarea>
-                </div>
-                
-                <!-- Footer para impresión -->
-                <div class="print-footer-integrado" style="display: none;">
-                    <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0; width: 100%;">
-                    <p style="font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                    <p style="font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
-                </div>
-                
-                <!-- Footer dentro del formulario para impresión -->
-                <div class="footer-dentro-form" style="display: none;">
-                    <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0;">
-                    <p style="margin: 2px 0; font-size: 10px; text-align: center; font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                    <p style="margin: 2px 0; font-size: 10px; text-align: center; font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
-                </div>
-                
-                <img src="footer.png" alt="Footer CTP Sabalito" class="footer-img" style="display: none;">
             </div>
 
             <!-- Botones de Acción -->
@@ -455,45 +435,12 @@
                 <p><strong>Ejemplo:</strong> Boleta_Matricula_Apellido_Nivel_Seccion_2026.pdf</p>
             </div>
             <!-- Print Footer (solo visible al imprimir) -->
-            <div class="print-footer" style="display: none;">
-                <hr style="border: none; border-top: 2px solid black; margin: 20px 0 10px 0; width: 100%;">
-                <p style="margin: 2px 0; font-size: 10px; text-align: center; line-height: 1.2; font-weight: bold; color: black;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-                <p style="margin: 2px 0; font-size: 10px; text-align: center; line-height: 1.2; font-weight: bold; color: black;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
+            <div class="print-footer-simple">
+                <hr style="border: none; border-top: 1px solid black; margin: 0 0 3px 0; width: 100%;">
+                <p style="font-weight: bold; color: black; margin: 2px 0; font-size: 10px; text-align: center; font-family: Arial, sans-serif;">Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
+                <p style="font-weight: bold; color: black; margin: 2px 0; font-size: 10px; text-align: center; font-family: Arial, sans-serif;">Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
             </div>
         </form>
-
-        <!-- Footer fijo para impresión -->
-        <style>
-            @media print {
-                #fixed-print-footer {
-                    display: block !important;
-                    position: fixed;
-                    bottom: 0;
-                    width: 100%;
-                    text-align: center;
-                    padding-top: 5px;
-                    background-color: white;
-                }
-                #fixed-print-footer hr {
-                    border: none;
-                    border-top: 2px solid black;
-                    margin: 0 0 5px 0;
-                    width: 100%;
-                }
-                #fixed-print-footer p {
-                    margin: 2px 0;
-                    font-size: 10px;
-                    line-height: 1.2;
-                    font-weight: bold;
-                    color: black;
-                }
-            }
-        </style>
-        <div id="fixed-print-footer" style="display: none;">
-            <hr>
-            <p>Puntarenas, Coto Brus, 600 metros sureste de la tostadora de Café Rio Brus, camino a Rio Sereno.</p>
-            <p>Teléfono (506) 2784-0616/WhatsApp 69914536. Email: Ctp.desabalito@mep.go</p>
-        </div>
 
         <!-- Success Message -->
         <div id="successMessage" class="success-message" style="display: none;">
@@ -518,3 +465,4 @@
 </body>
 </html>
 
+  
