@@ -1249,8 +1249,135 @@ function imprimirFormulario() {
     // El footer ahora se maneja completamente con CSS @media print
     console.log('📄 Footer será manejado por CSS @media print');
     
+    // Detectar navegadores
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    
+    // Ocultar títulos del navegador antes de imprimir
+    const originalTitle = document.title;
+    document.title = ""; // Vaciar el título
+    
+    // Ocultar el elemento title del HTML
+    const titleElement = document.getElementById('pageTitle');
+    if (titleElement) {
+        titleElement.style.display = 'none';
+        titleElement.style.visibility = 'hidden';
+        titleElement.style.opacity = '0';
+        titleElement.textContent = ''; // Vaciar el contenido del título
+    }
+    
+    // Solución específica para Chrome
+    if (isChrome) {
+        // Cambiar el título de la ventana
+        document.title = "";
+        
+        // Crear un elemento temporal para reemplazar el título
+        const tempTitle = document.createElement('title');
+        tempTitle.textContent = '';
+        document.head.appendChild(tempTitle);
+        
+        // Remover el título original
+        if (titleElement) {
+            titleElement.remove();
+        }
+    }
+    
+    // Solución específica para Firefox
+    if (isFirefox) {
+        // Cambiar el título de la ventana
+        document.title = "";
+        
+        // Crear un elemento temporal para reemplazar el título
+        const tempTitle = document.createElement('title');
+        tempTitle.textContent = '';
+        document.head.appendChild(tempTitle);
+        
+        // Remover el título original
+        if (titleElement) {
+            titleElement.remove();
+        }
+        
+        // Forzar la actualización del título en Firefox
+        document.head.removeChild(document.querySelector('title'));
+        const newTitle = document.createElement('title');
+        newTitle.textContent = '';
+        document.head.appendChild(newTitle);
+    }
+    
+    // Crear un estilo temporal para ocultar elementos del navegador
+    const style = document.createElement('style');
+    style.textContent = `
+        @media print {
+            @page {
+                @top-left { content: "" !important; }
+                @top-center { content: "" !important; }
+                @top-right { content: "" !important; }
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :first {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :left {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :right {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            title {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
+            *[title*="Matrícula"],
+            *[title*="CTP"],
+            *[title*="Sabalito"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
     // Imprimir
     window.print();
+    
+    // Restaurar el título después de imprimir
+    setTimeout(() => {
+        document.title = originalTitle;
+        
+        if (isChrome) {
+            // Restaurar el título original en Chrome
+            const tempTitle = document.querySelector('title');
+            if (tempTitle) {
+                tempTitle.remove();
+            }
+            
+            // Recrear el título original
+            const newTitle = document.createElement('title');
+            newTitle.id = 'pageTitle';
+            newTitle.textContent = originalTitle;
+            document.head.appendChild(newTitle);
+        } else {
+            // Restaurar para otros navegadores
+            if (titleElement) {
+                titleElement.style.display = '';
+                titleElement.style.visibility = '';
+                titleElement.style.opacity = '';
+                titleElement.textContent = originalTitle; // Restaurar el contenido del título
+            }
+        }
+        
+        document.head.removeChild(style);
+    }, 1000);
     
     // Restaurar placeholders después de imprimir
     setTimeout(() => {

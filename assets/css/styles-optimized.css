@@ -1322,6 +1322,53 @@ body {
         @bottom-right { content: ""; }
     }
     
+    /* Ocultar completamente el título de la página */
+    title {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    /* Ocultar cualquier elemento que pueda mostrar el título */
+    *[title*="Matrícula"],
+    *[title*="CTP"],
+    *[title*="Sabalito"],
+    *[data-title*="Matrícula"],
+    *[data-title*="CTP"],
+    *[data-title*="Sabalito"] {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+    }
+    
+    /* Ocultar completamente los headers y footers del navegador */
+    @page :first {
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
+    }
+    
+    @page :left {
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
+    }
+    
+    @page :right {
+        @top-left { content: ""; }
+        @top-center { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-center { content: ""; }
+        @bottom-right { content: ""; }
+    }
+    
     /* Ajustes específicos para la cuarta columna en datos del estudiante */
     .form-row.four-columns {
         display: grid;
@@ -1449,6 +1496,22 @@ body {
         @bottom-left { content: ""; }
         @bottom-center { content: ""; }
         @bottom-right { content: ""; }
+    }
+    
+    /* Reglas adicionales para ocultar títulos del navegador */
+    html, body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    /* Ocultar cualquier elemento que pueda mostrar información del navegador */
+    *[title],
+    *[data-title],
+    .browser-title,
+    .page-title,
+    .url-display {
+        display: none !important;
+        visibility: hidden !important;
     }
     
     /* Estilos para observaciones y fecha en el formulario normal */
@@ -1645,6 +1708,89 @@ body {
     .print-hide,
     .no-print {
         display: none !important;
+    }
+    
+    /* Reglas específicas para ocultar títulos del navegador */
+    @page {
+        margin: 0.5cm !important;
+        @top-left { content: "" !important; }
+        @top-center { content: "" !important; }
+        @top-right { content: "" !important; }
+        @bottom-left { content: "" !important; }
+        @bottom-center { content: "" !important; }
+        @bottom-right { content: "" !important; }
+    }
+    
+    /* Forzar ocultación de elementos del navegador */
+    html::before,
+    html::after,
+    body::before,
+    body::after {
+        display: none !important;
+        content: "" !important;
+        visibility: hidden !important;
+    }
+    
+    /* Reglas adicionales para ocultar títulos del navegador */
+    @page {
+        margin: 0.5cm !important;
+        @top-left { content: "" !important; }
+        @top-center { content: "" !important; }
+        @top-right { content: "" !important; }
+        @bottom-left { content: "" !important; }
+        @bottom-center { content: "" !important; }
+        @bottom-right { content: "" !important; }
+    }
+    
+    /* Ocultar cualquier elemento que pueda mostrar información del navegador */
+    *[title*="Matrícula"],
+    *[title*="CTP"],
+    *[title*="Sabalito"],
+    *[data-title*="Matrícula"],
+    *[data-title*="CTP"],
+    *[data-title*="Sabalito"] {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    
+    /* Reglas específicas para Chrome */
+    @media print {
+        @page {
+            @top-left { content: "" !important; }
+            @top-center { content: "" !important; }
+            @top-right { content: "" !important; }
+            @bottom-left { content: "" !important; }
+            @bottom-center { content: "" !important; }
+            @bottom-right { content: "" !important; }
+        }
+    }
+    
+    /* Ocultar fecha y hora del pie de página */
+    @media print {
+        @page {
+            @bottom-left { content: "" !important; }
+            @bottom-center { content: "" !important; }
+            @bottom-right { content: "" !important; }
+        }
+        
+        /* Reglas adicionales para ocultar fecha y hora */
+        @page :first {
+            @bottom-left { content: "" !important; }
+            @bottom-center { content: "" !important; }
+            @bottom-right { content: "" !important; }
+        }
+        
+        @page :left {
+            @bottom-left { content: "" !important; }
+            @bottom-center { content: "" !important; }
+            @bottom-right { content: "" !important; }
+        }
+        
+        @page :right {
+            @bottom-left { content: "" !important; }
+            @bottom-center { content: "" !important; }
+            @bottom-right { content: "" !important; }
+        }
     }
     
     .container {
