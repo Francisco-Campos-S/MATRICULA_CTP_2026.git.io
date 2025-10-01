@@ -551,7 +551,7 @@ function cargarDatosPrueba() {
             // Información básica
             nivel: 'Décimo',
             especialidad: 'Contabilidad',
-            seccion: 'A',
+            seccion: '10A',
             
             // Datos del estudiante
             primerApellido: 'ALVARADO',
@@ -565,7 +565,7 @@ function cargarDatosPrueba() {
             enfermedad: '',
             adecuacion: 'Sin adecuación',
             repitente: 'No',
-            rutaTransporte: 'Ruta 1',
+            rutaTransporte: '421601',
             
             // Datos de la madre
             nombreMadre: 'MARÍA',
@@ -590,6 +590,13 @@ function cargarDatosPrueba() {
             observaciones: 'Estudiante nuevo ingreso'
         };
         
+        // Primero seleccionar el tipo de matrícula (Regular)
+        const tipoRegular = document.getElementById('regular');
+        if (tipoRegular) {
+            tipoRegular.checked = true;
+            console.log('✅ Tipo de matrícula Regular seleccionado');
+        }
+        
         // Llenar todos los campos del formulario
         let camposCargados = 0;
         let camposNoEncontrados = [];
@@ -601,10 +608,12 @@ function cargarDatosPrueba() {
                 camposCargados++;
                 console.log(`✅ Campo cargado: ${key} = ${datosPrueba[key]}`);
                 
-                // Si es el campo de nivel, actualizar especialidades
+                // Si es el campo de nivel, actualizar especialidades y secciones
                 if (key === 'nivel') {
                     setTimeout(() => {
                         actualizarEspecialidades();
+                        actualizarSecciones();
+                        
                         // Después de actualizar especialidades, cargar la especialidad de prueba
                         setTimeout(() => {
                             const especialidadElement = document.getElementById('especialidad');
@@ -612,7 +621,14 @@ function cargarDatosPrueba() {
                                 especialidadElement.value = datosPrueba.especialidad;
                                 console.log(`✅ Especialidad cargada: ${datosPrueba.especialidad}`);
                             }
-                        }, 100);
+                            
+                            // Después de actualizar secciones, cargar la sección de prueba
+                            const seccionElement = document.getElementById('seccion');
+                            if (seccionElement) {
+                                seccionElement.value = datosPrueba.seccion;
+                                console.log(`✅ Sección cargada: ${datosPrueba.seccion}`);
+                            }
+                        }, 200);
                     }, 100);
                 }
             } else {
@@ -899,10 +915,27 @@ async function enviarFormulario() {
             mostrarMensaje(`✅ Formulario enviado exitosamente a la hoja: ${hojaDestino}`, 'success');
             console.log(`Formulario enviado exitosamente a Google Sheets - Hoja: ${hojaDestino}`);
             
-            // Limpiar formulario después del envío exitoso
-            setTimeout(() => {
-                limpiarFormulario();
-            }, 2000);
+            // Efecto de desvanecimiento al enviar exitosamente
+            const formulario = document.getElementById('matriculaForm');
+            if (formulario) {
+                // Desvanecer
+                formulario.classList.add('fade-out');
+                formulario.classList.remove('fade-in');
+                
+                // Limpiar formulario y reaparecer después del efecto
+                setTimeout(() => {
+                    limpiarFormulario();
+                    
+                    // Reaparecer
+                    formulario.classList.remove('fade-out');
+                    formulario.classList.add('fade-in');
+                }, 500);
+            } else {
+                // Fallback si no se encuentra el formulario
+                setTimeout(() => {
+                    limpiarFormulario();
+                }, 2000);
+            }
         } else {
             throw new Error(resultado.error || 'Error desconocido al enviar');
         }
@@ -1249,8 +1282,135 @@ function imprimirFormulario() {
     // El footer ahora se maneja completamente con CSS @media print
     console.log('📄 Footer será manejado por CSS @media print');
     
+    // Detectar navegadores
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    
+    // Ocultar títulos del navegador antes de imprimir
+    const originalTitle = document.title;
+    document.title = ""; // Vaciar el título
+    
+    // Ocultar el elemento title del HTML
+    const titleElement = document.getElementById('pageTitle');
+    if (titleElement) {
+        titleElement.style.display = 'none';
+        titleElement.style.visibility = 'hidden';
+        titleElement.style.opacity = '0';
+        titleElement.textContent = ''; // Vaciar el contenido del título
+    }
+    
+    // Solución específica para Chrome
+    if (isChrome) {
+        // Cambiar el título de la ventana
+        document.title = "";
+        
+        // Crear un elemento temporal para reemplazar el título
+        const tempTitle = document.createElement('title');
+        tempTitle.textContent = '';
+        document.head.appendChild(tempTitle);
+        
+        // Remover el título original
+        if (titleElement) {
+            titleElement.remove();
+        }
+    }
+    
+    // Solución específica para Firefox
+    if (isFirefox) {
+        // Cambiar el título de la ventana
+        document.title = "";
+        
+        // Crear un elemento temporal para reemplazar el título
+        const tempTitle = document.createElement('title');
+        tempTitle.textContent = '';
+        document.head.appendChild(tempTitle);
+        
+        // Remover el título original
+        if (titleElement) {
+            titleElement.remove();
+        }
+        
+        // Forzar la actualización del título en Firefox
+        document.head.removeChild(document.querySelector('title'));
+        const newTitle = document.createElement('title');
+        newTitle.textContent = '';
+        document.head.appendChild(newTitle);
+    }
+    
+    // Crear un estilo temporal para ocultar elementos del navegador
+    const style = document.createElement('style');
+    style.textContent = `
+        @media print {
+            @page {
+                @top-left { content: "" !important; }
+                @top-center { content: "" !important; }
+                @top-right { content: "" !important; }
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :first {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :left {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            @page :right {
+                @bottom-left { content: "" !important; }
+                @bottom-center { content: "" !important; }
+                @bottom-right { content: "" !important; }
+            }
+            title {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
+            *[title*="Matrícula"],
+            *[title*="CTP"],
+            *[title*="Sabalito"] {
+                display: none !important;
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
     // Imprimir
     window.print();
+    
+    // Restaurar el título después de imprimir
+    setTimeout(() => {
+        document.title = originalTitle;
+        
+        if (isChrome) {
+            // Restaurar el título original en Chrome
+            const tempTitle = document.querySelector('title');
+            if (tempTitle) {
+                tempTitle.remove();
+            }
+            
+            // Recrear el título original
+            const newTitle = document.createElement('title');
+            newTitle.id = 'pageTitle';
+            newTitle.textContent = originalTitle;
+            document.head.appendChild(newTitle);
+        } else {
+            // Restaurar para otros navegadores
+            if (titleElement) {
+                titleElement.style.display = '';
+                titleElement.style.visibility = '';
+                titleElement.style.opacity = '';
+                titleElement.textContent = originalTitle; // Restaurar el contenido del título
+            }
+        }
+        
+        document.head.removeChild(style);
+    }, 1000);
     
     // Restaurar placeholders después de imprimir
     setTimeout(() => {
@@ -1279,6 +1439,24 @@ function mostrarMensaje(mensaje, tipo = 'info') {
             mensajeElement.textContent = '';
             mensajeElement.className = 'mensaje-consulta';
         }, 5000);
+    }
+}
+
+// Función para mostrar mensajes con spinner de carga
+function mostrarMensajeConSpinner(mensaje, tipo = 'loading') {
+    const mensajeElement = document.getElementById('mensajeConsulta');
+    if (mensajeElement) {
+        if (tipo === 'loading') {
+            mensajeElement.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="spinner-mini"></div>
+                    <span>${mensaje}</span>
+                </div>
+            `;
+        } else {
+            mensajeElement.textContent = mensaje;
+        }
+        mensajeElement.className = `mensaje-consulta ${tipo}`;
     }
 }
 
@@ -1325,6 +1503,7 @@ function copiarCedulaACampoEstudiante(cedula, mostrarMensaje = false) {
 // Función para consultar estudiante por cédula en Google Sheets
 async function consultarEstudiante() {
     const cedula = document.getElementById('cedulaConsulta').value.trim();
+    const btnBuscar = document.querySelector('.btn-consulta');
     
     if (!cedula) {
         mostrarMensaje('❌ Por favor ingrese un número de cédula', 'error');
@@ -1332,9 +1511,16 @@ async function consultarEstudiante() {
     }
     
     console.log('🔍 Consultando estudiante con cédula:', cedula);
-    mostrarMensaje('🔍 Buscando estudiante en Google Sheets...', 'info');
     
-
+    // Mostrar indicador de carga mejorado
+    mostrarMensajeConSpinner('🔍 Buscando estudiante en Google Sheets...', 'loading');
+    
+    // Deshabilitar botón de búsqueda
+    if (btnBuscar) {
+        btnBuscar.disabled = true;
+        btnBuscar.innerHTML = '⏳ Buscando...';
+        btnBuscar.style.opacity = '0.7';
+    }
     
     try {
         // Obtener configuración de Google Sheets
@@ -1410,6 +1596,13 @@ async function consultarEstudiante() {
         console.error('❌ Error en consulta:', error);
         mostrarMensaje(`❌ Error al consultar: ${error.message}`, 'error');
         console.log('💡 Sugerencia: Verifica que el Google Apps Script esté funcionando correctamente');
+    } finally {
+        // Restaurar botón de búsqueda
+        if (btnBuscar) {
+            btnBuscar.disabled = false;
+            btnBuscar.innerHTML = '🔍 Buscar';
+            btnBuscar.style.opacity = '1';
+        }
     }
 }
 
@@ -1905,29 +2098,45 @@ function actualizarEspecialidades() {
     // Limpiar opciones actuales (excepto la primera)
     especialidadSelect.innerHTML = '<option value="">Seleccione una especialidad</option>';
     
-    // Obtener especialidades para el nivel seleccionado
-    const especialidades = especialidadesPorNivel[nivelSeleccionado];
+    // Verificar si se seleccionó Plan Nacional
+    const tipoPlanNacional = document.getElementById('planNacional');
+    const esPlanNacional = tipoPlanNacional && tipoPlanNacional.checked;
     
-    if (especialidades) {
-        console.log('🎯 Especialidades disponibles para', nivelSeleccionado, ':', especialidades);
+    if (esPlanNacional) {
+        // Para Plan Nacional: solo "Formación Vocacional" en todos los niveles
+        console.log('🎯 Plan Nacional seleccionado - mostrando solo Formación Vocacional');
+        const option = document.createElement('option');
+        option.value = 'Formación Vocacional';
+        option.textContent = 'Formación Vocacional';
+        especialidadSelect.appendChild(option);
         
-        // Agregar opciones de especialidades
-        especialidades.forEach(especialidad => {
-            const option = document.createElement('option');
-            option.value = especialidad.value;
-            option.textContent = especialidad.text;
-            especialidadSelect.appendChild(option);
-        });
-        
-        // Si solo hay una opción (Sin especialidad), seleccionarla automáticamente
-        if (especialidades.length === 1 && especialidades[0].value === 'Sin especialidad') {
-            especialidadSelect.value = 'Sin especialidad';
-            console.log('✅ Especialidad "Sin especialidad" seleccionada automáticamente para', nivelSeleccionado);
-        }
-        
-        console.log(`✅ ${especialidades.length} especialidades cargadas para ${nivelSeleccionado}`);
+        // Seleccionar automáticamente
+        especialidadSelect.value = 'Formación Vocacional';
     } else {
-        console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
+        // Para Regular: usar las especialidades normales por nivel
+        const especialidades = especialidadesPorNivel[nivelSeleccionado];
+        
+        if (especialidades) {
+            console.log('🎯 Especialidades disponibles para', nivelSeleccionado, ':', especialidades);
+            
+            // Agregar opciones de especialidades
+            especialidades.forEach(especialidad => {
+                const option = document.createElement('option');
+                option.value = especialidad.value;
+                option.textContent = especialidad.text;
+                especialidadSelect.appendChild(option);
+            });
+            
+            // Si solo hay una opción (Sin especialidad), seleccionarla automáticamente
+            if (especialidades.length === 1 && especialidades[0].value === 'Sin especialidad') {
+                especialidadSelect.value = 'Sin especialidad';
+                console.log('✅ Especialidad "Sin especialidad" seleccionada automáticamente para', nivelSeleccionado);
+            }
+            
+            console.log(`✅ ${especialidades.length} especialidades cargadas para ${nivelSeleccionado}`);
+        } else {
+            console.log('❌ No se encontraron especialidades para el nivel:', nivelSeleccionado);
+        }
     }
     
     // Actualizar secciones después de actualizar especialidades
@@ -2085,16 +2294,18 @@ function inicializarSecciones() {
     
     if (tipoRegular) {
         tipoRegular.addEventListener('change', function() {
-            console.log('🔄 Tipo de matrícula cambió a Regular, actualizando secciones...');
+            console.log('🔄 Tipo de matrícula cambió a Regular, actualizando secciones y especialidades...');
             actualizarSecciones();
+            actualizarEspecialidades();
         });
         console.log('✅ Event listener agregado al tipo Regular');
     }
     
     if (tipoPlanNacional) {
         tipoPlanNacional.addEventListener('change', function() {
-            console.log('🔄 Tipo de matrícula cambió a Plan Nacional, actualizando secciones...');
+            console.log('🔄 Tipo de matrícula cambió a Plan Nacional, actualizando secciones y especialidades...');
             actualizarSecciones();
+            actualizarEspecialidades();
         });
         console.log('✅ Event listener agregado al tipo Plan Nacional');
     }
