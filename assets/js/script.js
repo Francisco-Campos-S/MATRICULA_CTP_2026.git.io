@@ -551,7 +551,7 @@ function cargarDatosPrueba() {
             // Información básica
             nivel: 'Décimo',
             especialidad: 'Contabilidad',
-            seccion: 'A',
+            seccion: '10A',
             
             // Datos del estudiante
             primerApellido: 'ALVARADO',
@@ -565,7 +565,7 @@ function cargarDatosPrueba() {
             enfermedad: '',
             adecuacion: 'Sin adecuación',
             repitente: 'No',
-            rutaTransporte: 'Ruta 1',
+            rutaTransporte: '421601',
             
             // Datos de la madre
             nombreMadre: 'MARÍA',
@@ -590,6 +590,13 @@ function cargarDatosPrueba() {
             observaciones: 'Estudiante nuevo ingreso'
         };
         
+        // Primero seleccionar el tipo de matrícula (Regular)
+        const tipoRegular = document.getElementById('regular');
+        if (tipoRegular) {
+            tipoRegular.checked = true;
+            console.log('✅ Tipo de matrícula Regular seleccionado');
+        }
+        
         // Llenar todos los campos del formulario
         let camposCargados = 0;
         let camposNoEncontrados = [];
@@ -601,10 +608,12 @@ function cargarDatosPrueba() {
                 camposCargados++;
                 console.log(`✅ Campo cargado: ${key} = ${datosPrueba[key]}`);
                 
-                // Si es el campo de nivel, actualizar especialidades
+                // Si es el campo de nivel, actualizar especialidades y secciones
                 if (key === 'nivel') {
                     setTimeout(() => {
                         actualizarEspecialidades();
+                        actualizarSecciones();
+                        
                         // Después de actualizar especialidades, cargar la especialidad de prueba
                         setTimeout(() => {
                             const especialidadElement = document.getElementById('especialidad');
@@ -612,7 +621,14 @@ function cargarDatosPrueba() {
                                 especialidadElement.value = datosPrueba.especialidad;
                                 console.log(`✅ Especialidad cargada: ${datosPrueba.especialidad}`);
                             }
-                        }, 100);
+                            
+                            // Después de actualizar secciones, cargar la sección de prueba
+                            const seccionElement = document.getElementById('seccion');
+                            if (seccionElement) {
+                                seccionElement.value = datosPrueba.seccion;
+                                console.log(`✅ Sección cargada: ${datosPrueba.seccion}`);
+                            }
+                        }, 200);
                     }, 100);
                 }
             } else {
