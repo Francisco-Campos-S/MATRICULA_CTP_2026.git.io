@@ -1226,6 +1226,24 @@ body {
     }
 }
 
+/* Spinner mini para mensajes de carga */
+.spinner-mini {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid var(--accent-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Estilos para mensajes de carga */
+.mensaje-consulta.loading {
+    background: #e3f2fd;
+    border: 1px solid #2196f3;
+    color: #1976d2;
+    font-weight: 500;
+}
+
 /* Ajustes para navegadores móviles */
 @media screen and (max-height: 600px) {
     body {

@@ -1442,6 +1442,24 @@ function mostrarMensaje(mensaje, tipo = 'info') {
     }
 }
 
+// Función para mostrar mensajes con spinner de carga
+function mostrarMensajeConSpinner(mensaje, tipo = 'loading') {
+    const mensajeElement = document.getElementById('mensajeConsulta');
+    if (mensajeElement) {
+        if (tipo === 'loading') {
+            mensajeElement.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <div class="spinner-mini"></div>
+                    <span>${mensaje}</span>
+                </div>
+            `;
+        } else {
+            mensajeElement.textContent = mensaje;
+        }
+        mensajeElement.className = `mensaje-consulta ${tipo}`;
+    }
+}
+
 
 
 // Función para copiar la cédula al campo de datos del estudiante
@@ -1485,6 +1503,7 @@ function copiarCedulaACampoEstudiante(cedula, mostrarMensaje = false) {
 // Función para consultar estudiante por cédula en Google Sheets
 async function consultarEstudiante() {
     const cedula = document.getElementById('cedulaConsulta').value.trim();
+    const btnBuscar = document.querySelector('.btn-consulta');
     
     if (!cedula) {
         mostrarMensaje('❌ Por favor ingrese un número de cédula', 'error');
@@ -1492,9 +1511,16 @@ async function consultarEstudiante() {
     }
     
     console.log('🔍 Consultando estudiante con cédula:', cedula);
-    mostrarMensaje('🔍 Buscando estudiante en Google Sheets...', 'info');
     
-
+    // Mostrar indicador de carga mejorado
+    mostrarMensajeConSpinner('🔍 Buscando estudiante en Google Sheets...', 'loading');
+    
+    // Deshabilitar botón de búsqueda
+    if (btnBuscar) {
+        btnBuscar.disabled = true;
+        btnBuscar.innerHTML = '⏳ Buscando...';
+        btnBuscar.style.opacity = '0.7';
+    }
     
     try {
         // Obtener configuración de Google Sheets
@@ -1570,6 +1596,13 @@ async function consultarEstudiante() {
         console.error('❌ Error en consulta:', error);
         mostrarMensaje(`❌ Error al consultar: ${error.message}`, 'error');
         console.log('💡 Sugerencia: Verifica que el Google Apps Script esté funcionando correctamente');
+    } finally {
+        // Restaurar botón de búsqueda
+        if (btnBuscar) {
+            btnBuscar.disabled = false;
+            btnBuscar.innerHTML = '🔍 Buscar';
+            btnBuscar.style.opacity = '1';
+        }
     }
 }
 
