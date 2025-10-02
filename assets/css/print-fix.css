@@ -1,0 +1,208 @@
+/* Corrección para impresión en una sola página con Arial 12 */
+@media print {
+    /* Ajustar tamaño a una página */
+    @page {
+        size: A4 portrait;
+        margin: 0.4cm;
+        /* Eliminar cabeceras y pies de página del navegador */
+        marks: none;
+    }
+
+    /* Elemento raíz y body */
+    html, body {
+        width: 100%;
+        height: auto !important;
+        overflow: visible !important;
+        background: white !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        line-height: 1.1 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Contenedor principal */
+    .container, .matricula-form {
+        height: auto !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        transform: scale(0.92) !important;
+        transform-origin: top center !important;
+        font-family: Arial, sans-serif !important;
+        max-height: 100% !important;
+    }
+
+    /* Reducir espaciado */
+    .form-section {
+        margin-bottom: 1mm !important;
+        padding: 0.5mm !important;
+        background: transparent !important;
+        border: none !important;
+        page-break-inside: avoid !important;
+    }
+
+    .form-group {
+        margin-bottom: 0.5mm !important;
+        padding: 0.5mm !important;
+    }
+
+    /* Ajustar tamaño de texto */
+    .form-group label {
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        font-weight: bold !important;
+        margin-bottom: 0.5mm !important;
+        line-height: 1.1 !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        padding: 0.5mm !important;
+        min-height: 4mm !important;
+        height: auto !important;
+        line-height: 1.1 !important;
+        border: 1px solid black !important;
+    }
+
+    /* Ocultar elementos innecesarios para impresión */
+    .header, .form-actions, .btn, .consulta-section, .tipo-matricula-section,
+    .mensaje-consulta, button, .print-info, .print-info-general, .nivel-especialidad-section {
+        display: none !important;
+    }
+
+    /* Ajustar columnas a 3 columnas */
+    .form-row {
+        display: grid !important;
+        gap: 1mm !important;
+        margin-bottom: 1mm !important;
+    }
+
+    /* Cambiar todas las filas a 3 columnas como máximo */
+    .form-row.five-columns,
+    .form-row.four-columns,
+    .form-row.three-columns,
+    .form-row {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    /* Espaciado para declaración */
+    .declaration {
+        margin: 1mm 0 !important;
+        padding: 1mm !important;
+        border: 1px solid black !important;
+    }
+
+    .declaration p {
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        margin: 0 !important;
+        font-weight: bold !important;
+    }
+
+    /* Ajustar observaciones y fecha */
+    .observaciones-fecha-container {
+        margin: 1mm 0 !important;
+        display: flex !important; /* Mostrar en horizontal para ahorrar espacio */
+        gap: 2mm !important;
+    }
+
+    .observaciones-grupo {
+        width: 70% !important;
+    }
+    
+    .fecha-grupo {
+        width: 30% !important;
+    }
+
+    /* Firmas */
+    .print-firmas {
+        display: block !important;
+        margin-top: 2mm !important;
+    }
+
+    .firma-label {
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        font-weight: bold !important;
+    }
+
+    .firma-container {
+        display: flex !important;
+        justify-content: space-between !important;
+        margin-top: 2mm !important;
+    }
+    
+    .firma-linea-blanca {
+        margin-top: 10px !important;
+    }
+
+    /* Footer */
+    .footer-permanent {
+        display: block !important;
+        margin-top: 2mm !important;
+        page-break-inside: avoid !important;
+    }
+
+    .footer-permanent p {
+        font-family: Arial, sans-serif !important;
+        font-size: 10pt !important; /* Ligeramente más pequeño para asegurar que quepa */
+        line-height: 1.1 !important;
+        margin: 0.5mm 0 !important;
+    }
+    
+    /* Títulos de sección */
+    .print-section-title {
+        display: block !important;
+        visibility: visible !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 14pt !important;
+        font-weight: bold !important;
+        margin: 2mm 0 1mm 0 !important;
+        padding: 1mm 0 !important;
+        border-bottom: 1px solid black !important;
+    }
+    
+    /* Quitar saltos de página */
+    .form-section:nth-of-type(n) {
+        page-break-before: avoid !important;
+    }
+    
+    /* Reducir tamaño de campos de texto */
+    textarea {
+        height: 15mm !important;
+        min-height: 15mm !important;
+    }
+    
+    /* Optimizar campos horizontales */
+    .horizontal-group {
+        padding: 0.5mm !important;
+        margin-bottom: 0.5mm !important;
+    }
+    
+    .horizontal-field {
+        padding: 0 !important;
+    }
+    
+    .horizontal-field label {
+        font-size: 12pt !important;
+    }
+    
+    .horizontal-field input,
+    .horizontal-field select {
+        font-size: 12pt !important;
+    }
+    
+    /* Asegurar que todo quepa en una página */
+    .print-header {
+        margin-bottom: 2mm !important;
+    }
+    
+    .main-title {
+        font-size: 14pt !important;
+        margin: 1mm 0 !important;
+    }
+}

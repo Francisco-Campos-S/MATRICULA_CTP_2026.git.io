@@ -1,0 +1,297 @@
+/* Estilos de impresión para asegurar que todo quepa en una sola página */
+@media print {
+    /* Configuración de página */
+    @page {
+        size: A4 portrait;
+        margin: 0.6cm;
+    }
+
+    /* Estilos generales */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 10pt !important;
+        line-height: 1.1 !important;
+        width: 100% !important;
+    }
+    
+    /* Escalar todo para que quepa */
+    body {
+        transform: scale(0.92);
+        transform-origin: top center;
+    }
+    
+    /* Ocultar elementos no necesarios */
+    .header, .consulta-section, .form-actions, .btn, 
+    button, .mensaje-consulta, .print-info, .app-footer,
+    .print-section-title, #loadingSpinner, #successMessage {
+        display: none !important;
+    }
+    
+    /* Formulario principal */
+    .container, .matricula-form {
+        display: block !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: white !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Título superior */
+    .matricula-form::before {
+        content: "BOLETA MATRÍCULA 2026";
+        display: block !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        font-size: 14pt !important;
+        margin-bottom: 8px !important;
+        border-bottom: 1px solid black !important;
+        padding-bottom: 3px !important;
+    }
+    
+    /* SECCIÓN DE INFORMACIÓN GENERAL */
+    /* Primera sección especial */
+    .form-section:first-of-type {
+        margin-bottom: 5px !important;
+        position: relative !important;
+        padding-top: 5px !important;
+    }
+    
+    /* Insertar tipo de matrícula, nivel y especialidad en la primera sección */
+    .form-section:first-of-type::after {
+        content: 
+            "TIPO DE MATRÍCULA: " attr(data-tipo-matricula) "\A"
+            "NIVEL: " attr(data-nivel) "\A"
+            "ESPECIALIDAD: " attr(data-especialidad) "\A"
+            "SECCIÓN: " attr(data-seccion) "\A"
+            "RUTA DE TRANSPORTE: " attr(data-ruta);
+        white-space: pre !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 10pt !important;
+        font-weight: bold !important;
+        display: block !important;
+        border: 1px solid black !important;
+        padding: 5px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    /* Ocultar secciones que ya incluimos en el contenido generado */
+    .tipo-matricula-section,
+    .nivel-especialidad-section {
+        display: none !important;
+    }
+    
+    /* Secciones de formulario */
+    .form-section {
+        display: block !important;
+        margin-bottom: 8px !important;
+        border: 1px solid black !important;
+        page-break-inside: avoid !important;
+        width: 100% !important;
+        clear: both !important;
+        background: white !important;
+    }
+    
+    /* Encabezados de sección */
+    .section-header {
+        background-color: #1B5E20 !important; /* Verde */
+        color: white !important;
+        padding: 2px !important;
+        margin: 0 !important;
+        border-bottom: 1px solid black !important;
+    }
+    
+    .section-header h2 {
+        color: white !important;
+        margin: 0 !important;
+        padding: 2px !important;
+        font-size: 11pt !important;
+        text-align: center !important;
+        font-weight: bold !important;
+    }
+    
+    /* ESTRUCTURA DE DATOS */
+    /* Filas y columnas */
+    .form-row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 2px !important;
+        padding: 3px !important;
+        page-break-inside: avoid !important;
+    }
+    
+    /* Diferentes configuraciones de columnas */
+    .form-row.five-columns .form-column {
+        width: 19% !important;
+        flex: 1 1 19% !important;
+    }
+    
+    .form-row.four-columns .form-column {
+        width: 24% !important;
+        flex: 1 1 24% !important;
+    }
+    
+    .form-row.three-columns .form-column {
+        width: 32% !important;
+        flex: 1 1 32% !important;
+    }
+    
+    .form-row.two-columns .form-column {
+        width: 49% !important;
+        flex: 1 1 49% !important;
+    }
+    
+    /* Columna de formulario */
+    .form-column {
+        padding: 3px !important;
+        margin: 0 !important;
+    }
+    
+    /* Grupos de formulario */
+    .form-group {
+        margin-bottom: 4px !important;
+        page-break-inside: avoid !important;
+    }
+    
+    /* Etiquetas */
+    .form-group label {
+        display: block !important;
+        font-weight: bold !important;
+        font-size: 9pt !important;
+        margin-bottom: 1px !important;
+    }
+    
+    /* Campos de entrada */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        border: 1px solid black !important;
+        padding: 1px !important;
+        font-size: 10pt !important;
+        height: auto !important;
+        min-height: 0 !important;
+        background: white !important;
+        color: black !important;
+    }
+    
+    /* Textareas */
+    textarea {
+        height: 20px !important;
+        max-height: 20px !important;
+        overflow: hidden !important;
+    }
+    
+    /* Declaración */
+    .declaration {
+        padding: 3px !important;
+        text-align: center !important;
+        margin: 5px 0 !important;
+        border-top: 1px solid black !important;
+    }
+    
+    .declaration p {
+        font-weight: bold !important;
+        margin: 0 !important;
+        font-size: 10pt !important;
+    }
+    
+    /* Observaciones y fecha */
+    .observaciones-fecha-container {
+        display: flex !important;
+        gap: 10px !important;
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+        padding: 5px !important;
+    }
+    
+    .observaciones-grupo {
+        flex: 2 !important;
+    }
+    
+    .observaciones-grupo textarea {
+        height: 20px !important;
+    }
+    
+    .fecha-grupo {
+        flex: 1 !important;
+        text-align: right !important;
+    }
+    
+    /* ELEMENTOS DE FIRMA */
+    /* Mostrar firmas en impresión */
+    .print-firmas {
+        display: block !important;
+        visibility: visible !important;
+        margin-top: 5px !important;
+    }
+    
+    .firma-container {
+        display: flex !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+    
+    .firma-lado-izquierdo,
+    .firma-lado-derecho {
+        width: 48% !important;
+    }
+    
+    .firma-linea {
+        margin-bottom: 10px !important;
+    }
+    
+    .firma-label {
+        font-size: 8pt !important;
+        font-weight: bold !important;
+    }
+    
+    .firma-linea-blanca {
+        border-bottom: 1px solid black !important;
+        height: 1px !important;
+        width: 100% !important;
+        margin-top: 15px !important;
+    }
+    
+    /* Footer permanente */
+    .footer-permanent {
+        display: block !important;
+        visibility: visible !important;
+        border-top: 1px solid #000 !important;
+        margin-top: 5px !important;
+        padding-top: 3px !important;
+        text-align: center !important;
+        page-break-inside: avoid !important;
+    }
+    
+    .footer-permanent p {
+        font-size: 7pt !important;
+        margin: 1px 0 !important;
+        line-height: 1.1 !important;
+    }
+    
+    /* Firefox específico */
+    @-moz-document url-prefix() {
+        body {
+            transform: scale(0.88);
+            transform-origin: top center;
+        }
+        
+        .form-group label {
+            font-size: 8.5pt !important;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            font-size: 9pt !important;
+        }
+    }
+}

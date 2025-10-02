@@ -1,0 +1,171 @@
+/* Estilos universales de impresión - Funciona en Chrome y Firefox */
+@media print {
+    /* Configuración de página */
+    @page {
+        size: A4 portrait;
+        margin: 0.8cm;
+        marks: none;
+    }
+    
+    /* Estilos generales */
+    html, body {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        font-family: Arial, sans-serif !important;
+        font-size: 12pt !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Ocultar elementos no necesarios para impresión */
+    header, .consulta-section, .form-actions, button, .btn,
+    .mensaje-consulta, footer {
+        display: none !important;
+    }
+    
+    /* Estructura del formulario */
+    .container, .matricula-form {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        height: auto !important;
+        display: block !important;
+    }
+    
+    /* Título de la boleta */
+    body::before {
+        content: "BOLETA MATRÍCULA 2026" !important;
+        display: block !important;
+        text-align: center !important;
+        font-weight: bold !important;
+        font-size: 14pt !important;
+        margin-bottom: 10px !important;
+        border-bottom: 1px solid #000 !important;
+        width: 100% !important;
+    }
+    
+    /* Secciones del formulario */
+    .form-section {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 10px !important;
+        page-break-inside: avoid !important;
+        border: 1px solid #000 !important;
+    }
+    
+    /* Encabezados de sección */
+    .section-header {
+        background-color: #1B5E20 !important;
+        color: white !important;
+        padding: 3px !important;
+        text-align: center !important;
+        margin-bottom: 5px !important;
+        border-bottom: 1px solid #000 !important;
+    }
+    
+    .section-header h2 {
+        color: white !important;
+        margin: 0 !important;
+        padding: 2px !important;
+        font-size: 12pt !important;
+        font-weight: bold !important;
+    }
+    
+    /* Filas de datos */
+    .form-row {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 5px !important;
+        margin: 0 !important;
+        padding: 5px !important;
+        width: 100% !important;
+    }
+    
+    /* Columnas */
+    .form-column {
+        padding: 2px !important;
+    }
+    
+    /* Grupos de formulario */
+    .form-group {
+        margin-bottom: 3px !important;
+    }
+    
+    /* Etiquetas */
+    .form-group label {
+        display: block !important;
+        font-weight: bold !important;
+        font-size: 10pt !important;
+        margin-bottom: 2px !important;
+    }
+    
+    /* Campos de entrada */
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100% !important;
+        border: 1px solid #000 !important;
+        padding: 2px !important;
+        font-size: 10pt !important;
+        font-family: Arial, sans-serif !important;
+        background: white !important;
+    }
+    
+    /* Declaración */
+    .declaration {
+        padding: 5px !important;
+        margin: 10px 0 !important;
+        text-align: center !important;
+        border-top: 1px solid #000 !important;
+    }
+    
+    .declaration p {
+        margin: 0 !important;
+        font-weight: bold !important;
+        font-size: 10pt !important;
+    }
+    
+    /* Observaciones y fecha */
+    .observaciones-fecha-container {
+        display: flex !important;
+        margin-top: 10px !important;
+        gap: 10px !important;
+    }
+    
+    .observaciones-grupo {
+        flex: 2 !important;
+    }
+    
+    .fecha-grupo {
+        flex: 1 !important;
+        text-align: right !important;
+    }
+    
+    /* Ajustes para evitar saltos de página */
+    .form-section,
+    .form-row,
+    .observaciones-fecha-container {
+        page-break-inside: avoid !important;
+    }
+}
+
+/* Estilos específicos para Firefox */
+@-moz-document url-prefix() {
+    @media print {
+        /* Ajustes especiales para Firefox */
+        body {
+            transform: scale(0.97) !important;
+            transform-origin: top center !important;
+        }
+        
+        /* En Firefox los encabezados necesitan más especificidad */
+        .section-header {
+            background-color: #1B5E20 !important;
+            color: white !important;
+        }
+    }
+}

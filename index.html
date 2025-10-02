@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="print-color-adjust" content="exact">
     <title id="pageTitle">Matrícula 2026 - CTP Sabalito</title>
     <link rel="icon" type="image/png" href="logo.png">
     <meta name="description" content="Formulario web para la matrícula estudiantil del Colegio Técnico Profesional Agropecuario de Sabalito">
@@ -17,6 +18,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles-optimized.css">
+    <link rel="stylesheet" href="assets/css/print-direct.css">
     
     <!-- JS -->
     <script>
@@ -468,7 +470,7 @@
                     <span class="btn-text">Limpiar Formulario</span>
                 </button>
                 
-                <button type="button" id="btnPrint" class="btn btn-print" onclick="imprimirFormulario()" tabindex="48">
+                <button type="button" id="btnPrint" class="btn btn-print" tabindex="48">
                     <span class="btn-icon">🖨️</span>
                     <span class="btn-text">Imprimir</span>
                 </button>
@@ -506,6 +508,7 @@
     <!-- JavaScript -->
     <script src="assets/js/script.js"></script>
     <script src="assets/js/google-sheets-config.js"></script>
+    <script src="assets/js/print-direct.js"></script>
 </body>
 </html>
 
