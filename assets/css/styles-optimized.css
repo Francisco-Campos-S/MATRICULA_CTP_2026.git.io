@@ -33,16 +33,31 @@
     box-sizing: border-box;
 }
 
+/* DESHABILITAR ANIMACIONES SOLO EN IMPRESIÓN */
+@media print {
+    *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        -webkit-animation: none !important;
+        -moz-animation: none !important;
+        -o-animation: none !important;
+    }
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    line-height: 1.2;
+    line-height: 1.1;
     color: var(--text-primary);
     background: var(--bg-primary);
     height: 100vh;
     height: 100dvh;
     min-height: 100vh;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 13px;
     margin: 0;
     padding: 0;
     position: fixed;
@@ -66,7 +81,7 @@ body {
     overflow: visible;
     width: 100%;
     /* Ajuste específico para Chrome - asegurar que los botones sean visibles */
-    padding-bottom: 80px;
+    padding-bottom: 100px;
 }
 
 /* Header Optimizado */
@@ -76,11 +91,11 @@ body {
     align-items: center;
     background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-color-light) 50%, var(--accent-color-lighter) 100%);
     color: white;
-    padding: 4px 8px;
+    padding: 2px 6px;
     border-radius: 4px;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
     box-shadow: 0 1px 4px var(--shadow-accent);
-    gap: 8px;
+    gap: 6px;
     flex-shrink: 0;
 }
 
@@ -138,6 +153,22 @@ body {
     opacity: 1;
     transform: scale(1);
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+/* DESHABILITAR ANIMACIONES SOLO EN CONTEXTO DE IMPRESIÓN */
+@media print {
+    .matricula-form.fade-out,
+    .matricula-form.fade-in,
+    .matricula-form {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        scale: 1 !important;
+    }
 }
 
 .form-section {
@@ -989,12 +1020,53 @@ body {
 }
 
 .mensaje-consulta {
-    font-size: 16px;
+    font-size: 14px;
     margin-top: 1px;
-    padding: 2px;
+    padding: 1px;
     border-radius: 2px;
     background: #f8f9fa;
     border: 1px solid #dee2e6;
+    /* Espacio fijo más pequeño para evitar contracción del formulario */
+    min-height: 25px !important;
+    height: 25px !important;
+    display: block !important;
+    visibility: hidden; /* Invisible por defecto */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    line-height: 1.2;
+}
+
+/* Cuando el mensaje tiene contenido, se hace visible */
+.mensaje-consulta:not(:empty) {
+    visibility: visible !important;
+    opacity: 1;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+/* Estilos para diferentes tipos de mensajes */
+.mensaje-consulta.success {
+    background: #d4edda !important;
+    border-color: #c3e6cb !important;
+    color: #155724 !important;
+    visibility: visible !important;
+    opacity: 1;
+}
+
+.mensaje-consulta.error {
+    background: #f8d7da !important;
+    border-color: #f5c6cb !important;
+    color: #721c24 !important;
+    visibility: visible !important;
+    opacity: 1;
+}
+
+.mensaje-consulta.info {
+    background: #d1ecf1 !important;
+    border-color: #bee5eb !important;
+    color: #0c5460 !important;
+    visibility: visible !important;
+    opacity: 1;
 }
 
 /* Mejoras visuales adicionales */
@@ -1469,6 +1541,16 @@ body {
 }
 
 @media print {
+    /* Desactivar TODAS las transiciones y animaciones en impresión */
+    * {
+        transition: none !important;
+        animation: none !important;
+        transform: none !important;
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+    }
+    
     /* Configuración de página */
     @page {
         size: A4 portrait;
@@ -1869,100 +1951,7 @@ body {
     .no-print {
         display: none !important;
     }
-    
-    /* Reglas específicas para ocultar títulos del navegador */
-    @page {
-        margin: 0.5cm !important;
-        @top-left { content: "" !important; }
-        @top-center { content: "" !important; }
-        @top-right { content: "" !important; }
-        @bottom-left { content: "" !important; }
-        @bottom-center { content: "" !important; }
-        @bottom-right { content: "" !important; }
-    }
-    
-    /* Forzar ocultación de elementos del navegador */
-    html::before,
-    html::after,
-    body::before,
-    body::after {
-        display: none !important;
-        content: "" !important;
-        visibility: hidden !important;
-    }
-    
-    /* Reglas adicionales para ocultar títulos del navegador */
-    @page {
-        margin: 0.5cm !important;
-        @top-left { content: "" !important; }
-        @top-center { content: "" !important; }
-        @top-right { content: "" !important; }
-        @bottom-left { content: "" !important; }
-        @bottom-center { content: "" !important; }
-        @bottom-right { content: "" !important; }
-    }
-    
-    /* Ocultar cualquier elemento que pueda mostrar información del navegador */
-    *[title*="Matrícula"],
-    *[title*="CTP"],
-    *[title*="Sabalito"],
-    *[data-title*="Matrícula"],
-    *[data-title*="CTP"],
-    *[data-title*="Sabalito"] {
-        display: none !important;
-        visibility: hidden !important;
-    }
-    
-    /* Reglas específicas para Chrome */
-    @media print {
-        @page {
-            @top-left { content: "" !important; }
-            @top-center { content: "" !important; }
-            @top-right { content: "" !important; }
-            @bottom-left { content: "" !important; }
-            @bottom-center { content: "" !important; }
-            @bottom-right { content: "" !important; }
-        }
-    }
-    
-    /* Ocultar fecha y hora del pie de página */
-    @media print {
-        @page {
-            @bottom-left { content: "" !important; }
-            @bottom-center { content: "" !important; }
-            @bottom-right { content: "" !important; }
-        }
-        
-        /* Reglas adicionales para ocultar fecha y hora */
-        @page :first {
-            @bottom-left { content: "" !important; }
-            @bottom-center { content: "" !important; }
-            @bottom-right { content: "" !important; }
-        }
-        
-        @page :left {
-            @bottom-left { content: "" !important; }
-            @bottom-center { content: "" !important; }
-            @bottom-right { content: "" !important; }
-        }
-        
-        @page :right {
-            @bottom-left { content: "" !important; }
-            @bottom-center { content: "" !important; }
-            @bottom-right { content: "" !important; }
-        }
-    }
-    
-    .container {
-        height: auto !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        max-width: 100% !important;
-        max-height: 100% !important;
-        page-break-after: avoid !important;
-        page-break-before: avoid !important;
-        page-break-inside: avoid !important;
-    }
+
     
     /* Ocultar elementos no necesarios para impresión */
     .header,
@@ -1991,8 +1980,10 @@ body {
         background: white !important;
         font-size: 9px !important;
         font-family: Arial, sans-serif !important;
-        /* transform: scale(0.85) !important; */
-        transform-origin: top center !important;
+        transform: none !important;
+        transform-origin: initial !important;
+        transition: none !important;
+        animation: none !important;
         max-height: 100% !important;
         page-break-after: auto !important;
         page-break-before: avoid !important;
@@ -2426,66 +2417,7 @@ body {
         max-height: none !important;
     }
     
-    /* REGLA ADICIONAL ESPECÍFICA PARA EL FOOTER */
-    div.print-footer {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: static !important;
-        margin: 20px 0 10px 0 !important;
-        padding: 0 !important;
-        text-align: center !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        left: auto !important;
-    }
-    
-    div.print-footer img {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        margin: 0 auto !important;
-        object-fit: contain !important;
-        position: static !important;
-        left: auto !important;
-    }
-    
-    /* REGLA ESPECÍFICA PARA FOOTER PERMANENTE */
-    div.footer-permanent {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        position: static !important;
-        left: auto !important;
-        margin: 10px 0 5px 0 !important;
-        padding: 5px 0 !important;
-        text-align: center !important;
-        width: 100% !important;
-        height: auto !important;
-        overflow: visible !important;
-        border-top: 1px solid #000 !important;
-        page-break-inside: avoid !important;
-        page-break-before: avoid !important;
-        background-color: white !important;
-        clear: both !important;
-    }
-    
-    div.footer-permanent p {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        font-size: 8px !important;
-        margin: 1px 0 !important;
-        line-height: 1.1 !important;
-        color: #000 !important;
-        font-weight: bold !important;
-        font-family: Arial, sans-serif !important;
-        text-align: center !important;
-    }
+
 }
 
 /* Nivel, Especialidad y Sección Section - MÁS COMPACTO Y VISIBLE */
@@ -2622,6 +2554,18 @@ footer {
     line-height: 1.4;
 }
 
+/* Input de fecha de matrícula más pequeño */
+#fecha-matricula {
+    width: 50% !important;
+    max-width: 200px !important;
+    min-width: 150px !important;
+    margin: 0 auto !important;
+    display: block !important;
+    font-size: 14px !important;
+    padding: 8px !important;
+    text-align: center !important;
+}
+
 /* Optimización de la sección de datos del estudiante con 5 columnas */
 
 .datos-estudiante-section .form-column {
@@ -2665,4 +2609,27 @@ footer {
 .datos-estudiante-section textarea {
     resize: vertical;
     min-height: 40px;
+}
+
+/* Regla específica para acortar el label de TIPO DE IDENTIFICACIÓN solo en impresión */
+@media print {
+    label[for="tipoIdentificacion"] {
+        visibility: hidden !important;
+        position: relative !important;
+    }
+    
+    label[for="tipoIdentificacion"]::before {
+        content: "IDENTIFICACIÓN:" !important;
+        visibility: visible !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        color: #000 !important;
+        text-transform: uppercase;
+        display: block !important;
+        font-family: Arial, sans-serif !important;
+        margin-bottom: 1px !important;
+    }
 }
