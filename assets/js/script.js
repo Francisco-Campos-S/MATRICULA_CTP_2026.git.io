@@ -926,6 +926,12 @@ async function enviarFormulario() {
                 setTimeout(() => {
                     limpiarFormulario();
                     
+                    // Precargar la fecha de matrícula automáticamente
+                    setTimeout(() => {
+                        establecerFechaActual();
+                        console.log('📅 Fecha de matrícula precargada después del envío exitoso');
+                    }, 100); // Pequeña pausa para asegurar que el formulario esté limpio
+                    
                     // Reaparecer
                     formulario.classList.remove('fade-out');
                     formulario.classList.add('fade-in');
@@ -934,6 +940,12 @@ async function enviarFormulario() {
                 // Fallback si no se encuentra el formulario
                 setTimeout(() => {
                     limpiarFormulario();
+                    
+                    // Precargar la fecha de matrícula automáticamente
+                    setTimeout(() => {
+                        establecerFechaActual();
+                        console.log('📅 Fecha de matrícula precargada después del envío exitoso (fallback)');
+                    }, 100);
                 }, 2000);
             }
         } else {
@@ -1513,7 +1525,7 @@ async function consultarEstudiante() {
     console.log('🔍 Consultando estudiante con cédula:', cedula);
     
     // Mostrar indicador de carga mejorado
-    mostrarMensajeConSpinner('🔍 Buscando estudiante en Google Sheets...', 'loading');
+    mostrarMensajeConSpinner('🔍 Buscando estudiante...', 'loading');
     
     // Deshabilitar botón de búsqueda
     if (btnBuscar) {
