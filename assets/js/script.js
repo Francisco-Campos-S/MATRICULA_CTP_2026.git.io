@@ -1513,7 +1513,7 @@ async function consultarEstudiante() {
     console.log('🔍 Consultando estudiante con cédula:', cedula);
     
     // Mostrar indicador de carga mejorado
-    mostrarMensajeConSpinner('🔍 Buscando estudiante en Google Sheets...', 'loading');
+    mostrarMensajeConSpinner('🔍 Buscando estudiante...', 'loading');
     
     // Deshabilitar botón de búsqueda
     if (btnBuscar) {
