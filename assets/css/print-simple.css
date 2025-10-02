@@ -1,0 +1,125 @@
+/* Estilos simples de impresión que funcionan en todos los navegadores */
+@media print {
+    /* Título principal */
+    @page {
+        size: A4;
+        margin: 1cm;
+    }
+
+    /* Ajustes generales */
+    body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-family: Arial, sans-serif;
+        font-size: 12pt;
+        line-height: 1.2;
+        color: black;
+        width: 100%;
+    }
+    
+    /* Ocultar elementos no necesarios para impresión */
+    .header, .consulta-section, .tipo-matricula-section,
+    .nivel-especialidad-section, .form-actions, .btn,
+    button, .mensaje-consulta {
+        display: none !important;
+    }
+    
+    /* Formulario principal */
+    .matricula-form {
+        display: block;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        background: white;
+        border: none;
+        box-shadow: none;
+    }
+    
+    /* Título impreso */
+    .matricula-form::before {
+        content: "BOLETA MATRÍCULA 2026";
+        display: block;
+        text-align: center;
+        font-weight: bold;
+        font-size: 16pt;
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+    }
+    
+    /* Secciones */
+    .form-section {
+        display: block;
+        margin-bottom: 15px;
+        border: 1px solid black;
+        page-break-inside: avoid;
+        width: 100%;
+        clear: both;
+    }
+    
+    /* Encabezados de sección */
+    .section-header {
+        background-color: #1B5E20 !important; /* Verde */
+        color: white !important;
+        padding: 5px;
+        margin: 0;
+        border-bottom: 1px solid black;
+    }
+    
+    .section-header h2 {
+        color: white !important;
+        margin: 0;
+        padding: 0;
+        font-size: 14pt;
+        text-align: center;
+    }
+    
+    /* Filas y columnas */
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        padding: 5px;
+        page-break-inside: avoid;
+    }
+    
+    .form-column {
+        padding: 5px;
+    }
+    
+    /* Grupos de formulario */
+    .form-group {
+        margin-bottom: 8px;
+    }
+    
+    /* Etiquetas */
+    label {
+        display: block;
+        font-weight: bold;
+        font-size: 12pt;
+        margin-bottom: 2px;
+    }
+    
+    /* Campos de entrada */
+    input, select, textarea {
+        width: 100%;
+        border: 1px solid black;
+        padding: 3px;
+        font-size: 12pt;
+        background: white;
+        color: black;
+    }
+    
+    /* Declaración */
+    .declaration {
+        padding: 5px;
+        text-align: center;
+        margin: 10px 0;
+        border-top: 1px solid black;
+    }
+    
+    .declaration p {
+        font-weight: bold;
+        margin: 0;
+    }
+}

@@ -1,0 +1,49 @@
+/* Estilos específicos para impresión en Firefox - Compatible con Chrome */
+@-moz-document url-prefix() {
+    @media print {
+        /* Ajustes básicos para Firefox */
+        @page {
+            size: A4 portrait;
+            margin: 0.5cm;
+        }
+        
+        /* Escalar ligeramente para que quepa en una página */
+        html, body {
+            transform: scale(0.95);
+            transform-origin: top center;
+        }
+        
+        /* Asegurar que todos los elementos del formulario sean visibles */
+        .matricula-form {
+            display: block !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow: visible !important;
+        }
+        
+        /* Asegurar que los campos se vean como en Chrome */
+        input, select, textarea {
+            border: 1px solid black !important;
+            font-size: 12pt !important;
+            font-family: Arial, sans-serif !important;
+            padding: 2px !important;
+        }
+        
+        /* Asegurar que las etiquetas se vean bien */
+        label {
+            font-weight: bold !important;
+            font-family: Arial, sans-serif !important;
+            font-size: 12pt !important;
+        }
+        
+        /* Hacer que los encabezados sean verdes */
+        .section-header {
+            background-color: #1B5E20 !important;
+            color: white !important;
+        }
+        
+        .section-header h2 {
+            color: white !important;
+        }
+    }
+}
