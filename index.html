@@ -18,7 +18,7 @@
     
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/styles-optimized.css">
-    <link rel="stylesheet" href="assets/css/print-direct.css">
+    <link rel="stylesheet" href="assets/css/print-unified.css">
     
     <!-- JS -->
     <script>
@@ -60,8 +60,8 @@
 
         <!-- Form -->
         <form id="matriculaForm" class="matricula-form" action="#" method="post">
-            <!-- Print Header (solo visible al imprimir) -->
-            <div class="print-header" style="display: none;">
+                <!-- Print Header (solo visible al imprimir) -->
+            <div class="print-header">
                 <div class="header-image">
                     <img src="encabezado.png" alt="Encabezado MEP" class="encabezado-img">
                 </div>
@@ -72,36 +72,7 @@
             <div class="form-section">
                 <div class="section-header">
                     <h2>📋 Información General de Matrícula</h2>
-                </div>
-                
-                <!-- Título de sección para impresión -->
-                <div class="print-section-title" style="display: none;">INFORMACIÓN GENERAL DE MATRÍCULA</div>
-                
-                <!-- Información para impresión -->
-                <div class="print-info-general" style="display: none;">
-                    <div class="print-info-row">
-                        <span class="print-label">Tipo de Matrícula:</span>
-                        <span class="print-value" id="print-tipo-matricula"></span>
-                    </div>
-                    <div class="print-info-row">
-                        <span class="print-label">Nivel:</span>
-                        <span class="print-value" id="print-nivel"></span>
-                    </div>
-                    <div class="print-info-row">
-                        <span class="print-label">Especialidad:</span>
-                        <span class="print-value" id="print-especialidad"></span>
-                    </div>
-                    <div class="print-info-row">
-                        <span class="print-label">Sección:</span>
-                        <span class="print-value" id="print-seccion"></span>
-                    </div>
-                    <div class="print-info-row">
-                        <span class="print-label">Ruta de Transporte:</span>
-                        <span class="print-value" id="print-ruta-transporte"></span>
-                    </div>
-                </div>
-                
-                <!-- Contenedor horizontal para consulta, tipo de matrícula y nivel/especialidad/sección -->
+                </div>                <!-- Contenedor horizontal para consulta, tipo de matrícula y nivel/especialidad/sección -->
                 <div class="consulta-tipo-container">
                     <!-- Sección de consulta -->
                     <div class="consulta-section">
@@ -407,19 +378,7 @@
                 <!-- Espacio vacío donde estaba el contenedor anterior -->
                 <div style="display: none;"></div>
                 
-                <!-- Observaciones y fecha para impresión (antes del footer) -->
-                <div class="print-observaciones-fecha" style="display: none;">
-                    <div class="print-observaciones-container">
-                        <div class="print-observaciones-grupo">
-                            <span class="print-observaciones-label">Observaciones Adicionales:</span>
-                            <div class="print-observaciones-linea"></div>
-                        </div>
-                        <div class="print-fecha-grupo">
-                            <span class="print-fecha-label">Fecha de Matrícula:</span>
-                            <span class="print-fecha-valor" id="print-fecha-valor"></span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Esta sección se oculta en impresión -->
                 
                 <!-- Líneas de firma para impresión -->
                 <div class="print-firmas" style="display: none;">
