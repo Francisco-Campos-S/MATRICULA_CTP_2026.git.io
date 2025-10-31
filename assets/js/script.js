@@ -1184,258 +1184,56 @@ function limpiarFormulario() {
 // Función para imprimir el formulario
 function imprimirFormulario() {
     console.log('🖨️ Imprimiendo formulario...');
-    console.log('🔍 Función imprimirFormulario ejecutada correctamente');
     
-    // Ocultar elementos duplicados antes de imprimir
-    const elementosDuplicados = document.querySelectorAll('.observaciones-adicionales-duplicado');
-    elementosDuplicados.forEach(elemento => {
-        elemento.style.display = 'none';
-        elemento.style.visibility = 'hidden';
-    });
+    // Guardar estado actual de clases CSS
+    const body = document.body;
+    const originalClasses = body.className;
     
-    // Ocultar todos los placeholders antes de imprimir
-    const todosLosInputs = document.querySelectorAll('input, select, textarea');
-    todosLosInputs.forEach(input => {
-        if (input.value.trim() === '') {
-            input.setAttribute('data-original-placeholder', input.getAttribute('placeholder') || '');
-            input.setAttribute('placeholder', '');
-        }
-    });
+    // Agregar clase para impresión
+    body.classList.add('printing');
     
-    // Sincronizar información general para impresión
+    // Configurar datos para la impresión
     const tipoMatricula = document.querySelector('input[name="tipoMatricula"]:checked');
     const nivel = document.getElementById('nivel');
     const especialidad = document.getElementById('especialidad');
     const seccion = document.getElementById('seccion');
     const rutaTransporte = document.getElementById('rutaTransporte');
     
-    // Actualizar valores para impresión
-    if (tipoMatricula) {
-        const printTipo = document.getElementById('print-tipo-matricula');
-        if (printTipo) {
-            printTipo.textContent = tipoMatricula.value === 'regular' ? 'Regular CTP 2026' : 'Plan Nacional 2026';
+    // Actualizar los valores en los elementos de impresión
+    document.getElementById('print-tipo-matricula').textContent = 
+        tipoMatricula ? (tipoMatricula.value === 'regular' ? 'Regular CTP 2026' : 'Plan Nacional 2026') : 'No seleccionado';
+    document.getElementById('print-nivel').textContent = nivel?.value || 'No seleccionado';
+    document.getElementById('print-especialidad').textContent = especialidad?.value || 'No seleccionado';
+    document.getElementById('print-seccion').textContent = seccion?.value || 'No seleccionado';
+    document.getElementById('print-ruta-transporte').textContent = rutaTransporte?.value || 'No seleccionado';
+    
+    // Ocultar campos vacíos antes de imprimir
+    const inputs = document.querySelectorAll('input, select, textarea');
+    const placeholders = new Map();
+    inputs.forEach(input => {
+        if (input.value.trim() === '') {
+            placeholders.set(input, input.getAttribute('placeholder'));
+            input.setAttribute('placeholder', '');
         }
-    }
+    });
     
-    if (nivel) {
-        const printNivel = document.getElementById('print-nivel');
-        if (printNivel) {
-            printNivel.textContent = nivel.value || 'No seleccionado';
-        }
-    }
-    
-    if (especialidad) {
-        const printEspecialidad = document.getElementById('print-especialidad');
-        if (printEspecialidad) {
-            printEspecialidad.textContent = especialidad.value || 'No seleccionado';
-        }
-    }
-    
-    if (seccion) {
-        const printSeccion = document.getElementById('print-seccion');
-        if (printSeccion) {
-            printSeccion.textContent = seccion.value || 'No seleccionado';
-        }
-    }
-    
-    if (rutaTransporte) {
-        const printRuta = document.getElementById('print-ruta-transporte');
-        if (printRuta) {
-            printRuta.textContent = rutaTransporte.value || 'No seleccionado';
-        }
-    }
-    
-    // Sincronizar las observaciones con la versión de impresión
-    const observacionesInput = document.getElementById('observaciones');
-    const printObservacionesLinea = document.querySelector('.print-observaciones-linea');
-    
-    if (observacionesInput && printObservacionesLinea) {
-        // Si hay observaciones, las mostramos en la versión imprimible
-        if (observacionesInput.value.trim() !== '') {
-            // Crear un span para mostrar las observaciones
-            let observacionesTexto = document.querySelector('.print-observaciones-texto');
-            if (!observacionesTexto) {
-                observacionesTexto = document.createElement('span');
-                observacionesTexto.className = 'print-observaciones-texto';
-                observacionesTexto.style.cssText = 'font-size: 10px; color: #000; font-weight: normal; display: block; margin-top: 5px;';
-                printObservacionesLinea.parentNode.insertBefore(observacionesTexto, printObservacionesLinea.nextSibling);
-            }
-            observacionesTexto.textContent = observacionesInput.value;
-            printObservacionesLinea.style.display = 'none';
-            console.log('📝 Observaciones encontradas para impresión:', observacionesInput.value);
-        } else {
-            // Si no hay observaciones, mostramos solo la línea
-            const observacionesTexto = document.querySelector('.print-observaciones-texto');
-            if (observacionesTexto) {
-                observacionesTexto.remove();
-            }
-            printObservacionesLinea.style.display = 'block';
-            console.log('📝 No hay observaciones para mostrar en la impresión');
-        }
-    }
-    
-    // Formatear la fecha para la impresión
-    const fechaMatriculaInput = document.getElementById('fecha-matricula');
-    if (fechaMatriculaInput && fechaMatriculaInput.value) {
-        const fechaSeleccionada = new Date(fechaMatriculaInput.value);
-        const dia = String(fechaSeleccionada.getDate()).padStart(2, '0');
-        const mes = String(fechaSeleccionada.getMonth() + 1).padStart(2, '0');
-        const año = fechaSeleccionada.getFullYear();
-        const fechaFormateada = `${dia}/${mes}/${año}`;
-        
-        // Actualizar el valor en la versión imprimible
-        const printFechaValor = document.getElementById('print-fecha-valor');
-        if (printFechaValor) {
-            printFechaValor.textContent = fechaFormateada;
-            console.log('📅 Fecha formateada para impresión:', fechaFormateada);
-        }
-    }
-    
-    // El footer ahora se maneja completamente con CSS @media print
-    console.log('📄 Footer será manejado por CSS @media print');
-    
-    // Detectar navegadores
-    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-    const isFirefox = /Firefox/.test(navigator.userAgent);
-    
-    // Ocultar títulos del navegador antes de imprimir
-    const originalTitle = document.title;
-    document.title = ""; // Vaciar el título
-    
-    // Ocultar el elemento title del HTML
-    const titleElement = document.getElementById('pageTitle');
-    if (titleElement) {
-        titleElement.style.display = 'none';
-        titleElement.style.visibility = 'hidden';
-        titleElement.style.opacity = '0';
-        titleElement.textContent = ''; // Vaciar el contenido del título
-    }
-    
-    // Solución específica para Chrome
-    if (isChrome) {
-        // Cambiar el título de la ventana
-        document.title = "";
-        
-        // Crear un elemento temporal para reemplazar el título
-        const tempTitle = document.createElement('title');
-        tempTitle.textContent = '';
-        document.head.appendChild(tempTitle);
-        
-        // Remover el título original
-        if (titleElement) {
-            titleElement.remove();
-        }
-    }
-    
-    // Solución específica para Firefox
-    if (isFirefox) {
-        // Cambiar el título de la ventana
-        document.title = "";
-        
-        // Crear un elemento temporal para reemplazar el título
-        const tempTitle = document.createElement('title');
-        tempTitle.textContent = '';
-        document.head.appendChild(tempTitle);
-        
-        // Remover el título original
-        if (titleElement) {
-            titleElement.remove();
-        }
-        
-        // Forzar la actualización del título en Firefox
-        document.head.removeChild(document.querySelector('title'));
-        const newTitle = document.createElement('title');
-        newTitle.textContent = '';
-        document.head.appendChild(newTitle);
-    }
-    
-    // Crear un estilo temporal para ocultar elementos del navegador
-    const style = document.createElement('style');
-    style.textContent = `
-        @media print {
-            @page {
-                @top-left { content: "" !important; }
-                @top-center { content: "" !important; }
-                @top-right { content: "" !important; }
-                @bottom-left { content: "" !important; }
-                @bottom-center { content: "" !important; }
-                @bottom-right { content: "" !important; }
-            }
-            @page :first {
-                @bottom-left { content: "" !important; }
-                @bottom-center { content: "" !important; }
-                @bottom-right { content: "" !important; }
-            }
-            @page :left {
-                @bottom-left { content: "" !important; }
-                @bottom-center { content: "" !important; }
-                @bottom-right { content: "" !important; }
-            }
-            @page :right {
-                @bottom-left { content: "" !important; }
-                @bottom-center { content: "" !important; }
-                @bottom-right { content: "" !important; }
-            }
-            title {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-            }
-            *[title*="Matrícula"],
-            *[title*="CTP"],
-            *[title*="Sabalito"] {
-                display: none !important;
-                visibility: hidden !important;
-                opacity: 0 !important;
-            }
-        }
-    `;
-    document.head.appendChild(style);
+    // Forzar reflow para aplicar los cambios antes de imprimir
+    void document.documentElement.offsetHeight;
     
     // Imprimir
     window.print();
     
-    // Restaurar el título después de imprimir
+    // Restaurar el estado después de imprimir
     setTimeout(() => {
-        document.title = originalTitle;
-        
-        if (isChrome) {
-            // Restaurar el título original en Chrome
-            const tempTitle = document.querySelector('title');
-            if (tempTitle) {
-                tempTitle.remove();
-            }
-            
-            // Recrear el título original
-            const newTitle = document.createElement('title');
-            newTitle.id = 'pageTitle';
-            newTitle.textContent = originalTitle;
-            document.head.appendChild(newTitle);
-        } else {
-            // Restaurar para otros navegadores
-            if (titleElement) {
-                titleElement.style.display = '';
-                titleElement.style.visibility = '';
-                titleElement.style.opacity = '';
-                titleElement.textContent = originalTitle; // Restaurar el contenido del título
-            }
-        }
-        
-        document.head.removeChild(style);
-    }, 1000);
-    
-    // Restaurar placeholders después de imprimir
-    setTimeout(() => {
-        todosLosInputs.forEach(input => {
-            const originalPlaceholder = input.getAttribute('data-original-placeholder');
-            if (originalPlaceholder) {
-                input.setAttribute('placeholder', originalPlaceholder);
-                input.removeAttribute('data-original-placeholder');
-            }
+        // Restaurar placeholders
+        placeholders.forEach((value, input) => {
+            input.setAttribute('placeholder', value || '');
         });
         
-        // El footer se oculta automáticamente con CSS al salir del modo impresión
-        console.log('📄 Footer se ocultará automáticamente con CSS');
+        // Restaurar clases originales
+        body.className = originalClasses;
+        
+        console.log('✅ Impresión completada y estado restaurado');
     }, 1000);
 }
 
