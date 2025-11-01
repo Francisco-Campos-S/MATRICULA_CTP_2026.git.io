@@ -8,14 +8,14 @@ const GOOGLE_SHEETS_CONFIG = {
     // URL de la hoja de cálculo
     SPREADSHEET_URL: 'https://docs.google.com/spreadsheets/d/1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI/edit?gid=0#gid=0',
     
-    // Configuración de Google Apps Script (URL desplegada actualizada)
+    // Configuración de Google Apps Script (URL desplegada actualizada con columna "Vive con estud 2")
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzYJjsWwLewv--KUjas7EfyK89TErrl-Qn8LJraMCvWQoOnE6-Dix5Uh8sFhj8OwjG15A/exec',
+        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxj_WKWvjUB1i4HxDiQ_Y2tYLUcWu7JKREuXnu9M9K-EsiF-kRhMN2bVk4_AWmx8lg3OQ/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },
     
-    // Configuración de campos para la hoja de cálculo (40 columnas para envío de matrícula)
+    // Configuración de campos para la hoja de cálculo (39 columnas para envío de matrícula)
     // ⚠️ IMPORTANTE: Estos nombres deben coincidir EXACTAMENTE con las columnas de tu Google Sheet
     SHEET_COLUMNS: [
         'Timestamp',                   // Columna A (0) - Timestamp
@@ -53,9 +53,10 @@ const GOOGLE_SHEETS_CONFIG = {
         'Cédula2',                     // Columna AG (32) - Cédula del padre
         'Celular2',                    // Columna AH (33) - Celular del padre
         'Parentezco2',                 // Columna AI (34) - Parentesco del padre
-        'Otro Cel',                    // Columna AJ (35) - Otro celular
-        'Dirección2',                  // Columna AK (36) - Dirección del padre
-        'MOVIMIENTO'                   // Columna AL (37) - Movimiento
+        'Vive con estud 2',            // Columna AJ (35) - Vive con estudiante (Padre) ✅ NUEVO
+        'Otro Cel',                    // Columna AK (36) - Otro celular
+        'Dirección2',                  // Columna AL (37) - Dirección del padre
+        'MOVIMIENTO'                   // Columna AM (38) - Movimiento
     ],
     
     // Configuración de validación
