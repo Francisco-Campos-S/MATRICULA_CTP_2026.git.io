@@ -411,6 +411,14 @@ function limpiarFormularioCompleto() {
         } else {
             campo.value = '';
         }
+        
+        // Re-habilitar campos que puedan estar deshabilitados (como especialidad)
+        if (campo.id === 'especialidad') {
+            campo.disabled = false;
+            campo.style.backgroundColor = '';
+            campo.title = '';
+            console.log('🔓 Especialidad desbloqueada para nueva matrícula');
+        }
     });
     
     // Limpiar campos específicos que podrían tener valores por defecto
@@ -437,8 +445,14 @@ function limpiarFormularioCompleto() {
         edadCampo.value = '';
     }
     
-    // Actualizar especialidades después de limpiar
-    actualizarEspecialidades();
+    // NO actualizar especialidades/secciones si estamos en modo edición
+    // (se actualizarán automáticamente cuando se cargue el nivel del estudiante)
+    if (!editandoEstudiante) {
+        actualizarEspecialidades();
+        console.log('✅ Especialidades actualizadas después de limpiar');
+    } else {
+        console.log('⏭️ Omitiendo actualización de especialidades (modo edición activo)');
+    }
     
     // Establecer valores por defecto después de limpiar
     establecerValoresPorDefecto();
@@ -703,8 +717,127 @@ function llenarFormularioConEstudiante(estudiante) {
     
     // Pequeño delay para asegurar que la limpieza se complete
     setTimeout(() => {
-        // Llenar el formulario con los datos
+        // PASO 0: Seleccionar tipo de matrícula automáticamente (Regular por defecto)
+        // Esto es necesario para que se generen las secciones correctamente
+        const tipoRegular = document.getElementById('regular');
+        if (tipoRegular) {
+            tipoRegular.checked = true;
+            tipoRegular.dispatchEvent(new Event('change'));
+            console.log('✅ Tipo de matrícula seleccionado: Regular CTP 2026');
+        }
+        
+        // PASO 1: Cargar nivel primero (si existe) - AVANZAR AL SIGUIENTE NIVEL
+        if (estudiante.nivel) {
+            const nivelElement = document.getElementById('nivel');
+            if (nivelElement) {
+                // Mapeo de niveles al siguiente año
+                const siguienteNivel = {
+                    'Sétimo': 'Octavo',
+                    'Octavo': 'Noveno',
+                    'Noveno': 'Décimo',
+                    'Décimo': 'Undécimo',
+                    'Undécimo': 'Duodécimo',
+                    'Duodécimo': 'Duodécimo' // Se queda en Duodécimo
+                };
+                
+                const nivelActual = estudiante.nivel;
+                const nuevoNivel = siguienteNivel[nivelActual] || nivelActual;
+                
+                nivelElement.value = nuevoNivel;
+                nivelElement.dispatchEvent(new Event('change'));
+                console.log(`✅ Nivel actualizado: "${nivelActual}" → "${nuevoNivel}"`);
+            }
+        }
+        
+        // PASO 2: Llenar el formulario con los datos
         llenarFormularioConDatos(estudiante);
+        
+        // PASO 3: Cargar especialidad después de 1 segundo (dar tiempo a que se carguen las opciones)
+        if (estudiante.especialidad && estudiante.especialidad.trim() !== '' && estudiante.especialidad !== 'Sin especialidad') {
+            console.log(`🔔 Programando carga de especialidad: "${estudiante.especialidad}"`);
+            
+            setTimeout(() => {
+                const especialidadElement = document.getElementById('especialidad');
+                
+                console.log(`🔍 Verificando especialidad element:`, especialidadElement ? 'EXISTE' : 'NO EXISTE');
+                
+                if (especialidadElement) {
+                    console.log(`📊 Opciones disponibles:`, especialidadElement.options.length);
+                    console.log(`📋 Lista de opciones:`, Array.from(especialidadElement.options).map(o => `"${o.value}"`));
+                    
+                    if (especialidadElement.options.length > 1) {
+                        console.log(`🎯 Buscando especialidad: "${estudiante.especialidad}"`);
+                        
+                        // Normalizar texto para búsqueda
+                        const normalizar = (texto) => texto.toLowerCase().trim()
+                            .replace(/\s+/g, ' ')
+                            .replace(/[áàäâ]/g, 'a')
+                            .replace(/[éèëê]/g, 'e')
+                            .replace(/[íìïî]/g, 'i')
+                            .replace(/[óòöô]/g, 'o')
+                            .replace(/[úùüû]/g, 'u')
+                            .replace(/ñ/g, 'n');
+                        
+                        const especialidadNormalizada = normalizar(estudiante.especialidad);
+                        console.log(`🔤 Especialidad normalizada: "${especialidadNormalizada}"`);
+                        
+                        // Buscar la opción (ignorar la primera opción vacía)
+                        const opcion = Array.from(especialidadElement.options).find(opt => {
+                            // Ignorar opciones vacías
+                            if (!opt.value || opt.value.trim() === '') {
+                                console.log(`   Ignorando opción vacía`);
+                                return false;
+                            }
+                            
+                            const optNormalizada = normalizar(opt.value);
+                            console.log(`   Comparando con: "${opt.value}" → "${optNormalizada}"`);
+                            const match = optNormalizada === especialidadNormalizada ||
+                                   optNormalizada.includes(especialidadNormalizada.substring(0, 20)) ||
+                                   especialidadNormalizada.includes(optNormalizada.substring(0, 20));
+                            if (match) console.log(`   ✅ MATCH ENCONTRADO!`);
+                            return match;
+                        });
+                        
+                        if (opcion) {
+                            console.log(`✅ Opción encontrada: "${opcion.value}"`);
+                            
+                            // Asignar por índice en lugar de por valor
+                            especialidadElement.selectedIndex = opcion.index;
+                            
+                            console.log(`🔍 Valor asignado: "${especialidadElement.value}"`);
+                            especialidadElement.dispatchEvent(new Event('change'));
+                            console.log(`✅ Especialidad cargada y evento disparado`);
+                            
+                            // Actualizar secciones después de cargar especialidad
+                            setTimeout(() => {
+                                if (typeof actualizarSecciones === 'function') {
+                                    actualizarSecciones();
+                                    console.log(`✅ Secciones actualizadas después de cargar especialidad`);
+                                }
+                            }, 300);
+                        } else {
+                            console.log(`❌ No se encontró especialidad: "${estudiante.especialidad}"`);
+                        }
+                    } else {
+                        console.log(`⚠️ Solo hay ${especialidadElement.options.length} opciones`);
+                    }
+                } else {
+                    console.log(`❌ Elemento especialidad no encontrado en el DOM`);
+                }
+            }, 1000);
+        } else {
+            console.log(`⚠️ Estudiante sin especialidad válida:`, estudiante.especialidad);
+            
+            // ⚠️ CRÍTICO: Actualizar secciones incluso si no hay especialidad
+            // Esto permite que estudiantes de Sétimo/Octavo/Noveno sin especialidad
+            // tengan secciones disponibles después de cargar
+            setTimeout(() => {
+                if (typeof actualizarSecciones === 'function') {
+                    actualizarSecciones();
+                    console.log(`✅ Secciones actualizadas para estudiante sin especialidad`);
+                }
+            }, 1300);
+        }
         
         // Guardar estado de edición en localStorage
         guardarEstadoEdicion(estudiante);
@@ -2338,6 +2471,11 @@ function reinicializarSincronizacion() {
 
 // Datos de las rutas de transporte
 const datosRutas = {
+    '000000': {
+        codigo: '000000',
+        diminutivo: 'Sin ruta - Llega por cuenta propia',
+        recorridoCompleto: 'NO UTILIZA TRANSPORTE (llega con padres/encargados o caminando)'
+    },
     '421601': {
         codigo: '421601',
         diminutivo: 'San Rosa',
