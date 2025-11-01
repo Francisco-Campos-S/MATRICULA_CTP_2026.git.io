@@ -3,9 +3,9 @@
     /* Configuración de página */
     @page {
         size: A4 portrait;
-        margin-top: 0.6cm;
-        margin-right: 0.6cm;
-        margin-bottom: 0.6cm;
+        margin-top: 0.5cm;
+        margin-right: 0.5cm;
+        margin-bottom: 0.5cm;
         margin-left: 2.54cm;
         marks: none;
     }
@@ -18,14 +18,14 @@
         padding: 0 !important;
         background: white !important;
         font-family: Arial, sans-serif !important;
-        font-size: 10pt !important;
-        line-height: 1.1 !important;
-        color: black !important;
+        font-size: 9.5pt !important;
+        line-height: 1.15 !important;
+        color: #000 !important;
     }
     
-    /* Escalado global */
+    /* Escalado global optimizado */
     body {
-        transform: scale(0.92);
+        transform: scale(0.94);
         transform-origin: top center;
     }
     
@@ -205,24 +205,24 @@
         }
     }
     
-    /* Secciones del formulario */
+    /* Secciones del formulario - más compactas */
     .form-section {
         display: block !important;
-        margin-bottom: 8px !important;
-        border: 1px solid #000 !important;
+        margin-bottom: 6px !important;
+        border: 1.5px solid #000 !important;
         page-break-inside: avoid !important;
         width: 100% !important;
         clear: both !important;
     }
     
-    /* Encabezados de sección - solo blanco y negro */
+    /* Encabezados de sección - más compactos y profesionales */
     .section-header {
         background: white !important;
         background-color: white !important;
         color: black !important;
-        padding: 3px 5px !important;
-        margin: 0 0 5px 0 !important;
-        border: 2px solid black !important;
+        padding: 2px 4px !important;
+        margin: 0 !important;
+        border-bottom: 2px solid black !important;
         page-break-after: avoid !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
@@ -233,27 +233,28 @@
         background-color: white !important;
         color: black !important;
         margin: 0 !important;
-        padding: 2px !important;
-        font-size: 11pt !important;
+        padding: 1px !important;
+        font-size: 10.5pt !important;
         text-align: center !important;
         font-weight: bold !important;
         font-family: Arial, sans-serif !important;
+        letter-spacing: 0.5px !important;
     }
     
-    /* Filas y columnas */
+    /* Filas y columnas - optimizadas */
     .form-row {
         display: flex !important;
         flex-wrap: wrap !important;
-        gap: 2px !important;
-        padding: 3px !important;
+        gap: 3px !important;
+        padding: 4px !important;
         page-break-inside: avoid !important;
         margin: 0 !important;
     }
     
-    .form-row.five-columns .form-column { width: 19% !important; flex: 1 1 19% !important; }
-    .form-row.four-columns .form-column { width: 24% !important; flex: 1 1 24% !important; }
-    .form-row.three-columns .form-column { width: 32% !important; flex: 1 1 32% !important; }
-    .form-row.two-columns .form-column { width: 49% !important; flex: 1 1 49% !important; }
+    .form-row.five-columns .form-column { width: 19.6% !important; flex: 1 1 19.6% !important; }
+    .form-row.four-columns .form-column { width: 24.5% !important; flex: 1 1 24.5% !important; }
+    .form-row.three-columns .form-column { width: 32.6% !important; flex: 1 1 32.6% !important; }
+    .form-row.two-columns .form-column { width: 49.25% !important; flex: 1 1 49.25% !important; }
     
     /* Ajuste específico para secciones de madre y padre - nombre más grande */
     .form-section:nth-of-type(4) .form-row.three-columns .form-column:nth-child(1) { width: 55% !important; flex: 1 1 55% !important; }
@@ -266,22 +267,25 @@
     
     /* Columnas */
     .form-column {
-        padding: 3px !important;
+        padding: 2px !important;
         margin: 0 !important;
     }
     
-    /* Grupos de formulario */
+    /* Grupos de formulario - más compactos */
     .form-group {
-        margin-bottom: 4px !important;
+        margin-bottom: 3px !important;
         page-break-inside: avoid !important;
     }
     
-    /* Etiquetas */
+    /* Etiquetas - más pequeñas y profesionales */
     .form-group label {
         display: block !important;
-        font-weight: bold !important;
-        font-size: 9pt !important;
-        margin-bottom: 1px !important;
+        font-weight: 600 !important;
+        font-size: 8pt !important;
+        margin-bottom: 0.5px !important;
+        color: #333 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
     }
     
     /* Cambiar label de "TIPO DE IDENTIFICACIÓN" a "Identificación" en impresión */
@@ -295,19 +299,20 @@
         display: block !important;
     }
     
-    /* Campos de entrada - SIN BORDES para verse profesional */
+    /* Campos de entrada - línea inferior profesional */
     .form-group input,
     .form-group select,
     .form-group textarea {
         width: 100% !important;
         border: none !important;
-        border-bottom: 1px solid #000 !important;
-        padding: 1px !important;
+        border-bottom: 1px solid #333 !important;
+        padding: 2px 1px !important;
         font-size: 10pt !important;
         height: auto !important;
         min-height: 0 !important;
         background: white !important;
-        color: black !important;
+        color: #000 !important;
+        font-weight: 500 !important;
         white-space: normal !important;
         overflow: visible !important;
         text-overflow: clip !important;
@@ -316,62 +321,66 @@
         appearance: none !important;
     }
     
-    /* Específico para select - asegurar que el texto no se corte */
+    /* Específico para select - valores más legibles */
     .form-group select {
-        font-size: 9pt !important;
-        padding: 1px 2px !important;
+        font-size: 9.5pt !important;
+        padding: 2px 1px !important;
         line-height: 1.2 !important;
         border: none !important;
-        border-bottom: 1px solid #000 !important;
+        border-bottom: 1px solid #333 !important;
+        font-weight: 500 !important;
     }
     
-    /* Campo de ruta de transporte - tamaño normal */
+    /* Campo de ruta de transporte - optimizado */
     select#rutaTransporte,
     input[name="rutaTransporte"],
     #rutaTransporte {
-        font-size: 10pt !important;
+        font-size: 9.5pt !important;
         white-space: nowrap !important;
         overflow: visible !important;
         text-overflow: clip !important;
         height: auto !important;
         min-height: 16px !important;
-        padding: 1px 2px !important;
+        padding: 2px 1px !important;
         width: 100% !important;
         max-width: 100% !important;
         border: none !important;
-        border-bottom: 1px solid #000 !important;
+        border-bottom: 1px solid #333 !important;
+        font-weight: 500 !important;
     }
     
-    /* Textareas */
+    /* Textareas - más compactas */
     textarea {
-        height: 20px !important;
-        max-height: 20px !important;
+        height: 18px !important;
+        max-height: 18px !important;
         overflow: hidden !important;
         border: none !important;
-        border-bottom: 1px solid #000 !important;
+        border-bottom: 1px solid #333 !important;
+        line-height: 1.2 !important;
     }
     
-    /* Declaración */
+    /* Declaración - más compacta */
     .declaration {
-        padding: 3px !important;
+        padding: 2px !important;
         text-align: center !important;
-        margin: 5px 0 !important;
-        border-top: 1px solid #000 !important;
+        margin: 3px 0 !important;
+        border-top: 1.5px solid #000 !important;
     }
     
     .declaration p {
         font-weight: bold !important;
         margin: 0 !important;
-        font-size: 10pt !important;
+        font-size: 9pt !important;
+        letter-spacing: 0.3px !important;
     }
     
-    /* Observaciones y fecha */
+    /* Observaciones y fecha - optimizadas */
     .observaciones-fecha-container {
         display: flex !important;
-        gap: 10px !important;
-        margin-top: 15px !important;
-        margin-bottom: 10px !important;
-        padding: 5px !important;
+        gap: 8px !important;
+        margin-top: 8px !important;
+        margin-bottom: 6px !important;
+        padding: 4px !important;
         page-break-inside: avoid !important;
     }
     
@@ -380,19 +389,28 @@
     }
     
     .observaciones-grupo label {
-        font-weight: bold !important;
-        font-size: 10pt !important;
-        margin-bottom: 5px !important;
+        font-weight: 600 !important;
+        font-size: 8pt !important;
+        margin-bottom: 2px !important;
         display: block !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
     }
     
     .observaciones-grupo textarea {
         width: 100% !important;
-        min-height: 30px !important;
+        min-height: 25px !important;
         border: none !important;
-        border-bottom: 1px solid black !important;
-        padding: 3px !important;
+        border-bottom: 1px solid #333 !important;
+        padding: 2px !important;
         font-size: 9pt !important;
+        line-height: 1.2 !important;
+    }
+    
+    /* Ocultar placeholder en impresión */
+    .observaciones-grupo textarea::placeholder {
+        color: transparent !important;
+        opacity: 0 !important;
     }
     
     .fecha-grupo {
@@ -404,17 +422,20 @@
     }
     
     .fecha-grupo label {
-        font-weight: bold !important;
-        font-size: 10pt !important;
-        margin-bottom: 5px !important;
+        font-weight: 600 !important;
+        font-size: 8pt !important;
+        margin-bottom: 2px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
     }
     
     .fecha-grupo input {
         border: none !important;
-        border-bottom: 1px solid black !important;
-        padding: 3px !important;
-        font-size: 9pt !important;
+        border-bottom: 1px solid #333 !important;
+        padding: 2px !important;
+        font-size: 9.5pt !important;
         text-align: center !important;
+        font-weight: 500 !important;
     }
 
     /* Ocultar elementos duplicados */
@@ -429,11 +450,11 @@
         display: none !important;
     }
     
-    /* ELEMENTOS DE FIRMA */
+    /* ELEMENTOS DE FIRMA - texto debajo de la línea */
     .print-firmas {
         display: block !important;
         visibility: visible !important;
-        margin-top: 5px !important;
+        margin-top: 30px !important;
     }
     
     .firma-container {
@@ -448,36 +469,42 @@
     }
     
     .firma-linea {
-        margin-bottom: 10px !important;
+        margin-bottom: 4px !important;
+        text-align: center !important;
     }
     
     .firma-label {
-        font-size: 8pt !important;
-        font-weight: bold !important;
+        font-size: 7.5pt !important;
+        font-weight: 600 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.3px !important;
+        display: block !important;
+        margin-top: 3px !important;
     }
     
     .firma-linea-blanca {
-        border-bottom: 1px solid black !important;
+        border-bottom: 1px solid #333 !important;
         height: 1px !important;
         width: 100% !important;
-        margin-top: 15px !important;
+        margin-bottom: 0 !important;
     }
     
-    /* Footer permanente */
+    /* Footer permanente - más compacto */
     .footer-permanent {
         display: block !important;
         visibility: visible !important;
-        border-top: 1px solid #000 !important;
-        margin-top: 5px !important;
-        padding-top: 3px !important;
+        border-top: 1.5px solid #000 !important;
+        margin-top: 4px !important;
+        padding-top: 2px !important;
         text-align: center !important;
         page-break-inside: avoid !important;
     }
     
     .footer-permanent p {
-        font-size: 7pt !important;
-        margin: 1px 0 !important;
-        line-height: 1.1 !important;
+        font-size: 6.5pt !important;
+        margin: 0.5px 0 !important;
+        line-height: 1.15 !important;
+        letter-spacing: 0.2px !important;
     }
 }
 
