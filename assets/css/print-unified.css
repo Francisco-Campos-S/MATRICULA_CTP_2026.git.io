@@ -3,7 +3,10 @@
     /* Configuración de página */
     @page {
         size: A4 portrait;
-        margin: 0.6cm;
+        margin-top: 0.6cm;
+        margin-right: 0.6cm;
+        margin-bottom: 0.6cm;
+        margin-left: 2.54cm;
         marks: none;
     }
 
@@ -279,6 +282,17 @@
         font-weight: bold !important;
         font-size: 9pt !important;
         margin-bottom: 1px !important;
+    }
+    
+    /* Cambiar label de "TIPO DE IDENTIFICACIÓN" a "Identificación" en impresión */
+    label[for="tipoIdentificacion"] {
+        font-size: 0 !important;
+    }
+    label[for="tipoIdentificacion"]::before {
+        content: "Identificación:" !important;
+        font-size: 9pt !important;
+        font-weight: bold !important;
+        display: block !important;
     }
     
     /* Campos de entrada */

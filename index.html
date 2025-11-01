@@ -165,6 +165,7 @@
                 <div class="print-section-title" style="display: none;">DATOS DEL ESTUDIANTE</div>
                 
                 <div class="form-row five-columns">
+                    <!-- COLUMNA 1: Primer Apellido, Nacionalidad, Discapacidad -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="primerApellido">Primer apellido:</label>
@@ -194,6 +195,7 @@
                             </select>
                         </div>
                     </div>
+                    <!-- COLUMNA 2: Segundo Apellido, Adecuación, Enfermedad -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="segundoApellido">Segundo apellido:</label>
@@ -214,27 +216,12 @@
                             <input type="text" id="enfermedad" name="enfermedad" placeholder="Describa la enfermedad o condición médica (dejar vacío si no aplica)" tabindex="20">
                         </div>
                     </div>
+                    <!-- COLUMNA 3: Nombre, Fecha Nacimiento, Nº Teléfono -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreEstudiante">Nombre:</label>
                             <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="10">
                         </div>
-                        <div class="form-group">
-                            <label for="tipoIdentificacion">TIPO DE IDENTIFICACIÓN:</label>
-                            <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="16">
-                                <option value="">Seleccione...</option>
-                                <option value="Cédula">Cédula</option>
-                                <option value="YR">YR</option>
-                                <option value="DIMEX">DIMEX</option>
-                                <option value="Otro">Otro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="cedulaEstudiante">N° cédula:</label>
-                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="21">
-                        </div>
-                    </div>
-                    <div class="form-column">
                         <div class="form-group">
                             <label for="fechaNacimiento">Fecha nacimiento:</label>
                             <input type="date" id="fechaNacimiento" name="fechaNacimiento" onchange="actualizarEdad()" required tabindex="11">
@@ -243,18 +230,36 @@
                             <label for="telefonoEstudiante">Nº teléfono:</label>
                             <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="17">
                         </div>
-                        <div class="form-group">
-                            <label for="edadCalculada">Edad al 01 de febrero de 2026:</label>
-                            <input type="text" id="edadCalculada" name="edadCalculada" readonly tabindex="22" style="background-color: #f5f5f5; color: #666;">
-                        </div>
                     </div>
+                    <!-- COLUMNA 4: N° Cédula, ¿Es Repitente?, Edad -->
                     <div class="form-column">
+                        <div class="form-group">
+                            <label for="cedulaEstudiante">N° cédula:</label>
+                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="21">
+                        </div>
                         <div class="form-group">
                             <label for="repitente">¿Es repitente?</label>
                             <select id="repitente" name="repitente" tabindex="12">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edadCalculada">Edad al 01 de febrero de 2026:</label>
+                            <input type="text" id="edadCalculada" name="edadCalculada" readonly tabindex="22" style="background-color: #f5f5f5; color: #666;">
+                        </div>
+                    </div>
+                    <!-- COLUMNA 5: Tipo Identificación, Ruta Transporte, (vacío) -->
+                    <div class="form-column">
+                        <div class="form-group">
+                            <label for="tipoIdentificacion">TIPO DE IDENTIFICACIÓN:</label>
+                            <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="16">
+                                <option value="">Seleccione...</option>
+                                <option value="Cédula">Cédula</option>
+                                <option value="YR">YR</option>
+                                <option value="DIMEX">DIMEX</option>
+                                <option value="Otro">Otro</option>
                             </select>
                         </div>
                         <div class="form-group">
