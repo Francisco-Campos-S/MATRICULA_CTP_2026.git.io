@@ -295,18 +295,51 @@
         display: block !important;
     }
     
-    /* Campos de entrada */
+    /* Campos de entrada - SIN BORDES para verse profesional */
     .form-group input,
     .form-group select,
     .form-group textarea {
         width: 100% !important;
-        border: 1px solid #000 !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
         padding: 1px !important;
         font-size: 10pt !important;
         height: auto !important;
         min-height: 0 !important;
         background: white !important;
         color: black !important;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        appearance: none !important;
+    }
+    
+    /* Específico para select - asegurar que el texto no se corte */
+    .form-group select {
+        font-size: 9pt !important;
+        padding: 1px 2px !important;
+        line-height: 1.2 !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
+    }
+    
+    /* Campo de ruta de transporte - tamaño normal */
+    select#rutaTransporte,
+    input[name="rutaTransporte"],
+    #rutaTransporte {
+        font-size: 10pt !important;
+        white-space: nowrap !important;
+        overflow: visible !important;
+        text-overflow: clip !important;
+        height: auto !important;
+        min-height: 16px !important;
+        padding: 1px 2px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
     }
     
     /* Textareas */
@@ -314,6 +347,8 @@
         height: 20px !important;
         max-height: 20px !important;
         overflow: hidden !important;
+        border: none !important;
+        border-bottom: 1px solid #000 !important;
     }
     
     /* Declaración */
@@ -354,7 +389,8 @@
     .observaciones-grupo textarea {
         width: 100% !important;
         min-height: 30px !important;
-        border: 1px solid black !important;
+        border: none !important;
+        border-bottom: 1px solid black !important;
         padding: 3px !important;
         font-size: 9pt !important;
     }
@@ -374,7 +410,8 @@
     }
     
     .fecha-grupo input {
-        border: 1px solid black !important;
+        border: none !important;
+        border-bottom: 1px solid black !important;
         padding: 3px !important;
         font-size: 9pt !important;
         text-align: center !important;
