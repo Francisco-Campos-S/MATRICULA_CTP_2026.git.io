@@ -130,40 +130,55 @@
             visibility: visible !important;
         }
 
-        /* Reemplazar contenido de encabezados sin emoticonos */
-        .form-section:nth-of-type(2) .section-header h2 {
-            font-size: 0 !important;
+        /* Ocultar texto original y reemplazar con texto sin emoticonos */
+        .section-header h2 {
+            text-indent: -9999px !important;
+            overflow: hidden !important;
+            position: relative !important;
         }
-        .form-section:nth-of-type(2) .section-header h2::after {
-            content: "DATOS DEL ESTUDIANTE" !important;
+        
+        .section-header h2::after {
+            text-indent: 0 !important;
+            position: absolute !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: 100% !important;
+            text-align: center !important;
             font-size: 11pt !important;
+            font-weight: bold !important;
+            color: black !important;
+        }
+        
+        /* Mapeo corregido - intercambiando secciones 1 y 2, eliminando primer encabezado */
+        
+        /* Eliminar completamente el primer encabezado */
+        .form-section:nth-of-type(1) .section-header {
+            display: none !important;
+        }
+        
+        /* Sección 2: Ocultar este encabezado también */
+        .form-section:nth-of-type(2) .section-header {
+            display: none !important;
         }
 
-        /* Encabezado de madre/encargada */
-        .form-section:nth-of-type(3) .section-header h2 {
-            font-size: 0 !important;
-        }
+        /* Sección 3: Datos del Estudiante */
         .form-section:nth-of-type(3) .section-header h2::after {
-            content: "DATOS DE LA MADRE O ENCARGADA" !important;
-            font-size: 11pt !important;
+            content: "DATOS DEL ESTUDIANTE" !important;
         }
 
-        /* Encabezado de padre/encargado */
-        .form-section:nth-of-type(4) .section-header h2 {
-            font-size: 0 !important;
-        }
+        /* Sección 4: Datos de la Madre o Encargada */
         .form-section:nth-of-type(4) .section-header h2::after {
-            content: "DATOS DEL PADRE O ENCARGADO" !important;
-            font-size: 11pt !important;
+            content: "DATOS DE LA MADRE O ENCARGADA" !important;
         }
 
-        /* Encabezado de declaración y firmas */
-        .form-section:nth-of-type(5) .section-header h2 {
-            font-size: 0 !important;
-        }
+        /* Sección 5: Datos del Padre o Encargado */
         .form-section:nth-of-type(5) .section-header h2::after {
+            content: "DATOS DEL PADRE O ENCARGADO" !important;
+        }
+
+        /* Sección 6: Declaración y Firmas */
+        .form-section:nth-of-type(6) .section-header h2::after {
             content: "DECLARACIÓN Y FIRMAS" !important;
-            font-size: 11pt !important;
         }
 
         /* Ocultar elementos duplicados */
