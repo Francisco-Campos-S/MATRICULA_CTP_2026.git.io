@@ -2473,7 +2473,7 @@ function reinicializarSincronizacion() {
 const datosRutas = {
     '000000': {
         codigo: '000000',
-        diminutivo: 'Sin ruta - Llega por cuenta propia',
+        diminutivo: 'Sin ruta',
         recorridoCompleto: 'NO UTILIZA TRANSPORTE (llega con padres/encargados o caminando)'
     },
     '421601': {
@@ -2493,7 +2493,7 @@ const datosRutas = {
     },
     '421604': {
         codigo: '421604',
-        diminutivo: 'San Ramón Deportes',
+        diminutivo: 'San Ramón',
         recorridoCompleto: 'Plaza de deportes San Ramón-San Ramon-entrada Miraflores-Escuela Miraflores-entrada Miraflores-CTP Sabalito'
     },
     '421605': {
@@ -2528,7 +2528,7 @@ const datosRutas = {
     },
     '110713': {
         codigo: '110713',
-        diminutivo: 'Transporte Discapacidad',
+        diminutivo: 'Discapacidad',
         recorridoCompleto: 'TRANSPORTE POR DISCAPACIDAD'
     }
 };
