@@ -1201,26 +1201,17 @@ function recolectarDatosFormulario() {
         // 31. Parentezco2
         parentezco2: document.getElementById('parentescoPadre').value,
         
-        // 32. Otro Cel
+        // 32. Vive con estud 2 (Padre) ✅ NUEVO
+        viveConEstudiante2: document.getElementById('viveConEstudiantePadre').value,
+        
+        // 33. Otro Cel
         otroCel: document.getElementById('telefonoOtroEncargado') ? document.getElementById('telefonoOtroEncargado').value : '',
         
-        // 33. Dirección2
+        // 34. Dirección2
         direccion2: document.getElementById('direccionOtroEncargado') ? document.getElementById('direccionOtroEncargado').value : '',
         
-        // 34. MOVIMIENTO
-        movimiento: 'NUEVA MATRÍCULA 2026',
-        
-        // 35. Columna1
-        columna1: '',
-        
-        // 36. Columna2
-        columna2: '',
-        
-        // 37. Columna3
-        columna3: '',
-        
-        // 38. Columna4
-        columna4: ''
+        // 35. MOVIMIENTO
+        movimiento: 'NUEVA MATRÍCULA 2026'
     };
     
     // LÓGICA ESPECIAL PARA CAMPOS CONDICIONALES
