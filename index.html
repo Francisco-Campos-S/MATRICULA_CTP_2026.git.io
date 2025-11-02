@@ -424,24 +424,24 @@
             <!-- Botones de Acción -->
             <div class="form-actions">
                 <div class="botones-izquierda">
-                    <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="45">
-                        <span class="btn-icon">🧪</span>
+                    <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="45" style="display: none;">
                         <span class="btn-text">Cargar Datos</span>
                     </button>
                     
-                    <button type="button" id="btnPrint" class="btn btn-print" tabindex="46">
-                        <span class="btn-icon">🖨️</span>
-                        <span class="btn-text">Imprimir</span>
-                    </button>
-                    
-                    <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="47">
-                        <span class="btn-icon">📤</span>
-                        <span class="btn-text">Enviar</span>
-                    </button>
+                    <div class="botones-principales">
+                        <button type="button" id="btnPrint" class="btn btn-print" tabindex="46">
+                            <span class="btn-icon">🖨️</span>
+                            <span class="btn-text">1. Imprimir</span>
+                        </button>
+                        
+                        <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="47">
+                            <span class="btn-icon">📤</span>
+                            <span class="btn-text">2. Enviar</span>
+                        </button>
+                    </div>
                 </div>
                 
                 <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="48">
-                    <span class="btn-icon">❌</span>
                     <span class="btn-text">Limpiar</span>
                 </button>
             </div>

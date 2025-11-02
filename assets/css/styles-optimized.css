@@ -874,7 +874,6 @@ body {
     justify-content: space-between;
     align-items: center;
     margin: 5px auto 0 auto;
-    flex-wrap: wrap;
     padding: 8px;
     background: #f8f9fa;
     border-radius: 8px;
@@ -884,10 +883,23 @@ body {
     z-index: 100;
     visibility: visible !important;
     opacity: 1 !important;
-    /* Asegurar que los botones siempre sean visibles */
     min-height: 60px;
     overflow: visible !important;
     width: 100%;
+}
+
+.botones-izquierda {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+}
+
+.botones-principales {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 /* Contenedor de botones de la izquierda */
@@ -913,7 +925,7 @@ body {
     font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
-    min-height: 36px;
+    min-height: 42px;
     min-width: 120px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     overflow: visible;
@@ -921,7 +933,7 @@ body {
     z-index: 101;
     visibility: visible;
     opacity: 1;
-    /* transition: all 0.3s ease; */
+    transition: all 0.3s ease;
 }
 
 .btn:hover {
@@ -959,22 +971,35 @@ body {
 
 /* Botón de limpiar */
 .btn-reset {
-    background: #6c757d;
+    background: #dc3545;
     color: white;
+    border: 2px solid #c82333;
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
+    transform: translateY(0);
+    transition: all 0.3s ease;
 }
 
 .btn-reset:hover {
-    background: #5a6268;
+    background: #c82333;
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+    transform: translateY(-2px);
+    border-color: #bd2130;
+}
+
+.btn-reset .btn-icon {
+    font-size: 20px;
+    display: inline-block;
+    font-family: "Segoe UI Emoji", "Apple Color Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
 }
 
 /* Botón de imprimir */
 .btn-print {
-    background: #28a745;
+    background: #007bff;
     color: white;
 }
 
 .btn-print:hover {
-    background: #218838;
+    background: #0056b3;
 }
 
 /* Footer */
