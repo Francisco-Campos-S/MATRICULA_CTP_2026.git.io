@@ -108,7 +108,7 @@
                                 </label>
                             </div>
                             <div class="tipo-option">
-                                <input type="radio" id="planNacional" name="tipoMatricula" value="planNacional" required tabindex="4">
+                                <input type="radio" id="planNacional" name="tipoMatricula" value="planNacional" required tabindex="4" checked>
                                 <label for="planNacional" class="tipo-label">
                                     <span class="tipo-icon">🇨🇷</span>
                                     <span class="tipo-text">Plan Nacional 2026</span>
@@ -184,15 +184,19 @@
                         </div>
                         <div class="form-group">
                             <label for="discapacidad">Discapacidad:</label>
-                            <select id="discapacidad" name="discapacidad" tabindex="19">
-                                <option value="">Seleccione...</option>
-                                <option value="Sin discapacidad">Sin discapacidad</option>
-                                <option value="Baja Visión">Baja Visión</option>
-                                <option value="Ceguera">Ceguera</option>
-                                <option value="Discapacidad Intelectual (Retraso Mental)">Discapacidad Intelectual (Retraso Mental)</option>
-                                <option value="Discapacidad motora">Discapacidad motora</option>
-                                <option value="Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)">Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)</option>
-                            </select>
+                            <div id="discapacidadInputContainer" style="display: flex; gap: 8px; align-items: center;">
+                                <select id="discapacidad" name="discapacidad" tabindex="19" onchange="manejarDiscapacidadOtro()" style="flex: 1;">
+                                    <option value="">Seleccione...</option>
+                                    <option value="Sin discapacidad">Sin discapacidad</option>
+                                    <option value="Baja Visión">Baja Visión</option>
+                                    <option value="Ceguera">Ceguera</option>
+                                    <option value="Discapacidad Intelectual (Retraso Mental)">Discapacidad Intelectual (Retraso Mental)</option>
+                                    <option value="Discapacidad motora">Discapacidad motora</option>
+                                    <option value="Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)">Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                                <input type="text" id="discapacidadOtro" name="discapacidadOtro" placeholder="Escriba el tipo de discapacidad" tabindex="20" style="flex: 1; display: none;">
+                            </div>
                         </div>
                     </div>
                     <!-- COLUMNA 2: Segundo Apellido, Adecuación, Enfermedad -->

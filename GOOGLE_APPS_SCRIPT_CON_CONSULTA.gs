@@ -179,28 +179,27 @@ function doPost(e) {
         'Tipo de Discapacidad',        // Columna O (14) - Tipo de Discapacidad
         'Adecuación',                  // Columna P (15) - Adecuación
         'Tipo de Adecuación',          // Columna Q (16) - Tipo de Adecuación
-        'Enfermedad',                  // Columna R (17) - Enfermedad
-        'Tipo de Enfermedad',          // Columna S (18) - Tipo de Enfermedad
-        'Especialidad',                // Columna T (19) - Especialidad
-        'Nivel',                       // Columna U (20) - Nivel
-        'Sección',                     // Columna V (21) - Sección
-        'Ruta de transporte',          // Columna W (22) - Ruta de transporte
-        'Título',                      // Columna X (23) - Título
-        'Celular estudiante',          // Columna Y (24) - Celular estudiante
-        'Encargada',                   // Columna Z (25) - Encargada
-        'Cédula',                      // Columna AA (26) - Cédula de la madre
-        'Celular',                     // Columna AB (27) - Celular de la madre
-        'Parentesco',                  // Columna AC (28) - Parentesco
-        'Vive con estud',              // Columna AD (29) - Vive con estudiante (Madre)
-        'Dirección exacta',            // Columna AE (30) - Dirección exacta
-        'Encargado',                   // Columna AF (31) - Encargado
-        'Cédula2',                     // Columna AG (32) - Cédula del padre
-        'Celular2',                    // Columna AH (33) - Celular del padre
-        'Parentezco2',                 // Columna AI (34) - Parentesco del padre
-        'Vive con estud 2',            // Columna AJ (35) - Vive con estudiante (Padre) ✅ NUEVO
-        'Otro Cel',                    // Columna AK (36) - Otro celular
-        'Dirección2',                  // Columna AL (37) - Dirección del padre
-        'MOVIMIENTO'                   // Columna AM (38) - Movimiento
+        'Tipo de Enfermedad',          // Columna R (17) - Tipo de Enfermedad (antes "Enfermedad")
+        'Especialidad',                // Columna S (18) - Especialidad
+        'Nivel',                       // Columna T (19) - Nivel
+        'Sección',                     // Columna U (20) - Sección
+        'Ruta de transporte',          // Columna V (21) - Ruta de transporte
+        'Título',                      // Columna W (22) - Título
+        'Celular estudiante',          // Columna X (23) - Celular estudiante
+        'Encargada',                   // Columna Y (24) - Encargada
+        'Cédula',                      // Columna Z (25) - Cédula de la madre
+        'Celular',                     // Columna AA (26) - Celular de la madre
+        'Parentesco',                  // Columna AB (27) - Parentesco
+        'Vive con estud',              // Columna AC (28) - Vive con estudiante (Madre)
+        'Dirección exacta',            // Columna AD (29) - Dirección exacta
+        'Encargado',                   // Columna AE (30) - Encargado
+        'Cédula2',                     // Columna AF (31) - Cédula del padre
+        'Celular2',                    // Columna AG (32) - Celular del padre
+        'Parentezco2',                 // Columna AH (33) - Parentesco del padre
+        'Vive con estud 2',            // Columna AI (34) - Vive con estudiante (Padre)
+        'Otro Cel',                    // Columna AJ (35) - Otro celular
+        'Dirección2',                  // Columna AK (36) - Dirección del padre
+        'MOVIMIENTO'                   // Columna AL (37) - Movimiento
       ];
       
       // VERIFICAR Y ACTUALIZAR HEADERS SIN ELIMINAR DATOS EXISTENTES
@@ -348,28 +347,27 @@ function doPost(e) {
       '',                                          // 14. Tipo de Discapacidad (vacío)
       formData.adecuacion || '',                    // 15. Adecuación
       '',                                          // 16. Tipo de Adecuación (vacío)
-      formData.enfermedad || '',                    // 17. Enfermedad
-      '',                                          // 18. Tipo de Enfermedad (vacío)
-      formData.especialidad || '',                  // 19. Especialidad
-      formData.nivel || '',                         // 20. Nivel
-      formData.seccion || '',                       // 21. Sección
-      formData.rutaTransporte || '',                // 22. Ruta de transporte
-      '',                                          // 23. Título (vacío)
-      formData.celularEstudiante || '',             // 24. Celular estudiante
-      formData.encargada || '',                     // 25. Encargada
-      formData.cedula || '',                        // 26. Cédula
-      formData.celular || '',                       // 27. Celular
-      formData.parentesco || '',                    // 28. Parentesco
-      formData.viveConEstudiante || '',             // 29. Vive con estud (Madre)
-      formData.direccionExacta || '',               // 30. Dirección exacta
-      formData.encargado || '',                     // 31. Encargado (Padre)
-      formData.cedula2 || '',                       // 32. Cédula2 (Padre)
-      formData.celular2 || '',                      // 33. Celular2 (Padre)
-      formData.parentezco2 || '',                   // 34. Parentezco2 (Padre)
-      formData.viveConEstudiante2 || '',            // 35. Vive con estud 2 (Padre) ✅ NUEVO
-      formData.otroCel || '',                       // 36. Otro Cel
-      formData.direccion2 || '',                    // 37. Dirección2 (Padre)
-      'NUEVA MATRÍCULA 2026'                       // 38. MOVIMIENTO
+      formData.enfermedad || '',                    // 17. Tipo de Enfermedad (antes "Enfermedad")
+      formData.especialidad || '',                  // 18. Especialidad
+      formData.nivel || '',                         // 19. Nivel
+      formData.seccion || '',                       // 20. Sección
+      formData.rutaTransporte || '',                // 21. Ruta de transporte
+      '',                                          // 22. Título (vacío)
+      formData.celularEstudiante || '',             // 23. Celular estudiante
+      formData.encargada || '',                     // 24. Encargada
+      formData.cedula || '',                        // 25. Cédula
+      formData.celular || '',                       // 26. Celular
+      formData.parentesco || '',                    // 27. Parentesco
+      formData.viveConEstudiante || '',             // 28. Vive con estud (Madre)
+      formData.direccionExacta || '',               // 29. Dirección exacta
+      formData.encargado || '',                     // 30. Encargado (Padre)
+      formData.cedula2 || '',                       // 31. Cédula2 (Padre)
+      formData.celular2 || '',                      // 32. Celular2 (Padre)
+      formData.parentezco2 || '',                   // 33. Parentezco2 (Padre)
+      formData.viveConEstudiante2 || '',            // 34. Vive con estud 2 (Padre)
+      formData.otroCel || '',                       // 35. Otro Cel
+      formData.direccion2 || '',                    // 36. Dirección2 (Padre)
+      'NUEVA MATRÍCULA 2026'                       // 37. MOVIMIENTO
     ];
     
     console.log(`📝 Datos de la fila para ${nombreHoja}:`, rowData);
@@ -749,7 +747,7 @@ function limpiarHeadersHojas() {
     const spreadsheetId = '1NycwEzSs5YPmVWzcUtRTHDfO4xvyWL7PDlGngVIJ9zI';
     const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
     
-    // Headers correctos para envío de matrícula (39 columnas)
+    // Headers correctos para envío de matrícula (38 columnas)
     const headersCorrectos = [
       'Timestamp',                   // Columna A (0) - Timestamp
       'Número Secuencial',           // Columna B (1) - Número secuencial
@@ -768,28 +766,27 @@ function limpiarHeadersHojas() {
       'Tipo de Discapacidad',        // Columna O (14) - Tipo de Discapacidad
       'Adecuación',                  // Columna P (15) - Adecuación
       'Tipo de Adecuación',          // Columna Q (16) - Tipo de Adecuación
-      'Enfermedad',                  // Columna R (17) - Enfermedad
-      'Tipo de Enfermedad',          // Columna S (18) - Tipo de Enfermedad
-      'Especialidad',                // Columna T (19) - Especialidad
-      'Nivel',                       // Columna U (20) - Nivel
-      'Sección',                     // Columna V (21) - Sección
-      'Ruta de transporte',          // Columna W (22) - Ruta de transporte
-      'Título',                      // Columna X (23) - Título
-      'Celular estudiante',          // Columna Y (24) - Celular estudiante
-      'Encargada',                   // Columna Z (25) - Encargada
-      'Cédula',                      // Columna AA (26) - Cédula de la madre
-      'Celular',                     // Columna AB (27) - Celular de la madre
-      'Parentesco',                  // Columna AC (28) - Parentesco
-      'Vive con estud',              // Columna AD (29) - Vive con estudiante (Madre)
-      'Dirección exacta',            // Columna AE (30) - Dirección exacta
-      'Encargado',                   // Columna AF (31) - Encargado
-      'Cédula2',                     // Columna AG (32) - Cédula del padre
-      'Celular2',                    // Columna AH (33) - Celular del padre
-      'Parentezco2',                 // Columna AI (34) - Parentesco del padre
-      'Vive con estud 2',            // Columna AJ (35) - Vive con estudiante (Padre) ✅ NUEVO
-      'Otro Cel',                    // Columna AK (36) - Otro celular
-      'Dirección2',                  // Columna AL (37) - Dirección del padre
-      'MOVIMIENTO'                   // Columna AM (38) - Movimiento
+      'Tipo de Enfermedad',          // Columna R (17) - Tipo de Enfermedad (antes "Enfermedad")
+      'Especialidad',                // Columna S (18) - Especialidad
+      'Nivel',                       // Columna T (19) - Nivel
+      'Sección',                     // Columna U (20) - Sección
+      'Ruta de transporte',          // Columna V (21) - Ruta de transporte
+      'Título',                      // Columna W (22) - Título
+      'Celular estudiante',          // Columna X (23) - Celular estudiante
+      'Encargada',                   // Columna Y (24) - Encargada
+      'Cédula',                      // Columna Z (25) - Cédula de la madre
+      'Celular',                     // Columna AA (26) - Celular de la madre
+      'Parentesco',                  // Columna AB (27) - Parentesco
+      'Vive con estud',              // Columna AC (28) - Vive con estudiante (Madre)
+      'Dirección exacta',            // Columna AD (29) - Dirección exacta
+      'Encargado',                   // Columna AE (30) - Encargado
+      'Cédula2',                     // Columna AF (31) - Cédula del padre
+      'Celular2',                    // Columna AG (32) - Celular del padre
+      'Parentezco2',                 // Columna AH (33) - Parentesco del padre
+      'Vive con estud 2',            // Columna AI (34) - Vive con estudiante (Padre)
+      'Otro Cel',                    // Columna AJ (35) - Otro celular
+      'Dirección2',                  // Columna AK (36) - Dirección del padre
+      'MOVIMIENTO'                   // Columna AL (37) - Movimiento
     ];
     
     const nombresHojas = ['REGULAR CTP 2026', 'PLAN NACIONAL 2026'];
