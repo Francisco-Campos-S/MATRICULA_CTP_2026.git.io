@@ -994,12 +994,12 @@ body {
 
 /* Botón de imprimir */
 .btn-print {
-    background: #28a745;
+    background: #007bff;
     color: white;
 }
 
 .btn-print:hover {
-    background: #218838;
+    background: #0056b3;
 }
 
 /* Footer */
