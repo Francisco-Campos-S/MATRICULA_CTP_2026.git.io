@@ -184,8 +184,8 @@
                         </div>
                         <div class="form-group">
                             <label for="discapacidad">Discapacidad:</label>
-                            <div id="discapacidadInputContainer">
-                                <select id="discapacidad" name="discapacidad" tabindex="20" onchange="manejarDiscapacidadOtro()" class="form-control">
+                            <div id="discapacidadInputContainer" style="display: flex; gap: 8px; width: 100%;">
+                                <select id="discapacidad" name="discapacidad" tabindex="20" onchange="manejarDiscapacidadOtro()" class="form-control" style="width: auto; min-width: 80px;">
                                     <option value="">Seleccione...</option>
                                     <option value="Sin discapacidad">Sin discapacidad</option>
                                     <option value="Baja Visión">Baja Visión</option>
@@ -195,7 +195,7 @@
                                     <option value="Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)">Discapacidad Múltiple (Multidiscapacidad o Retos Múltiples)</option>
                                     <option value="Otro">Otro</option>
                                 </select>
-                                <input type="text" id="discapacidadOtro" name="discapacidadOtro" placeholder="Escriba el tipo de discapacidad" tabindex="20" style="flex: 1; display: none;">
+                                <input type="text" id="discapacidadOtro" name="discapacidadOtro" placeholder="Escriba el tipo de discapacidad" tabindex="20" style="flex: 1; display: none; min-width: 200px;">
                             </div>
                         </div>
                     </div>
@@ -314,9 +314,9 @@
                         </div>
                         <div class="form-group">
                             <label for="viveConEstudianteMadre">Vive con estudiante:</label>
-                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="30">
-                                <option value="">Seleccione...</option>
-                                <option value="Sí">Sí</option>
+                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="30" required>
+                                <option value="" disabled>Seleccione...</option>
+                                <option value="Sí" selected>Sí</option>
                                 <option value="No">No</option>
                             </select>
                         </div>
@@ -361,9 +361,9 @@
                         </div>
                         <div class="form-group">
                             <label for="viveConEstudiantePadre">Vive con estudiante:</label>
-                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="36">
-                                <option value="">Seleccione...</option>
-                                <option value="Sí">Sí</option>
+                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="43" required>
+                                <option value="" disabled>Seleccione...</option>
+                                <option value="Sí" selected>Sí</option>
                                 <option value="No">No</option>
                             </select>
                         </div>
