@@ -392,9 +392,11 @@ body {
 /* Indicador visual para campo activo */
 .form-group:has(input:focus),
 .form-group:has(select:focus),
-.form-group:has(textarea:focus) {
+.form-group:has(textarea:focus),
+.form-group:has(#discapacidad:focus) {
     background: var(--accent-color-soft);
     box-shadow: 0 0 0 2px var(--focus-color);
+    border-radius: 4px;
 }
 
 .form-group textarea {
@@ -596,10 +598,25 @@ body {
 #discapacidad {
     width: 100%;
     padding: 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 14px;
     background-color: white;
+}
+
+#discapacidad:focus,
+#discapacidad:active,
+#discapacidad.active {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px var(--focus-color);
+    background-color: #f8fff9;
+}
+
+#discapacidadInputContainer:has(#discapacidad:focus) {
+    background-color: var(--accent-color-soft);
+    border-radius: 4px;
+    box-shadow: 0 0 0 2px var(--focus-color);
 }
 
 .horizontal-field {
@@ -1182,6 +1199,15 @@ body {
     .container {
         height: -webkit-fill-available;
     }
+}
+
+#discapacidadInputContainer {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 /* Ajustes específicos para Chrome */

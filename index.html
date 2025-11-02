@@ -145,7 +145,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="seccion">Sección:</label>
-                                <select id="seccion" name="seccion" required tabindex="7">
+                                <select id="seccion" name="seccion" required tabindex="8">
                                     <option value="">Seleccione una sección</option>
                                     <!-- Las opciones se generarán dinámicamente con JavaScript -->
                                 </select>
@@ -169,11 +169,11 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="primerApellido">Primer apellido:</label>
-                            <input type="text" id="primerApellido" name="primerApellido" required tabindex="8">
+                            <input type="text" id="primerApellido" name="primerApellido" required tabindex="9">
                         </div>
                         <div class="form-group">
                             <label for="nacionalidad">NACIONALIDAD:</label>
-                            <select id="nacionalidad" name="nacionalidad" onchange="mostrarNacionalidadOtro()" tabindex="13">
+                            <select id="nacionalidad" name="nacionalidad" onchange="mostrarNacionalidadOtro()" tabindex="15">
                                 <option value="">Seleccione una nacionalidad</option>
                                 <option value="Costarricense">Costarricense</option>
                                 <option value="Panameña">Panameña</option>
@@ -184,8 +184,8 @@
                         </div>
                         <div class="form-group">
                             <label for="discapacidad">Discapacidad:</label>
-                            <div id="discapacidadInputContainer" style="display: flex; gap: 8px; align-items: center;">
-                                <select id="discapacidad" name="discapacidad" tabindex="19" onchange="manejarDiscapacidadOtro()" style="flex: 1;">
+                            <div id="discapacidadInputContainer">
+                                <select id="discapacidad" name="discapacidad" tabindex="20" onchange="manejarDiscapacidadOtro()" class="form-control">
                                     <option value="">Seleccione...</option>
                                     <option value="Sin discapacidad">Sin discapacidad</option>
                                     <option value="Baja Visión">Baja Visión</option>
@@ -203,11 +203,11 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="segundoApellido">Segundo apellido:</label>
-                            <input type="text" id="segundoApellido" name="segundoApellido" tabindex="9">
+                            <input type="text" id="segundoApellido" name="segundoApellido" tabindex="10">
                         </div>
                         <div class="form-group">
                             <label for="adecuacion">Adecuación:</label>
-                            <select id="adecuacion" name="adecuacion" tabindex="15">
+                            <select id="adecuacion" name="adecuacion" tabindex="16">
                                 <option value="">Seleccione...</option>
                                 <option value="Sin adecuación">Sin adecuación</option>
                                 <option value="Significativa">Significativa</option>
@@ -217,33 +217,33 @@
                         </div>
                         <div class="form-group">
                             <label for="enfermedad">Enfermedad:</label>
-                            <input type="text" id="enfermedad" name="enfermedad" placeholder="Describa la enfermedad o condición médica (dejar vacío si no aplica)" tabindex="20">
+                            <input type="text" id="enfermedad" name="enfermedad" placeholder="Describa la enfermedad o condición médica (dejar vacío si no aplica)" tabindex="21">
                         </div>
                     </div>
                     <!-- COLUMNA 3: Nombre, Fecha Nacimiento, Nº Teléfono -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreEstudiante">Nombre:</label>
-                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="10">
+                            <input type="text" id="nombreEstudiante" name="nombreEstudiante" required tabindex="11">
                         </div>
                         <div class="form-group">
                             <label for="fechaNacimiento">Fecha nacimiento:</label>
-                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" onchange="actualizarEdad()" required tabindex="11">
+                            <input type="date" id="fechaNacimiento" name="fechaNacimiento" onchange="actualizarEdad()" required tabindex="17">
                         </div>
                         <div class="form-group">
                             <label for="telefonoEstudiante">Nº teléfono:</label>
-                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="17">
+                            <input type="tel" id="telefonoEstudiante" name="telefonoEstudiante" tabindex="23">
                         </div>
                     </div>
                     <!-- COLUMNA 4: N° Cédula, ¿Es Repitente?, Edad -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="cedulaEstudiante">N° cédula:</label>
-                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="21">
+                            <input type="text" id="cedulaEstudiante" name="cedulaEstudiante" required tabindex="12">
                         </div>
                         <div class="form-group">
                             <label for="repitente">¿Es repitente?</label>
-                            <select id="repitente" name="repitente" tabindex="12">
+                            <select id="repitente" name="repitente" tabindex="18">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -251,14 +251,14 @@
                         </div>
                         <div class="form-group">
                             <label for="edadCalculada">Edad al 01 de febrero de 2026:</label>
-                            <input type="text" id="edadCalculada" name="edadCalculada" readonly tabindex="22" style="background-color: #f5f5f5; color: #666;">
+                            <input type="text" id="edadCalculada" name="edadCalculada" readonly tabindex="24" style="background-color: #f5f5f5; color: #666;">
                         </div>
                     </div>
                     <!-- COLUMNA 5: Tipo Identificación, Ruta Transporte, (vacío) -->
                     <div class="form-column">
                         <div class="form-group">
                             <label for="tipoIdentificacion">TIPO DE IDENTIFICACIÓN:</label>
-                            <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="16">
+                            <select id="tipoIdentificacion" name="tipoIdentificacion" onchange="mostrarTipoIdentificacionOtro()" required tabindex="13">
                                 <option value="">Seleccione...</option>
                                 <option value="Cédula">Cédula</option>
                                 <option value="YR">YR</option>
@@ -268,7 +268,7 @@
                         </div>
                         <div class="form-group">
                             <label for="rutaTransporte">Ruta de transporte:</label>
-                            <select id="rutaTransporte" name="rutaTransporte" required tabindex="18">
+                            <select id="rutaTransporte" name="rutaTransporte" required tabindex="19">
                                 <option value="">Seleccione una ruta</option>
                                 <!-- Las opciones se generarán dinámicamente con JavaScript -->
                             </select>
@@ -290,31 +290,31 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombreMadre">Nombre:</label>
-                            <input type="text" id="nombreMadre" name="nombreMadre" required tabindex="29">
+                            <input type="text" id="nombreMadre" name="nombreMadre" required tabindex="25">
                         </div>
                         <div class="form-group">
                             <label for="direccionMadre">Dirección exacta:</label>
-                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required tabindex="34"></textarea>
+                            <textarea id="direccionMadre" name="direccionMadre" rows="1" required tabindex="28"></textarea>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoMadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required tabindex="30">
+                            <input type="tel" id="telefonoMadre" name="telefonoMadre" required tabindex="26">
                         </div>
                         <div class="form-group">
                             <label for="parentescoMadre">Parentesco:</label>
-                            <input type="text" id="parentescoMadre" name="parentescoMadre" tabindex="33">
+                            <input type="text" id="parentescoMadre" name="parentescoMadre" tabindex="29">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="cedulaMadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaMadre" name="cedulaMadre" required tabindex="32">
+                            <input type="text" id="cedulaMadre" name="cedulaMadre" required tabindex="27">
                         </div>
                         <div class="form-group">
                             <label for="viveConEstudianteMadre">Vive con estudiante:</label>
-                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="31">
+                            <select id="viveConEstudianteMadre" name="viveConEstudianteMadre" tabindex="30">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
@@ -337,31 +337,31 @@
                     <div class="form-column">
                         <div class="form-group">
                             <label for="nombrePadre">Nombre:</label>
-                            <input type="text" id="nombrePadre" name="nombrePadre" tabindex="35">
+                            <input type="text" id="nombrePadre" name="nombrePadre" tabindex="31">
                         </div>
                         <div class="form-group">
                             <label for="direccionPadre">Dirección:</label>
-                            <textarea id="direccionPadre" name="direccionPadre" rows="1" tabindex="40"></textarea>
+                            <textarea id="direccionPadre" name="direccionPadre" rows="1" tabindex="34"></textarea>
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="telefonoPadre">Nº teléfono:</label>
-                            <input type="tel" id="telefonoPadre" name="telefonoPadre" tabindex="36">
+                            <input type="tel" id="telefonoPadre" name="telefonoPadre" tabindex="32">
                         </div>
                         <div class="form-group">
                             <label for="parentescoPadre">Parentesco:</label>
-                            <input type="text" id="parentescoPadre" name="parentescoPadre" tabindex="39">
+                            <input type="text" id="parentescoPadre" name="parentescoPadre" tabindex="35">
                         </div>
                     </div>
                     <div class="form-column">
                         <div class="form-group">
                             <label for="cedulaPadre">N° de Cédula:</label>
-                            <input type="text" id="cedulaPadre" name="cedulaPadre" tabindex="38">
+                            <input type="text" id="cedulaPadre" name="cedulaPadre" tabindex="33">
                         </div>
                         <div class="form-group">
                             <label for="viveConEstudiantePadre">Vive con estudiante:</label>
-                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="37">
+                            <select id="viveConEstudiantePadre" name="viveConEstudiantePadre" tabindex="36">
                                 <option value="">Seleccione...</option>
                                 <option value="Sí">Sí</option>
                                 <option value="No">No</option>
