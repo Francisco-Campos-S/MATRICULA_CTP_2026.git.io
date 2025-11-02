@@ -844,6 +844,13 @@ function llenarFormularioConEstudiante(estudiante) {
         
         // Actualizar visibilidad del botón de reset
         actualizarBotonReset();
+        
+        // IMPORTANTE: Actualizar fecha de matrícula con la fecha actual
+        // Delay mayor para asegurar que se ejecute DESPUÉS de llenarFormularioConDatos
+        setTimeout(() => {
+            actualizarFechaMatricula();
+            console.log('📅 Fecha de matrícula actualizada después de llenar formulario');
+        }, 500);
     }, 50);
     
     // Mapear campos de Google Sheets a campos del formulario
@@ -1506,14 +1513,12 @@ async function consultarEstudiante() {
         
         if (data && Object.keys(data).length > 0) {
             console.log('🎯 Estudiante encontrado, llenando formulario...');
-            // Estudiante encontrado, llenar formulario
+            // Estudiante encontrado, llenar formulario (incluye actualización de fecha)
             llenarFormularioConEstudiante(data);
             // También asegurar que la cédula esté en el campo (por si no está en los datos)
             copiarCedulaACampoEstudiante(cedula, false);
             // Sincronizar la cédula de vuelta al campo de consulta
             sincronizarCedulaAConsulta(cedula);
-            // Actualizar fecha de matrícula a la fecha actual
-            actualizarFechaMatricula();
             mostrarMensaje('✅ Estudiante encontrado, formulario llenado correctamente', 'success');
         } else {
             console.log('❌ No se encontraron datos del estudiante');
@@ -1522,7 +1527,9 @@ async function consultarEstudiante() {
             // Sincronizar la cédula de vuelta al campo de consulta
             sincronizarCedulaAConsulta(cedula);
             // Actualizar fecha de matrícula a la fecha actual
-            actualizarFechaMatricula();
+            setTimeout(() => {
+                actualizarFechaMatricula();
+            }, 200);
             mostrarMensaje('❌ No se encontró estudiante con esa cédula, pero se copió la cédula al formulario', 'warning');
         }
         
@@ -2526,18 +2533,19 @@ const datosRutas = {
 
 // Función para actualizar la fecha de matrícula a la fecha actual
 function actualizarFechaMatricula() {
-    const fechaInput = document.getElementById('fecha');
+    const fechaInput = document.getElementById('fecha-matricula');
     if (fechaInput) {
         const today = new Date();
         const day = String(today.getDate()).padStart(2, '0');
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const year = today.getFullYear();
-        const fechaActual = `${day}/${month}/${year}`;
+        // Formato YYYY-MM-DD para input type="date"
+        const fechaActual = `${year}-${month}-${day}`;
         
         fechaInput.value = fechaActual;
         console.log(`📅 Fecha de matrícula actualizada a: ${fechaActual}`);
     } else {
-        console.log('❌ No se encontró el campo de fecha de matrícula');
+        console.log('❌ No se encontró el campo de fecha de matrícula con id="fecha-matricula"');
     }
 }
 
