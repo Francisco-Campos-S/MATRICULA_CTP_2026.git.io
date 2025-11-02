@@ -3,11 +3,62 @@
     /* Configuración de página */
     @page {
         size: A4 portrait;
-        margin-top: 0.5cm;
-        margin-right: 0.5cm;
-        margin-bottom: 0.5cm;
-        margin-left: 2.54cm;
+        margin: 1cm;
         marks: none;
+    }
+
+    @media print {
+        @page {
+            size: A4 !important;
+            margin: 1cm !important;
+        }
+        
+        @page :blank {
+            display: none !important;
+        }
+        
+        html {
+            height: auto !important;
+            overflow: hidden !important;
+        }
+        
+        body {
+            position: relative !important;
+            height: auto !important;
+            overflow: hidden !important;
+        }
+        
+        .container:last-child {
+            page-break-after: avoid !important;
+        }
+        
+        .matricula-form:last-child {
+            page-break-after: avoid !important;
+        }
+        
+        .footer-permanent:after {
+            display: none !important;
+            content: none !important;
+        }
+    }
+
+    /* Forzar una sola página en Chrome */
+    @media print {
+        html {
+            height: 100% !important;
+        }
+        body {
+            height: 100% !important;
+            position: relative !important;
+        }
+        .container {
+            min-height: 0 !important;
+            max-height: 100% !important;
+        }
+        .matricula-form {
+            height: auto !important;
+            max-height: 100% !important;
+        }
     }
 
     /* Estilos generales */
@@ -18,15 +69,72 @@
         padding: 0 !important;
         background: white !important;
         font-family: Arial, sans-serif !important;
-        font-size: 9.5pt !important;
+        font-size: 9pt !important;
         line-height: 1.15 !important;
         color: #000 !important;
+        -webkit-text-size-adjust: 100% !important;
+        position: relative !important;
     }
-    
-    /* Escalado global optimizado */
-    body {
-        transform: scale(0.94);
-        transform-origin: top center;
+
+    /* Ajustes específicos para Chrome */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        @page {
+            margin: 1cm !important;
+            size: A4 !important;
+        }
+        
+        html {
+            zoom: 0.9 !important;
+        }
+
+        .matricula-form {
+            zoom: 1 !important;
+            position: relative !important;
+            overflow: visible !important;
+        }
+
+        .form-section {
+            margin: 8px 0 !important;
+            page-break-inside: avoid !important;
+            position: relative !important;
+            break-inside: avoid !important;
+        }
+
+        .form-row {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            position: relative !important;
+        }
+
+        .form-group {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
+            position: relative !important;
+        }
+    }
+
+    /* Ajuste específico para Chrome */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        @media print {
+            body {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .form-section {
+                margin-bottom: 10px !important;
+                page-break-inside: avoid !important;
+                position: relative !important;
+                clear: both !important;
+            }
+            .form-group {
+                position: relative !important;
+                z-index: 1 !important;
+            }
+            input, select, textarea {
+                position: relative !important;
+                z-index: 2 !important;
+            }
+        }
     }
     
     /* Ocultar elementos no necesarios */
@@ -48,6 +156,25 @@
         background: white !important;
         border: none !important;
         box-shadow: none !important;
+        page-break-after: avoid !important;
+        page-break-before: avoid !important;
+    }
+    
+    /* Ajustes específicos para Chrome para evitar página en blanco */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        @media print {
+            .container::after {
+                content: none !important;
+            }
+            
+            body::after {
+                content: none !important;
+            }
+            
+            html {
+                height: auto !important;
+            }
+        }
     }
     
     /* Título de la boleta - eliminado */
@@ -213,6 +340,20 @@
         page-break-inside: avoid !important;
         width: 100% !important;
         clear: both !important;
+        position: relative !important;
+        overflow: visible !important;
+    }
+
+    /* Ajustes específicos para Chrome */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .form-section {
+            margin: 0 0 8px 0 !important;
+            padding: 4px !important;
+        }
+        .form-row {
+            position: relative !important;
+            z-index: 1 !important;
+        }
     }
     
     /* Encabezados de sección - más compactos y profesionales */
@@ -306,19 +447,33 @@
         width: 100% !important;
         border: none !important;
         border-bottom: 1px solid #333 !important;
-        padding: 2px 1px !important;
-        font-size: 10pt !important;
-        height: auto !important;
-        min-height: 0 !important;
+        padding: 1px !important;
+        font-size: 9pt !important;
+        height: 16px !important;
+        min-height: 16px !important;
+        max-height: 16px !important;
         background: white !important;
         color: #000 !important;
-        font-weight: 500 !important;
-        white-space: normal !important;
-        overflow: visible !important;
-        text-overflow: clip !important;
+        font-weight: normal !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
         -webkit-appearance: none !important;
         -moz-appearance: none !important;
         appearance: none !important;
+        margin: 0 !important;
+        display: block !important;
+        position: relative !important;
+    }
+
+    /* Ajustes específicos para Chrome */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            line-height: 16px !important;
+            margin: 1px 0 !important;
+        }
     }
     
     /* Específico para select - valores más legibles */
@@ -495,16 +650,86 @@
         visibility: visible !important;
         border-top: 1.5px solid #000 !important;
         margin-top: 4px !important;
+        margin-bottom: 0 !important;
         padding-top: 2px !important;
+        padding-bottom: 0 !important;
         text-align: center !important;
         page-break-inside: avoid !important;
+        page-break-after: avoid !important;
+        position: relative !important;
+        bottom: 0 !important;
+        clear: both !important;
     }
     
     .footer-permanent p {
         font-size: 6.5pt !important;
-        margin: 0.5px 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
         line-height: 1.15 !important;
         letter-spacing: 0.2px !important;
+    }
+    
+    /* Reglas específicas para Chrome/Edge */
+    @media screen and (-webkit-min-device-pixel-ratio:0) {
+        @media print {
+            .footer-permanent {
+                position: relative !important;
+                bottom: 0 !important;
+                margin-bottom: 0 !important;
+            }
+            .footer-permanent::after {
+                content: none !important;
+                display: none !important;
+            }
+            body::after {
+                content: none !important;
+                display: none !important;
+            }
+            .container::after {
+                content: none !important;
+                display: none !important;
+            }
+        }
+    }
+
+    /* Prevenir página en blanco */
+    @media print {
+        html, body {
+            height: 99% !important;
+        }
+        
+        .container {
+            page-break-after: avoid !important;
+        }
+        
+        .matricula-form {
+            page-break-after: avoid !important;
+        }
+        
+        .form-section:last-child {
+            page-break-after: avoid !important;
+            margin-bottom: 0 !important;
+        }
+    }
+}
+
+/* Reglas específicas para Chrome para evitar página en blanco */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @media print {
+        body {
+            min-height: 0 !important;
+            height: auto !important;
+            position: relative !important;
+        }
+        .matricula-form::after {
+            content: none !important;
+        }
+        .footer-permanent {
+            position: relative !important;
+            bottom: 0 !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
     }
 }
 
