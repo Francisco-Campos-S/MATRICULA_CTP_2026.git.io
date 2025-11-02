@@ -476,6 +476,14 @@ function limpiarFormularioCompleto() {
         nacionalidadGroup.style.overflow = 'hidden';
     }
     
+    // Ocultar campo de discapacidad personalizada
+    const discapacidadOtro = document.getElementById('discapacidadOtro');
+    
+    if (discapacidadOtro) {
+        discapacidadOtro.style.display = 'none';
+        discapacidadOtro.required = false;
+    }
+    
     console.log('✅ Formulario limpiado completamente');
 }
 
@@ -604,11 +612,11 @@ function cargarDatosPrueba() {
             observaciones: 'Estudiante nuevo ingreso'
         };
         
-        // Primero seleccionar el tipo de matrícula (Regular)
-        const tipoRegular = document.getElementById('regular');
-        if (tipoRegular) {
-            tipoRegular.checked = true;
-            console.log('✅ Tipo de matrícula Regular seleccionado');
+        // Primero seleccionar el tipo de matrícula (Plan Nacional)
+        const tipoPlanNacional = document.getElementById('planNacional');
+        if (tipoPlanNacional) {
+            tipoPlanNacional.checked = true;
+            console.log('✅ Tipo de matrícula Plan Nacional seleccionado');
         }
         
         // Llenar todos los campos del formulario
@@ -717,13 +725,13 @@ function llenarFormularioConEstudiante(estudiante) {
     
     // Pequeño delay para asegurar que la limpieza se complete
     setTimeout(() => {
-        // PASO 0: Seleccionar tipo de matrícula automáticamente (Regular por defecto)
+        // PASO 0: Seleccionar tipo de matrícula automáticamente (Plan Nacional por defecto)
         // Esto es necesario para que se generen las secciones correctamente
-        const tipoRegular = document.getElementById('regular');
-        if (tipoRegular) {
-            tipoRegular.checked = true;
-            tipoRegular.dispatchEvent(new Event('change'));
-            console.log('✅ Tipo de matrícula seleccionado: Regular CTP 2026');
+        const tipoPlanNacional = document.getElementById('planNacional');
+        if (tipoPlanNacional) {
+            tipoPlanNacional.checked = true;
+            tipoPlanNacional.dispatchEvent(new Event('change'));
+            console.log('✅ Tipo de matrícula seleccionado: Plan Nacional 2026');
         }
         
         // PASO 1: Cargar nivel primero (si existe) - AVANZAR AL SIGUIENTE NIVEL
@@ -1295,10 +1303,10 @@ function limpiarFormulario() {
         }
     });
     
-    // Resetear radio buttons
-    const radioRegular = document.getElementById('regular');
-    if (radioRegular) {
-        radioRegular.checked = true;
+    // Resetear radio buttons a Plan Nacional por defecto
+    const radioPlanNacional = document.getElementById('planNacional');
+    if (radioPlanNacional) {
+        radioPlanNacional.checked = true;
     }
     
     // Ocultar campos condicionales
@@ -1307,7 +1315,12 @@ function limpiarFormulario() {
         tipoDiscapacidadGroup.style.display = 'none';
     }
     
-    
+    // Ocultar campo "Otro" de discapacidad
+    const discapacidadOtro = document.getElementById('discapacidadOtro');
+    if (discapacidadOtro) {
+        discapacidadOtro.style.display = 'none';
+        discapacidadOtro.required = false;
+    }
     
     mostrarMensaje('🧹 Formulario limpiado correctamente', 'success');
 }
@@ -1755,6 +1768,15 @@ document.addEventListener('DOMContentLoaded', function() {
         establecerFechaActual();
     }, 200);
     
+    // Seleccionar Plan Nacional por defecto al cargar la página
+    setTimeout(function() {
+        if (tipoPlanNacional && !tipoRegular.checked && !tipoPlanNacional.checked) {
+            tipoPlanNacional.checked = true;
+            tipoPlanNacional.dispatchEvent(new Event('change'));
+            console.log('✅ Plan Nacional 2026 seleccionado por defecto al cargar');
+        }
+    }, 50);
+    
     // Mostrar estado inicial
     setTimeout(mostrarTipoMatriculaSeleccionado, 100);
     
@@ -1825,6 +1847,12 @@ document.addEventListener('DOMContentLoaded', function() {
 // Función para obtener la discapacidad seleccionada
 function obtenerDiscapacidadSeleccionada() {
     const discapacidadSelect = document.getElementById('discapacidad');
+    const discapacidadOtro = document.getElementById('discapacidadOtro');
+    
+    if (discapacidadSelect && discapacidadSelect.value === 'Otro' && discapacidadOtro && discapacidadOtro.value) {
+        return discapacidadOtro.value;
+    }
+    
     return discapacidadSelect ? discapacidadSelect.value : '';
 }
 
@@ -1874,6 +1902,23 @@ function mostrarNacionalidadOtro() {
         nacionalidadGroup.style.flexWrap = 'nowrap';
         nacionalidadGroup.style.overflow = 'hidden';
         console.log('🌍 Campo de nacionalidad personalizada ocultado');
+    }
+}
+
+// Función para manejar el campo "Otro" de discapacidad
+function manejarDiscapacidadOtro() {
+    const discapacidad = document.getElementById('discapacidad');
+    const discapacidadOtro = document.getElementById('discapacidadOtro');
+    
+    if (discapacidad.value === 'Otro') {
+        discapacidadOtro.style.display = 'block';
+        discapacidadOtro.required = true;
+        console.log('♿ Campo de discapacidad personalizada mostrado al lado');
+    } else {
+        discapacidadOtro.style.display = 'none';
+        discapacidadOtro.required = false;
+        discapacidadOtro.value = '';
+        console.log('♿ Campo de discapacidad personalizada ocultado');
     }
 }
 
