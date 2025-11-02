@@ -558,7 +558,10 @@ function limpiarFormulario(forzarLimpieza = false) {
     actualizarEspecialidades();
     
     // Establecer valores por defecto después de limpiar
-    establecerValoresPorDefecto();
+    setTimeout(() => {
+        establecerValoresPorDefecto();
+        console.log('✅ Valores por defecto restablecidos después de limpiar');
+    }, 100);
     
     console.log('✅ Formulario limpiado correctamente');
 }
@@ -1019,6 +1022,31 @@ function llenarFormularioConEstudiante(estudiante) {
 async function enviarFormulario() {
     console.log('Enviando formulario a Google Sheets...');
     
+    // Restablecer estilo del select de discapacidad si está en "Otro"
+    const discapacidadSelect = document.getElementById('discapacidad');
+    if (discapacidadSelect && discapacidadSelect.value === 'Otro') {
+        discapacidadSelect.style.width = '100%';
+        discapacidadSelect.style.minWidth = 'unset';
+    }
+    
+    // Asegurar valores por defecto antes de enviar
+    const valoresPorDefecto = {
+        'viveConEstudianteMadre': 'Sí',
+        'viveConEstudiantePadre': 'Sí',
+        'discapacidad': 'Sin discapacidad',
+        'adecuacion': 'Sin adecuación'
+    };
+    
+    // Establecer valores por defecto
+    Object.entries(valoresPorDefecto).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.value = valor;
+            elemento.dispatchEvent(new Event('change'));
+            console.log(`✅ Asegurando "${id}" en "${valor}" antes de enviar`);
+        }
+    });
+    
     // Validar campos requeridos
     const camposRequeridos = [
         'nivel', 'especialidad', 'seccion', 'primerApellido', 
@@ -1070,17 +1098,32 @@ async function enviarFormulario() {
                 formulario.classList.add('fade-out');
                 formulario.classList.remove('fade-in');
                 
-                // Limpiar formulario y reaparecer después del efecto
-                setTimeout(() => {
-                    limpiarFormulario();
-                    
-                    // Precargar la fecha de matrícula automáticamente
-                    setTimeout(() => {
-                        establecerFechaActual();
-                        console.log('📅 Fecha de matrícula precargada después del envío exitoso');
-                    }, 100); // Pequeña pausa para asegurar que el formulario esté limpio
-                    
-                    // Reaparecer
+    // Limpiar formulario y reaparecer después del efecto
+    setTimeout(() => {
+        limpiarFormulario();
+        
+        // Precargar la fecha de matrícula y asegurar valores por defecto
+        setTimeout(() => {
+            establecerFechaActual();
+            console.log('📅 Fecha de matrícula precargada después del envío exitoso');
+            
+            // Restablecer valores por defecto después del envío
+            const valoresPorDefecto = {
+                'viveConEstudianteMadre': 'Sí',
+                'viveConEstudiantePadre': 'Sí',
+                'discapacidad': 'Sin discapacidad',
+                'adecuacion': 'Sin adecuación'
+            };
+            
+            Object.entries(valoresPorDefecto).forEach(([id, valor]) => {
+                const elemento = document.getElementById(id);
+                if (elemento) {
+                    elemento.value = valor;
+                    elemento.dispatchEvent(new Event('change'));
+                    console.log(`✅ Restableciendo "${id}" a "${valor}" después del envío`);
+                }
+            });
+        }, 100); // Pequeña pausa para asegurar que el formulario esté limpio                    // Reaparecer
                     formulario.classList.remove('fade-out');
                     formulario.classList.add('fade-in');
                 }, 500);
@@ -1296,10 +1339,33 @@ async function enviarAGoogleSheets(formData, tipoMatricula) {
 function limpiarFormulario() {
     console.log('Limpiando formulario...');
     
+    // Restablecer el estilo del select de discapacidad
+    const discapacidadSelect = document.getElementById('discapacidad');
+    if (discapacidadSelect) {
+        discapacidadSelect.style.width = '100%';
+        discapacidadSelect.style.minWidth = 'unset';
+    }
+    
     const campos = document.querySelectorAll('input, select, textarea');
     campos.forEach(campo => {
-        if (campo.type !== 'radio') {
-            campo.value = '';
+        // Lista de campos que mantienen valores por defecto
+        const valoresPorDefecto = {
+            'viveConEstudianteMadre': 'Sí',
+            'viveConEstudiantePadre': 'Sí',
+            'discapacidad': 'Sin discapacidad',
+            'adecuacion': 'Sin adecuación'
+        };
+        
+        if (campo.id in valoresPorDefecto) {
+            // Establecer valor por defecto
+            campo.value = valoresPorDefecto[campo.id];
+            campo.dispatchEvent(new Event('change'));
+            console.log(`✅ Manteniendo "${campo.id}" en "${valoresPorDefecto[campo.id]}"`);
+        } else {
+            // Limpiar otros campos
+            if (campo.type !== 'radio') {
+                campo.value = '';
+            }
         }
     });
     
@@ -1703,6 +1769,45 @@ function ajustarLayout() {
     }
 }
 
+// Función para establecer valores por defecto en los formularios
+function establecerValoresPorDefecto() {
+    console.log('🔄 Estableciendo valores por defecto...');
+    
+    // Establecer "Sí" por defecto en los campos "Vive con estudiante"
+    const viveConEstudianteMadre = document.getElementById('viveConEstudianteMadre');
+    const viveConEstudiantePadre = document.getElementById('viveConEstudiantePadre');
+    
+    if (viveConEstudianteMadre) {
+        viveConEstudianteMadre.value = 'Sí';
+        // Asegurar que la opción "Sí" esté seleccionada
+        Array.from(viveConEstudianteMadre.options).forEach(option => {
+            if (option.value === 'Sí') {
+                option.selected = true;
+            }
+        });
+        console.log('✅ Campo "Vive con estudiante" de madre establecido a "Sí"');
+    }
+    
+    if (viveConEstudiantePadre) {
+        viveConEstudiantePadre.value = 'Sí';
+        // Asegurar que la opción "Sí" esté seleccionada
+        Array.from(viveConEstudiantePadre.options).forEach(option => {
+            if (option.value === 'Sí') {
+                option.selected = true;
+            }
+        });
+        console.log('✅ Campo "Vive con estudiante" de padre establecido a "Sí"');
+    }
+    
+    // Forzar el evento change para asegurar que se registre el cambio
+    if (viveConEstudianteMadre) {
+        viveConEstudianteMadre.dispatchEvent(new Event('change'));
+    }
+    if (viveConEstudiantePadre) {
+        viveConEstudiantePadre.dispatchEvent(new Event('change'));
+    }
+}
+
 // Función para establecer la fecha actual en el campo de fecha de matrícula
 function establecerFechaActual() {
     const fechaActual = new Date();
@@ -1737,6 +1842,27 @@ function establecerFechaActual() {
 // Agregar event listeners cuando se carga la página
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🔄 DOMContentLoaded - Inicializando formulario...');
+    
+    // Función para asegurar valores por defecto
+    function asegurarValoresPorDefecto() {
+        // Establecer "Sí" por defecto en los campos "Vive con estudiante"
+        ['viveConEstudianteMadre', 'viveConEstudiantePadre'].forEach(id => {
+            const select = document.getElementById(id);
+            if (select && (!select.value || select.value === '')) {
+                select.value = 'Sí';
+                console.log(`✅ Campo "${id}" establecido a "Sí"`);
+            }
+        });
+    }
+    
+    // Establecer valores por defecto inmediatamente
+    establecerValoresPorDefecto();
+    
+    // Asegurar valores después de un breve retraso
+    setTimeout(asegurarValoresPorDefecto, 100);
+    
+    // Y también después de un pequeño retraso para asegurar que todo esté cargado
+    setTimeout(establecerValoresPorDefecto, 100);
     
     // Event listeners para los tipos de matrícula
     const tipoRegular = document.getElementById('regular');
@@ -1788,8 +1914,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Limpiar formulario al cargar la página (siempre vacío al inicio)
     setTimeout(() => {
         limpiarFormulario(true); // Forzar limpieza sin confirmación
-        // Establecer valores por defecto para adecuación y discapacidad
-        establecerValoresPorDefecto();
+        establecerValoresPorDefecto(); // Establecer valores por defecto después de limpiar
+        console.log('✅ Valores por defecto establecidos después de limpiar formulario');
     }, 100);
     
     // Inicializar botón de reset
@@ -1909,15 +2035,31 @@ function mostrarNacionalidadOtro() {
 function manejarDiscapacidadOtro() {
     const discapacidad = document.getElementById('discapacidad');
     const discapacidadOtro = document.getElementById('discapacidadOtro');
+    const container = document.getElementById('discapacidadInputContainer');
     
     if (discapacidad.value === 'Otro') {
+        // Mostrar el campo de texto
         discapacidadOtro.style.display = 'block';
         discapacidadOtro.required = true;
-        console.log('♿ Campo de discapacidad personalizada mostrado al lado');
+        
+        // Hacer el select más compacto
+        discapacidad.style.width = '80px';
+        discapacidad.style.minWidth = '80px';
+        
+        // El input toma el espacio restante con un mínimo
+        discapacidadOtro.style.flex = '1';
+        discapacidadOtro.style.minWidth = '200px';
+        
+        console.log('♿ Campo de discapacidad personalizada mostrado (select ajustado + input flexible)');
     } else {
+        // Ocultar el campo de texto
         discapacidadOtro.style.display = 'none';
         discapacidadOtro.required = false;
         discapacidadOtro.value = '';
+        
+        // Restaurar el ancho completo del select
+        discapacidad.style.width = '100%';
+        
         console.log('♿ Campo de discapacidad personalizada ocultado');
     }
 }
@@ -2663,6 +2805,39 @@ function obtenerRecorridoCompletoRuta() {
 function establecerValoresPorDefecto() {
     console.log('🔧 Estableciendo valores por defecto...');
     
+    // Establecer valores por defecto para los selectores
+    const valoresPorDefecto = {
+        'viveConEstudianteMadre': 'Sí',
+        'viveConEstudiantePadre': 'Sí',
+        'discapacidad': 'Sin discapacidad'
+    };
+
+    Object.entries(valoresPorDefecto).forEach(([id, valor]) => {
+        const elemento = document.getElementById(id);
+        if (elemento) {
+            // Establecer valor por defecto
+            elemento.value = valor;
+            
+            // Si es el select de discapacidad, restaurar su estilo
+            if (id === 'discapacidad') {
+                elemento.style.width = '100%';
+                elemento.style.minWidth = 'unset';
+                // Ocultar y limpiar el campo "otro"
+                const discapacidadOtro = document.getElementById('discapacidadOtro');
+                if (discapacidadOtro) {
+                    discapacidadOtro.style.display = 'none';
+                    discapacidadOtro.value = '';
+                    discapacidadOtro.required = false;
+                }
+            }
+            
+            // Disparar evento de cambio
+            elemento.dispatchEvent(new Event('change'));
+            console.log(`✅ Valor por defecto establecido para ${id}: ${valor}`);
+        } else {
+            console.log(`⚠️ No se encontró el elemento ${id}`);
+        }
+    });
     // Establecer "Sin adecuación" por defecto
     const adecuacionSelect = document.getElementById('adecuacion');
     if (adecuacionSelect) {
