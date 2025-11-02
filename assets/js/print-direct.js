@@ -5,6 +5,24 @@
         const element = document.getElementById(elementId);
         if (!element) return '(No disponible)';
         
+        // Manejo especial para discapacidad
+        if (elementId === 'discapacidad') {
+            const discapacidadSelect = element;
+            const discapacidadOtro = document.getElementById('discapacidadOtro');
+            
+            if (discapacidadSelect.value === 'Otro' && discapacidadOtro) {
+                return discapacidadOtro.value.trim() || '(No especificada)';
+            } else {
+                const selectedIndex = discapacidadSelect.selectedIndex;
+                if (selectedIndex >= 0) {
+                    let texto = discapacidadSelect.options[selectedIndex].text;
+                    // Remover texto entre paréntesis solo para la impresión
+                    return texto.replace(/\s*\([^)]*\)/g, '').trim();
+                }
+                return '(No seleccionada)';
+            }
+        }
+        
         if (element.tagName === 'SELECT') {
             const selectedIndex = element.selectedIndex;
             return selectedIndex >= 0 ? element.options[selectedIndex].text : '(No seleccionado)';
@@ -96,6 +114,14 @@
         if (!firstSection) {
             console.error('No se encontró la primera sección');
             return;
+        }
+        
+        // Asegurar que el campo de discapacidad personalizada sea visible si está seleccionado "Otro"
+        const discapacidadSelect = document.getElementById('discapacidad');
+        const discapacidadOtro = document.getElementById('discapacidadOtro');
+        if (discapacidadSelect && discapacidadOtro && discapacidadSelect.value === 'Otro') {
+            discapacidadOtro.style.display = 'block';
+            discapacidadOtro.classList.add('print-visible');
         }
         
         // Crear bloque de información

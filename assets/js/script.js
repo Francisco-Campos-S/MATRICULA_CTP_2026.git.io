@@ -1975,11 +1975,15 @@ function obtenerDiscapacidadSeleccionada() {
     const discapacidadSelect = document.getElementById('discapacidad');
     const discapacidadOtro = document.getElementById('discapacidadOtro');
     
-    if (discapacidadSelect && discapacidadSelect.value === 'Otro' && discapacidadOtro && discapacidadOtro.value) {
-        return discapacidadOtro.value;
+    if (discapacidadSelect) {
+        if (discapacidadSelect.value === 'Otro' && discapacidadOtro && discapacidadOtro.value) {
+            return discapacidadOtro.value.trim();
+        } else {
+            return discapacidadSelect.value;
+        }
     }
     
-    return discapacidadSelect ? discapacidadSelect.value : '';
+    return 'Sin discapacidad';
 }
 
 
@@ -2050,18 +2054,26 @@ function manejarDiscapacidadOtro() {
         discapacidadOtro.style.flex = '1';
         discapacidadOtro.style.minWidth = '200px';
         
+        // Asegurar que el campo personalizado se muestre al imprimir
+        discapacidadOtro.classList.add('print-visible');
+        
         console.log('♿ Campo de discapacidad personalizada mostrado (select ajustado + input flexible)');
     } else {
         // Ocultar el campo de texto
         discapacidadOtro.style.display = 'none';
         discapacidadOtro.required = false;
         discapacidadOtro.value = '';
+        discapacidadOtro.classList.remove('print-visible');
         
         // Restaurar el ancho completo del select
         discapacidad.style.width = '100%';
         
         console.log('♿ Campo de discapacidad personalizada ocultado');
     }
+    
+    // Actualizar el valor para impresión
+    const valorDiscapacidad = obtenerDiscapacidadSeleccionada();
+    console.log('📝 Valor de discapacidad para impresión:', valorDiscapacidad);
 }
 
 // Función para obtener el tipo de identificación correcto para enviar a la base de datos
