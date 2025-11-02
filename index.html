@@ -419,24 +419,26 @@
 
             <!-- Botones de Acción -->
             <div class="form-actions">
-                <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="45">
-                    <span class="btn-icon">🧪</span>
-                    <span class="btn-text">Cargar Datos de Prueba</span>
-                </button>
+                <div class="botones-izquierda">
+                    <button type="button" class="btn btn-test" onclick="cargarDatosPrueba()" tabindex="45">
+                        <span class="btn-icon">🧪</span>
+                        <span class="btn-text">Cargar Datos</span>
+                    </button>
+                    
+                    <button type="button" id="btnPrint" class="btn btn-print" tabindex="46">
+                        <span class="btn-icon">🖨️</span>
+                        <span class="btn-text">Imprimir</span>
+                    </button>
+                    
+                    <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="47">
+                        <span class="btn-icon">📤</span>
+                        <span class="btn-text">Enviar</span>
+                    </button>
+                </div>
                 
-                <button type="button" id="btnSubmit" class="btn btn-submit" onclick="enviarFormulario()" tabindex="46">
-                    <span class="btn-icon">📤</span>
-                    <span class="btn-text">Enviar Formulario</span>
-                </button>
-                
-                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="47">
-                    <span class="btn-icon">🧹</span>
-                    <span class="btn-text">Limpiar Formulario</span>
-                </button>
-                
-                <button type="button" id="btnPrint" class="btn btn-print" tabindex="48">
-                    <span class="btn-icon">🖨️</span>
-                    <span class="btn-text">Imprimir</span>
+                <button type="button" id="btnReset" class="btn btn-reset" onclick="limpiarFormulario()" tabindex="48">
+                    <span class="btn-icon">❌</span>
+                    <span class="btn-text">Limpiar</span>
                 </button>
             </div>
             
