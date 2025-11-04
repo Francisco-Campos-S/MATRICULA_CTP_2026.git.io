@@ -1017,6 +1017,105 @@
     }
 }
 
+/* Estilos para pantallas pequeñas */
+@media screen and (max-width: 1366px) {
+    /* Ajustes generales para pantallas pequeñas */
+    body {
+        zoom: 0.9;
+        transform: scale(0.9);
+        -moz-transform: scale(0.9);
+        transform-origin: top center;
+        -moz-transform-origin: top center;
+    }
+
+    .container, .matricula-form {
+        max-width: 95% !important;
+        margin: 0 auto !important;
+        padding: 10px !important;
+    }
+
+    /* Ajustes específicos para campos de formulario */
+    .form-group label {
+        font-size: 11px !important;
+        margin-bottom: 2px !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 12px !important;
+        height: 24px !important;
+        padding: 2px 4px !important;
+    }
+
+    /* Ajustes de layout para mejor visualización */
+    .form-row {
+        margin-bottom: 8px !important;
+    }
+
+    .form-section {
+        padding: 8px !important;
+        margin-bottom: 12px !important;
+    }
+
+    /* Mejorar visualización de secciones */
+    .section-header h2 {
+        font-size: 14px !important;
+        padding: 6px !important;
+    }
+
+    /* Ajustes para los botones y controles */
+    button, .btn {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+    }
+
+    /* Ajustes para campos especiales */
+    #cedula, 
+    input[name="cedula"],
+    #rutaTransporte,
+    select[name="rutaTransporte"] {
+        font-size: 12px !important;
+        height: 24px !important;
+    }
+
+    /* Mejorar espaciado en observaciones */
+    .observaciones-fecha-container {
+        margin: 10px 0 !important;
+    }
+
+    .observaciones-grupo textarea {
+        font-size: 12px !important;
+    }
+}
+
+/* Estilos para pantallas aún más pequeñas */
+@media screen and (max-width: 1024px) {
+    body {
+        zoom: 0.85;
+        transform: scale(0.85);
+        -moz-transform: scale(0.85);
+        transform-origin: top center;
+        -moz-transform-origin: top center;
+    }
+
+    .container, .matricula-form {
+        max-width: 98% !important;
+    }
+
+    /* Ajustes adicionales para mejor legibilidad */
+    .form-group label {
+        font-size: 12px !important;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 13px !important;
+        height: 26px !important;
+    }
+}
+
 /* Estilos específicos para Firefox */
 @-moz-document url-prefix() {
     @media print {
