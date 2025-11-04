@@ -2243,15 +2243,26 @@ function actualizarEspecialidades() {
     const esPlanNacional = tipoPlanNacional && tipoPlanNacional.checked;
     
     if (esPlanNacional) {
-        // Para Plan Nacional: solo "Formación Vocacional" en todos los niveles
-        console.log('🎯 Plan Nacional seleccionado - mostrando solo Formación Vocacional');
-        const option = document.createElement('option');
-        option.value = 'Formación Vocacional';
-        option.textContent = 'Formación Vocacional';
-        especialidadSelect.appendChild(option);
-        
-        // Seleccionar automáticamente
-        especialidadSelect.value = 'Formación Vocacional';
+        // Para Plan Nacional: "SIN ESPECIALIDAD" para 7°, 8° y 9°, y "Formación Vocacional" para los demás niveles
+        if (['Sétimo', 'Octavo', 'Noveno'].includes(nivelSeleccionado)) {
+            console.log('🎯 Plan Nacional - Nivel básico seleccionado - mostrando SIN ESPECIALIDAD');
+            const option = document.createElement('option');
+            option.value = 'Sin especialidad';
+            option.textContent = 'SIN ESPECIALIDAD';
+            especialidadSelect.appendChild(option);
+            
+            // Seleccionar automáticamente
+            especialidadSelect.value = 'Sin especialidad';
+        } else {
+            console.log('🎯 Plan Nacional - Nivel diversificado seleccionado - mostrando Formación Vocacional');
+            const option = document.createElement('option');
+            option.value = 'Formación Vocacional';
+            option.textContent = 'Formación Vocacional';
+            especialidadSelect.appendChild(option);
+            
+            // Seleccionar automáticamente
+            especialidadSelect.value = 'Formación Vocacional';
+        }
     } else {
         // Para Regular: usar las especialidades normales por nivel
         const especialidades = especialidadesPorNivel[nivelSeleccionado];
