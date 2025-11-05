@@ -2927,7 +2927,7 @@ function establecerValoresPorDefecto() {
                     discapacidadOtro.value = '';
                     discapacidadOtro.required = false;
                 }
-            }
+            }//d
             
             // Disparar evento de cambio
             elemento.dispatchEvent(new Event('change'));
