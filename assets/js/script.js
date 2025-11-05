@@ -1,5 +1,6 @@
 // Variable para controlar si se está editando un estudiante
 let editandoEstudiante = false;
+let envioEnProgreso = false;
 
 // Mapeo de especialidades por nivel
 const especialidadesPorNivel = {
@@ -37,6 +38,68 @@ const STORAGE_KEYS = {
     EDITANDO: 'editandoEstudiante',
     DATOS_ESTUDIANTE: 'datosEstudianteEditando'
 };
+
+function actualizarBotonEnviar(enviando = false) {
+    const botonEnviar = document.getElementById('btnSubmit');
+    if (!botonEnviar) {
+        return;
+    }
+
+    const icono = botonEnviar.querySelector('.btn-icon');
+    const texto = botonEnviar.querySelector('.btn-text');
+
+    if (enviando) {
+        botonEnviar.disabled = true;
+        botonEnviar.classList.add('btn-disabled');
+        botonEnviar.setAttribute('aria-busy', 'true');
+        botonEnviar.style.pointerEvents = 'none';
+
+        if (icono && !botonEnviar.dataset.iconoOriginal) {
+            botonEnviar.dataset.iconoOriginal = icono.textContent;
+        }
+
+        if (texto && !botonEnviar.dataset.textoOriginal) {
+            botonEnviar.dataset.textoOriginal = texto.textContent;
+        }
+
+        if (icono) {
+            icono.textContent = '⏳';
+        }
+        if (texto) {
+            texto.textContent = 'Enviando...';
+        }
+    } else {
+        botonEnviar.disabled = false;
+        botonEnviar.classList.remove('btn-disabled');
+        botonEnviar.removeAttribute('aria-busy');
+        botonEnviar.style.pointerEvents = '';
+
+        if (icono) {
+            icono.textContent = botonEnviar.dataset.iconoOriginal || '📤';
+        }
+        if (texto) {
+            texto.textContent = botonEnviar.dataset.textoOriginal || '2. Enviar';
+        }
+    }
+}
+
+function restablecerEstadoEnvio(delay = 0) {
+    setTimeout(() => {
+        envioEnProgreso = false;
+        actualizarBotonEnviar(false);
+    }, delay);
+}
+
+function iniciarEnvio() {
+    if (envioEnProgreso) {
+        mostrarMensaje('⏳ Ya se está enviando el formulario, por favor espere un momento.', 'warning');
+        return false;
+    }
+
+    envioEnProgreso = true;
+    actualizarBotonEnviar(true);
+    return true;
+}
 
 // Función para guardar el estado de edición en localStorage
 function guardarEstadoEdicion(estudiante) {
@@ -484,6 +547,7 @@ function limpiarFormularioCompleto() {
         discapacidadOtro.required = false;
     }
     
+    restablecerEstadoEnvio(150);
     console.log('✅ Formulario limpiado completamente');
 }
 
@@ -563,6 +627,7 @@ function limpiarFormulario(forzarLimpieza = false) {
         console.log('✅ Valores por defecto restablecidos después de limpiar');
     }, 100);
     
+    restablecerEstadoEnvio(150);
     console.log('✅ Formulario limpiado correctamente');
 }
 
@@ -1021,7 +1086,11 @@ function llenarFormularioConEstudiante(estudiante) {
 // Función para enviar el formulario a Google Sheets
 async function enviarFormulario() {
     console.log('Enviando formulario a Google Sheets...');
-    
+
+    if (!iniciarEnvio()) {
+        return;
+    }
+
     // Restablecer estilo del select de discapacidad si está en "Otro"
     const discapacidadSelect = document.getElementById('discapacidad');
     if (discapacidadSelect && discapacidadSelect.value === 'Otro') {
@@ -1066,6 +1135,7 @@ async function enviarFormulario() {
     
     if (camposFaltantes.length > 0) {
         mostrarMensaje(`❌ Campos requeridos faltantes: ${camposFaltantes.join(', ')}`, 'error');
+        restablecerEstadoEnvio();
         return;
     }
     
@@ -1073,6 +1143,7 @@ async function enviarFormulario() {
     const tipoMatricula = document.querySelector('input[name="tipoMatricula"]:checked');
     if (!tipoMatricula) {
         mostrarMensaje('❌ Por favor seleccione un tipo de matrícula', 'error');
+        restablecerEstadoEnvio();
         return;
     }
     
@@ -1126,6 +1197,7 @@ async function enviarFormulario() {
         }, 100); // Pequeña pausa para asegurar que el formulario esté limpio                    // Reaparecer
                     formulario.classList.remove('fade-out');
                     formulario.classList.add('fade-in');
+                    restablecerEstadoEnvio();
                 }, 500);
             } else {
                 // Fallback si no se encuentra el formulario
@@ -1137,6 +1209,7 @@ async function enviarFormulario() {
                         establecerFechaActual();
                         console.log('📅 Fecha de matrícula precargada después del envío exitoso (fallback)');
                     }, 100);
+                    restablecerEstadoEnvio();
                 }, 2000);
             }
         } else {
@@ -1146,6 +1219,7 @@ async function enviarFormulario() {
     } catch (error) {
         console.error('Error al enviar formulario:', error);
         mostrarMensaje(`❌ Error al enviar: ${error.message}`, 'error');
+        restablecerEstadoEnvio();
     }
 }
 
@@ -1389,6 +1463,7 @@ function limpiarFormulario() {
     }
     
     mostrarMensaje('🧹 Formulario limpiado correctamente', 'success');
+    restablecerEstadoEnvio(150);
 }
 
 // Función para imprimir el formulario
@@ -2852,7 +2927,7 @@ function establecerValoresPorDefecto() {
                     discapacidadOtro.value = '';
                     discapacidadOtro.required = false;
                 }
-            }
+            }//d
             
             // Disparar evento de cambio
             elemento.dispatchEvent(new Event('change'));
