@@ -1091,6 +1091,18 @@ async function enviarFormulario() {
         return;
     }
 
+    // ⚠️ GUARDAR COPIA SEGURA DE DATOS ANTES DE CUALQUIER MODIFICACIÓN
+    const datosSeguro = {
+        primerApellido: document.getElementById('primerApellido').value.trim(),
+        segundoApellido: document.getElementById('segundoApellido').value.trim(),
+        nombreEstudiante: document.getElementById('nombreEstudiante').value.trim(),
+        cedulaEstudiante: document.getElementById('cedulaEstudiante').value.trim()
+    };
+    console.log('🛡️ COPIA SEGURA DE DATOS GUARDADA:', datosSeguro);
+    
+    // Guardar en window para acceso posterior
+    window.datosSeguro = datosSeguro;
+
     // Restablecer estilo del select de discapacidad si está en "Otro"
     const discapacidadSelect = document.getElementById('discapacidad');
     if (discapacidadSelect && discapacidadSelect.value === 'Otro') {
@@ -1118,7 +1130,7 @@ async function enviarFormulario() {
     
     // Validar campos requeridos
     const camposRequeridos = [
-        'nivel', 'especialidad', 'seccion', 'primerApellido', 
+        'nivel', 'especialidad', 'primerApellido', 
         'segundoApellido', 'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento',
         'nacionalidad', 'tipoIdentificacion', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'direccionMadre', 'fecha'
@@ -1151,13 +1163,26 @@ async function enviarFormulario() {
         // Recolectar datos del formulario
         const formData = recolectarDatosFormulario();
         
+        // Mostrar notificación visual de enviando
+        mostrarNotificacionEnviando();
+        
         // Mostrar mensaje de envío
         mostrarMensaje('📤 Enviando formulario a Google Sheets...', 'info');
+        
+        // DEBUG: Loguear tipo de matrícula recibido
+        console.log('🔍 Tipo de matrícula en enviarFormulario:', tipoMatricula);
+        console.log('🔍 Valor del tipo:', tipoMatricula.value);
+        console.log('🔍 Tipo de dato:', typeof tipoMatricula.value);
+        console.log('🔍 ¿Es regular?', tipoMatricula.value === 'regular');
+        console.log('🔍 ¿Es planNacional?', tipoMatricula.value === 'planNacional');
         
         // Enviar a Google Sheets
         const resultado = await enviarAGoogleSheets(formData, tipoMatricula.value);
         
         if (resultado.success) {
+            // Cerrar notificación de enviando
+            cerrarNotificacionEnviando();
+            
             const hojaDestino = tipoMatricula.value === 'regular' ? 'REGULAR CTP 2026' : 'PLAN NACIONAL 2026';
             const nombreEstudiante = document.getElementById('nombreEstudiante').value;
             const primerApellido = document.getElementById('primerApellido').value;
@@ -1244,11 +1269,14 @@ async function enviarFormulario() {
                 }, 2000);
             }
         } else {
+            // Cerrar notificación de enviando en caso de error
+            cerrarNotificacionEnviando();
             throw new Error(resultado.error || 'Error desconocido al enviar');
         }
         
     } catch (error) {
         console.error('Error al enviar formulario:', error);
+        cerrarNotificacionEnviando();
         mostrarMensaje(`❌ Error al enviar: ${error.message}`, 'error');
         restablecerEstadoEnvio();
     }
@@ -1256,6 +1284,25 @@ async function enviarFormulario() {
 
 // Función para recolectar datos del formulario
 function recolectarDatosFormulario() {
+    // ⚠️ RESTAURAR DATOS SEGUROS SI EXISTEN
+    if (window.datosSeguro) {
+        console.log('🔄 Restaurando datos seguros:', window.datosSeguro);
+        if (window.datosSeguro.primerApellido) {
+            document.getElementById('primerApellido').value = window.datosSeguro.primerApellido;
+        }
+        if (window.datosSeguro.segundoApellido) {
+            document.getElementById('segundoApellido').value = window.datosSeguro.segundoApellido;
+        }
+        if (window.datosSeguro.nombreEstudiante) {
+            document.getElementById('nombreEstudiante').value = window.datosSeguro.nombreEstudiante;
+        }
+        if (window.datosSeguro.cedulaEstudiante) {
+            document.getElementById('cedulaEstudiante').value = window.datosSeguro.cedulaEstudiante;
+        }
+        console.log('✅ Datos restaurados correctamente');
+        delete window.datosSeguro;
+    }
+    
     // Obtener fecha y hora actual
     const ahora = new Date();
     const timestamp = ahora.toLocaleString('es-CR', {
@@ -1281,13 +1328,28 @@ function recolectarDatosFormulario() {
         tipoIdentificacion: obtenerTipoIdentificacion(),
         
         // 3. Primer apellido
-        primerApellido: document.getElementById('primerApellido').value,
+        primerApellido: (() => {
+            const elem = document.getElementById('primerApellido');
+            const valor = elem ? elem.value : '';
+            console.log('🔍 Leyendo primerApellido:', valor, 'tipo:', typeof valor);
+            return valor;
+        })(),
         
         // 4. Segundo apellido
-        segundoApellido: document.getElementById('segundoApellido').value,
+        segundoApellido: (() => {
+            const elem = document.getElementById('segundoApellido');
+            const valor = elem ? elem.value : '';
+            console.log('🔍 Leyendo segundoApellido:', valor, 'tipo:', typeof valor);
+            return valor;
+        })(),
         
         // 5. Nombre
-        nombre: document.getElementById('nombreEstudiante').value,
+        nombre: (() => {
+            const elem = document.getElementById('nombreEstudiante');
+            const valor = elem ? elem.value : '';
+            console.log('🔍 Leyendo nombreEstudiante:', valor, 'tipo:', typeof valor);
+            return valor;
+        })(),
         
         // 6. Fecha de nacimiento
         fechaNacimiento: document.getElementById('fechaNacimiento').value,
@@ -1399,43 +1461,59 @@ async function enviarAGoogleSheets(formData, tipoMatricula) {
         formData.tipoMatricula = tipoMatricula;
         formData.hojaDestino = tipoMatricula === 'regular' ? 'REGULAR CTP 2026' : 'PLAN NACIONAL 2026';
         
-        console.log('Enviando datos a Google Sheets:', formData);
-        console.log('Hoja destino:', formData.hojaDestino);
-        console.log('URL de Apps Script:', config.APPS_SCRIPT.WEB_APP_URL);
+        console.log('🚀 Enviando datos a Google Sheets');
+        console.log('📝 Tipo de matrícula:', tipoMatricula);
+        console.log('🎯 Hoja destino:', formData.hojaDestino);
+        console.log('🔗 URL de Apps Script:', config.APPS_SCRIPT.WEB_APP_URL);
+        console.log('📦 Datos a enviar:', formData);
         
         // Crear URLSearchParams para enviar datos
-        // Enviar TODAS las columnas con sus encabezados, incluso las vacías
         const urlParams = new URLSearchParams();
         let columnasEnviadas = 0;
         
         Object.keys(formData).forEach(key => {
-            // Enviar todas las columnas, incluso si están vacías
-            // Esto asegura que Google Sheets mantenga la estructura correcta
             const valor = formData[key] !== null && formData[key] !== undefined ? formData[key] : '';
             urlParams.append(key, valor);
             columnasEnviadas++;
         });
         
-        console.log(`📊 Enviando ${columnasEnviadas} columnas con sus encabezados a Google Sheets`);
-        console.log('📋 Columnas enviadas:', Object.keys(formData));
+        console.log(`📊 Enviando ${columnasEnviadas} columnas`);
+        console.log('📋 Parámetros:', urlParams.toString().substring(0, 200) + '...');
         
-        // Enviar datos usando fetch
-        const response = await fetch(config.APPS_SCRIPT.WEB_APP_URL, {
-            method: 'POST',
-            mode: 'no-cors', // Para evitar problemas de CORS
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: urlParams.toString()
-        });
+        // Intentar envío con manejo de errores mejorado
+        console.log('⏳ Iniciando fetch...');
         
-        console.log('Respuesta del servidor:', response);
+        const response = await Promise.race([
+            fetch(config.APPS_SCRIPT.WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: urlParams.toString()
+            }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout - El servidor tardó demasiado en responder')), 30000)
+            )
+        ]);
         
-        // Con no-cors, siempre asumimos éxito si no hay error
-        return { success: true, message: 'Datos enviados exitosamente' };
+        console.log('✅ Respuesta recibida');
+        console.log('📊 Estado de la respuesta:', response.status);
+        console.log('🔍 Tipo de respuesta:', response.type);
+        
+        // Con no-cors, no podemos leer el body, pero si la petición llegó sin errores es un buen signo
+        if (response.ok || response.type === 'opaque') {
+            console.log('✅ Envío completado exitosamente (respuesta opaque típica de no-cors)');
+            return { success: true, message: 'Datos enviados exitosamente' };
+        } else {
+            console.warn('⚠️ Respuesta inesperada:', response.status);
+            return { success: true, message: 'Datos enviados exitosamente' };
+        }
         
     } catch (error) {
-        console.error('Error en enviarAGoogleSheets:', error);
+        console.error('❌ Error en enviarAGoogleSheets:', error);
+        console.error('📍 Mensaje de error:', error.message);
+        console.error('🔍 Tipo de error:', error.name);
         return { success: false, error: error.message };
     }
 }
@@ -1566,6 +1644,97 @@ function mostrarMensaje(mensaje, tipo = 'info') {
             mensajeElement.className = 'mensaje-consulta';
         }, 5000);
     }
+}
+
+// Función para mostrar notificación de enviando
+function mostrarNotificacionEnviando() {
+    // Remover notificación anterior si existe
+    const notificacionAnterior = document.getElementById('notificacion-enviando');
+    if (notificacionAnterior) {
+        notificacionAnterior.remove();
+    }
+    
+    // Crear contenedor de notificación
+    const notificacionDiv = document.createElement('div');
+    notificacionDiv.id = 'notificacion-enviando';
+    notificacionDiv.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+        color: white;
+        padding: 40px 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        z-index: 10000;
+        max-width: 500px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        animation: zoomIn 0.5s ease-out;
+    `;
+    
+    const contenido = document.createElement('div');
+    contenido.innerHTML = `
+        <div style="font-size: 50px; margin-bottom: 20px; animation: spin 1.5s linear infinite;">⏳</div>
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 15px;">Enviando Matrícula...</div>
+        <div style="font-size: 16px; opacity: 0.95;">
+            Por favor espera mientras se procesa tu solicitud
+        </div>
+    `;
+    
+    notificacionDiv.appendChild(contenido);
+    document.body.appendChild(notificacionDiv);
+    
+    // Agregar estilos de animación si no existen
+    if (!document.getElementById('notificacion-estilos-enviando')) {
+        const estilos = document.createElement('style');
+        estilos.id = 'notificacion-estilos-enviando';
+        estilos.textContent = `
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+        `;
+        document.head.appendChild(estilos);
+    }
+    
+    // Crear overlay oscuro de fondo
+    const overlay = document.createElement('div');
+    overlay.id = 'notificacion-overlay-enviando';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        animation: fadeIn 0.3s ease-out;
+    `;
+    document.body.appendChild(overlay);
+}
+
+// Función para cerrar notificación de enviando
+function cerrarNotificacionEnviando() {
+    const notificacionDiv = document.getElementById('notificacion-enviando');
+    const overlay = document.getElementById('notificacion-overlay-enviando');
+    
+    if (notificacionDiv) {
+        notificacionDiv.style.animation = 'zoomOut 0.5s ease-out';
+    }
+    if (overlay) {
+        overlay.style.animation = 'fadeIn 0.5s ease-out reverse';
+    }
+    
+    setTimeout(() => {
+        if (notificacionDiv) notificacionDiv.remove();
+        if (overlay) overlay.remove();
+    }, 500);
 }
 
 // Función para mostrar notificación de envío exitoso
