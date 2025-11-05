@@ -1118,7 +1118,7 @@ async function enviarFormulario() {
     
     // Validar campos requeridos
     const camposRequeridos = [
-        'nivel', 'especialidad', 'seccion', 'primerApellido', 
+        'nivel', 'especialidad', 'primerApellido', 
         'segundoApellido', 'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento',
         'nacionalidad', 'tipoIdentificacion', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
         'direccionMadre', 'fecha'
