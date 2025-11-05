@@ -522,15 +522,31 @@
         padding-left: 1px !important;
     }
     
-    /* Cambiar label de "TIPO DE IDENTIFICACIÓN" a "Identificación" en impresión */
-    label[for="tipoIdentificacion"] {
-        font-size: 0 !important;
-    }
-    label[for="tipoIdentificacion"]::before {
-        content: "Identificación:" !important;
-        font-size: 9pt !important;
-        font-weight: bold !important;
+    
+    /* Cambiar label de "TIPO DE IDENTIFICACIÓN" a "IDENTIFICACIÓN:" en impresión */
+    .form-group label[for="tipoIdentificacion"] {
         display: block !important;
+        font-weight: 600 !important;
+        font-size: 8pt !important;
+        margin-bottom: 0.5px !important;
+        color: #222 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.4px !important;
+        text-shadow: 0 0 0.2px rgba(0,0,0,0.1) !important;
+        position: relative !important;
+        padding-left: 1px !important;
+        height: 8pt !important;
+        line-height: 8pt !important;
+        overflow: hidden !important;
+    }
+    
+    .form-group label[for="tipoIdentificacion"]::before {
+        content: "IDENTIFICACIÓN:" !important;
+        display: block !important;
+        font-weight: 600 !important;
+        font-size: 8pt !important;
+        color: #222 !important;
+        letter-spacing: 0.4px !important;
     }
     
     /* Campos de entrada - línea inferior profesional */

@@ -1159,6 +1159,17 @@ async function enviarFormulario() {
         
         if (resultado.success) {
             const hojaDestino = tipoMatricula.value === 'regular' ? 'REGULAR CTP 2026' : 'PLAN NACIONAL 2026';
+            const nombreEstudiante = document.getElementById('nombreEstudiante').value;
+            const primerApellido = document.getElementById('primerApellido').value;
+            const segundoApellido = document.getElementById('segundoApellido').value;
+            const nombreCompleto = `${primerApellido} ${segundoApellido} ${nombreEstudiante}`.trim();
+            
+            // Guardar datos para mostrar notificación después de limpiar
+            window.datosNotificacionExito = {
+                nombreCompleto: nombreCompleto,
+                hojaDestino: hojaDestino
+            };
+            
             mostrarMensaje(`✅ Formulario enviado exitosamente a la hoja: ${hojaDestino}`, 'success');
             console.log(`Formulario enviado exitosamente a Google Sheets - Hoja: ${hojaDestino}`);
             
@@ -1198,6 +1209,17 @@ async function enviarFormulario() {
                     formulario.classList.remove('fade-out');
                     formulario.classList.add('fade-in');
                     restablecerEstadoEnvio();
+                    
+                    // Mostrar notificación de éxito después de todo
+                    setTimeout(() => {
+                        if (window.datosNotificacionExito) {
+                            mostrarNotificacionExito(
+                                window.datosNotificacionExito.nombreCompleto,
+                                window.datosNotificacionExito.hojaDestino
+                            );
+                            delete window.datosNotificacionExito;
+                        }
+                    }, 300);
                 }, 500);
             } else {
                 // Fallback si no se encuentra el formulario
@@ -1208,6 +1230,15 @@ async function enviarFormulario() {
                     setTimeout(() => {
                         establecerFechaActual();
                         console.log('📅 Fecha de matrícula precargada después del envío exitoso (fallback)');
+                        
+                        // Mostrar notificación de éxito
+                        if (window.datosNotificacionExito) {
+                            mostrarNotificacionExito(
+                                window.datosNotificacionExito.nombreCompleto,
+                                window.datosNotificacionExito.hojaDestino
+                            );
+                            delete window.datosNotificacionExito;
+                        }
                     }, 100);
                     restablecerEstadoEnvio();
                 }, 2000);
@@ -1535,6 +1566,111 @@ function mostrarMensaje(mensaje, tipo = 'info') {
             mensajeElement.className = 'mensaje-consulta';
         }, 5000);
     }
+}
+
+// Función para mostrar notificación de envío exitoso
+function mostrarNotificacionExito(nombreEstudiante, hojaDestino) {
+    // Crear contenedor de notificación
+    const notificacionDiv = document.createElement('div');
+    notificacionDiv.className = 'notificacion-exito';
+    notificacionDiv.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+        color: white;
+        padding: 40px 50px;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        z-index: 10000;
+        max-width: 500px;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        animation: zoomIn 0.5s ease-out;
+    `;
+    
+    const contenido = document.createElement('div');
+    contenido.innerHTML = `
+        <div style="font-size: 60px; margin-bottom: 20px;">✅</div>
+        <div style="font-size: 24px; font-weight: bold; margin-bottom: 15px;">¡Matrícula Registrada!</div>
+        <div style="font-size: 18px; margin-bottom: 20px; font-weight: 500;">
+            <strong>${nombreEstudiante}</strong>
+        </div>
+        <div style="font-size: 16px; opacity: 0.95; margin-bottom: 20px;">
+            Guardado en: <strong>${hojaDestino.replace(' CTP 2026', '')}</strong>
+        </div>
+        <div style="font-size: 14px; margin-top: 20px; padding-top: 20px; border-top: 2px solid rgba(255,255,255,0.3);">
+            Los datos están guardados correctamente en Google Sheets
+        </div>
+    `;
+    
+    notificacionDiv.appendChild(contenido);
+    document.body.appendChild(notificacionDiv);
+    
+    // Agregar estilos de animación si no existen
+    if (!document.getElementById('notificacion-estilos')) {
+        const estilos = document.createElement('style');
+        estilos.id = 'notificacion-estilos';
+        estilos.textContent = `
+            @keyframes zoomIn {
+                from {
+                    transform: translate(-50%, -50%) scale(0.3);
+                    opacity: 0;
+                }
+                to {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes zoomOut {
+                from {
+                    transform: translate(-50%, -50%) scale(1);
+                    opacity: 1;
+                }
+                to {
+                    transform: translate(-50%, -50%) scale(0.3);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 0.7;
+                }
+            }
+        `;
+        document.head.appendChild(estilos);
+    }
+    
+    // Crear overlay oscuro de fondo
+    const overlay = document.createElement('div');
+    overlay.id = 'notificacion-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+        animation: fadeIn 0.3s ease-out;
+    `;
+    document.body.appendChild(overlay);
+    
+    // Remover notificación después de 5 segundos
+    setTimeout(() => {
+        notificacionDiv.style.animation = 'zoomOut 0.5s ease-out';
+        overlay.style.animation = 'fadeIn 0.5s ease-out reverse';
+        setTimeout(() => {
+            notificacionDiv.remove();
+            overlay.remove();
+        }, 500);
+    }, 5000);
 }
 
 // Función para mostrar mensajes con spinner de carga
