@@ -10,7 +10,7 @@ const GOOGLE_SHEETS_CONFIG = {
     
     // Configuración de Google Apps Script (URL desplegada actualizada - 38 columnas sin "Enfermedad" duplicada)
     APPS_SCRIPT: {
-        WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbxi5M4J-DtFVi5RSIfDtCfGF2_yo2Wj07ZgRD7A6PL4uM1_iTdeemspmMM4UfDRCyDPIw/exec',
+    WEB_APP_URL: 'https://script.google.com/macros/s/AKfycbzN9izRlz5zB3WpklyorjBFiKI2sasQP1Py_6TYJ1L6ajVQTXcusINaeMmtCcJIS0K82A/exec',
         // O usa esta URL alternativa si prefieres Google Forms
         FORMS_URL: 'https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform'
     },

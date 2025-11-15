@@ -343,10 +343,10 @@ function doPost(e) {
       formData.nacionalidad || '',                  // 10. Nacionalidad
       formData.repitente || '',                     // 11. Repitente
       '',                                          // 12. Refugiado (vacío)
-      formData.discapacidad || '',                  // 13. Discapacidad
-      '',                                          // 14. Tipo de Discapacidad (vacío)
-      formData.adecuacion || '',                    // 15. Adecuación
-      '',                                          // 16. Tipo de Adecuación (vacío)
+  formData.discapacidad || '',                  // 13. Discapacidad
+  '',                                           // 14. Tipo de Discapacidad (dejamos vacío porque la columna N ya contiene el detalle)
+  formData.adecuacion || '',                    // 15. Adecuación
+  formData.tipoAdecuacion || '',                // 16. Tipo de Adecuación
       formData.enfermedad || '',                    // 17. Tipo de Enfermedad (antes "Enfermedad")
       formData.especialidad || '',                  // 18. Especialidad
       formData.nivel || '',                         // 19. Nivel
