@@ -1110,21 +1110,26 @@ async function enviarFormulario() {
         discapacidadSelect.style.minWidth = 'unset';
     }
     
-    // Asegurar valores por defecto antes de enviar
+    // Asegurar valores por defecto solo si el campo está vacío (NO sobrescribir selección del usuario)
     const valoresPorDefecto = {
         'viveConEstudianteMadre': 'Sí',
         'viveConEstudiantePadre': 'Sí',
         'discapacidad': 'Sin discapacidad',
         'adecuacion': 'Sin adecuación'
     };
-    
-    // Establecer valores por defecto
+
+    // Establecer valores por defecto únicamente cuando el campo no tenga valor
     Object.entries(valoresPorDefecto).forEach(([id, valor]) => {
         const elemento = document.getElementById(id);
         if (elemento) {
-            elemento.value = valor;
-            elemento.dispatchEvent(new Event('change'));
-            console.log(`✅ Asegurando "${id}" en "${valor}" antes de enviar`);
+            const actual = elemento.value ? elemento.value.toString().trim() : '';
+            if (!actual) {
+                elemento.value = valor;
+                elemento.dispatchEvent(new Event('change'));
+                console.log(`✅ Establecido valor por defecto para "${id}" = "${valor}" (campo vacío)`);
+            } else {
+                console.log(`⏭️ Campo "${id}" ya tiene valor "${actual}", no se sobrescribe`);
+            }
         }
     });
     
@@ -1369,11 +1374,20 @@ function recolectarDatosFormulario() {
         // 11. Refugiado
         refugiado: '',
         
-        // 12. Discapacidad
+        // 12. Discapacidad (valor general o 'Sin discapacidad')
         discapacidad: obtenerDiscapacidadSeleccionada(),
-        
-        // 14. Adecuación
-        adecuacion: document.getElementById('adecuacion').value,
+
+        // 13. Tipo de Discapacidad (detalle) - vacío si 'Sin discapacidad'
+        tipoDiscapacidad: (function() {
+            const val = obtenerDiscapacidadSeleccionada();
+            return val && val !== 'Sin discapacidad' ? val : '';
+        })(),
+
+    // 14. Adecuación
+    adecuacion: document.getElementById('adecuacion').value,
+
+    // 15. Tipo de Adecuación (detalle) - actualmente no hay campo extra; dejar vacío
+    tipoAdecuacion: '',
         
         // 15. Enfermedad
         enfermedad: document.getElementById('enfermedad').value,
