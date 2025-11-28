@@ -680,11 +680,12 @@ function cargarDatosPrueba() {
             observaciones: 'Estudiante nuevo ingreso'
         };
         
-        // Primero seleccionar el tipo de matrícula (Plan Nacional)
-        const tipoPlanNacional = document.getElementById('planNacional');
-        if (tipoPlanNacional) {
-            tipoPlanNacional.checked = true;
-            console.log('✅ Tipo de matrícula Plan Nacional seleccionado');
+        // Primero seleccionar el tipo de matrícula (Regular por defecto para datos de prueba)
+        const tipoRegularPrueba = document.getElementById('regular');
+        if (tipoRegularPrueba) {
+            tipoRegularPrueba.checked = true;
+            tipoRegularPrueba.dispatchEvent(new Event('change'));
+            console.log('✅ Tipo de matrícula REGULAR seleccionado (datos de prueba)');
         }
         
         // Llenar todos los campos del formulario
@@ -793,13 +794,13 @@ function llenarFormularioConEstudiante(estudiante) {
     
     // Pequeño delay para asegurar que la limpieza se complete
     setTimeout(() => {
-        // PASO 0: Seleccionar tipo de matrícula automáticamente (Plan Nacional por defecto)
-        // Esto es necesario para que se generen las secciones correctamente
-        const tipoPlanNacional = document.getElementById('planNacional');
-        if (tipoPlanNacional) {
-            tipoPlanNacional.checked = true;
-            tipoPlanNacional.dispatchEvent(new Event('change'));
-            console.log('✅ Tipo de matrícula seleccionado: Plan Nacional 2026');
+        // PASO 0: Seleccionar tipo de matrícula automáticamente (usar Regular como valor por defecto)
+        // Esto ayuda a generar las secciones correctamente sin preseleccionar Plan Nacional
+        const tipoRegular = document.getElementById('regular');
+        if (tipoRegular) {
+            tipoRegular.checked = true;
+            tipoRegular.dispatchEvent(new Event('change'));
+            console.log('✅ Tipo de matrícula seleccionado: REGULAR por defecto al cargar estudiante');
         }
         
         // PASO 1: Cargar nivel primero (si existe) - AVANZAR AL SIGUIENTE NIVEL
@@ -1156,13 +1157,9 @@ async function enviarFormulario() {
         return;
     }
     
-    // Obtener tipo de matrícula seleccionado
-    const tipoMatricula = document.querySelector('input[name="tipoMatricula"]:checked');
-    if (!tipoMatricula) {
-        mostrarMensaje('❌ Por favor seleccione un tipo de matrícula', 'error');
-        restablecerEstadoEnvio();
-        return;
-    }
+    // Obtener tipo de matrícula seleccionado (si no hay selección, usar 'regular' por defecto)
+    const tipoMatriculaInput = document.querySelector("input[name='tipoMatricula']:checked");
+    const tipoMatriculaValue = tipoMatriculaInput ? tipoMatriculaInput.value : 'regular';
     
     try {
         // Recolectar datos del formulario
@@ -1175,20 +1172,20 @@ async function enviarFormulario() {
         mostrarMensaje('📤 Enviando formulario a Google Sheets...', 'info');
         
         // DEBUG: Loguear tipo de matrícula recibido
-        console.log('🔍 Tipo de matrícula en enviarFormulario:', tipoMatricula);
-        console.log('🔍 Valor del tipo:', tipoMatricula.value);
-        console.log('🔍 Tipo de dato:', typeof tipoMatricula.value);
-        console.log('🔍 ¿Es regular?', tipoMatricula.value === 'regular');
-        console.log('🔍 ¿Es planNacional?', tipoMatricula.value === 'planNacional');
-        
+        console.log('🔍 Tipo de matrícula en enviarFormulario (input):', tipoMatriculaInput);
+        console.log('🔍 Valor del tipo (con fallback):', tipoMatriculaValue);
+        console.log('🔍 Tipo de dato:', typeof tipoMatriculaValue);
+        console.log('🔍 ¿Es regular?', tipoMatriculaValue === 'regular');
+        console.log('🔍 ¿Es planNacional?', tipoMatriculaValue === 'planNacional');
+
         // Enviar a Google Sheets
-        const resultado = await enviarAGoogleSheets(formData, tipoMatricula.value);
+        const resultado = await enviarAGoogleSheets(formData, tipoMatriculaValue);
         
         if (resultado.success) {
             // Cerrar notificación de enviando
             cerrarNotificacionEnviando();
             
-            const hojaDestino = tipoMatricula.value === 'regular' ? 'REGULAR CTP 2026' : 'PLAN NACIONAL 2026';
+            const hojaDestino = tipoMatriculaValue === 'regular' ? 'REGULAR CTP 2026' : 'PLAN NACIONAL 2026';
             const nombreEstudiante = document.getElementById('nombreEstudiante').value;
             const primerApellido = document.getElementById('primerApellido').value;
             const segundoApellido = document.getElementById('segundoApellido').value;
@@ -1566,10 +1563,11 @@ function limpiarFormulario() {
         }
     });
     
-    // Resetear radio buttons a Plan Nacional por defecto
-    const radioPlanNacional = document.getElementById('planNacional');
-    if (radioPlanNacional) {
-        radioPlanNacional.checked = true;
+    // Resetear radio buttons a Regular por defecto (no preseleccionar Plan Nacional)
+    const radioRegular = document.getElementById('regular');
+    if (radioRegular) {
+        radioRegular.checked = true;
+        radioRegular.dispatchEvent(new Event('change'));
     }
     
     // Ocultar campos condicionales
@@ -2288,12 +2286,12 @@ document.addEventListener('DOMContentLoaded', function() {
         establecerFechaActual();
     }, 200);
     
-    // Seleccionar Plan Nacional por defecto al cargar la página
+    // Seleccionar Regular por defecto al cargar la página (usar Regular como fallback lógico)
     setTimeout(function() {
-        if (tipoPlanNacional && !tipoRegular.checked && !tipoPlanNacional.checked) {
-            tipoPlanNacional.checked = true;
-            tipoPlanNacional.dispatchEvent(new Event('change'));
-            console.log('✅ Plan Nacional 2026 seleccionado por defecto al cargar');
+        if (tipoRegular && !tipoRegular.checked && !tipoPlanNacional.checked) {
+            tipoRegular.checked = true;
+            tipoRegular.dispatchEvent(new Event('change'));
+            console.log('✅ Regular seleccionado por defecto al cargar');
         }
     }, 50);
     
@@ -2794,7 +2792,8 @@ function obtenerTipoMatriculaSeleccionado() {
         return 'planNacional';
     }
     
-    return null;
+    // Si no hay selección visual, devolver 'regular' como valor por defecto
+    return 'regular';
 }
 
 // Función para inicializar las especialidades al cargar la página
