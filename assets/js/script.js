@@ -1135,11 +1135,12 @@ async function enviarFormulario() {
     });
     
     // Validar campos requeridos
+    // Nota: Se removieron los campos de la madre/encargada de la lista de requeridos
+    // para permitir envíos cuando no se disponga de esos datos.
     const camposRequeridos = [
         'nivel', 'especialidad', 'primerApellido', 
         'segundoApellido', 'nombreEstudiante', 'cedulaEstudiante', 'fechaNacimiento',
-        'nacionalidad', 'tipoIdentificacion', 'rutaTransporte', 'nombreMadre', 'cedulaMadre', 'telefonoMadre',
-        'direccionMadre', 'fecha'
+        'nacionalidad', 'tipoIdentificacion', 'rutaTransporte', 'fecha'
     ];
     
     let camposFaltantes = [];
